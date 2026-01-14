@@ -120,7 +120,7 @@ const Index = () => {
           {/* Subdued overlay to fade the background */}
           <div className="absolute inset-0 bg-white/70" />
           {/* Services Section */}
-          <section className="relative z-10 -mt-24">
+          <section className="relative z-10 -mt-40">
             <div className="px-6 md:px-12">
               <div className="bg-white rounded-2xl shadow-xl border border-border/50 py-6 px-8">
                 <div className="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-border/30">
