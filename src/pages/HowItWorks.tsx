@@ -1,7 +1,7 @@
 import { Layout } from "@/components/layout";
 import { StepsSection, CTABlock } from "@/components/sections";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Heart, MessageCircle, Users } from "lucide-react";
+import { Heart, MessageCircle } from "lucide-react";
 import flagSkyBackground from "@/assets/flag-sky-background-vertical.png";
 
 const services = [
@@ -25,17 +25,6 @@ const services = [
       "Goal-oriented approach",
       "Practical skill-building",
       "Flexible scheduling",
-    ],
-  },
-  {
-    title: "Groups",
-    description: "Community-based peer support and learning",
-    icon: Users,
-    features: [
-      "Facilitated sessions",
-      "Peer connection",
-      "Shared learning",
-      "Regular meetings",
     ],
   },
 ];
@@ -100,11 +89,11 @@ const HowItWorks = () => {
                 Our Services
               </h2>
               <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-                We offer three types of support designed for the military community.
+                We offer two types of support designed for the military community.
               </p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
               {services.map((service) => (
                 <Card key={service.title}>
                   <CardHeader>

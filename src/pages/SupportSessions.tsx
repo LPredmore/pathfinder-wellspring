@@ -109,12 +109,6 @@ const SupportSessions = () => {
           >
             Explore Therapy
           </a>
-          <a
-            href="/groups"
-            className="inline-flex items-center justify-center rounded-xl border border-border bg-background px-6 py-3 text-base font-semibold text-foreground shadow-sm hover:bg-muted focus:outline-none focus:ring-2 focus:ring-foreground/20"
-          >
-            View Groups
-          </a>
         </div>
       </ContentSection>
 

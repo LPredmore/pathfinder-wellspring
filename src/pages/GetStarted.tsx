@@ -12,7 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Heart, MessageCircle, Users, ArrowLeft, CheckCircle } from "lucide-react";
+import { Heart, MessageCircle, ArrowLeft, CheckCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const services = [
@@ -27,12 +27,6 @@ const services = [
     title: "Support Sessions",
     description: "Structured guidance for goals and life transitions",
     icon: MessageCircle,
-  },
-  {
-    id: "groups",
-    title: "Groups",
-    description: "Community-based peer support and learning",
-    icon: Users,
   },
 ];
 
@@ -138,7 +132,7 @@ const GetStarted = () => {
                 </p>
               </div>
 
-              <div className="grid md:grid-cols-3 gap-6">
+              <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
                 {services.map((service) => (
                   <Card
                     key={service.id}

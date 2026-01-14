@@ -32,7 +32,7 @@ const differentiators = [
   {
     title: "Multiple Paths to Support",
     description:
-      "Therapy is one path. We also offer Support Sessions and Groups so people can start making progress without waiting for perfect conditions.",
+      "Therapy is one path. We also offer Support Sessions so people can start making progress without waiting for perfect conditions.",
     icon: Route,
   },
 ];
@@ -115,8 +115,8 @@ const About = () => {
             <div className="flex items-start gap-3">
               <Route className="h-5 w-5 text-primary mt-0.5" />
               <p className="text-muted-foreground">
-                <span className="font-semibold text-foreground">Support Sessions and Groups</span> provide additional,
-                structured paths designed to help people start moving forward with clarity and momentum.
+                <span className="font-semibold text-foreground">Support Sessions</span> provide an additional,
+                structured path designed to help people start moving forward with clarity and momentum.
               </p>
             </div>
             <div className="flex items-start gap-3">
@@ -190,7 +190,7 @@ const About = () => {
       {/* CTA */}
       <CTABlock
         title="Start with the support that fits today."
-        subtitle="Choose Therapy, Support Sessions, or Groups. Get started in under a minute."
+        subtitle="Choose Therapy or Support Sessions. Get started in under a minute."
         variant="muted"
       />
     </Layout>
