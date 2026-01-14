@@ -104,12 +104,6 @@ const Therapy = () => {
           >
             Explore Support Sessions
           </a>
-          <a
-            href="/groups"
-            className="inline-flex items-center justify-center rounded-xl border border-border bg-background px-6 py-3 text-base font-semibold text-foreground shadow-sm hover:bg-muted"
-          >
-            View Groups
-          </a>
         </div>
       </ContentSection>
 
@@ -171,12 +165,6 @@ const Therapy = () => {
             className="inline-flex items-center justify-center rounded-xl bg-foreground px-6 py-3 text-base font-semibold text-background shadow-sm hover:opacity-90"
           >
             Start Support Sessions
-          </a>
-          <a
-            href="/groups"
-            className="inline-flex items-center justify-center rounded-xl border border-border bg-background px-6 py-3 text-base font-semibold text-foreground shadow-sm hover:bg-muted"
-          >
-            Explore Groups
           </a>
         </div>
       </ContentSection>

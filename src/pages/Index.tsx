@@ -5,7 +5,7 @@ import womenBanner from "@/assets/valorwell_women_banner_3x1.png";
 import flagSkyBackground from "@/assets/flag-sky-background.png";
 import iconTherapy from "@/assets/icon-therapy.png";
 import iconSupportSessions from "@/assets/icon-support-sessions.png";
-import iconGroups from "@/assets/icon-groups.png";
+
 import iconVeteranFocused from "@/assets/icon-veteran-focused.png";
 import iconChampva from "@/assets/icon-champva.png";
 import iconConvenientAccess from "@/assets/icon-convenient-access.png";
@@ -22,12 +22,6 @@ const services = [
     description: "Guidance and skills-based coaching for everyday challenges.",
     icon: iconSupportSessions,
     href: "/support-sessions",
-  },
-  {
-    title: "Groups",
-    description: "Connect and grow with fellow veterans and families.",
-    icon: iconGroups,
-    href: "/groups",
   },
 ];
 
@@ -129,7 +123,7 @@ const Index = () => {
           <section className="relative z-10 -mt-24">
             <div className="px-6 md:px-12">
               <div className="bg-white rounded-2xl shadow-xl border border-border/50 py-6 px-8">
-                <div className="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-border/30">
+                <div className="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-border/30">
                   {services.map((service) => (
                     <Link
                       key={service.title}

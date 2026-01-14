@@ -11,17 +11,17 @@ const faqItems = [
   {
     question: "How do I get started?",
     answer:
-      "Click “Get Started” and complete a short intake. We’ll use your responses to route you into the right service path (Therapy, Support Sessions, or Groups interest list) and outline clear next steps.",
+      "Click \"Get Started\" and complete a short intake. We'll use your responses to route you into the right service path (Therapy or Support Sessions) and outline clear next steps.",
   },
   {
     question: "What happens after I complete intake?",
     answer:
-      "After intake, we confirm your requested service and basic eligibility details (including location/state when applicable), then provide the next step: scheduling, matching, or joining an interest list. You’ll always have a clear path forward—even if your first choice isn’t immediately available.",
+      "After intake, we confirm your requested service and basic eligibility details (including location/state when applicable), then provide the next step: scheduling or matching. You'll always have a clear path forward—even if your first choice isn't immediately available.",
   },
   {
     question: "Do I have to know which service I need before signing up?",
     answer:
-      "No. Many people don’t. The intake is designed to help clarify what support fits best right now. You can also switch paths later as your needs and goals change.",
+      "No. Many people don't. The intake is designed to help clarify what support fits best right now. You can also switch paths later as your needs and goals change.",
   },
 
   // Therapy
@@ -33,7 +33,7 @@ const faqItems = [
   {
     question: "How does therapist matching work?",
     answer:
-      "Matching is based on your goals, preferences, location/state requirements, and clinician availability. If your first match isn’t the right fit, we’ll help you explore alternatives.",
+      "Matching is based on your goals, preferences, location/state requirements, and clinician availability. If your first match isn't the right fit, we'll help you explore alternatives.",
   },
   {
     question: "Is therapy available in every state?",
@@ -45,36 +45,24 @@ const faqItems = [
   {
     question: "What are Support Sessions?",
     answer:
-      "Support Sessions are structured, one-on-one sessions with a trained Wellness Guide. They’re designed to be skills-forward and goal-based—focused on routines, communication, resilience skills, and next-step planning with clear takeaways.",
+      "Support Sessions are structured, one-on-one sessions with a trained Wellness Guide. They're designed to be skills-forward and goal-based—focused on routines, communication, resilience skills, and next-step planning with clear takeaways.",
   },
   {
-    question: "What’s the difference between Therapy and Support Sessions?",
+    question: "What's the difference between Therapy and Support Sessions?",
     answer:
       "Therapy is provided by licensed clinicians and is appropriate when you want a clinical therapeutic process. Support Sessions are structured, skills-forward sessions focused on goals, routines, and practical next steps. Your intake helps route you to the best fit for your needs right now.",
-  },
-
-  // Groups (interest list)
-  {
-    question: "Do you currently offer Groups?",
-    answer:
-      "We’re building group cohorts now. You can request to join a group category through Get Started, and we’ll contact you as enrollment opens based on interest and facilitator availability.",
-  },
-  {
-    question: "What group categories can I request?",
-    answer:
-      "We’re organizing groups around four categories: Veteran Peer, Family & Partner, Resilience Building, and Transition Support. You can select a category during Get Started.",
   },
 
   // Insurance + billing
   {
     question: "Do you accept insurance?",
     answer:
-      "Yes—currently, ValorWell accepts CHAMPVA. During intake, you’ll see the options available for the service you select and any next steps needed to use CHAMPVA coverage.",
+      "Yes—currently, ValorWell accepts CHAMPVA. During intake, you'll see the options available for the service you select and any next steps needed to use CHAMPVA coverage.",
   },
   {
     question: "I have TRICARE or VA Community Care—can I still use ValorWell?",
     answer:
-      "At this time, CHAMPVA is the only insurance we accept. If you still want support, you can complete Get Started and we’ll share the available paths and payment options for the services you’re interested in.",
+      "At this time, CHAMPVA is the only insurance we accept. If you still want support, you can complete Get Started and we'll share the available paths and payment options for the services you're interested in.",
   },
 
   // Logistics + privacy
@@ -96,21 +84,21 @@ const faqItems = [
   {
     question: "What if I need to reschedule?",
     answer:
-      "Rescheduling policies can vary by service and provider. You’ll receive clear instructions after you’re scheduled, including how to reschedule and what notice is required.",
+      "Rescheduling policies can vary by service and provider. You'll receive clear instructions after you're scheduled, including how to reschedule and what notice is required.",
   },
 
   // Safety + crisis
   {
-    question: "What if I’m in crisis or need immediate help?",
+    question: "What if I'm in crisis or need immediate help?",
     answer:
-      "If you’re in immediate danger, call 911. For urgent mental health support, you can contact the Veterans Crisis Line: dial 988 then Press 1, text 838255, or use online chat. You can also visit our Urgent Help page for additional resources.",
+      "If you're in immediate danger, call 911. For urgent mental health support, you can contact the Veterans Crisis Line: dial 988 then Press 1, text 838255, or use online chat. You can also visit our Urgent Help page for additional resources.",
   },
 
   // For therapists (optional but trust-building)
   {
-    question: "I’m a licensed clinician—can I join ValorWell?",
+    question: "I'm a licensed clinician—can I join ValorWell?",
     answer:
-      "We work with licensed mental health professionals and are always building capacity to serve more veterans and families. If you’re interested in joining, visit Careers or contact us to learn more.",
+      "We work with licensed mental health professionals and are always building capacity to serve more veterans and families. If you're interested in joining, visit Careers or contact us to learn more.",
   },
 ];
 
@@ -119,7 +107,7 @@ const FAQ = () => {
     <Layout>
       <Hero
         title="Frequently Asked Questions"
-        subtitle="Clear answers, simple next steps. If you don’t see your question here, reach out—we’re happy to help."
+        subtitle="Clear answers, simple next steps. If you don't see your question here, reach out—we're happy to help."
         ctaText="Get Started"
         ctaLink="/get-started"
         size="large"
@@ -129,7 +117,7 @@ const FAQ = () => {
 
       <CTABlock
         title="Still have questions?"
-        subtitle="We’ll point you to the right option and help you take the next step."
+        subtitle="We'll point you to the right option and help you take the next step."
         ctaText="Contact Us"
         ctaLink="/contact"
         variant="muted"

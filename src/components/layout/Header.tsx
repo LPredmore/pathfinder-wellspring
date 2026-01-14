@@ -13,7 +13,6 @@ import { cn } from "@/lib/utils";
 const services = [
   { name: "Therapy", href: "/therapy" },
   { name: "Support Sessions", href: "/support-sessions" },
-  { name: "Groups", href: "/groups" },
 ];
 
 const navigation = [
