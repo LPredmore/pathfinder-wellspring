@@ -175,7 +175,7 @@ const Index = () => {
           </section>
 
           {/* How It Works Section */}
-          <section className="py-16 relative overflow-hidden">
+          <section className="pt-8 pb-16 relative overflow-hidden">
             <div className="px-6 md:px-12">
               <SectionTitle subtitle="Simple steps to get the help you need.">
                 How It Works
@@ -183,7 +183,7 @@ const Index = () => {
             </div>
 
             {/* Full-width banner with steps overlay */}
-            <div className="relative mt-12">
+            <div className="relative mt-6">
               <img
                 src={womenBanner}
                 alt="Veterans in supportive environment"
