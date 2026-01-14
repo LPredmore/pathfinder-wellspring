@@ -1,0 +1,202 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ValorWell Design System
+   Brand: Patriotic, warm, professional
+   Colors: Navy blue, red, sky blue, white
+*/
+
+@layer base {
+  :root {
+    /* Core brand colors - patriotic palette */
+    --background: 210 40% 98%;
+    --foreground: 215 45% 20%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 215 45% 20%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 45% 20%;
+
+    /* Primary: Deep Navy Blue */
+    --primary: 215 50% 23%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary: Sky Blue */
+    --secondary: 205 80% 92%;
+    --secondary-foreground: 215 50% 23%;
+
+    /* Muted: Soft gray-blue */
+    --muted: 210 30% 95%;
+    --muted-foreground: 215 20% 45%;
+
+    /* Accent: Patriotic Red */
+    --accent: 0 72% 45%;
+    --accent-foreground: 0 0% 100%;
+
+    /* Destructive */
+    --destructive: 0 72% 45%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 210 25% 88%;
+    --input: 210 25% 88%;
+    --ring: 215 50% 23%;
+
+    --radius: 0.625rem;
+
+    /* Sidebar */
+    --sidebar-background: 210 35% 96%;
+    --sidebar-foreground: 215 50% 23%;
+    --sidebar-primary: 215 50% 23%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 205 70% 92%;
+    --sidebar-accent-foreground: 215 50% 23%;
+    --sidebar-border: 210 25% 88%;
+    --sidebar-ring: 215 50% 23%;
+
+    /* Custom ValorWell tokens */
+    --hero-gradient-start: 205 70% 95%;
+    --hero-gradient-end: 210 40% 98%;
+    --section-alt: 205 60% 97%;
+    --trust-bg: 210 35% 96%;
+    
+    /* Patriotic specific */
+    --navy: 215 50% 23%;
+    --navy-light: 215 40% 35%;
+    --patriot-red: 0 72% 45%;
+    --patriot-red-dark: 0 72% 38%;
+    --sky-blue: 205 80% 92%;
+    --sky-blue-light: 205 85% 96%;
+    --gold-accent: 45 90% 55%;
+  }
+
+  .dark {
+    --background: 215 40% 10%;
+    --foreground: 210 30% 95%;
+
+    --card: 215 35% 12%;
+    --card-foreground: 210 30% 95%;
+
+    --popover: 215 35% 12%;
+    --popover-foreground: 210 30% 95%;
+
+    --primary: 205 70% 60%;
+    --primary-foreground: 215 40% 10%;
+
+    --secondary: 215 30% 18%;
+    --secondary-foreground: 210 30% 95%;
+
+    --muted: 215 30% 18%;
+    --muted-foreground: 210 20% 60%;
+
+    --accent: 0 65% 50%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 65% 45%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 215 30% 20%;
+    --input: 215 30% 20%;
+    --ring: 205 70% 60%;
+
+    --sidebar-background: 215 35% 10%;
+    --sidebar-foreground: 210 30% 95%;
+    --sidebar-primary: 205 70% 60%;
+    --sidebar-primary-foreground: 215 40% 10%;
+    --sidebar-accent: 215 25% 18%;
+    --sidebar-accent-foreground: 210 30% 95%;
+    --sidebar-border: 215 30% 18%;
+    --sidebar-ring: 205 70% 60%;
+
+    --hero-gradient-start: 215 35% 12%;
+    --hero-gradient-end: 215 40% 10%;
+    --section-alt: 215 30% 14%;
+    --trust-bg: 215 28% 15%;
+    
+    --navy: 205 70% 60%;
+    --navy-light: 205 65% 70%;
+    --patriot-red: 0 65% 55%;
+    --patriot-red-dark: 0 65% 45%;
+    --sky-blue: 205 50% 25%;
+    --sky-blue-light: 205 45% 20%;
+    --gold-accent: 45 85% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading tracking-tight;
+  }
+}
+
+@layer utilities {
+  .section-padding {
+    @apply py-16 md:py-24;
+  }
+
+  .container-narrow {
+    @apply max-w-4xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .container-wide {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .hero-gradient {
+    background: linear-gradient(
+      180deg,
+      hsl(var(--hero-gradient-start)) 0%,
+      hsl(var(--hero-gradient-end)) 100%
+    );
+  }
+
+  .section-alt {
+    @apply bg-[hsl(var(--section-alt))];
+  }
+
+  .trust-bg {
+    @apply bg-[hsl(var(--trust-bg))];
+  }
+
+  .text-navy {
+    color: hsl(var(--navy));
+  }
+
+  .bg-navy {
+    background-color: hsl(var(--navy));
+  }
+
+  .text-patriot-red {
+    color: hsl(var(--patriot-red));
+  }
+
+  .bg-patriot-red {
+    background-color: hsl(var(--patriot-red));
+  }
+
+  .bg-patriot-red-dark {
+    background-color: hsl(var(--patriot-red-dark));
+  }
+
+  .bg-sky-blue {
+    background-color: hsl(var(--sky-blue));
+  }
+
+  .bg-sky-blue-light {
+    background-color: hsl(var(--sky-blue-light));
+  }
+
+  .star-decoration {
+    @apply text-patriot-red text-lg;
+  }
+}
