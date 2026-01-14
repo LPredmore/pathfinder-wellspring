@@ -82,7 +82,7 @@ const HowItWorks = () => {
         </section>
 
         {/* Services Overview */}
-        <section className="section-padding relative z-10 pt-0">
+        <section className="py-8 md:py-12 relative z-10">
           <div className="container-wide">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold text-foreground">
@@ -125,6 +125,7 @@ const HowItWorks = () => {
             title="The Process"
             subtitle="From first click to first session, here's what happens."
             steps={steps}
+            className="py-8 md:py-12"
           />
         </div>
       </div>
