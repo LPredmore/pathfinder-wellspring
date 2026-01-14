@@ -141,7 +141,7 @@
 
 @layer utilities {
   .section-padding {
-    @apply py-16 md:py-24;
+    @apply py-6 md:py-10;
   }
 
   .container-narrow {
