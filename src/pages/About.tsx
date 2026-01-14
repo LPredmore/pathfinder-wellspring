@@ -75,7 +75,7 @@ const About = () => {
       />
 
       {/* Our Story */}
-      <section className="section-padding">
+      <section className="py-6 md:py-10">
         <div className="container-narrow">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">Our Story</h2>
 
@@ -95,7 +95,7 @@ const About = () => {
       </section>
 
       {/* Mission */}
-      <section className="section-padding section-alt">
+      <section className="py-6 md:py-10 section-alt">
         <div className="container-narrow">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">Our Mission</h2>
           <p className="text-lg text-muted-foreground leading-relaxed">
@@ -131,7 +131,7 @@ const About = () => {
       </section>
 
       {/* What Sets Us Apart */}
-      <section className="section-padding">
+      <section className="py-6 md:py-10">
         <div className="container-wide">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground">What sets ValorWell apart</h2>
@@ -160,7 +160,7 @@ const About = () => {
       </section>
 
       {/* Values */}
-      <section className="section-padding section-alt">
+      <section className="py-6 md:py-10 section-alt">
         <div className="container-wide">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground">Our values</h2>
@@ -192,6 +192,7 @@ const About = () => {
         title="Start with the support that fits today."
         subtitle="Choose Therapy or Support Sessions. Get started in under a minute."
         variant="muted"
+        className="py-6 md:py-10"
       />
     </Layout>
   );
