@@ -1,7 +1,8 @@
 import { Layout } from "@/components/layout";
 import { Hero, CTABlock } from "@/components/sections";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Target, Heart, Users, Shield, CreditCard, Laptop, Route, ClipboardList } from "lucide-react";
+import { Target, Heart, Users, Shield, CreditCard, Laptop, Route, ClipboardList, ExternalLink } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 /**
  * About page intent:
@@ -146,6 +147,39 @@ const About = () => {
                   <p className="text-sm text-muted-foreground">{value.description}</p>
                 </CardContent>
               </Card>)}
+          </div>
+        </div>
+      </section>
+
+      {/* Join Our Team */}
+      <section className="py-6 md:py-10">
+        <div className="container-narrow">
+          <div className="bg-muted/50 rounded-2xl p-8 md:p-10 border border-border">
+            <div className="flex flex-col md:flex-row md:items-center gap-6">
+              <div className="flex-shrink-0">
+                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
+                  <Users className="h-8 w-8 text-primary" />
+                </div>
+              </div>
+              <div className="flex-grow">
+                <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">Join Our Team</h2>
+                <p className="text-muted-foreground">
+                  Are you a licensed therapist passionate about serving those who've served? We're looking for dedicated clinicians who understand the unique needs of veterans and military families.
+                </p>
+              </div>
+              <div className="flex-shrink-0">
+                <Button asChild size="lg" className="gap-2">
+                  <a 
+                    href="https://forms.gle/FKYyVu4uPfQtL3to7" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                  >
+                    Apply Now
+                    <ExternalLink className="h-4 w-4" />
+                  </a>
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
