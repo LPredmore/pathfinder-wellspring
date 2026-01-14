@@ -1,5 +1,6 @@
 import { Layout } from "@/components/layout";
 import { Link } from "react-router-dom";
+import { Heart, ExternalLink } from "lucide-react";
 import heroFamily from "@/assets/hero-family.jpg";
 import womenBanner from "@/assets/valorwell_women_banner_3x1.png";
 import flagSkyBackground from "@/assets/flag-sky-background.png";
@@ -204,6 +205,40 @@ const Index = () => {
                       </div>
                     </div>
                   ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Donation Callout Section */}
+          <section className="py-10 relative">
+            <div className="px-6 md:px-12">
+              <div className="bg-amber-50/90 backdrop-blur-sm rounded-2xl border border-amber-200/50 p-6 md:p-8 shadow-sm">
+                <div className="flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
+                  <div className="flex-shrink-0">
+                    <div className="w-14 h-14 rounded-full bg-amber-100 flex items-center justify-center">
+                      <Heart className="h-7 w-7 text-patriot-red" />
+                    </div>
+                  </div>
+                  <div className="flex-grow">
+                    <h3 className="text-xl md:text-2xl font-bold text-navy mb-2">
+                      Help a Veteran Who Can't Wait
+                    </h3>
+                    <p className="text-muted-foreground text-sm md:text-base max-w-2xl">
+                      Many veterans who come to us have tried to get into the VA, but face months-long waits. Even with expanded access to community care, they just can't get in. We've been their only chance to start healing—but we can't do it alone.
+                    </p>
+                  </div>
+                  <div className="flex-shrink-0">
+                    <a 
+                      href="https://givebutter.com/valorwellhelp"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 rounded-lg bg-patriot-red px-6 py-3 text-base font-semibold text-white shadow-md hover:bg-patriot-red-dark transition-colors"
+                    >
+                      Support a Veteran
+                      <ExternalLink className="h-4 w-4" />
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
