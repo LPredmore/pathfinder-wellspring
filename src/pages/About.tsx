@@ -1,8 +1,10 @@
 import { Layout } from "@/components/layout";
-import { Hero, CTABlock } from "@/components/sections";
+import { CTABlock } from "@/components/sections";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Target, Heart, Users, Shield, CreditCard, Laptop, Route, ClipboardList, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
+import flagSkyBackground from "@/assets/flag-sky-background-vertical.png";
 
 /**
  * About page intent:
@@ -29,6 +31,7 @@ const differentiators = [{
   description: "Therapy is one path. We also offer Support Sessions and Groups so people can start making progress without waiting for perfect conditions.",
   icon: Route
 }];
+
 const values = [{
   title: "Access-First",
   description: "We design for real-world barriers—availability, logistics, and complexity—so more people can start sooner.",
@@ -43,149 +46,190 @@ const values = [{
   icon: Users
 }, {
   title: "Integrity + Evidence-Informed",
-  description: "We prioritize approaches grounded in proven methods—and we communicate clearly about what each service is and isn’t.",
+  description: "We prioritize approaches grounded in proven methods—and we communicate clearly about what each service is and isn't.",
   icon: Target
 }];
+
 const About = () => {
-  return <Layout>
-      <Hero title="About ValorWell" subtitle="We’re building clearer, more accessible mental health support for veterans and families—through therapy when available, and practical support options that help people keep moving forward." ctaText="Get Started" ctaLink="/get-started" />
+  return (
+    <Layout>
+      {/* Full-page flag background */}
+      <div 
+        className="relative bg-cover bg-top bg-no-repeat"
+        style={{ backgroundImage: `url(${flagSkyBackground})` }}
+      >
+        {/* Subdued overlay */}
+        <div className="absolute inset-0 bg-white/70" />
 
-      {/* Our Story */}
-      <section className="py-6 md:py-10">
-        <div className="container-narrow">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">Our Story</h2>
-
-          <div className="space-y-4 text-muted-foreground text-lg leading-relaxed">
-            <p>ValorWell was born from a deeply personal experience. Founders Lucas and Nichole Predmore faced their own struggles in securing affordable mental health support for their family. Confronted with the challenges of finding therapists who accepted CHAMPVA and dealing with lengthy reimbursement delays, they recognized a critical gap in care for veterans and their loved ones. This experience ignited a passion to create a solution that would simplify access to mental health services for the military community. Thus, ValorWell was formed – a beacon of hope in a landscape where mental health support often falls short.</p>
-            <p>
-              We built ValorWell to reduce those barriers and make it easier to start. That means offering licensed
-              therapy when available, and providing additional structured support options—Support Sessions and Groups—so
-              people can build momentum instead of waiting.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Mission */}
-      <section className="py-6 md:py-10 section-alt">
-        <div className="container-narrow">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">Our Mission</h2>
-          <p className="text-lg text-muted-foreground leading-relaxed">At ValorWell, we're on a mission to revolutionize access to quality mental health care for those who've sacrificed so much for our nation. We believe that every veteran and their family members deserve exceptional care, delivered with respect, understanding, and unwavering commitment.</p>
-
-          <div className="mt-8 grid gap-4 rounded-2xl border border-border bg-background p-6">
-            <div className="flex items-start gap-3">
-              <Shield className="h-5 w-5 text-primary mt-0.5" />
-              <p className="text-muted-foreground">
-                <span className="font-semibold text-foreground">Therapy is delivered by licensed clinicians</span> and
-                availability can vary by state and provider capacity.
+        {/* Hero content - inline */}
+        <section className="relative z-10 py-16 md:py-24">
+          <div className="container-wide">
+            <div className="max-w-3xl mx-auto text-center animate-fade-in">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground">
+                About ValorWell
+              </h1>
+              <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
+                We're building clearer, more accessible mental health support for veterans and families—through therapy when available, and practical support options that help people keep moving forward.
               </p>
-            </div>
-            <div className="flex items-start gap-3">
-              <Route className="h-5 w-5 text-primary mt-0.5" />
-              <p className="text-muted-foreground">
-                <span className="font-semibold text-foreground">Support Sessions and Groups</span> provide additional,
-                structured paths designed to help people start moving forward with clarity and momentum.
-              </p>
-            </div>
-            <div className="flex items-start gap-3">
-              <CreditCard className="h-5 w-5 text-primary mt-0.5" />
-              <p className="text-muted-foreground">
-                <span className="font-semibold text-foreground">We accept CHAMPVA</span> and can help you understand how
-                to use your coverage.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* What Sets Us Apart */}
-      <section className="py-6 md:py-10">
-        <div className="container-wide">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground">What sets ValorWell apart</h2>
-            <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
-              We focus on access, clarity, and military-centered support—so the process feels straightforward and
-              respectful from the first step.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {differentiators.map(item => <Card key={item.title}>
-                <CardHeader>
-                  <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                    <item.icon className="h-6 w-6 text-primary" />
-                  </div>
-                  <CardTitle className="text-lg">{item.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground">{item.description}</p>
-                </CardContent>
-              </Card>)}
-          </div>
-        </div>
-      </section>
-
-      {/* Values */}
-      <section className="py-6 md:py-10 section-alt">
-        <div className="container-wide">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground">Our values</h2>
-            <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-              These principles guide how we build programs, support clients, and earn trust over time.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {values.map(value => <Card key={value.title}>
-                <CardHeader>
-                  <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                    <value.icon className="h-6 w-6 text-primary" />
-                  </div>
-                  <CardTitle className="text-lg">{value.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground">{value.description}</p>
-                </CardContent>
-              </Card>)}
-          </div>
-        </div>
-      </section>
-
-      {/* Join Our Team */}
-      <section className="py-6 md:py-10">
-        <div className="container-narrow">
-          <div className="bg-muted/50 rounded-2xl p-8 md:p-10 border border-border">
-            <div className="flex flex-col md:flex-row md:items-center gap-6">
-              <div className="flex-shrink-0">
-                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
-                  <Users className="h-8 w-8 text-primary" />
-                </div>
-              </div>
-              <div className="flex-grow">
-                <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">Join Our Team</h2>
-                <p className="text-muted-foreground">
-                  Are you a licensed therapist passionate about serving those who've served? We're looking for dedicated clinicians who understand the unique needs of veterans and military families.
-                </p>
-              </div>
-              <div className="flex-shrink-0">
-                <Button asChild size="lg" className="gap-2">
-                  <a 
-                    href="https://forms.gle/FKYyVu4uPfQtL3to7" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                  >
-                    Apply Now
-                    <ExternalLink className="h-4 w-4" />
-                  </a>
+              <div className="mt-8">
+                <Button asChild size="lg">
+                  <Link to="/get-started">Get Started</Link>
                 </Button>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* CTA */}
-      <CTABlock className="py-6 md:py-10" title="Start with the support that fits today." subtitle="Choose Therapy, Support Sessions, or Groups. Get started in under a minute." variant="muted" />
-    </Layout>;
+        {/* Our Story */}
+        <section className="relative z-10 py-6 md:py-10">
+          <div className="container-narrow">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">Our Story</h2>
+
+            <div className="space-y-4 text-muted-foreground text-lg leading-relaxed">
+              <p>ValorWell was born from a deeply personal experience. Founders Lucas and Nichole Predmore faced their own struggles in securing affordable mental health support for their family. Confronted with the challenges of finding therapists who accepted CHAMPVA and dealing with lengthy reimbursement delays, they recognized a critical gap in care for veterans and their loved ones. This experience ignited a passion to create a solution that would simplify access to mental health services for the military community. Thus, ValorWell was formed – a beacon of hope in a landscape where mental health support often falls short.</p>
+              <p>
+                We built ValorWell to reduce those barriers and make it easier to start. That means offering licensed
+                therapy when available, and providing additional structured support options—Support Sessions and Groups—so
+                people can build momentum instead of waiting.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Mission */}
+        <section className="relative z-10 py-6 md:py-10">
+          <div className="container-narrow">
+            <div className="bg-background/80 backdrop-blur-sm rounded-2xl p-8 border border-border">
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">Our Mission</h2>
+              <p className="text-lg text-muted-foreground leading-relaxed">At ValorWell, we're on a mission to revolutionize access to quality mental health care for those who've sacrificed so much for our nation. We believe that every veteran and their family members deserve exceptional care, delivered with respect, understanding, and unwavering commitment.</p>
+
+              <div className="mt-8 grid gap-4 rounded-2xl border border-border bg-background p-6">
+                <div className="flex items-start gap-3">
+                  <Shield className="h-5 w-5 text-primary mt-0.5" />
+                  <p className="text-muted-foreground">
+                    <span className="font-semibold text-foreground">Therapy is delivered by licensed clinicians</span> and
+                    availability can vary by state and provider capacity.
+                  </p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <Route className="h-5 w-5 text-primary mt-0.5" />
+                  <p className="text-muted-foreground">
+                    <span className="font-semibold text-foreground">Support Sessions and Groups</span> provide additional,
+                    structured paths designed to help people start moving forward with clarity and momentum.
+                  </p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <CreditCard className="h-5 w-5 text-primary mt-0.5" />
+                  <p className="text-muted-foreground">
+                    <span className="font-semibold text-foreground">We accept CHAMPVA</span> and can help you understand how
+                    to use your coverage.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* What Sets Us Apart */}
+        <section className="relative z-10 py-6 md:py-10">
+          <div className="container-wide">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground">What sets ValorWell apart</h2>
+              <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
+                We focus on access, clarity, and military-centered support—so the process feels straightforward and
+                respectful from the first step.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {differentiators.map(item => (
+                <Card key={item.title}>
+                  <CardHeader>
+                    <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
+                      <item.icon className="h-6 w-6 text-primary" />
+                    </div>
+                    <CardTitle className="text-lg">{item.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground">{item.description}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Values */}
+        <section className="relative z-10 py-6 md:py-10">
+          <div className="container-wide">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground">Our values</h2>
+              <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+                These principles guide how we build programs, support clients, and earn trust over time.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {values.map(value => (
+                <Card key={value.title}>
+                  <CardHeader>
+                    <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
+                      <value.icon className="h-6 w-6 text-primary" />
+                    </div>
+                    <CardTitle className="text-lg">{value.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground">{value.description}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Join Our Team */}
+        <section className="relative z-10 py-6 md:py-10">
+          <div className="container-narrow">
+            <div className="bg-background/80 backdrop-blur-sm rounded-2xl p-8 md:p-10 border border-border">
+              <div className="flex flex-col md:flex-row md:items-center gap-6">
+                <div className="flex-shrink-0">
+                  <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Users className="h-8 w-8 text-primary" />
+                  </div>
+                </div>
+                <div className="flex-grow">
+                  <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">Join Our Team</h2>
+                  <p className="text-muted-foreground">
+                    Are you a licensed therapist passionate about serving those who've served? We're looking for dedicated clinicians who understand the unique needs of veterans and military families.
+                  </p>
+                </div>
+                <div className="flex-shrink-0">
+                  <Button asChild size="lg" className="gap-2">
+                    <a 
+                      href="https://forms.gle/FKYyVu4uPfQtL3to7" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                    >
+                      Apply Now
+                      <ExternalLink className="h-4 w-4" />
+                    </a>
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      {/* CTA - outside the flag background */}
+      <CTABlock
+        className="py-6 md:py-10"
+        title="Start with the support that fits today."
+        subtitle="Choose Therapy, Support Sessions, or Groups. Get started in under a minute."
+        variant="muted"
+      />
+    </Layout>
+  );
 };
+
 export default About;

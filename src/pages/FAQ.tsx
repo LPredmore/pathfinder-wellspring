@@ -1,5 +1,8 @@
 import { Layout } from "@/components/layout";
-import { Hero, FAQSection, CTABlock } from "@/components/sections";
+import { FAQSection, CTABlock } from "@/components/sections";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
+import flagSkyBackground from "@/assets/flag-sky-background-vertical.png";
 
 const faqItems = [
   // Getting started + fit
@@ -105,16 +108,40 @@ const faqItems = [
 const FAQ = () => {
   return (
     <Layout>
-      <Hero
-        title="Frequently Asked Questions"
-        subtitle="Clear answers, simple next steps. If you don't see your question here, reach out—we're happy to help."
-        ctaText="Get Started"
-        ctaLink="/get-started"
-        size="large"
-      />
+      {/* Full-page flag background */}
+      <div 
+        className="relative bg-cover bg-top bg-no-repeat"
+        style={{ backgroundImage: `url(${flagSkyBackground})` }}
+      >
+        {/* Subdued overlay */}
+        <div className="absolute inset-0 bg-white/70" />
 
-      <FAQSection title="" items={faqItems} />
+        {/* Hero content - inline */}
+        <section className="relative z-10 py-16 md:py-24">
+          <div className="container-wide">
+            <div className="max-w-3xl mx-auto text-center animate-fade-in">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground">
+                Frequently Asked Questions
+              </h1>
+              <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
+                Clear answers, simple next steps. If you don't see your question here, reach out—we're happy to help.
+              </p>
+              <div className="mt-8">
+                <Button asChild size="lg">
+                  <Link to="/get-started">Get Started</Link>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </section>
 
+        {/* FAQ Section */}
+        <div className="relative z-10">
+          <FAQSection title="" items={faqItems} />
+        </div>
+      </div>
+
+      {/* CTA - outside the flag background */}
       <CTABlock
         title="Still have questions?"
         subtitle="We'll point you to the right option and help you take the next step."
