@@ -82,8 +82,8 @@ const Donate = () => {
             </h3>
             <p className="text-lg leading-relaxed text-foreground mb-4">
               Our mission continues. ValorWell still provides high-quality mental health care 
-              to military families covered through CHAMPVA and other VA family programs—at no 
-              cost to them. That work hasn't stopped.
+              to military families covered through CHAMPVA and other VA family programs. That 
+              work hasn't stopped.
             </p>
             <p className="text-muted-foreground">
               What we can't continue—without support—is our bridge program: the initiative 
