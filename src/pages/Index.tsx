@@ -229,15 +229,12 @@ const Index = () => {
                     </p>
                   </div>
                   <div className="flex-shrink-0">
-                    <a 
-                      href="https://givebutter.com/valorwellhelp"
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <Link 
+                      to="/donate"
                       className="inline-flex items-center justify-center gap-2 rounded-lg bg-patriot-red px-6 py-3 text-base font-semibold text-white shadow-md hover:bg-patriot-red-dark transition-colors"
                     >
                       Support a Veteran
-                      <ExternalLink className="h-4 w-4" />
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>

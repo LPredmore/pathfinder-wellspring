@@ -14,7 +14,7 @@ const footerLinks = {
   ],
   getInvolved: [
     { name: "Join Our Team", href: "https://forms.gle/FKYyVu4uPfQtL3to7", external: true },
-    { name: "Support a Veteran", href: "https://givebutter.com/valorwellhelp", external: true },
+    { name: "Support a Veteran", href: "/donate", external: false },
   ],
 };
 
@@ -74,17 +74,29 @@ export function Footer() {
             <nav className="space-y-3">
               {footerLinks.getInvolved.map((link) => {
                 const Icon = getInvolvedIcons[link.name];
+                if (link.external) {
+                  return (
+                    <a
+                      key={link.name}
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center text-primary-foreground/80 hover:text-primary-foreground transition-colors"
+                    >
+                      <Icon className="h-4 w-4 mr-2 text-gold-accent" />
+                      {link.name}
+                    </a>
+                  );
+                }
                 return (
-                  <a
+                  <Link
                     key={link.name}
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    to={link.href}
                     className="flex items-center text-primary-foreground/80 hover:text-primary-foreground transition-colors"
                   >
                     <Icon className="h-4 w-4 mr-2 text-gold-accent" />
                     {link.name}
-                  </a>
+                  </Link>
                 );
               })}
             </nav>
