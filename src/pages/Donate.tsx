@@ -1,8 +1,13 @@
+import { useEffect } from "react";
 import { Layout } from "@/components/layout";
 import { Heart, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const Donate = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <Layout>
       {/* Hero Section with Video */}
@@ -63,6 +68,28 @@ const Donate = () => {
               We still believe in this. We believe the right people are out there—people 
               who don't just wish things were different, but who act. If that's you, 
               we need your help to bring this program back.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Clarification Section */}
+      <section className="section-padding bg-white">
+        <div className="container-narrow">
+          <div className="bg-cream-50 border border-border/50 rounded-xl p-6 md:p-8">
+            <h3 className="text-xl md:text-2xl font-bold text-navy mb-4">
+              ValorWell Is Still Here
+            </h3>
+            <p className="text-lg leading-relaxed text-foreground mb-4">
+              Our mission continues. ValorWell still provides high-quality mental health care 
+              to military families covered through CHAMPVA and other VA family programs—at no 
+              cost to them. That work hasn't stopped.
+            </p>
+            <p className="text-muted-foreground">
+              What we can't continue—without support—is our bridge program: the initiative 
+              that helped veterans who fell through the cracks, who couldn't get into the VA 
+              system, who had no other options. <strong className="text-foreground">That's what 
+              your donation brings back.</strong>
             </p>
           </div>
         </div>
