@@ -8,6 +8,7 @@ import Therapy from "./pages/Therapy";
 import SupportSessions from "./pages/SupportSessions";
 
 import HowItWorks from "./pages/HowItWorks";
+import Therapists from "./pages/Therapists";
 import About from "./pages/About";
 import FAQ from "./pages/FAQ";
 import GetStarted from "./pages/GetStarted";
@@ -34,6 +35,7 @@ const App = () => (
           <Route path="/support-sessions" element={<SupportSessions />} />
           
           <Route path="/how-it-works" element={<HowItWorks />} />
+          <Route path="/therapists" element={<Therapists />} />
           <Route path="/about" element={<About />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/get-started" element={<GetStarted />} />
