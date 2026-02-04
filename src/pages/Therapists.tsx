@@ -54,7 +54,7 @@ const Therapists = () => {
         </section>
 
         {/* The Problem Section */}
-        <section className="relative z-10 py-8 md:py-12">
+        <section className="relative z-10 pt-4 pb-8 md:pt-6 md:pb-10">
           <div className="container-wide">
             <div className="max-w-3xl mx-auto text-center">
               <h2 className="text-2xl md:text-3xl font-bold text-foreground">
@@ -68,7 +68,7 @@ const Therapists = () => {
         </section>
 
         {/* What Makes ValorWell Different */}
-        <section className="relative z-10 py-8 md:py-12">
+        <section className="relative z-10 pt-4 pb-8 md:pt-6 md:pb-10">
           <div className="container-wide">
             <div className="text-center mb-12">
               <h2 className="text-2xl md:text-3xl font-bold text-foreground">
@@ -100,7 +100,7 @@ const Therapists = () => {
         </section>
 
         {/* Who We're Looking For */}
-        <section className="relative z-10 py-8 md:py-12">
+        <section className="relative z-10 pt-4 pb-8 md:pt-6 md:pb-10">
           <div className="container-wide">
             <div className="max-w-3xl mx-auto text-center">
               <h2 className="text-2xl md:text-3xl font-bold text-foreground">
