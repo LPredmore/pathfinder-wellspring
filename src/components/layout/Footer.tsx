@@ -13,7 +13,7 @@ const footerLinks = {
     { name: "Terms of Service", href: "/terms" },
   ],
   getInvolved: [
-    { name: "Join Our Team", href: "https://forms.gle/FKYyVu4uPfQtL3to7", external: true },
+    { name: "Join Our Team", href: "/therapists", external: false },
     { name: "Support a Veteran", href: "/donate", external: false },
   ],
 };
