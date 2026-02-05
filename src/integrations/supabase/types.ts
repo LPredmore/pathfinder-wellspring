@@ -14,6 +14,81 @@ export type Database = {
   }
   public: {
     Tables: {
+      donation_attribution: {
+        Row: {
+          created_at: string
+          gbraid: string | null
+          gclid: string | null
+          token: string
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          utm_term: string | null
+          wbraid: string | null
+        }
+        Insert: {
+          created_at?: string
+          gbraid?: string | null
+          gclid?: string | null
+          token: string
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+          wbraid?: string | null
+        }
+        Update: {
+          created_at?: string
+          gbraid?: string | null
+          gclid?: string | null
+          token?: string
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+          wbraid?: string | null
+        }
+        Relationships: []
+      }
+      givebutter_donations: {
+        Row: {
+          ads_upload_error: string | null
+          ads_upload_status: string
+          ads_uploaded_at: string | null
+          amount: number
+          currency: string
+          donated_at: string
+          raw: Json
+          token: string | null
+          transaction_id: string
+        }
+        Insert: {
+          ads_upload_error?: string | null
+          ads_upload_status?: string
+          ads_uploaded_at?: string | null
+          amount: number
+          currency?: string
+          donated_at: string
+          raw: Json
+          token?: string | null
+          transaction_id: string
+        }
+        Update: {
+          ads_upload_error?: string | null
+          ads_upload_status?: string
+          ads_uploaded_at?: string | null
+          amount?: number
+          currency?: string
+          donated_at?: string
+          raw?: Json
+          token?: string | null
+          transaction_id?: string
+        }
+        Relationships: []
+      }
       therapist_applications: {
         Row: {
           created_at: string | null

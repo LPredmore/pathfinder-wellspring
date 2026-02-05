@@ -230,7 +230,7 @@ const Index = () => {
                   </div>
                   <div className="flex-shrink-0">
                     <Link 
-                      to="/donate"
+                      to="/support"
                       className="inline-flex items-center justify-center gap-2 rounded-lg bg-patriot-red px-6 py-3 text-base font-semibold text-white shadow-md hover:bg-patriot-red-dark transition-colors"
                     >
                       Support a Veteran
