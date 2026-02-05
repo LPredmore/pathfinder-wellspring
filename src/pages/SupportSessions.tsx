@@ -79,8 +79,6 @@ const SupportSessions = () => {
       <Hero
         title="Support Sessions"
         subtitle="When you're ready for support, waiting and red tape can feel like the opposite of care. Traditional systems can make it hard to connect quickly and consistently. ValorWell Support Sessions are designed to remove the friction—structured, one-on-one sessions that build skills and momentum for veterans and families who want a professional, modern support option."
-        ctaText="Get Started"
-        ctaLink="/get-started"
       />
 
       <ContentSection title="What Support Sessions are">
@@ -111,20 +109,6 @@ const SupportSessions = () => {
           </div>
         </div>
 
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-          <a
-            href="/get-started"
-            className="inline-flex items-center justify-center rounded-xl bg-primary px-6 py-3 text-base font-semibold text-primary-foreground shadow-sm hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary/40"
-          >
-            Get Started
-          </a>
-          <a
-            href="/therapy"
-            className="inline-flex items-center justify-center rounded-xl border border-border bg-background px-6 py-3 text-base font-semibold text-foreground shadow-sm hover:bg-muted focus:outline-none focus:ring-2 focus:ring-foreground/20"
-          >
-            Explore Therapy
-          </a>
-        </div>
       </ContentSection>
 
       <ContentSection title="Who it's for" variant="alt">
