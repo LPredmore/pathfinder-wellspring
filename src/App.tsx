@@ -18,6 +18,7 @@ import Terms from "./pages/Terms";
 import UrgentHelp from "./pages/UrgentHelp";
 import Foundation from "./pages/Foundation";
 import Donate from "./pages/Donate";
+import Support from "./pages/Support";
 import OperationClaimsSuccess from "./pages/OperationClaimsSuccess";
 import NotFound from "./pages/NotFound";
 
@@ -45,6 +46,7 @@ const App = () => (
           <Route path="/urgent-help" element={<UrgentHelp />} />
           <Route path="/foundation" element={<Foundation />} />
           <Route path="/donate" element={<Donate />} />
+          <Route path="/support" element={<Support />} />
           <Route path="/operation-claims-success" element={<OperationClaimsSuccess />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
