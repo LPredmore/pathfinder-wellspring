@@ -1,5 +1,5 @@
 import { Layout } from "@/components/layout";
-import { SEO, ServiceSchema } from "@/components/SEO";
+import { SEO, ServiceSchema, BreadcrumbSchema } from "@/components/SEO";
 import { Hero, StepsSection, CTABlock, ContentSection } from "@/components/sections";
 import { ClipboardCheck, Target, Brain, Route, CheckCircle2 } from "lucide-react";
 
@@ -64,7 +64,7 @@ const SupportSessions = () => {
     <Layout>
       <SEO 
         title="Support Sessions for Veterans & Families"
-        description="Structured one-on-one sessions with trained Wellness Guides. Goal-oriented coaching, practical skills, and clear action plans for veterans and military families."
+        description="Veteran life coaching and support sessions. Goal-oriented guidance for military families facing transition, stress, and relationship challenges. Start in days, not months."
         canonical="/support-sessions"
       />
       <ServiceSchema 
@@ -72,6 +72,10 @@ const SupportSessions = () => {
         description="Structured, one-on-one sessions with trained Wellness Guides focused on goal clarity, skill-building, and practical next-step planning."
         url="/support-sessions"
       />
+      <BreadcrumbSchema items={[
+        { name: "Home", url: "/" },
+        { name: "Support Sessions", url: "/support-sessions" }
+      ]} />
       <Hero
         title="Support Sessions"
         subtitle="When you're ready for support, waiting and red tape can feel like the opposite of care. Traditional systems can make it hard to connect quickly and consistently. ValorWell Support Sessions are designed to remove the friction—structured, one-on-one sessions that build skills and momentum for veterans and families who want a professional, modern support option."

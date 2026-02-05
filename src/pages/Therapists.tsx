@@ -34,7 +34,7 @@ const Therapists = () => {
     <Layout>
       <SEO
         title="Join Our Team - Therapist Careers"
-        description="Licensed LCSW, LPC, LMFT, or Psychologist? Join ValorWell's mission to provide mental health care to veterans and military families. Telehealth-first, CHAMPVA infrastructure ready."
+        description="Telehealth therapist jobs serving veterans. LCSW, LPC, LMFT, Psychologist positions. CHAMPVA billing handled, flexible contractor role. Apply now."
         canonical="/therapists"
       />
       <JobPostingSchema />

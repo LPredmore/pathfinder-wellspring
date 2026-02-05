@@ -1,12 +1,12 @@
 import { Layout } from "@/components/layout";
-import { SEO } from "@/components/SEO";
+import { SEO, BreadcrumbSchema } from "@/components/SEO";
 import { Hero } from "@/components/sections";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Mail, Phone, MapPin } from "lucide-react";
+import { Mail } from "lucide-react";
 import { useState } from "react";
 
 const Contact = () => {
@@ -21,9 +21,13 @@ const Contact = () => {
     <Layout>
       <SEO 
         title="Contact Us"
-        description="Contact ValorWell for questions about therapy and support services for veterans and military families. We're here to help you get started."
+        description="Contact ValorWell for veteran mental health support. Questions about CHAMPVA therapy, telehealth sessions, or therapist careers. Email support available."
         canonical="/contact"
       />
+      <BreadcrumbSchema items={[
+        { name: "Home", url: "/" },
+        { name: "Contact", url: "/contact" }
+      ]} />
       <Hero
         title="Contact Us"
         subtitle="Have questions? We're here to help. Reach out and we'll get back to you as soon as possible."
@@ -98,28 +102,10 @@ const Contact = () => {
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                    <Phone className="h-5 w-5 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="font-medium text-foreground">Phone</h3>
-                    <p className="text-muted-foreground">(555) 123-4567</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                    <MapPin className="h-5 w-5 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="font-medium text-foreground">Address</h3>
-                    <p className="text-muted-foreground">
-                      123 Wellness Way<br />
-                      Suite 100<br />
-                      City, State 12345
-                    </p>
-                  </div>
+                <div className="mt-6 p-4 bg-muted/50 rounded-lg">
+                  <p className="text-sm text-muted-foreground">
+                    ValorWell is a telehealth-first organization serving veterans and military families nationwide.
+                  </p>
                 </div>
               </div>
             </div>
