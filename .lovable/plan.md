@@ -1,296 +1,167 @@
 
 
-## SEO Improvements for Missing Pages
+## SEO Improvements: OrganizationSchema, BreadcrumbSchema, About Page Link, and Meta Descriptions
 
 ### Overview
 
-This plan adds SEO components with tailored meta tags and structured data to all pages currently missing SEO coverage. It also introduces two new JSON-LD schema components: `JobPostingSchema` for therapist recruitment and `DonateActionSchema` for donor engagement.
+This plan implements four key SEO improvements:
+1. Fix OrganizationSchema with real contact info (virtual-only, no physical address)
+2. Add BreadcrumbSchema to 7 pages missing it
+3. Update About page therapist link from Google Form to /therapists
+4. Enhance meta descriptions with target keywords for therapist recruitment, client acquisition, and donor engagement
 
 ---
 
-### 1. New Schema Components in SEO.tsx
+### 1. Fix OrganizationSchema with Real Contact Info
 
-**Add to `src/components/SEO.tsx`:**
+**File:** `src/components/SEO.tsx`
 
-#### JobPostingSchema (for /therapists)
-Helps Google and ChatGPT surface therapist job opportunities in searches like "LCSW jobs veterans" or "telehealth therapist positions".
+Update the OrganizationSchema to:
+- Remove the placeholder phone number (`+1-555-123-4567`)
+- Use email as primary contact method (`support@valorwell.org`)
+- Remove telephone field since you're virtual-only
+- Add social media links to `sameAs` array (placeholder for future - can add LinkedIn, Facebook, etc. when available)
+- Keep `areaServed` as United States
 
 ```typescript
-export function JobPostingSchema() {
+export function OrganizationSchema() {
   const schema = {
     "@context": "https://schema.org",
-    "@type": "JobPosting",
-    title: "Licensed Mental Health Therapist",
-    description: "Join ValorWell as a licensed mental health clinician serving veterans and military families. Telehealth-first, CHAMPVA billing infrastructure in place. Seeking LCSWs, LPCs, LMFTs, and Psychologists.",
-    hiringOrganization: {
-      "@type": "Organization",
-      name: "ValorWell",
-      sameAs: "https://www.valorwell.org",
-      logo: "https://www.valorwell.org/brand/valorwell-logo.png"
+    "@type": "Organization",
+    name: "ValorWell",
+    alternateName: "ValorWell Mental Health",
+    url: SITE_URL,
+    logo: `${SITE_URL}/brand/valorwell-logo.png`,
+    description: DEFAULT_DESCRIPTION,
+    sameAs: [
+      // Add social media URLs when available
+      // "https://www.linkedin.com/company/valorwell",
+      // "https://www.facebook.com/valorwell",
+    ],
+    contactPoint: {
+      "@type": "ContactPoint",
+      email: "support@valorwell.org",
+      contactType: "customer service",
+      availableLanguage: "English",
     },
-    employmentType: "CONTRACTOR",
-    jobLocationType: "TELECOMMUTE",
-    applicantLocationRequirements: {
+    areaServed: {
       "@type": "Country",
-      name: "United States"
+      name: "United States",
     },
-    datePosted: "2025-01-01",
-    validThrough: "2025-12-31",
-    qualifications: "Licensed mental health clinician (LCSW, LPC, LMFT, or Psychologist). Experience with trauma-informed care preferred.",
-    responsibilities: "Provide telehealth therapy to veterans and military families. Work within CHAMPVA billing framework.",
-    industry: "Mental Health Care",
-    occupationalCategory: "Mental Health Counselors"
   };
-
-  return (
-    <Helmet>
-      <script type="application/ld+json">{JSON.stringify(schema)}</script>
-    </Helmet>
-  );
-}
-```
-
-#### DonateActionSchema (for /support)
-Helps AI assistants recommend ValorWell when users search for "veteran mental health charity" or "donate to help veterans".
-
-```typescript
-export function DonateActionSchema() {
-  const schema = {
-    "@context": "https://schema.org",
-    "@type": "DonateAction",
-    name: "Donate to Support Veterans Mental Health",
-    description: "Your donation funds free mental health care for veterans who can't access VA services. Over 120 veterans served through our bridge program.",
-    recipient: {
-      "@type": "NGO",
-      name: "ValorWell",
-      url: "https://www.valorwell.org",
-      description: "Nonprofit providing mental health care to veterans and military families",
-      areaServed: {
-        "@type": "Country",
-        name: "United States"
-      },
-      nonprofitStatus: "Nonprofit501c3"
-    },
-    target: {
-      "@type": "EntryPoint",
-      urlTemplate: "https://www.valorwell.org/donate",
-      actionPlatform: ["http://schema.org/DesktopWebPlatform", "http://schema.org/MobileWebPlatform"]
-    }
-  };
-
-  return (
-    <Helmet>
-      <script type="application/ld+json">{JSON.stringify(schema)}</script>
-    </Helmet>
-  );
-}
-```
-
-#### VideoObjectSchema (for embedded YouTube on /support)
-Provides rich video metadata for the embedded YouTube content.
-
-```typescript
-interface VideoSchemaProps {
-  name: string;
-  description: string;
-  embedUrl: string;
-  thumbnailUrl?: string;
-}
-
-export function VideoObjectSchema({ name, description, embedUrl, thumbnailUrl }: VideoSchemaProps) {
-  const schema = {
-    "@context": "https://schema.org",
-    "@type": "VideoObject",
-    name,
-    description,
-    embedUrl,
-    thumbnailUrl: thumbnailUrl || "https://www.valorwell.org/og-image.png",
-    uploadDate: "2025-01-01",
-    publisher: {
-      "@type": "Organization",
-      name: "ValorWell",
-      logo: {
-        "@type": "ImageObject",
-        url: "https://www.valorwell.org/brand/valorwell-logo.png"
-      }
-    }
-  };
-
-  return (
-    <Helmet>
-      <script type="application/ld+json">{JSON.stringify(schema)}</script>
-    </Helmet>
-  );
+  // ...
 }
 ```
 
 ---
 
-### 2. Page-by-Page SEO Implementation
+### 2. Update Contact Page (Remove Physical Address)
 
-#### /therapists (Therapists.tsx)
+**File:** `src/pages/Contact.tsx`
 
-**Meta Tags:**
-- Title: "Join Our Team - Therapist Careers"
-- Description: "Licensed LCSW, LPC, LMFT, or Psychologist? Join ValorWell's mission to provide mental health care to veterans and military families. Telehealth-first, CHAMPVA infrastructure ready."
-- Canonical: `/therapists`
-
-**Structured Data:**
-- `JobPostingSchema` - for job search visibility
-
-```typescript
-import { SEO, JobPostingSchema, BreadcrumbSchema } from "@/components/SEO";
-
-// Inside component return:
-<SEO
-  title="Join Our Team - Therapist Careers"
-  description="Licensed LCSW, LPC, LMFT, or Psychologist? Join ValorWell's mission to provide mental health care to veterans and military families. Telehealth-first, CHAMPVA infrastructure ready."
-  canonical="/therapists"
-/>
-<JobPostingSchema />
-<BreadcrumbSchema items={[
-  { name: "Home", url: "/" },
-  { name: "Join Our Team", url: "/therapists" }
-]} />
-```
+Since ValorWell is virtual-only:
+- Remove the physical address section completely
+- Keep only email as contact method
+- Update the meta description
 
 ---
 
-#### /support (Support.tsx)
+### 3. Add BreadcrumbSchema to Remaining Pages
 
-**Meta Tags:**
-- Title: "Support Veterans Mental Health"
-- Description: "Help bring back free mental health care for veterans. Over 120 veterans served through our bridge program. Your donation makes a direct impact."
-- Canonical: `/support`
+Add `BreadcrumbSchema` imports and components to these 7 pages:
 
-**Structured Data:**
-- `DonateActionSchema` - for donation visibility
-- `VideoObjectSchema` - for YouTube embed
+| Page | File | Breadcrumb Path |
+|------|------|-----------------|
+| Therapy | `src/pages/Therapy.tsx` | Home > Therapy |
+| Support Sessions | `src/pages/SupportSessions.tsx` | Home > Support Sessions |
+| About | `src/pages/About.tsx` | Home > About |
+| FAQ | `src/pages/FAQ.tsx` | Home > FAQ |
+| Get Started | `src/pages/GetStarted.tsx` | Home > Get Started |
+| Contact | `src/pages/Contact.tsx` | Home > Contact |
+| Urgent Help | `src/pages/UrgentHelp.tsx` | Home > Urgent Help |
 
-```typescript
-import { SEO, DonateActionSchema, VideoObjectSchema, BreadcrumbSchema } from "@/components/SEO";
-
-// Inside component return:
-<SEO
-  title="Support Veterans Mental Health"
-  description="Help bring back free mental health care for veterans. Over 120 veterans served through our bridge program. Your donation makes a direct impact."
-  canonical="/support"
-/>
-<DonateActionSchema />
-<VideoObjectSchema
-  name="ValorWell Story"
-  description="Learn how ValorWell provided free mental health care to over 120 veterans and why we need your support to continue."
-  embedUrl="https://www.youtube.com/embed/yY_Ybhg3URg"
-/>
-<BreadcrumbSchema items={[
-  { name: "Home", url: "/" },
-  { name: "Support", url: "/support" }
-]} />
-```
-
----
-
-#### /how-it-works (HowItWorks.tsx)
-
-**Meta Tags:**
-- Title: "How It Works"
-- Description: "Getting started with ValorWell is simple. Learn how our intake process works for therapy and support sessions. CHAMPVA accepted, telehealth available."
-- Canonical: `/how-it-works`
-
+Example implementation:
 ```typescript
 import { SEO, BreadcrumbSchema } from "@/components/SEO";
 
-<SEO
-  title="How It Works"
-  description="Getting started with ValorWell is simple. Learn how our intake process works for therapy and support sessions. CHAMPVA accepted, telehealth available."
-  canonical="/how-it-works"
-/>
+// In component return:
 <BreadcrumbSchema items={[
   { name: "Home", url: "/" },
-  { name: "How It Works", url: "/how-it-works" }
+  { name: "Therapy", url: "/therapy" }
 ]} />
 ```
 
 ---
 
-#### /foundation (Foundation.tsx)
+### 4. Update About Page Therapist Link
 
-**Meta Tags:**
-- Title: "Foundation"
-- Description: "Learn about the ValorWell Foundation and our mission to expand mental health access for veterans and military families."
-- Canonical: `/foundation`
-- noIndex: `true` (placeholder page)
+**File:** `src/pages/About.tsx`
 
-```typescript
-import { SEO } from "@/components/SEO";
+Change the "Join Our Team" button from external Google Form to internal `/therapists` page:
 
-<SEO
-  title="Foundation"
-  description="Learn about the ValorWell Foundation and our mission to expand mental health access for veterans and military families."
-  canonical="/foundation"
-  noIndex={true}
-/>
+**Before:**
+```jsx
+<a 
+  href="https://forms.gle/FKYyVu4uPfQtL3to7" 
+  target="_blank" 
+  rel="noopener noreferrer"
+>
+  Apply Now
+  <ExternalLink className="h-4 w-4" />
+</a>
 ```
+
+**After:**
+```jsx
+<Link to="/therapists">
+  Apply Now
+</Link>
+```
+
+Also remove the `ExternalLink` icon since it's now an internal link.
 
 ---
 
-#### /privacy (Privacy.tsx)
+### 5. Enhance Meta Descriptions with Target Keywords
 
-**Meta Tags:**
-- Title: "Privacy Policy"
-- Description: "ValorWell's privacy policy. Learn how we protect your personal information and health data."
-- Canonical: `/privacy`
+Update meta descriptions to include target keywords for better search visibility:
 
-```typescript
-import { SEO } from "@/components/SEO";
-
-<SEO
-  title="Privacy Policy"
-  description="ValorWell's privacy policy. Learn how we protect your personal information and health data."
-  canonical="/privacy"
-/>
-```
-
----
-
-#### /terms (Terms.tsx)
-
-**Meta Tags:**
-- Title: "Terms of Service"
-- Description: "Terms and conditions for using ValorWell mental health services. Read our policies before getting started."
-- Canonical: `/terms`
-
-```typescript
-import { SEO } from "@/components/SEO";
-
-<SEO
-  title="Terms of Service"
-  description="Terms and conditions for using ValorWell mental health services. Read our policies before getting started."
-  canonical="/terms"
-/>
-```
+| Page | Current Description | Enhanced Description |
+|------|---------------------|---------------------|
+| **Therapy** | "Licensed therapy for veterans and military families. Trauma-informed care, telehealth options, CHAMPVA accepted." | "Licensed LCSW, LMFT, and psychologist therapy for veterans and military families. PTSD treatment, trauma-informed telehealth care. CHAMPVA accepted, no VA referral needed." |
+| **Support Sessions** | "Structured one-on-one sessions with trained Wellness Guides. Goal-oriented coaching..." | "Veteran life coaching and support sessions. Goal-oriented guidance for military families facing transition, stress, and relationship challenges. Start in days, not months." |
+| **About** | "ValorWell provides accessible mental health care for veterans and military families..." | "ValorWell: Veteran-founded telehealth mental health care. CHAMPVA-accepted therapy and support for military families nationwide. Our story, mission, and values." |
+| **FAQ** | "Get answers about ValorWell's therapy and support services for veterans..." | "CHAMPVA therapy FAQ: coverage, eligibility, telehealth sessions. Answers for veterans and military families seeking mental health support." |
+| **Get Started** | "Begin your mental health journey with ValorWell..." | "Start veteran therapy or support sessions today. Quick intake, fast matching with military-focused therapists. CHAMPVA accepted, telehealth available nationwide." |
+| **Contact** | "Contact ValorWell for questions about therapy and support services..." | "Contact ValorWell for veteran mental health support. Questions about CHAMPVA therapy, telehealth sessions, or therapist careers. Email support available." |
+| **Urgent Help** | "If you're in crisis, help is available now..." | "Veterans Crisis Line: 988 Press 1. Immediate mental health crisis resources for veterans, service members, and military families. 24/7 support available." |
+| **Therapists** | "Licensed LCSW, LPC, LMFT, or Psychologist? Join ValorWell's mission..." | "Telehealth therapist jobs serving veterans. LCSW, LPC, LMFT, Psychologist positions. CHAMPVA billing handled, flexible contractor role. Apply now." |
+| **Support (Donate)** | "Help bring back free mental health care for veterans..." | "Donate to veteran mental health. 501(c)(3) nonprofit helping 120+ veterans access free therapy. Tax-deductible, transparent impact." |
 
 ---
 
-### File Summary
+### File Change Summary
 
 | File | Changes |
 |------|---------|
-| `src/components/SEO.tsx` | Add `JobPostingSchema`, `DonateActionSchema`, `VideoObjectSchema` components |
-| `src/pages/Therapists.tsx` | Add SEO + JobPostingSchema + BreadcrumbSchema |
-| `src/pages/Support.tsx` | Add SEO + DonateActionSchema + VideoObjectSchema + BreadcrumbSchema |
-| `src/pages/HowItWorks.tsx` | Add SEO + BreadcrumbSchema |
-| `src/pages/Foundation.tsx` | Add SEO with noIndex |
-| `src/pages/Privacy.tsx` | Add SEO |
-| `src/pages/Terms.tsx` | Add SEO |
+| `src/components/SEO.tsx` | Update OrganizationSchema to remove phone, use email-only contact |
+| `src/pages/Therapy.tsx` | Add BreadcrumbSchema, enhance meta description |
+| `src/pages/SupportSessions.tsx` | Add BreadcrumbSchema, enhance meta description |
+| `src/pages/About.tsx` | Add BreadcrumbSchema, change therapist link to /therapists, remove ExternalLink icon, enhance meta description |
+| `src/pages/FAQ.tsx` | Add BreadcrumbSchema, enhance meta description |
+| `src/pages/GetStarted.tsx` | Add BreadcrumbSchema, enhance meta description |
+| `src/pages/Contact.tsx` | Add BreadcrumbSchema, remove physical address section, enhance meta description |
+| `src/pages/UrgentHelp.tsx` | Add BreadcrumbSchema, enhance meta description |
+| `src/pages/Therapists.tsx` | Enhance meta description for therapist recruitment |
+| `src/pages/Support.tsx` | Enhance meta description for donor engagement |
 
 ---
 
 ### Technical Notes
 
-- All new schema components follow the existing pattern in `SEO.tsx` using `react-helmet-async`
-- `JobPostingSchema` uses `TELECOMMUTE` job location type and `CONTRACTOR` employment type based on the therapist recruitment page content
-- `DonateActionSchema` includes `nonprofitStatus: "Nonprofit501c3"` to signal tax-deductible status to AI assistants
-- `noIndex` is set to `true` for `/foundation` since it's a placeholder page
-- Breadcrumb schemas are added to improve site structure visibility in search results
+- All BreadcrumbSchema implementations follow the existing pattern from previously updated pages
+- The OrganizationSchema removes the `telephone` field entirely since ValorWell is virtual-only
+- The About page link change also removes the `ExternalLink` icon import if no longer needed
+- Enhanced meta descriptions are optimized for both Google search and AI assistants (ChatGPT, Claude) with natural keyword integration
+- Contact page will show only email support, which is appropriate for a telehealth-first organization
 
