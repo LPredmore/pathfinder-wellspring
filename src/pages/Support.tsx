@@ -117,13 +117,10 @@ const Support = () => {
             className="bg-patriot-red hover:bg-patriot-red/90 text-white text-lg px-8 py-6"
           >
             <a 
-              href="https://givebutter.com/valorwellhelp" 
-              target="_blank" 
-              rel="noopener noreferrer"
+              href="/donate"
               className="inline-flex items-center gap-2"
             >
               Donate Now
-              <ExternalLink className="w-5 h-5" />
             </a>
           </Button>
         </div>
