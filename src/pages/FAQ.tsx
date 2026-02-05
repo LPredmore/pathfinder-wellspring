@@ -1,4 +1,5 @@
 import { Layout } from "@/components/layout";
+import { SEO, FAQSchema } from "@/components/SEO";
 import { FAQSection, CTABlock } from "@/components/sections";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -106,8 +107,20 @@ const faqItems = [
 ];
 
 const FAQ = () => {
+  // Extract FAQ data for structured data
+  const faqData = faqItems.map(item => ({
+    question: item.question,
+    answer: item.answer,
+  }));
+
   return (
     <Layout>
+      <SEO 
+        title="FAQ - Frequently Asked Questions"
+        description="Get answers about ValorWell's therapy and support services for veterans. Learn about CHAMPVA coverage, telehealth sessions, and how to get started."
+        canonical="/faq"
+      />
+      <FAQSchema faqs={faqData} />
       {/* Full-page flag background */}
       <div 
         className="relative bg-cover bg-top bg-no-repeat"
