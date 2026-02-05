@@ -129,11 +129,16 @@ export function TherapistApplicationForm() {
       return;
     }
 
-    // Fire Google Analytics conversion event
+    // Fire Google Analytics and Google Ads conversion events
     if (window.gtag) {
       window.gtag("event", "form_submit", {
         event_category: "therapist_application",
         event_label: "application_submitted",
+      });
+
+      // Fire Google Ads conversion event
+      window.gtag("event", "conversion", {
+        send_to: "AW-16798905432/6RqRCJ2PnfMbENjoq8o-",
       });
     }
 
