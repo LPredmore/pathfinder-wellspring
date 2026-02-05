@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useSearchParams, Link } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 import { Layout } from "@/components/layout";
 import { SEO, BreadcrumbSchema } from "@/components/SEO";
 import { Button } from "@/components/ui/button";
@@ -54,6 +56,7 @@ const seekingCareOptions = [
 const GetStarted = () => {
   const [searchParams] = useSearchParams();
   const preselectedService = searchParams.get("service");
+  const { toast } = useToast();
   
   const [step, setStep] = useState(preselectedService ? 2 : 1);
   const [selectedService, setSelectedService] = useState<string | null>(preselectedService);
@@ -66,6 +69,7 @@ const GetStarted = () => {
     seekingCare: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleServiceSelect = (serviceId: string) => {
     if (serviceId === "therapy") {
@@ -80,9 +84,33 @@ const GetStarted = () => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // UI only - no actual submission
+    setIsSubmitting(true);
+
+    const { error } = await supabase
+      .from("support_session_inquiries")
+      .insert({
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        email: formData.email,
+        phone: formData.phone || null,
+        state: formData.state,
+        seeking_care: formData.seekingCare,
+        service_type: selectedService,
+      });
+
+    setIsSubmitting(false);
+
+    if (error) {
+      toast({
+        title: "Something went wrong",
+        description: "Please try again or contact support@valorwell.org",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setSubmitted(true);
   };
 
@@ -281,9 +309,9 @@ const GetStarted = () => {
                     <Button
                       type="submit"
                       className="w-full"
-                      disabled={!isFormValid}
+                      disabled={!isFormValid || isSubmitting}
                     >
-                      Submit
+                      {isSubmitting ? "Submitting..." : "Submit"}
                     </Button>
                   </form>
                 </CardContent>

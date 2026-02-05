@@ -92,6 +92,45 @@ export type Database = {
         }
         Relationships: []
       }
+      support_session_inquiries: {
+        Row: {
+          created_at: string | null
+          email: string
+          first_name: string
+          id: string
+          last_name: string
+          phone: string | null
+          seeking_care: string
+          service_type: string
+          state: string
+          status: string
+        }
+        Insert: {
+          created_at?: string | null
+          email: string
+          first_name: string
+          id?: string
+          last_name: string
+          phone?: string | null
+          seeking_care: string
+          service_type?: string
+          state: string
+          status?: string
+        }
+        Update: {
+          created_at?: string | null
+          email?: string
+          first_name?: string
+          id?: string
+          last_name?: string
+          phone?: string | null
+          seeking_care?: string
+          service_type?: string
+          state?: string
+          status?: string
+        }
+        Relationships: []
+      }
       therapist_applications: {
         Row: {
           created_at: string | null
