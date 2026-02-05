@@ -55,6 +55,7 @@ export type Database = {
       }
       givebutter_donations: {
         Row: {
+          ads_exported_at: string | null
           ads_upload_error: string | null
           ads_upload_status: string
           ads_uploaded_at: string | null
@@ -66,6 +67,7 @@ export type Database = {
           transaction_id: string
         }
         Insert: {
+          ads_exported_at?: string | null
           ads_upload_error?: string | null
           ads_upload_status?: string
           ads_uploaded_at?: string | null
@@ -77,6 +79,7 @@ export type Database = {
           transaction_id: string
         }
         Update: {
+          ads_exported_at?: string | null
           ads_upload_error?: string | null
           ads_upload_status?: string
           ads_uploaded_at?: string | null
