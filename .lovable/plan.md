@@ -1,45 +1,133 @@
 
 
-## Add Google Ads Conversion Tracking
+## Donate Page Redirect Implementation
 
 ### Overview
 
-Update the therapist application form to fire a Google Ads conversion event when a form is successfully submitted. This allows Google Ads to track conversions even though it cannot detect the JavaScript-rendered form.
+This plan moves the current donation information page from `/donate` to `/support`, and creates a new `/donate` route that acts as a redirect utility with Google Ads tracking parameter forwarding.
 
-### Change
+### Changes Required
 
-**File:** `src/components/forms/TherapistApplicationForm.tsx`
+#### 1. Rename the Current Donate Page
 
-Update the `onSubmit` function to include the Google Ads conversion event alongside the existing Google Analytics event:
+**File: `src/pages/Donate.tsx`**
+- Rename file to `src/pages/Support.tsx`
+- Update the component name from `Donate` to `Support`
+
+#### 2. Create New Donate Redirect Page
+
+**New File: `src/pages/Donate.tsx`**
+
+A minimal page that:
+- Displays "Redirecting to donation page..." while processing
+- Reads URL query parameters on load (gclid, gbraid, wbraid, utm_source, etc.)
+- POSTs them to the edge function at `https://asjhkidpuhqodryczuth.functions.supabase.co/donate-go`
+- Redirects to the returned `redirect_url`
+- Falls back to `https://givebutter.com/valorwellhelp` on error
 
 ```typescript
-// Fire Google Analytics event (existing)
-if (window.gtag) {
-  window.gtag("event", "form_submit", {
-    event_category: "therapist_application",
-    event_label: "application_submitted",
-  });
+import { useEffect } from "react";
 
-  // Fire Google Ads conversion event (new)
-  window.gtag("event", "conversion", {
-    send_to: "AW-16798905432/6RqRCJ2PnfMbENjoq8o-",
-  });
-}
+const Donate = () => {
+  useEffect(() => {
+    (async function () {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const payload = {
+          gclid: params.get("gclid"),
+          gbraid: params.get("gbraid"),
+          wbraid: params.get("wbraid"),
+          utm_source: params.get("utm_source"),
+          utm_medium: params.get("utm_medium"),
+          utm_campaign: params.get("utm_campaign"),
+          utm_term: params.get("utm_term"),
+          utm_content: params.get("utm_content"),
+        };
+
+        const res = await fetch(
+          "https://asjhkidpuhqodryczuth.functions.supabase.co/donate-go",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          }
+        );
+
+        const data = await res.json();
+        if (!res.ok || !data.redirect_url) {
+          throw new Error(data?.error || "donate-go failed");
+        }
+        window.location.replace(data.redirect_url);
+      } catch (e) {
+        window.location.replace("https://givebutter.com/valorwellhelp");
+      }
+    })();
+  }, []);
+
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      <p className="text-lg text-muted-foreground">Redirecting to donation page…</p>
+    </div>
+  );
+};
+
+export default Donate;
 ```
 
-### How It Works
+#### 3. Update App.tsx Routes
 
-1. User fills out and submits the therapist application form
-2. Form data saves to Supabase
-3. On success, the code fires:
-   - A Google Analytics event for GA4 tracking
-   - A Google Ads conversion event with your specific conversion ID and label
-4. Google Ads registers this as a conversion for your campaign
+**File: `src/App.tsx`**
 
-### Verification
+- Import the new `Support` page
+- Add route for `/support` pointing to `Support` component
+- Keep `/donate` route pointing to new redirect `Donate` component
 
-After implementation, you can verify it's working by:
-1. Submitting a test application
-2. Checking Google Ads > Goals > Conversions to see the conversion registered
-3. Using Google Tag Assistant browser extension to see the conversion event fire
+```typescript
+import Donate from "./pages/Donate";        // New redirect page
+import Support from "./pages/Support";      // Renamed from old Donate
+
+// Routes:
+<Route path="/donate" element={<Donate />} />
+<Route path="/support" element={<Support />} />
+```
+
+#### 4. Update Internal Links
+
+**File: `src/components/layout/Footer.tsx`**
+- Change "Support a Veteran" link from `/donate` to `/support`
+
+```typescript
+getInvolved: [
+  { name: "Join Our Team", href: "/therapists", external: false },
+  { name: "Support a Veteran", href: "/support", external: false },  // Changed
+],
+```
+
+**File: `src/pages/Index.tsx`**
+- Change the donation CTA button link from `/donate` to `/support`
+
+```typescript
+<Link 
+  to="/support"  // Changed from /donate
+  className="inline-flex items-center..."
+>
+```
+
+---
+
+### Technical Notes
+
+- The redirect page does not use the Layout wrapper (no header/footer) since it immediately redirects
+- No secrets are exposed in client code - only calls the public edge function endpoint
+- The edge function `donate-go` is assumed to already exist and handle the token generation and redirect URL logic
+
+### File Summary
+
+| Action | File |
+|--------|------|
+| Rename | `src/pages/Donate.tsx` → `src/pages/Support.tsx` |
+| Create | `src/pages/Donate.tsx` (new redirect page) |
+| Modify | `src/App.tsx` (add Support route, update imports) |
+| Modify | `src/components/layout/Footer.tsx` (change link to /support) |
+| Modify | `src/pages/Index.tsx` (change link to /support) |
 
