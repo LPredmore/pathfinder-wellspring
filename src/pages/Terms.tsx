@@ -1,8 +1,14 @@
 import { Layout } from "@/components/layout";
 import { Hero } from "@/components/sections";
+import { SEO } from "@/components/SEO";
 
 const Terms = () => (
   <Layout>
+    <SEO
+      title="Terms of Service"
+      description="Terms and conditions for using ValorWell mental health services. Read our policies before getting started."
+      canonical="/terms"
+    />
     <Hero title="Terms of Service" subtitle="Terms and conditions for using ValorWell services." ctaText="" ctaLink="" />
     <section className="section-padding">
       <div className="container-narrow prose prose-lg text-muted-foreground">

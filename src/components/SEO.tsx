@@ -205,3 +205,103 @@ export function BreadcrumbSchema({ items }: BreadcrumbSchemaProps) {
     </Helmet>
   );
 }
+
+// JobPostingSchema for therapist recruitment
+export function JobPostingSchema() {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "JobPosting",
+    title: "Licensed Mental Health Therapist",
+    description: "Join ValorWell as a licensed mental health clinician serving veterans and military families. Telehealth-first, CHAMPVA billing infrastructure in place. Seeking LCSWs, LPCs, LMFTs, and Psychologists.",
+    hiringOrganization: {
+      "@type": "Organization",
+      name: "ValorWell",
+      sameAs: SITE_URL,
+      logo: `${SITE_URL}/brand/valorwell-logo.png`,
+    },
+    employmentType: "CONTRACTOR",
+    jobLocationType: "TELECOMMUTE",
+    applicantLocationRequirements: {
+      "@type": "Country",
+      name: "United States",
+    },
+    datePosted: "2025-01-01",
+    validThrough: "2025-12-31",
+    qualifications: "Licensed mental health clinician (LCSW, LPC, LMFT, or Psychologist). Experience with trauma-informed care preferred.",
+    responsibilities: "Provide telehealth therapy to veterans and military families. Work within CHAMPVA billing framework.",
+    industry: "Mental Health Care",
+    occupationalCategory: "Mental Health Counselors",
+  };
+
+  return (
+    <Helmet>
+      <script type="application/ld+json">{JSON.stringify(schema)}</script>
+    </Helmet>
+  );
+}
+
+// DonateActionSchema for donor engagement
+export function DonateActionSchema() {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "DonateAction",
+    name: "Donate to Support Veterans Mental Health",
+    description: "Your donation funds free mental health care for veterans who can't access VA services. Over 120 veterans served through our bridge program.",
+    recipient: {
+      "@type": "NGO",
+      name: "ValorWell",
+      url: SITE_URL,
+      description: "Nonprofit providing mental health care to veterans and military families",
+      areaServed: {
+        "@type": "Country",
+        name: "United States",
+      },
+      nonprofitStatus: "Nonprofit501c3",
+    },
+    target: {
+      "@type": "EntryPoint",
+      urlTemplate: `${SITE_URL}/donate`,
+      actionPlatform: ["http://schema.org/DesktopWebPlatform", "http://schema.org/MobileWebPlatform"],
+    },
+  };
+
+  return (
+    <Helmet>
+      <script type="application/ld+json">{JSON.stringify(schema)}</script>
+    </Helmet>
+  );
+}
+
+// VideoObjectSchema for embedded videos
+interface VideoSchemaProps {
+  name: string;
+  description: string;
+  embedUrl: string;
+  thumbnailUrl?: string;
+}
+
+export function VideoObjectSchema({ name, description, embedUrl, thumbnailUrl }: VideoSchemaProps) {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    name,
+    description,
+    embedUrl,
+    thumbnailUrl: thumbnailUrl || `${SITE_URL}/og-image.png`,
+    uploadDate: "2025-01-01",
+    publisher: {
+      "@type": "Organization",
+      name: "ValorWell",
+      logo: {
+        "@type": "ImageObject",
+        url: `${SITE_URL}/brand/valorwell-logo.png`,
+      },
+    },
+  };
+
+  return (
+    <Helmet>
+      <script type="application/ld+json">{JSON.stringify(schema)}</script>
+    </Helmet>
+  );
+}

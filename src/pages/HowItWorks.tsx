@@ -3,6 +3,7 @@ import { StepsSection, CTABlock } from "@/components/sections";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Heart, MessageCircle } from "lucide-react";
 import flagSkyBackground from "@/assets/flag-sky-background-vertical.png";
+import { SEO, BreadcrumbSchema } from "@/components/SEO";
 
 const services = [
   {
@@ -59,6 +60,15 @@ const steps = [
 const HowItWorks = () => {
   return (
     <Layout>
+      <SEO
+        title="How It Works"
+        description="Getting started with ValorWell is simple. Learn how our intake process works for therapy and support sessions. CHAMPVA accepted, telehealth available."
+        canonical="/how-it-works"
+      />
+      <BreadcrumbSchema items={[
+        { name: "Home", url: "/" },
+        { name: "How It Works", url: "/how-it-works" }
+      ]} />
       {/* Full-page flag background from header to CTA */}
       <div 
         className="relative bg-cover bg-top bg-no-repeat"

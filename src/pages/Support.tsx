@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Layout } from "@/components/layout";
 import { Heart, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { SEO, DonateActionSchema, VideoObjectSchema, BreadcrumbSchema } from "@/components/SEO";
 
 const Support = () => {
   useEffect(() => {
@@ -10,7 +11,21 @@ const Support = () => {
 
   return (
     <Layout>
-      {/* Hero Section with Video */}
+      <SEO
+        title="Support Veterans Mental Health"
+        description="Help bring back free mental health care for veterans. Over 120 veterans served through our bridge program. Your donation makes a direct impact."
+        canonical="/support"
+      />
+      <DonateActionSchema />
+      <VideoObjectSchema
+        name="ValorWell Story"
+        description="Learn how ValorWell provided free mental health care to over 120 veterans and why we need your support to continue."
+        embedUrl="https://www.youtube.com/embed/yY_Ybhg3URg"
+      />
+      <BreadcrumbSchema items={[
+        { name: "Home", url: "/" },
+        { name: "Support", url: "/support" }
+      ]} />
       <section className="hero-gradient section-padding text-center">
         <div className="container-narrow">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-6">
