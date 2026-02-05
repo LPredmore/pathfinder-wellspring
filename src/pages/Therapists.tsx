@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Heart, Shield, Video, Users } from "lucide-react";
 import flagSkyBackground from "@/assets/flag-sky-background-vertical.png";
 import { TherapistApplicationForm } from "@/components/forms/TherapistApplicationForm";
+import { SEO, JobPostingSchema, BreadcrumbSchema } from "@/components/SEO";
 
 const differentiators = [
   {
@@ -31,6 +32,16 @@ const differentiators = [
 const Therapists = () => {
   return (
     <Layout>
+      <SEO
+        title="Join Our Team - Therapist Careers"
+        description="Licensed LCSW, LPC, LMFT, or Psychologist? Join ValorWell's mission to provide mental health care to veterans and military families. Telehealth-first, CHAMPVA infrastructure ready."
+        canonical="/therapists"
+      />
+      <JobPostingSchema />
+      <BreadcrumbSchema items={[
+        { name: "Home", url: "/" },
+        { name: "Join Our Team", url: "/therapists" }
+      ]} />
       {/* Full-page flag background */}
       <div
         className="relative bg-cover bg-top bg-no-repeat"
