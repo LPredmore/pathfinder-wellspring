@@ -1,9 +1,9 @@
 import { Layout } from "@/components/layout";
 import { CTABlock } from "@/components/sections";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Heart, Shield, Video, Users } from "lucide-react";
 import flagSkyBackground from "@/assets/flag-sky-background-vertical.png";
+import { TherapistApplicationForm } from "@/components/forms/TherapistApplicationForm";
 
 const differentiators = [
   {
@@ -114,32 +114,18 @@ const Therapists = () => {
         </section>
       </div>
 
-      {/* CTA Section - Navy background */}
-      <section className="bg-primary py-16 md:py-20">
+      {/* Application Form Section */}
+      <section className="bg-muted py-16 md:py-20">
         <div className="container-wide">
-          <div className="max-w-2xl mx-auto text-center">
-            <h2 className="text-2xl md:text-3xl font-bold text-primary-foreground">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground">
               Ready to Be Part of Something Bigger?
             </h2>
-            <p className="mt-4 text-lg text-primary-foreground/90">
+            <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
               If you're ready to bring your clinical expertise to a mission that matters, we'd love to hear from you.
             </p>
-            <div className="mt-8">
-              <Button
-                asChild
-                size="lg"
-                variant="secondary"
-              >
-                <a
-                  href="https://forms.gle/FKYyVu4uPfQtL3to7"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Join Our Team
-                </a>
-              </Button>
-            </div>
           </div>
+          <TherapistApplicationForm />
         </div>
       </section>
 

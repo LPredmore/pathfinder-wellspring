@@ -14,7 +14,51 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      therapist_applications: {
+        Row: {
+          created_at: string | null
+          email: string
+          first_name: string
+          id: string
+          last_name: string
+          license_type: string
+          licensed_states: string[]
+          motivation: string
+          phone: string
+          referral_source: string
+          telehealth_experience: boolean
+          weekly_hours: string
+        }
+        Insert: {
+          created_at?: string | null
+          email: string
+          first_name: string
+          id?: string
+          last_name: string
+          license_type: string
+          licensed_states: string[]
+          motivation: string
+          phone: string
+          referral_source: string
+          telehealth_experience: boolean
+          weekly_hours: string
+        }
+        Update: {
+          created_at?: string | null
+          email?: string
+          first_name?: string
+          id?: string
+          last_name?: string
+          license_type?: string
+          licensed_states?: string[]
+          motivation?: string
+          phone?: string
+          referral_source?: string
+          telehealth_experience?: boolean
+          weekly_hours?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
