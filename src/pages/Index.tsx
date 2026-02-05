@@ -1,6 +1,7 @@
 import { Layout } from "@/components/layout";
+import { SEO, OrganizationSchema, MedicalOrganizationSchema } from "@/components/SEO";
 import { Link } from "react-router-dom";
-import { Heart, ExternalLink } from "lucide-react";
+import { Heart } from "lucide-react";
 import heroFamily from "@/assets/hero-family.jpg";
 import womenBanner from "@/assets/valorwell_women_banner_3x1.png";
 import flagSkyBackground from "@/assets/flag-sky-background.png";
@@ -78,7 +79,9 @@ const SectionTitle = ({ children, subtitle }: { children: React.ReactNode; subti
 const Index = () => {
   return (
     <Layout>
-      {/* Hero Section with Full-Width Background */}
+      <SEO canonical="/" />
+      <OrganizationSchema />
+      <MedicalOrganizationSchema />
       <section className="relative">
         {/* Outer wrapper with blank sides */}
         <div className="flex justify-center bg-background">

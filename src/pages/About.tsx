@@ -1,4 +1,5 @@
 import { Layout } from "@/components/layout";
+import { SEO } from "@/components/SEO";
 import { CTABlock } from "@/components/sections";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Target, Heart, Users, Shield, CreditCard, Laptop, Route, ClipboardList, ExternalLink } from "lucide-react";
@@ -53,6 +54,11 @@ const values = [{
 const About = () => {
   return (
     <Layout>
+      <SEO 
+        title="About ValorWell"
+        description="ValorWell provides accessible mental health care for veterans and military families. Learn about our mission, values, and commitment to military-centered care."
+        canonical="/about"
+      />
       {/* Full-page flag background */}
       <div 
         className="relative bg-cover bg-top bg-no-repeat"

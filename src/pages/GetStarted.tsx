@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import { Layout } from "@/components/layout";
+import { SEO } from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -118,6 +119,11 @@ const GetStarted = () => {
 
   return (
     <Layout>
+      <SEO 
+        title="Get Started"
+        description="Begin your mental health journey with ValorWell. Choose therapy or support sessions designed for veterans and military families. CHAMPVA accepted."
+        canonical="/get-started"
+      />
       <section className="section-padding hero-gradient">
         <div className="container-narrow">
           {/* Step 1: Service Selection */}

@@ -1,4 +1,5 @@
 import { Layout } from "@/components/layout";
+import { SEO } from "@/components/SEO";
 import { Hero } from "@/components/sections";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -18,6 +19,11 @@ const Contact = () => {
 
   return (
     <Layout>
+      <SEO 
+        title="Contact Us"
+        description="Contact ValorWell for questions about therapy and support services for veterans and military families. We're here to help you get started."
+        canonical="/contact"
+      />
       <Hero
         title="Contact Us"
         subtitle="Have questions? We're here to help. Reach out and we'll get back to you as soon as possible."
