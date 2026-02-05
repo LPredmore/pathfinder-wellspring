@@ -61,12 +61,15 @@ export function OrganizationSchema() {
     url: SITE_URL,
     logo: `${SITE_URL}/brand/valorwell-logo.png`,
     description: DEFAULT_DESCRIPTION,
-    sameAs: [],
+    sameAs: [
+      // Add social media URLs when available
+      // "https://www.linkedin.com/company/valorwell",
+      // "https://www.facebook.com/valorwell",
+    ],
     contactPoint: {
       "@type": "ContactPoint",
-      telephone: "+1-555-123-4567",
-      contactType: "customer service",
       email: "support@valorwell.org",
+      contactType: "customer service",
       availableLanguage: "English",
     },
     areaServed: {

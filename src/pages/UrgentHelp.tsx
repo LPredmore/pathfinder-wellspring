@@ -1,5 +1,5 @@
 import { Layout } from "@/components/layout";
-import { SEO } from "@/components/SEO";
+import { SEO, BreadcrumbSchema } from "@/components/SEO";
 import { Hero } from "@/components/sections";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Phone, MessageCircle, Globe } from "lucide-react";
@@ -14,9 +14,13 @@ const UrgentHelp = () => (
   <Layout>
     <SEO 
       title="Urgent Help - Crisis Resources"
-      description="If you're in crisis, help is available now. Veterans Crisis Line, Crisis Text Line, and other 24/7 mental health resources for veterans and military families."
+      description="Veterans Crisis Line: 988 Press 1. Immediate mental health crisis resources for veterans, service members, and military families. 24/7 support available."
       canonical="/urgent-help"
     />
+    <BreadcrumbSchema items={[
+      { name: "Home", url: "/" },
+      { name: "Urgent Help", url: "/urgent-help" }
+    ]} />
     <Hero title="Urgent Help" subtitle="If you're in crisis, help is available now." ctaText="" ctaLink="" />
     <section className="section-padding">
       <div className="container-narrow">

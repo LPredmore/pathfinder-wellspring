@@ -1,5 +1,5 @@
 import { Layout } from "@/components/layout";
-import { SEO, ServiceSchema } from "@/components/SEO";
+import { SEO, ServiceSchema, BreadcrumbSchema } from "@/components/SEO";
 import { Hero, StepsSection, CTABlock, ContentSection } from "@/components/sections";
 
 const steps = [
@@ -27,7 +27,7 @@ const Therapy = () => {
     <Layout>
       <SEO 
         title="Therapy for Veterans & Military Families"
-        description="Licensed therapy for veterans and military families. Trauma-informed care, telehealth options, CHAMPVA accepted. Start your healing journey today."
+        description="Licensed LCSW, LMFT, and psychologist therapy for veterans and military families. PTSD treatment, trauma-informed telehealth care. CHAMPVA accepted, no VA referral needed."
         canonical="/therapy"
       />
       <ServiceSchema 
@@ -35,6 +35,10 @@ const Therapy = () => {
         description="Professional, licensed counseling for veterans and military families. Evidence-based treatment with trauma-informed care."
         url="/therapy"
       />
+      <BreadcrumbSchema items={[
+        { name: "Home", url: "/" },
+        { name: "Therapy", url: "/therapy" }
+      ]} />
       <Hero
         title="Therapy that honors your service—and supports your next chapter."
         subtitle="When you’re ready for support, the system can feel slow and confusing. ValorWell makes it easier to connect with licensed therapists who understand military life—and start moving toward peace, strength, and resilience."

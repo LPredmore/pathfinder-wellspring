@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import { Layout } from "@/components/layout";
-import { SEO } from "@/components/SEO";
+import { SEO, BreadcrumbSchema } from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -121,9 +121,13 @@ const GetStarted = () => {
     <Layout>
       <SEO 
         title="Get Started"
-        description="Begin your mental health journey with ValorWell. Choose therapy or support sessions designed for veterans and military families. CHAMPVA accepted."
+        description="Start veteran therapy or support sessions today. Quick intake, fast matching with military-focused therapists. CHAMPVA accepted, telehealth available nationwide."
         canonical="/get-started"
       />
+      <BreadcrumbSchema items={[
+        { name: "Home", url: "/" },
+        { name: "Get Started", url: "/get-started" }
+      ]} />
       <section className="section-padding hero-gradient">
         <div className="container-narrow">
           {/* Step 1: Service Selection */}

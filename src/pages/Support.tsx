@@ -13,7 +13,7 @@ const Support = () => {
     <Layout>
       <SEO
         title="Support Veterans Mental Health"
-        description="Help bring back free mental health care for veterans. Over 120 veterans served through our bridge program. Your donation makes a direct impact."
+        description="Donate to veteran mental health. 501(c)(3) nonprofit helping 120+ veterans access free therapy. Tax-deductible, transparent impact."
         canonical="/support"
       />
       <DonateActionSchema />

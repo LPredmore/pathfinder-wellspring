@@ -1,5 +1,5 @@
 import { Layout } from "@/components/layout";
-import { SEO, FAQSchema } from "@/components/SEO";
+import { SEO, FAQSchema, BreadcrumbSchema } from "@/components/SEO";
 import { FAQSection, CTABlock } from "@/components/sections";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -117,10 +117,14 @@ const FAQ = () => {
     <Layout>
       <SEO 
         title="FAQ - Frequently Asked Questions"
-        description="Get answers about ValorWell's therapy and support services for veterans. Learn about CHAMPVA coverage, telehealth sessions, and how to get started."
+        description="CHAMPVA therapy FAQ: coverage, eligibility, telehealth sessions. Answers for veterans and military families seeking mental health support."
         canonical="/faq"
       />
       <FAQSchema faqs={faqData} />
+      <BreadcrumbSchema items={[
+        { name: "Home", url: "/" },
+        { name: "FAQ", url: "/faq" }
+      ]} />
       {/* Full-page flag background */}
       <div 
         className="relative bg-cover bg-top bg-no-repeat"

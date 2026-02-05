@@ -1,8 +1,8 @@
 import { Layout } from "@/components/layout";
-import { SEO } from "@/components/SEO";
+import { SEO, BreadcrumbSchema } from "@/components/SEO";
 import { CTABlock } from "@/components/sections";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Target, Heart, Users, Shield, CreditCard, Laptop, Route, ClipboardList, ExternalLink } from "lucide-react";
+import { Target, Heart, Users, Shield, CreditCard, Laptop, Route, ClipboardList } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import flagSkyBackground from "@/assets/flag-sky-background-vertical.png";
@@ -56,9 +56,13 @@ const About = () => {
     <Layout>
       <SEO 
         title="About ValorWell"
-        description="ValorWell provides accessible mental health care for veterans and military families. Learn about our mission, values, and commitment to military-centered care."
+        description="ValorWell: Veteran-founded telehealth mental health care. CHAMPVA-accepted therapy and support for military families nationwide. Our story, mission, and values."
         canonical="/about"
       />
+      <BreadcrumbSchema items={[
+        { name: "Home", url: "/" },
+        { name: "About", url: "/about" }
+      ]} />
       {/* Full-page flag background */}
       <div 
         className="relative bg-cover bg-top bg-no-repeat"
@@ -210,15 +214,10 @@ const About = () => {
                   </p>
                 </div>
                 <div className="flex-shrink-0">
-                  <Button asChild size="lg" className="gap-2">
-                    <a 
-                      href="https://forms.gle/FKYyVu4uPfQtL3to7" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                    >
+                  <Button asChild size="lg">
+                    <Link to="/therapists">
                       Apply Now
-                      <ExternalLink className="h-4 w-4" />
-                    </a>
+                    </Link>
                   </Button>
                 </div>
               </div>
