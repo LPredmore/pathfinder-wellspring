@@ -106,20 +106,6 @@ const Therapy = () => {
           </div>
         </div>
 
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-          <a
-            href="/get-started"
-            className="inline-flex items-center justify-center rounded-xl bg-primary px-6 py-3 text-base font-semibold text-primary-foreground shadow-sm hover:opacity-90"
-          >
-            Get Started
-          </a>
-          <a
-            href="/support-sessions"
-            className="inline-flex items-center justify-center rounded-xl border border-border bg-background px-6 py-3 text-base font-semibold text-foreground shadow-sm hover:bg-muted"
-          >
-            Explore Support Sessions
-          </a>
-        </div>
       </ContentSection>
 
       {/* Who it's for */}
