@@ -97,11 +97,11 @@ const Index = () => {
             <div className="relative z-10 px-6 md:px-12 py-16 lg:py-24 flex items-center min-h-[70vh]">
               <div className="max-w-lg">
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-navy leading-tight mb-4">
-                  Your Path to<br />
-                  <span className="italic">Support & Healing</span>
+                  Veteran Mental Health<br />
+                  <span className="italic">Therapy & Support</span>
                 </h1>
                 <p className="text-lg text-muted-foreground mb-8 max-w-md">
-                  Dedicated to veterans, service members, and their families.
+                  CHAMPVA-accepted online therapy for veterans, service members, and military families.
                 </p>
                 <Link
                   to="/get-started"
