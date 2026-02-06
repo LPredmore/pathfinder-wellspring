@@ -228,12 +228,52 @@ export function JobPostingSchema() {
       "@type": "Country",
       name: "United States",
     },
-    datePosted: "2025-01-01",
-    validThrough: "2025-12-31",
+    datePosted: "2026-01-01",
+    validThrough: "2026-12-31",
     qualifications: "Licensed mental health clinician (LCSW, LPC, LMFT, or Psychologist). Experience with trauma-informed care preferred.",
     responsibilities: "Provide telehealth therapy to veterans and military families. Work within CHAMPVA billing framework.",
     industry: "Mental Health Care",
     occupationalCategory: "Mental Health Counselors",
+  };
+
+  return (
+    <Helmet>
+      <script type="application/ld+json">{JSON.stringify(schema)}</script>
+    </Helmet>
+  );
+}
+
+// NonprofitOrganizationSchema for donor discovery
+export function NonprofitOrganizationSchema() {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "NGO",
+    "@id": `${SITE_URL}/#organization`,
+    name: "ValorWell",
+    alternateName: "ValorWell Mental Health",
+    url: SITE_URL,
+    logo: `${SITE_URL}/brand/valorwell-logo.png`,
+    description: "501(c)(3) nonprofit providing free and low-cost mental health care to veterans and military families who can't access VA services.",
+    nonprofitStatus: "Nonprofit501c3",
+    foundingDate: "2023",
+    areaServed: {
+      "@type": "Country",
+      name: "United States",
+    },
+    knowsAbout: [
+      "Veteran mental health",
+      "PTSD treatment",
+      "Military family therapy",
+      "CHAMPVA counseling",
+      "Trauma-informed care",
+    ],
+    slogan: "Mental health care for those who served",
+    contactPoint: {
+      "@type": "ContactPoint",
+      email: "support@valorwell.org",
+      contactType: "donor support",
+      availableLanguage: "English",
+    },
   };
 
   return (
