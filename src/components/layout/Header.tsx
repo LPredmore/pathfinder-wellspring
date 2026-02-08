@@ -88,10 +88,36 @@ export function Header() {
             </Link>
           ))}
 
-          {/* CTA Button */}
+          {/* CTA Buttons */}
           <Button asChild>
             <Link to="/get-started">Get Started</Link>
           </Button>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline">Login</Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem asChild>
+                <a
+                  href="https://client.valorwell.org"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Login as Client
+                </a>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <a
+                  href="https://emr.valorwell.org"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Login as Clinician
+                </a>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
 
         {/* Mobile Menu Button */}
@@ -163,12 +189,42 @@ export function Header() {
               </Link>
             ))}
 
-            {/* CTA Button */}
+            {/* CTA Buttons */}
             <Button asChild className="w-full">
               <Link to="/get-started" onClick={() => setMobileMenuOpen(false)}>
                 Get Started
               </Link>
             </Button>
+
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="w-full">
+                  Login
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="center" className="w-[calc(100vw-2rem)]">
+                <DropdownMenuItem asChild>
+                  <a
+                    href="https://client.valorwell.org"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full"
+                  >
+                    Login as Client
+                  </a>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <a
+                    href="https://emr.valorwell.org"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full"
+                  >
+                    Login as Clinician
+                  </a>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       )}
