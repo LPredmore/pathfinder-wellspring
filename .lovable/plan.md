@@ -1,82 +1,56 @@
 
 
-## Add Login Button with Client/Clinician Options
+## New Page: Creator Challenge — Sponsor a Veteran
 
 ### Overview
 
-Add a "Login" button next to the existing "Get Started" button in the header. When clicked, it displays a dropdown with two options that open external login portals in new tabs.
+Create a new `/competitions` page showcasing the peer-to-peer fundraising competition. The page follows existing patterns (Layout wrapper, SEO component, content sections) and includes three participation paths, milestone info, prize details, and an FAQ accordion.
 
 ---
 
-### Changes to `src/components/layout/Header.tsx`
+### Files to Create
 
-**Desktop Navigation (after the Get Started button):**
-- Add a new `DropdownMenu` component with a "Login" trigger button
-- Style it as an outline variant to differentiate from the primary "Get Started" button
-- Include two dropdown items:
-  - "Login as Client" - opens `https://client.valorwell.org` in a new tab
-  - "Login as Clinician" - opens `https://emr.valorwell.org` in a new tab
+**`src/pages/Competitions.tsx`**
 
-**Mobile Navigation:**
-- Add a similar Login dropdown or expandable section below the "Get Started" button
-- Maintains consistency with the mobile services accordion pattern
+A new page component structured into these sections:
 
----
+1. **Hero section** — H1 "Creator Challenge: Sponsor a Veteran", subtitle about funding real therapy sessions, and the "$50 = 1 session" callout
+2. **Three participation cards** — styled as a 3-column grid (stacking on mobile):
+   - "Compete as a Creator" with bullet points and "Apply to Compete" button linking to `/competitions/apply`
+   - "Support a Creator" with "Support a Creator" button (placeholder link `#support-creator`)
+   - "Sponsor a Session" with suggested gift tiers ($50/$100/$250/$500) and two CTA buttons (placeholder links `#sponsor-session`)
+3. **"What this is"** content section explaining the 30-day competition
+4. **"How it works"** using the existing `StepsSection` component (3 steps: Apply, Fundraise, Donate)
+5. **Eligibility and milestones** section with milestone highlights (10/25/50/Top 5) in a styled list
+6. **Prize section** describing the resort vacation package
+7. **FAQ accordion** using the existing `FAQSection` component with the 6 provided Q&A pairs
+8. **Final CTA block** with three buttons: Sponsor a Session, Support a Creator, Apply to Compete
 
-### Implementation Details
+Uses existing components: `Layout`, `SEO`, `BreadcrumbSchema`, `ContentSection`, `StepsSection`, `FAQSection`, `CTABlock`-style patterns, `Button`, `Card`.
 
-**Desktop (lines 91-95):**
-```tsx
-{/* CTA Buttons */}
-<Button asChild>
-  <Link to="/get-started">Get Started</Link>
-</Button>
-
-<DropdownMenu>
-  <DropdownMenuTrigger asChild>
-    <Button variant="outline">Login</Button>
-  </DropdownMenuTrigger>
-  <DropdownMenuContent align="end">
-    <DropdownMenuItem asChild>
-      <a 
-        href="https://client.valorwell.org" 
-        target="_blank" 
-        rel="noopener noreferrer"
-      >
-        Login as Client
-      </a>
-    </DropdownMenuItem>
-    <DropdownMenuItem asChild>
-      <a 
-        href="https://emr.valorwell.org" 
-        target="_blank" 
-        rel="noopener noreferrer"
-      >
-        Login as Clinician
-      </a>
-    </DropdownMenuItem>
-  </DropdownMenuContent>
-</DropdownMenu>
-```
-
-**Mobile (after line 171):**
-- Add a Login button with dropdown functionality
-- Uses same pattern as the Services accordion for consistency
+Placeholder links will use `#support-creator` and `#sponsor-session` with `TODO` comments for the Zeffy URLs.
 
 ---
 
-### Visual Result
+### Files to Modify
 
-| Location | Before | After |
-|----------|--------|-------|
-| Desktop Header | `[Get Started]` | `[Get Started] [Login ▼]` |
-| Mobile Menu | `[Get Started]` | `[Get Started]` + `[Login ▼]` |
+**`src/App.tsx`**
+
+- Import the new `Competitions` component
+- Add route: `<Route path="/competitions" element={<Competitions />} />`
 
 ---
 
-### Files Changed
+### Technical Details
 
-| File | Changes |
-|------|---------|
-| `src/components/layout/Header.tsx` | Add Login dropdown to desktop nav (after Get Started), add Login section to mobile menu |
+| Aspect | Detail |
+|--------|--------|
+| SEO title | "Creator Challenge: Sponsor a Veteran \| ValorWell" |
+| SEO description | As provided in the brief |
+| Canonical | `/competitions` |
+| Schema | `BreadcrumbSchema` (Home > Competitions) |
+| Placeholder links | Zeffy links marked with `#sponsor-session` and `#support-creator` with TODO comments |
+| Pattern followed | Same Layout + SEO + section structure as `/therapy` and `/support` pages |
+| FAQ | Rendered via existing `FAQSection` accordion component |
+| Participation cards | `Card` components in a responsive grid |
 
