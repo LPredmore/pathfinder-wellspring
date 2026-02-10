@@ -1,42 +1,64 @@
 
 
-## Competitions Page Updates + Footer Link
+## New Page: Wall of Advocates (`/advocates`)
 
-### 1. Remove two FAQ items
-Remove "Is my donation tax-deductible?" and "What is Zeffy's optional checkout tip?" from the `faqItems` array, leaving 4 FAQ entries.
+### Overview
 
-### 2. Update "Where does the money go?" answer
-Change to: "Donations fund mental health therapy sessions for veterans through the Bridge Program. Every dollar goes to pay for actual therapy sessions for a veteran in need. This is what makes us different."
+Create a new `/advocates` page following the same patterns as the Competitions page. The page is a "coming soon" landing page that honors creators funding veteran therapy sessions, with CTAs to participate and an email signup form.
 
-### 3. Remove "(provided through LuxGive)" from Prize section
-Change the prize text to: "The top fundraiser wins a romantic resort vacation package in Mexico. Full prize details and terms are provided on the application page."
+---
 
-### 4. Update "Sponsor a Session" and "Become a Monthly Sponsor" links
-All three buttons (card footer + final CTA) currently linking to `#sponsor-session` will link to `https://valorwell.org/donate` instead, opening in a new tab.
+### Files to Create
 
-### 5. "Support a Creator" buttons show toast notification
-Both "Support a Creator" buttons (card + final CTA) will become regular buttons (not links) that trigger a Sonner toast: "Competition starts on March 1, 2026". Import `toast` from `sonner`.
+**`src/pages/Advocates.tsx`**
 
-### 6. Add "Competition" link to footer
-Add a new entry `{ name: "Competition", href: "/competitions" }` to the `getInvolved` array in `Footer.tsx`, with a `Trophy` icon.
+Sections in order:
 
-### 7. Add resort prize images
-Copy all 5 uploaded images to `src/assets/` and add a visually striking image gallery in the Prize section — a full-width hero-style showcase with a large featured image and smaller thumbnails below, placed right after the prize description text.
+1. **Hero** -- H1 "Wall of Advocates", subtitle about honoring people funding sessions, "$50 sponsors 1 therapy session" badge, and two buttons at the top: "Support a Creator" (toast: "Competition starts on March 1, 2026") and "Sponsor a Session" (links to `https://valorwell.org/donate`)
+
+2. **"What you'll see here"** -- A grid of 4 items with icons showing what the Wall will feature once live:
+   - Explore creator profiles and "Why I'm here" videos
+   - See how many sessions each advocate helped fund
+   - Support an advocate directly through their fundraising page
+   - Celebrate the community making direct care possible
+
+3. **"How to get featured"** -- Content section explaining the 25-session ($1,250) threshold, with "Apply to Compete" button linking to `/competitions/apply`
+
+4. **"Support the current challenge"** -- Two cards side by side:
+   - "Support a Creator" card with toast notification button
+   - "Sponsor Sessions Directly" card with link to `https://valorwell.org/donate`
+
+5. **Email signup form** -- "Get notified when the Wall launches" section with:
+   - Email input field
+   - Optional "I'm a creator" checkbox
+   - "Get Updates" submit button (shows a success toast on submit for now -- no backend wiring)
+   - Privacy note in small text below
+
+6. **Final line** -- Centered italic text: "This page exists for one reason: to honor the people who turn support into real treatment sessions."
+
+---
+
+### Files to Modify
+
+**`src/App.tsx`**
+- Import `Advocates` from `./pages/Advocates`
+- Add route: `<Route path="/advocates" element={<Advocates />} />`
+
+**`src/components/layout/Footer.tsx`**
+- Add "Wall of Advocates" link to the `getInvolved` array with an `Award` icon (already imported)
 
 ---
 
 ### Technical Details
 
-**Files modified:**
-| File | Changes |
-|------|---------|
-| `src/pages/Competitions.tsx` | Remove 2 FAQ items, update FAQ answer, update prize text, update button links, add toast for "Support a Creator", add image gallery in Prize section |
-| `src/components/layout/Footer.tsx` | Add "Competition" link with Trophy icon to Get Involved column |
-
-**New assets (copied from uploads):**
-- `src/assets/resort-beach.png`
-- `src/assets/resort-dinner.png`
-- `src/assets/resort-pool-sunset.png`
-- `src/assets/resort-pool-day.png`
-- `src/assets/resort-infinity.png`
+| Aspect | Detail |
+|--------|--------|
+| SEO title | "Wall of Advocates \| ValorWell" |
+| SEO description | As provided in the brief |
+| Canonical | `/advocates` |
+| Schema | `BreadcrumbSchema` (Home > Wall of Advocates) |
+| "Support a Creator" buttons | Trigger sonner toast: "Competition starts on March 1, 2026" (same pattern as Competitions page) |
+| "Sponsor a Session" buttons | Link to `https://valorwell.org/donate` in new tab |
+| Email form | Client-side only for now -- shows success toast on submit, no Supabase integration |
+| Components used | `Layout`, `SEO`, `BreadcrumbSchema`, `ContentSection`, `Button`, `Card`, `Input`, `Checkbox`, `Label`, `toast` from sonner |
 
