@@ -19,9 +19,7 @@ const footerLinks = {
 };
 
 const contactInfo = [
-  { icon: Phone, label: "Call", href: "tel:+18005551234" },
-  { icon: Mail, label: "Email", href: "mailto:contact@valorwell.com" },
-  { icon: MapPin, label: "Location", href: "/contact" },
+  { icon: Mail, label: "info@valorwell.org", href: "mailto:info@valorwell.org" },
 ];
 
 const getInvolvedIcons: Record<string, typeof Briefcase> = {
