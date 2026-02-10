@@ -5,27 +5,24 @@ import { ContentSection, StepsSection, FAQSection } from "@/components/sections"
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
 import { Trophy, Users, Heart, Star, Mic, Award } from "lucide-react";
+import { toast } from "sonner";
+
+import resortBeach from "@/assets/resort-beach.png";
+import resortDinner from "@/assets/resort-dinner.png";
+import resortPoolSunset from "@/assets/resort-pool-sunset.png";
+import resortPoolDay from "@/assets/resort-pool-day.png";
+import resortInfinity from "@/assets/resort-infinity.png";
 
 const faqItems = [
   {
-    question: "Is my donation tax-deductible?",
-    answer:
-      "ValorWell is a registered 501(c)(3) nonprofit. Donations are generally tax-deductible to the extent allowed by law. A receipt will be provided during checkout.",
-  },
-  {
     question: "Where does the money go?",
     answer:
-      "Donations fund mental health therapy sessions for veterans through the Bridge Program.",
+      "Donations fund mental health therapy sessions for veterans through the Bridge Program. Every dollar goes to pay for actual therapy sessions for a veteran in need. This is what makes us different.",
   },
   {
     question: "Why monthly sponsorship matters",
     answer:
       "Monthly sponsors create predictability—helping fund sessions consistently and plan ahead for veterans who need continued support.",
-  },
-  {
-    question: "What is Zeffy's optional checkout tip?",
-    answer:
-      "Zeffy is fee-free for nonprofits. Donors may see an optional tip during checkout and can adjust it (including to $0) if they prefer.",
   },
   {
     question: "Can I support a creator and still fund sessions?",
@@ -66,6 +63,18 @@ const milestones = [
   { icon: Mic, count: "50 sessions funded", label: "Podcast feature" },
   { icon: Award, count: "Top 5", label: "Finalist spotlight" },
 ];
+
+const galleryImages = [
+  { src: resortPoolSunset, alt: "Resort pool at sunset" },
+  { src: resortBeach, alt: "Resort beachfront" },
+  { src: resortDinner, alt: "Resort dining experience" },
+  { src: resortPoolDay, alt: "Resort pool during the day" },
+  { src: resortInfinity, alt: "Resort infinity pool view" },
+];
+
+const handleSupportCreator = () => {
+  toast("Competition starts on March 1, 2026");
+};
 
 export default function Competitions() {
   return (
@@ -147,9 +156,8 @@ export default function Competitions() {
                 </p>
               </CardContent>
               <CardFooter>
-                {/* TODO: Replace with Zeffy leaderboard link */}
-                <Button asChild variant="secondary" className="w-full">
-                  <a href="#support-creator">Support a Creator</a>
+                <Button variant="secondary" className="w-full" onClick={handleSupportCreator}>
+                  Support a Creator
                 </Button>
               </CardFooter>
             </Card>
@@ -173,12 +181,11 @@ export default function Competitions() {
                 </div>
               </CardContent>
               <CardFooter className="flex-col gap-2">
-                {/* TODO: Replace with Zeffy main campaign link */}
                 <Button asChild className="w-full">
-                  <a href="#sponsor-session">Sponsor a Session</a>
+                  <a href="https://valorwell.org/donate" target="_blank" rel="noopener noreferrer">Sponsor a Session</a>
                 </Button>
                 <Button asChild variant="outline" className="w-full">
-                  <a href="#sponsor-session">Become a Monthly Sponsor</a>
+                  <a href="https://valorwell.org/donate" target="_blank" rel="noopener noreferrer">Become a Monthly Sponsor</a>
                 </Button>
               </CardFooter>
             </Card>
@@ -235,10 +242,31 @@ export default function Competitions() {
       {/* Prize */}
       <ContentSection title="Prize">
         <p>
-          The top fundraiser wins a romantic resort vacation package in Mexico
-          (provided through LuxGive). Full prize details and terms are provided
-          on the application page.
+          The top fundraiser wins a romantic resort vacation package in Mexico.
+          Full prize details and terms are provided on the application page.
         </p>
+
+        {/* Resort Image Gallery */}
+        <div className="mt-8">
+          <div className="rounded-xl overflow-hidden shadow-lg">
+            <img
+              src={galleryImages[0].src}
+              alt={galleryImages[0].alt}
+              className="w-full h-64 md:h-96 object-cover"
+            />
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3">
+            {galleryImages.slice(1).map((img) => (
+              <div key={img.alt} className="rounded-lg overflow-hidden shadow-md">
+                <img
+                  src={img.src}
+                  alt={img.alt}
+                  className="w-full h-32 md:h-40 object-cover hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
       </ContentSection>
 
       {/* FAQ */}
@@ -255,13 +283,11 @@ export default function Competitions() {
             it.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            {/* TODO: Replace with Zeffy main campaign link */}
             <Button asChild size="lg">
-              <a href="#sponsor-session">Sponsor a Session</a>
+              <a href="https://valorwell.org/donate" target="_blank" rel="noopener noreferrer">Sponsor a Session</a>
             </Button>
-            {/* TODO: Replace with Zeffy leaderboard link */}
-            <Button asChild size="lg" variant="secondary">
-              <a href="#support-creator">Support a Creator</a>
+            <Button size="lg" variant="secondary" onClick={handleSupportCreator}>
+              Support a Creator
             </Button>
             <Button asChild size="lg" variant="outline">
               <Link to="/competitions/apply">Apply to Compete</Link>
