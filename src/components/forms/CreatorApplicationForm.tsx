@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Progress } from "@/components/ui/progress";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
   SelectContent,
@@ -84,6 +85,7 @@ const formSchema = z.object({
   comfortLevel: z.string().min(1, "Select your comfort level"),
   fundraisingGoal: z.string().min(1, "Select a fundraising goal"),
   additionalInfo: z.string().trim().max(5000).optional(),
+  acceptedRules: z.literal(true, { errorMap: () => ({ message: "You must accept the official rules to continue" }) }),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -93,6 +95,7 @@ const STEP_TITLES = [
   "Social Profiles",
   "Fit & Motivation",
   "Fundraising Readiness",
+  "Official Rules / Prize Terms",
 ];
 
 const STEP_FIELDS: (keyof FormData | string)[][] = [
@@ -100,6 +103,7 @@ const STEP_FIELDS: (keyof FormData | string)[][] = [
   ["socialProfiles"],
   ["motivation"],
   ["willingToShare", "comfortLevel", "fundraisingGoal"],
+  ["acceptedRules"],
 ];
 
 interface CreatorApplicationFormProps {
@@ -133,6 +137,7 @@ export function CreatorApplicationForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       socialProfiles: [{ platform: "", handle: "", followers: 0 }],
+      acceptedRules: false as any,
     },
   });
 
@@ -196,6 +201,13 @@ export function CreatorApplicationForm({
         motivation: data.motivation,
         veteran_connection: data.veteranConnection || null,
       };
+    } else if (step === 3) {
+      updatePayload = {
+        willing_to_share: data.willingToShare === "yes",
+        comfort_level: data.comfortLevel,
+        fundraising_goal: data.fundraisingGoal,
+        additional_info: data.additionalInfo || null,
+      };
     }
 
     const { error } = await supabase
@@ -230,6 +242,7 @@ export function CreatorApplicationForm({
       comfort_level: data.comfortLevel,
       fundraising_goal: data.fundraisingGoal,
       additional_info: data.additionalInfo || null,
+      accepted_rules: true,
       status: "new",
     };
 
@@ -311,8 +324,8 @@ export function CreatorApplicationForm({
 
             {/* Progress */}
             <div className="space-y-1">
-              <p className="text-sm text-muted-foreground text-center">Step {currentStep + 1} of 4</p>
-              <Progress value={((currentStep + 1) / 4) * 100} className="h-2" />
+              <p className="text-sm text-muted-foreground text-center">Step {currentStep + 1} of 5</p>
+              <Progress value={((currentStep + 1) / 5) * 100} className="h-2" />
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -514,6 +527,65 @@ export function CreatorApplicationForm({
                 </div>
               )}
 
+              {/* Step 5 — Official Rules / Prize Terms */}
+              {currentStep === 4 && (
+                <div className="space-y-4">
+                  <h3 className="text-lg font-bold text-foreground">Official Rules — Creator Challenge: Sponsor a Veteran</h3>
+                  <div className="max-h-[40vh] overflow-y-auto rounded-md border p-4 space-y-4 text-sm text-muted-foreground">
+                    <div>
+                      <p className="font-bold text-foreground">Eligibility</p>
+                      <ul className="list-disc ml-5 mt-1 space-y-1">
+                        <li>Participation is subject to approval by ValorWell.</li>
+                        <li>Creators must follow platform policies and represent the campaign accurately.</li>
+                      </ul>
+                    </div>
+                    <div>
+                      <p className="font-bold text-foreground">Competition Period</p>
+                      <p className="mt-1">Start: March 1, 2026 — End: March 31, 2026</p>
+                    </div>
+                    <div>
+                      <p className="font-bold text-foreground">How Winner Is Determined</p>
+                      <ul className="list-disc ml-5 mt-1 space-y-1">
+                        <li>Winner = eligible creator with the highest net funds raised by the deadline.</li>
+                        <li>Net funds = total donations minus refunds/chargebacks.</li>
+                        <li>ValorWell may disqualify participants for fraud, misrepresentation, harassment, or attempts to manipulate totals.</li>
+                      </ul>
+                    </div>
+                    <div>
+                      <p className="font-bold text-foreground">Minimum to Qualify for Prize</p>
+                      <p className="mt-1">To qualify for the grand prize, creators must raise at least $1,250 (25 sessions) during the competition period.</p>
+                    </div>
+                    <div>
+                      <p className="font-bold text-foreground">Prize Provider</p>
+                      <p className="mt-1">Prize is fulfilled by LuxGive. Winner redeems and schedules directly with LuxGive.</p>
+                    </div>
+                    <div>
+                      <p className="font-bold text-foreground">Prize Terms Summary (Riviera Maya Magic)</p>
+                      <ul className="list-disc ml-5 mt-1 space-y-1">
+                        <li>4 nights / 2 guests, Puerto Morelos (Riviera Maya), Mexico.</li>
+                        <li>12 months to confirm travel; subject to availability/blackout dates.</li>
+                        <li>Max occupancy two adults; lead guest must be 25+.</li>
+                        <li>Hotel taxes at checkout; airfare/transport not included.</li>
+                        <li>Non-transferable; reservations final once confirmed.</li>
+                      </ul>
+                    </div>
+                    <p className="italic">Full terms appear on the winner certificate.</p>
+                  </div>
+
+                  <div className="flex items-start space-x-2 pt-2">
+                    <Checkbox
+                      id="ca-acceptedRules"
+                      checked={watch("acceptedRules") === true}
+                      onCheckedChange={(checked) => setValue("acceptedRules", checked === true ? true : false as any, { shouldValidate: true })}
+                    />
+                    <Label htmlFor="ca-acceptedRules" className="font-normal cursor-pointer leading-snug">
+                      I have read and agree to the Official Rules and Prize Terms *
+                    </Label>
+                  </div>
+                  {errors.acceptedRules && <p className="text-sm text-destructive">{errors.acceptedRules.message}</p>}
+                </div>
+              )}
+
               {submitError && <p className="text-sm text-destructive text-center">{submitError}</p>}
 
               {/* Navigation */}
@@ -525,7 +597,7 @@ export function CreatorApplicationForm({
                 ) : (
                   <div />
                 )}
-                {currentStep < 3 ? (
+                {currentStep < 4 ? (
                   <Button type="button" onClick={handleNext}>
                     Next
                   </Button>
