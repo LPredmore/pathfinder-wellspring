@@ -1,8 +1,10 @@
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Layout } from "@/components/layout";
-import { Heart, ExternalLink } from "lucide-react";
+import { SEO, DonateActionSchema, BreadcrumbSchema } from "@/components/SEO";
+import { ContentSection } from "@/components/sections";
 import { Button } from "@/components/ui/button";
-import { SEO, DonateActionSchema, VideoObjectSchema, BreadcrumbSchema } from "@/components/SEO";
+import { CheckCircle, BarChart3, TrendingUp, Trophy } from "lucide-react";
 
 const Support = () => {
   useEffect(() => {
@@ -12,140 +14,199 @@ const Support = () => {
   return (
     <Layout>
       <SEO
-        title="Support Veterans Mental Health"
-        description="Donate to veteran mental health. 501(c)(3) nonprofit helping 120+ veterans access free therapy. Tax-deductible, transparent impact."
+        title="Support the Bridge Program"
+        description="Help fund real mental health therapy sessions for veterans through ValorWell's Bridge Program. $50 sponsors 1 session. Become a monthly sponsor or give once."
         canonical="/support"
       />
       <DonateActionSchema />
-      <VideoObjectSchema
-        name="ValorWell Story"
-        description="Learn how ValorWell provided free mental health care to over 120 veterans and why we need your support to continue."
-        embedUrl="https://www.youtube.com/embed/yY_Ybhg3URg"
+      <BreadcrumbSchema
+        items={[
+          { name: "Home", url: "/" },
+          { name: "Support the Bridge Program", url: "/support" },
+        ]}
       />
-      <BreadcrumbSchema items={[
-        { name: "Home", url: "/" },
-        { name: "Support", url: "/support" }
-      ]} />
-      <section className="hero-gradient section-padding text-center">
-        <div className="container-narrow">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-6">
-            We Did Something. Now We Need You.
+
+      {/* Hero */}
+      <section className="section-padding bg-primary/5">
+        <div className="container-wide text-center">
+          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+            Support the Bridge Program
           </h1>
-          
-          {/* YouTube Shorts Embed - 9:16 aspect ratio */}
-          <div className="mx-auto max-w-xs w-full mt-8">
-            <iframe
-              className="w-full aspect-[9/16] rounded-xl shadow-lg"
-              src="https://www.youtube.com/embed/yY_Ybhg3URg"
-              title="ValorWell Story"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* The Story - Emotional Narrative */}
-      <section className="section-alt section-padding">
-        <div className="container-narrow">
-          <div className="prose prose-lg max-w-none space-y-6 text-foreground">
-            <p className="text-lg leading-relaxed">
-              For years, veterans have been told to wait. Months-long backlogs at the VA. 
-              Community care referrals that go nowhere. We built a bridge program to help 
-              them start healing <em>now</em>—not in six months, not after another crisis.
-            </p>
-            
-            <div className="bg-primary/5 border-l-4 border-primary p-6 rounded-r-lg my-8">
-              <p className="text-2xl md:text-3xl font-bold text-primary mb-2">
-                Over 120 veterans
-              </p>
-              <p className="text-muted-foreground">
-                received months of treatment through this program—completely free. 
-                We funded it ourselves, out of our own pockets, because we believed 
-                someone had to do something.
-              </p>
-            </div>
-            
-            <p className="text-lg leading-relaxed">
-              We had to stop. Not because it didn't work. Not because veterans stopped 
-              needing help. We stopped because we ran out of runway. We couldn't keep 
-              funding it alone.
-            </p>
-            
-            <p className="text-lg leading-relaxed text-muted-foreground italic">
-              For years, we've heard people say they wish someone would do something. 
-              That there should be a solution. We did. We built it. And then the real 
-              problem showed up: <strong className="text-foreground not-italic">it's not that solutions don't exist—it's 
-              that they don't get supported.</strong>
-            </p>
-            
-            <p className="text-lg leading-relaxed">
-              We still believe in this. We believe the right people are out there—people 
-              who don't just wish things were different, but who act. If that's you, 
-              we need your help to bring this program back.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Clarification Section */}
-      <section className="section-padding bg-white">
-        <div className="container-narrow">
-          <div className="bg-cream-50 border border-border/50 rounded-xl p-6 md:p-8">
-            <h3 className="text-xl md:text-2xl font-bold text-navy mb-4">
-              ValorWell Is Still Here
-            </h3>
-            <p className="text-lg leading-relaxed text-foreground mb-4">
-              Our mission continues. ValorWell still provides high-quality mental health care 
-              to military families covered through CHAMPVA and other VA family programs. That 
-              work hasn't stopped.
-            </p>
-            <p className="text-muted-foreground">
-              What we can't continue—without support—is our bridge program: the initiative 
-              that helped veterans who fell through the cracks, who couldn't get into the VA 
-              system, who had no other options. <strong className="text-foreground">That's what 
-              your donation brings back.</strong>
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Donation CTA Block */}
-      <section className="bg-navy section-padding text-center">
-        <div className="container-narrow">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/10 mb-6">
-            <Heart className="w-8 h-8 text-white" fill="currentColor" />
-          </div>
-          
-          <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
-            Be the Difference
-          </h2>
-          
-          <p className="text-white/80 mb-8 max-w-lg mx-auto">
-            Every dollar goes directly toward providing free mental health care 
-            to veterans who can't wait.
+          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-6">
+            Fund real therapy sessions for veterans—when support can't wait.
           </p>
-          
-          <Button
-            asChild
-            size="lg"
-            className="bg-patriot-red hover:bg-patriot-red/90 text-white text-lg px-8 py-6"
-          >
-            <a 
-              href="/donate"
-              className="inline-flex items-center gap-2"
+          <p className="text-muted-foreground max-w-xl mx-auto mb-6 text-sm">
+            ValorWell's Bridge Program helps fund mental health therapy sessions
+            for veterans during gaps in access and delays in care. This is direct
+            support—measured in sessions funded.
+          </p>
+          <div className="inline-block rounded-lg bg-primary text-primary-foreground px-6 py-3 text-lg font-semibold mb-8">
+            $50 sponsors 1 therapy session
+          </div>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Button asChild size="lg">
+              <a
+                href="https://valorwell.org/donate"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Sponsor a Session
+              </a>
+            </Button>
+            <Button asChild size="lg" variant="outline">
+              <a
+                href="https://valorwell.org/donate"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Become a Monthly Sponsor
+              </a>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* What the Bridge Program Does */}
+      <ContentSection title="What the Bridge Program Does">
+        <p>
+          The Bridge Program exists for one reason: to get veterans support
+          now—not only after months of waiting, paperwork, or scheduling
+          barriers.
+        </p>
+        <p className="mt-4">
+          Your donation helps fund therapy sessions that veterans can use while
+          longer timelines play out.
+        </p>
+      </ContentSection>
+
+      {/* Why Continued Support Matters */}
+      <ContentSection title="Why Continued Support Matters" variant="alt">
+        <p>
+          One-time donations help. Continued support changes what we can reliably
+          do.
+        </p>
+        <p className="mt-4 font-medium text-foreground">
+          Monthly sponsorship:
+        </p>
+        <ul className="mt-3 space-y-3">
+          {[
+            "Creates predictable funding for sessions",
+            "Helps prevent interruptions in care",
+            "Allows planning for veterans who need ongoing support",
+            "Builds a stable bridge that doesn't depend on one-time spikes",
+          ].map((item) => (
+            <li key={item} className="flex items-start gap-3">
+              <CheckCircle className="h-5 w-5 text-primary mt-0.5 shrink-0" />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+        <p className="mt-6 font-medium text-foreground">
+          If you've ever wanted to help veterans in a way that is measurable and
+          immediate, this is it.
+        </p>
+      </ContentSection>
+
+      {/* What Your Gift Funds */}
+      <section className="section-padding">
+        <div className="container-wide">
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8">
+            What Your Gift Funds
+          </h2>
+
+          <div className="grid grid-cols-2 gap-3 max-w-md mb-8">
+            {[
+              { amount: "$50", sessions: "1 session" },
+              { amount: "$100", sessions: "2 sessions" },
+              { amount: "$250", sessions: "5 sessions" },
+              { amount: "$500", sessions: "10 sessions" },
+            ].map((tier) => (
+              <span
+                key={tier.amount}
+                className="rounded bg-muted px-4 py-2.5 text-center font-medium text-foreground"
+              >
+                {tier.amount} = {tier.sessions}
+              </span>
+            ))}
+          </div>
+
+          <h3 className="text-lg font-semibold text-foreground mb-4">
+            Suggested monthly sponsorships
+          </h3>
+          <ul className="space-y-2 text-muted-foreground mb-8">
+            <li className="flex items-center gap-2">
+              <span className="font-medium text-foreground">$50/month</span> —
+              Sponsor 1 session each month
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="font-medium text-foreground">$100/month</span> —
+              Sponsor 2 sessions each month
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="font-medium text-foreground">$250/month</span> —
+              Sponsor 5 sessions each month
+            </li>
+          </ul>
+
+          <Button asChild size="lg">
+            <a
+              href="https://valorwell.org/donate"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              Donate Now
+              Sponsor Sessions Now
             </a>
           </Button>
         </div>
       </section>
 
-      {/* Closing Note */}
+      {/* Other Ways to Help */}
+      <ContentSection title="Other Ways to Help" variant="alt">
+        <p className="mb-4">
+          Not everyone can give financially. These actions still help fund
+          sessions:
+        </p>
+        <ul className="space-y-2 list-disc list-inside">
+          <li>Share the campaign with someone who supports veterans</li>
+          <li>
+            Encourage a creator to join the competition and fundraise
+          </li>
+          <li>
+            Invite your workplace or community group to sponsor a set number of
+            sessions
+          </li>
+        </ul>
+        <div className="mt-6">
+          <Button asChild variant="outline">
+            <Link to="/competitions">View Competitions</Link>
+          </Button>
+        </div>
+      </ContentSection>
+
+      {/* Transparency and Accountability */}
       <section className="section-padding">
-        <div className="container-narrow text-center">
-          <p className="text-muted-foreground italic">
-            Thank you for reading this far. It means more than you know.
+        <div className="container-wide">
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
+            Transparency and Accountability
+          </h2>
+          <p className="text-muted-foreground mb-6">
+            We believe support should be clear and measurable. Our reporting
+            focuses on:
+          </p>
+          <ul className="space-y-3 mb-6">
+            {[
+              { icon: BarChart3, label: "Sessions funded" },
+              { icon: TrendingUp, label: "Monthly sponsor growth" },
+              { icon: Trophy, label: "Creator challenge outcomes and totals" },
+            ].map((item) => (
+              <li key={item.label} className="flex items-center gap-3 text-muted-foreground">
+                <item.icon className="h-5 w-5 text-primary shrink-0" />
+                <span>{item.label}</span>
+              </li>
+            ))}
+          </ul>
+          <p className="text-sm text-muted-foreground italic">
+            (We'll publish updates as the program grows.)
           </p>
         </div>
       </section>
