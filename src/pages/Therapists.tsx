@@ -1,35 +1,122 @@
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Layout } from "@/components/layout";
-import { CTABlock } from "@/components/sections";
+import { CTABlock, StepsSection, FAQSection } from "@/components/sections";
 import { Card, CardContent } from "@/components/ui/card";
-import { Heart, Shield, Video, Users } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { Skeleton } from "@/components/ui/skeleton";
+import {
+  DollarSign,
+  FileX,
+  CalendarClock,
+  ShieldCheck,
+  ClipboardCheck,
+  LifeBuoy,
+  Lock,
+  Rocket,
+  CheckCircle,
+} from "lucide-react";
 import flagSkyBackground from "@/assets/flag-sky-background-vertical.png";
 import { TherapistApplicationForm } from "@/components/forms/TherapistApplicationForm";
 import { SEO, JobPostingSchema, BreadcrumbSchema } from "@/components/SEO";
+import { supabase } from "@/integrations/supabase/client";
 
-const differentiators = [
+function extractYouTubeId(url: string): string | null {
+  // /shorts/ID
+  let match = url.match(/\/shorts\/([a-zA-Z0-9_-]+)/);
+  if (match) return match[1];
+  // watch?v=ID
+  match = url.match(/[?&]v=([a-zA-Z0-9_-]+)/);
+  if (match) return match[1];
+  // youtu.be/ID
+  match = url.match(/youtu\.be\/([a-zA-Z0-9_-]+)/);
+  if (match) return match[1];
+  return null;
+}
+
+const clinicianBenefits = [
   {
-    title: "Military-Centered Culture",
-    description: "We don't just accept veterans—we're built around them. Our entire organization understands the weight of service.",
-    icon: Shield,
+    title: "Paid Weekly",
+    description: "Paid weekly—predictable payout timing. No waiting on claims cycles.",
+    icon: DollarSign,
   },
   {
-    title: "CHAMPVA Infrastructure",
-    description: "We've already done the hard work. Our billing, credentialing, and systems are built for military family coverage.",
-    icon: Heart,
+    title: "No Billing Hassle",
+    description: "No billing, no collections, and no insurance phone tag. You focus on care—we handle claims, documentation routing, and payment workflows.",
+    icon: FileX,
   },
   {
-    title: "Telehealth-First",
-    description: "Serve clients from anywhere. Our platform is designed for flexibility—yours and theirs.",
-    icon: Video,
+    title: "Schedule Autonomy",
+    description: "Set your availability. Telehealth-first. Build a caseload that fits your life.",
+    icon: CalendarClock,
   },
   {
-    title: "Community of Clinicians",
-    description: "Join a team of like-minded professionals who share your commitment to this population.",
-    icon: Users,
+    title: "Clinical Autonomy & Respect",
+    description: "Your license matters. We support high-quality care and ethical standards—without second-guessing your clinical judgment.",
+    icon: ShieldCheck,
+  },
+  {
+    title: "Documentation That Respects Your Time",
+    description: "Streamlined notes, templates designed with clinicians, and tools that speed up routine admin—so documentation doesn't ruin your evenings.",
+    icon: ClipboardCheck,
+  },
+  {
+    title: "Support for Complex Cases",
+    description: "Fast consult pathways, escalation support, and clear crisis protocols—so you're not alone when cases get complex.",
+    icon: LifeBuoy,
+  },
+  {
+    title: "Clear Boundaries",
+    description: "We don't push you to practice outside your scope or comfort. You choose what types of clients you want, without question.",
+    icon: Lock,
+  },
+  {
+    title: "Fast, Clear Onboarding",
+    description: "Simple onboarding, clear steps, and a real point of contact.",
+    icon: Rocket,
   },
 ];
 
+const howItWorksSteps = [
+  { number: 1, title: "Apply (2–4 minutes)", description: "Complete a short application so we can learn about your background and interests." },
+  { number: 2, title: "Quick review and follow-up", description: "Our team reviews your application and reaches out with next steps." },
+  { number: 3, title: "Onboarding + system access", description: "Get set up with our platform, documentation tools, and support resources." },
+  { number: 4, title: "Start seeing clients as availability matches", description: "Begin working with veterans and military families on your schedule." },
+];
+
+const faqItems = [
+  { question: "Is this fully remote?", answer: "Yes—telehealth-first." },
+  { question: "Do I have to handle insurance billing?", answer: "No. We handle billing workflows so you can focus on care." },
+  { question: "How do I get started?", answer: "Click Apply and complete the application. We'll follow up with next steps." },
+];
+
+const whoThisIsFor = [
+  "Telehealth clinicians who want meaningful work with veterans and military families",
+  "Clinicians who value autonomy, professionalism, and clear boundaries",
+  "Clinicians who want predictable pay and less admin friction",
+  "Clinicians who want strong systems for documentation and escalation support",
+];
+
 const Therapists = () => {
+  const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
+
+  const { data: videoUrl, isLoading: isVideoLoading } = useQuery({
+    queryKey: ["site_config", "therapists_video_url"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("site_config" as any)
+        .select("value")
+        .eq("key", "therapists_video_url")
+        .single();
+      if (error) throw error;
+      return (data as any)?.value as string;
+    },
+  });
+
+  const videoId = videoUrl ? extractYouTubeId(videoUrl) : null;
+
   return (
     <Layout>
       <SEO
@@ -42,12 +129,12 @@ const Therapists = () => {
         { name: "Home", url: "/" },
         { name: "Join Our Team", url: "/therapists" }
       ]} />
+
       {/* Full-page flag background */}
       <div
         className="relative bg-cover bg-top bg-no-repeat"
         style={{ backgroundImage: `url(${flagSkyBackground})` }}
       >
-        {/* Subdued overlay */}
         <div className="absolute inset-0 bg-white/70" />
 
         {/* Hero Section */}
@@ -55,16 +142,41 @@ const Therapists = () => {
           <div className="container-wide">
             <div className="max-w-3xl mx-auto text-center animate-fade-in">
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground">
-                Your Clinical Skills Deserve a Bigger Mission
+                Work With Veterans. Do the Clinical Work You Trained For.
               </h1>
               <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
+                Paid weekly. No billing hassle. Telehealth-first. Real clinical autonomy.
+              </p>
+              <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+                <Button size="lg" onClick={() => setIsApplyModalOpen(true)}>
+                  Apply to Work With ValorWell
+                </Button>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  onClick={() => document.getElementById("video-section")?.scrollIntoView({ behavior: "smooth" })}
+                >
+                  Watch: Working as a Clinician at ValorWell
+                </Button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Mission Section — KEPT EXACTLY */}
+        <section className="relative z-10 pt-4 pb-8 md:pt-6 md:pb-10">
+          <div className="container-wide">
+            <div className="max-w-3xl mx-auto text-center">
+              <h2 className="text-2xl md:text-3xl font-bold text-foreground">
+                Your Clinical Skills Deserve a Bigger Mission
+              </h2>
+              <p className="mt-4 text-lg text-muted-foreground">
                 You became a clinician to make a difference. But finding meaningful work with veterans and military families—work that's supported by real infrastructure—isn't easy.
               </p>
             </div>
           </div>
         </section>
 
-        {/* The Problem Section */}
         <section className="relative z-10 pt-4 pb-8 md:pt-6 md:pb-10">
           <div className="container-wide">
             <div className="max-w-3xl mx-auto text-center">
@@ -78,20 +190,16 @@ const Therapists = () => {
           </div>
         </section>
 
-        {/* What Makes ValorWell Different */}
-        <section className="relative z-10 pt-4 pb-8 md:pt-6 md:pb-10">
+        {/* Clinician Benefits Grid */}
+        <section className="relative z-10 pt-4 pb-12 md:pt-6 md:pb-16">
           <div className="container-wide">
             <div className="text-center mb-12">
               <h2 className="text-2xl md:text-3xl font-bold text-foreground">
-                What Makes ValorWell Different
+                What Clinicians Get at ValorWell
               </h2>
-              <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-                We're not a staffing agency. We're a mission-driven organization built from the ground up to serve those who served.
-              </p>
             </div>
-
             <div className="grid sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
-              {differentiators.map((item) => (
+              {clinicianBenefits.map((item) => (
                 <Card key={item.title} className="bg-white/90 backdrop-blur-sm">
                   <CardContent className="p-6">
                     <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
@@ -109,43 +217,92 @@ const Therapists = () => {
             </div>
           </div>
         </section>
-
-        {/* Who We're Looking For */}
-        <section className="relative z-10 pt-4 pb-8 md:pt-6 md:pb-10">
-          <div className="container-wide">
-            <div className="max-w-3xl mx-auto text-center">
-              <h2 className="text-2xl md:text-3xl font-bold text-foreground">
-                Who We're Looking For
-              </h2>
-              <p className="mt-4 text-lg text-muted-foreground">
-                We're seeking licensed mental health clinicians—LCSWs, LPCs, LMFTs, and Psychologists—who share our commitment to veterans and military families. Experience with trauma-informed care is valued, but what matters most is your heart for this work.
-              </p>
-            </div>
-          </div>
-        </section>
       </div>
 
-      {/* Application Form Section */}
-      <section className="bg-muted py-16 md:py-20">
+      {/* Video Section */}
+      <section id="video-section" className="section-padding bg-muted">
         <div className="container-wide">
-          <div className="text-center mb-10">
+          <div className="text-center mb-8">
             <h2 className="text-2xl md:text-3xl font-bold text-foreground">
-              Ready to Be Part of Something Bigger?
+              A Quick Message From Luke
             </h2>
-            <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-              If you're ready to bring your clinical expertise to a mission that matters, we'd love to hear from you.
-            </p>
           </div>
-          <TherapistApplicationForm />
+          <div className="max-w-sm mx-auto">
+            {isVideoLoading ? (
+              <AspectRatio ratio={9 / 16}>
+                <Skeleton className="w-full h-full rounded-lg" />
+              </AspectRatio>
+            ) : videoId ? (
+              <AspectRatio ratio={9 / 16}>
+                <iframe
+                  className="w-full h-full rounded-lg"
+                  src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=1&rel=0`}
+                  title="A Quick Message From Luke"
+                  allow="autoplay; encrypted-media"
+                  allowFullScreen
+                />
+              </AspectRatio>
+            ) : null}
+          </div>
+          <p className="mt-6 text-center text-muted-foreground max-w-2xl mx-auto italic">
+            "If you've wanted to serve veterans without sacrificing your time, sanity, or clinical judgment—this is what we built ValorWell for."
+          </p>
         </div>
       </section>
 
-      {/* Footer CTA for non-clinicians */}
+      {/* Who This Is For */}
+      <section className="section-padding">
+        <div className="container-wide">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground text-center mb-8">
+              Who This Is For
+            </h2>
+            <ul className="space-y-4">
+              {whoThisIsFor.map((item, i) => (
+                <li key={i} className="flex items-start gap-3">
+                  <CheckCircle className="h-5 w-5 text-primary mt-0.5 shrink-0" />
+                  <span className="text-muted-foreground text-lg">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <StepsSection
+        title="How It Works"
+        steps={howItWorksSteps}
+        className="bg-muted"
+      />
+      <div className="bg-muted pb-12 text-center">
+        <Button size="lg" onClick={() => setIsApplyModalOpen(true)}>
+          Apply to Work With ValorWell
+        </Button>
+      </div>
+
+      {/* FAQ */}
+      <FAQSection title="FAQ" items={faqItems} />
+
+      {/* Footer CTA */}
       <CTABlock
         title="Looking for Care Instead?"
         subtitle="If you're a veteran or military family member seeking support, we're here for you."
         variant="muted"
       />
+
+      {/* Application Modal */}
+      <Dialog open={isApplyModalOpen} onOpenChange={setIsApplyModalOpen}>
+        <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Apply to Work With ValorWell</DialogTitle>
+            <DialogDescription>
+              Complete the application below and we'll follow up with next steps.
+            </DialogDescription>
+          </DialogHeader>
+          <TherapistApplicationForm />
+        </DialogContent>
+      </Dialog>
     </Layout>
   );
 };

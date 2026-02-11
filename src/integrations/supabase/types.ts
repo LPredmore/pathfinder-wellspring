@@ -143,6 +143,24 @@ export type Database = {
         }
         Relationships: []
       }
+      site_config: {
+        Row: {
+          key: string
+          updated_at: string | null
+          value: string
+        }
+        Insert: {
+          key: string
+          updated_at?: string | null
+          value: string
+        }
+        Update: {
+          key?: string
+          updated_at?: string | null
+          value?: string
+        }
+        Relationships: []
+      }
       support_session_inquiries: {
         Row: {
           created_at: string | null
