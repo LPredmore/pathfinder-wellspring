@@ -1,51 +1,51 @@
 
 
-## New Page: Wall of Advocates (`/advocates`)
+## Rewrite: `/support` Page — "Support the Bridge Program"
 
 ### Overview
 
-Create a new `/advocates` page following the same patterns as the Competitions page. The page is a "coming soon" landing page that honors creators funding veteran therapy sessions, with CTAs to participate and an email signup form.
+Replace the current emotional narrative `/support` page with a cleaner, action-oriented page focused on the Bridge Program, session sponsorship tiers, and monthly giving. Follows the same component patterns used in `/competitions` and `/advocates`.
 
 ---
 
-### Files to Create
+### File to Modify
 
-**`src/pages/Advocates.tsx`**
+**`src/pages/Support.tsx`** — Full rewrite with these sections:
 
-Sections in order:
+1. **SEO and Schema**
+   - Title: "Support the Bridge Program | ValorWell"
+   - Description: as provided
+   - Canonical: `/support`
+   - Keep `DonateActionSchema` and `BreadcrumbSchema` (Home > Support the Bridge Program)
+   - Remove `VideoObjectSchema` (no video on this page)
 
-1. **Hero** -- H1 "Wall of Advocates", subtitle about honoring people funding sessions, "$50 sponsors 1 therapy session" badge, and two buttons at the top: "Support a Creator" (toast: "Competition starts on March 1, 2026") and "Sponsor a Session" (links to `https://valorwell.org/donate`)
+2. **Hero section**
+   - H1: "Support the Bridge Program"
+   - Subtitle: "Fund real therapy sessions for veterans--when support can't wait."
+   - Brief explanation paragraph about the Bridge Program
+   - "$50 sponsors 1 therapy session" badge (same style as Competitions page)
+   - Two buttons: "Sponsor a Session" (primary, links to `https://valorwell.org/donate`, new tab) and "Become a Monthly Sponsor" (outline, same link)
 
-2. **"What you'll see here"** -- A grid of 4 items with icons showing what the Wall will feature once live:
-   - Explore creator profiles and "Why I'm here" videos
-   - See how many sessions each advocate helped fund
-   - Support an advocate directly through their fundraising page
-   - Celebrate the community making direct care possible
+3. **"What the Bridge Program Does" section**
+   - `ContentSection` with the two paragraphs explaining how donations fund sessions during gaps in access
 
-3. **"How to get featured"** -- Content section explaining the 25-session ($1,250) threshold, with "Apply to Compete" button linking to `/competitions/apply`
+4. **"Why Continued Support Matters" section**
+   - Content section with intro text and a styled bullet list for monthly sponsorship benefits (predictable funding, prevents interruptions, allows planning, stable bridge)
+   - Closing line: "If you've ever wanted to help veterans in a way that is measurable and immediate, this is it."
 
-4. **"Support the current challenge"** -- Two cards side by side:
-   - "Support a Creator" card with toast notification button
-   - "Sponsor Sessions Directly" card with link to `https://valorwell.org/donate`
+5. **"What Your Gift Funds" section**
+   - One-time gift tiers in a 2x2 grid ($50/$100/$250/$500) — same chip style as Competitions page
+   - Monthly sponsorship tiers in a styled list ($50/mo, $100/mo, $250/mo)
+   - CTA button: "Sponsor Sessions Now" linking to `https://valorwell.org/donate`
 
-5. **Email signup form** -- "Get notified when the Wall launches" section with:
-   - Email input field
-   - Optional "I'm a creator" checkbox
-   - "Get Updates" submit button (shows a success toast on submit for now -- no backend wiring)
-   - Privacy note in small text below
+6. **"Other Ways to Help" section**
+   - Three bullet points (share campaign, encourage creator, invite workplace)
+   - CTA button: "View Competitions" linking to `/competitions`
 
-6. **Final line** -- Centered italic text: "This page exists for one reason: to honor the people who turn support into real treatment sessions."
-
----
-
-### Files to Modify
-
-**`src/App.tsx`**
-- Import `Advocates` from `./pages/Advocates`
-- Add route: `<Route path="/advocates" element={<Advocates />} />`
-
-**`src/components/layout/Footer.tsx`**
-- Add "Wall of Advocates" link to the `getInvolved` array with an `Award` icon (already imported)
+7. **"Transparency and Accountability" section**
+   - Brief text about measurable reporting
+   - Styled list: sessions funded, monthly sponsor growth, creator challenge outcomes
+   - Note: "(We'll publish updates as the program grows.)"
 
 ---
 
@@ -53,12 +53,9 @@ Sections in order:
 
 | Aspect | Detail |
 |--------|--------|
-| SEO title | "Wall of Advocates \| ValorWell" |
-| SEO description | As provided in the brief |
-| Canonical | `/advocates` |
-| Schema | `BreadcrumbSchema` (Home > Wall of Advocates) |
-| "Support a Creator" buttons | Trigger sonner toast: "Competition starts on March 1, 2026" (same pattern as Competitions page) |
-| "Sponsor a Session" buttons | Link to `https://valorwell.org/donate` in new tab |
-| Email form | Client-side only for now -- shows success toast on submit, no Supabase integration |
-| Components used | `Layout`, `SEO`, `BreadcrumbSchema`, `ContentSection`, `Button`, `Card`, `Input`, `Checkbox`, `Label`, `toast` from sonner |
+| Components used | `Layout`, `SEO`, `DonateActionSchema`, `BreadcrumbSchema`, `ContentSection`, `Button`, `Card`, `Link` |
+| Removed | `VideoObjectSchema`, YouTube embed, old emotional narrative, Heart icon |
+| All donation links | `https://valorwell.org/donate` opening in new tab |
+| Pattern | Matches Competitions page styling (badge, grid chips, section spacing) |
+| No new files | Only `src/pages/Support.tsx` is modified |
 
