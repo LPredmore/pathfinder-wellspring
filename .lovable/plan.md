@@ -1,51 +1,86 @@
 
 
-## Rewrite: `/support` Page — "Support the Bridge Program"
+## Creator Application Questionnaire — Updated Plan
 
 ### Overview
 
-Replace the current emotional narrative `/support` page with a cleaner, action-oriented page focused on the Bridge Program, session sponsorship tiers, and monthly giving. Follows the same component patterns used in `/competitions` and `/advocates`.
+Create a dialog-based creator application form that replaces all "Apply to Compete" buttons/links on `/competitions` and `/advocates`. The form has 4 sections, saves to Supabase, and opens as a modal dialog.
 
 ---
 
-### File to Modify
+### Database: New Table
 
-**`src/pages/Support.tsx`** — Full rewrite with these sections:
+**Migration: `creator_applications`**
 
-1. **SEO and Schema**
-   - Title: "Support the Bridge Program | ValorWell"
-   - Description: as provided
-   - Canonical: `/support`
-   - Keep `DonateActionSchema` and `BreadcrumbSchema` (Home > Support the Bridge Program)
-   - Remove `VideoObjectSchema` (no video on this page)
+| Column | Type | Nullable | Default |
+|--------|------|----------|---------|
+| id | uuid | No | gen_random_uuid() |
+| created_at | timestamptz | No | now() |
+| first_name | text | No | -- |
+| last_name | text | No | -- |
+| email | text | No | -- |
+| state | text | No | -- |
+| social_profiles | jsonb | No | -- |
+| motivation | text | No | -- |
+| veteran_connection | text | Yes | -- |
+| willing_to_share | boolean | No | -- |
+| comfort_level | text | No | -- |
+| fundraising_goal | text | No | -- |
+| additional_info | text | Yes | -- |
+| status | text | No | 'new' |
 
-2. **Hero section**
-   - H1: "Support the Bridge Program"
-   - Subtitle: "Fund real therapy sessions for veterans--when support can't wait."
-   - Brief explanation paragraph about the Bridge Program
-   - "$50 sponsors 1 therapy session" badge (same style as Competitions page)
-   - Two buttons: "Sponsor a Session" (primary, links to `https://valorwell.org/donate`, new tab) and "Become a Monthly Sponsor" (outline, same link)
+- RLS enabled with anonymous INSERT policy (matches `therapist_applications` pattern)
+- `social_profiles` stores repeating entries as JSON array: `[{"platform":"TikTok","handle":"@user","followers":5000}]`
 
-3. **"What the Bridge Program Does" section**
-   - `ContentSection` with the two paragraphs explaining how donations fund sessions during gaps in access
+---
 
-4. **"Why Continued Support Matters" section**
-   - Content section with intro text and a styled bullet list for monthly sponsorship benefits (predictable funding, prevents interruptions, allows planning, stable bridge)
-   - Closing line: "If you've ever wanted to help veterans in a way that is measurable and immediate, this is it."
+### New File: `src/components/forms/CreatorApplicationForm.tsx`
 
-5. **"What Your Gift Funds" section**
-   - One-time gift tiers in a 2x2 grid ($50/$100/$250/$500) — same chip style as Competitions page
-   - Monthly sponsorship tiers in a styled list ($50/mo, $100/mo, $250/mo)
-   - CTA button: "Sponsor Sessions Now" linking to `https://valorwell.org/donate`
+A `Dialog` component with a customizable trigger button. Uses `react-hook-form` with `zod` validation and `useFieldArray` for the repeating social profiles block.
 
-6. **"Other Ways to Help" section**
-   - Three bullet points (share campaign, encourage creator, invite workplace)
-   - CTA button: "View Competitions" linking to `/competitions`
+**Section 1 -- Basic Info**
+- First Name (required, max 100)
+- Last Name (required, max 100)
+- Email (required, email)
+- State (required, dropdown with all 50 US states as 2-letter codes)
 
-7. **"Transparency and Accountability" section**
-   - Brief text about measurable reporting
-   - Styled list: sessions funded, monthly sponsor growth, creator challenge outcomes
-   - Note: "(We'll publish updates as the program grows.)"
+**Section 2 -- Social Profiles (repeating)**
+- "Add a social platform" button to add entries (minimum 1 required)
+- Each entry: Platform dropdown (TikTok, Instagram, YouTube, LinkedIn, Facebook, X (Twitter), Podcast, Other), Handle/URL (text), Follower count (number)
+- Remove button on each entry (hidden when only 1 remains)
+
+**Section 3 -- Fit and Motivation**
+- "Why do you want to be involved?" (required, textarea with placeholder prompt)
+- "Personal connection to veterans?" (optional, RadioGroup with 5 options)
+
+**Section 4 -- Fundraising Readiness**
+- "Willing to share fundraiser link at least 2 times?" (required, Yes/No radio)
+- "How comfortable asking audience to donate?" (required, RadioGroup: Very comfortable / Somewhat comfortable / Not very comfortable, but I'm willing to learn)
+- "Realistic fundraising goal in 30 days?" (required, RadioGroup: 10 sessions ($500) / 25 sessions ($1,250) / 50 sessions ($2,500) / 100 sessions ($5,000+) / Not sure yet)
+- "Anything else you want us to know?" (optional, textarea)
+
+**On submit:** Inserts into `creator_applications` table, then shows a success confirmation inside the dialog.
+
+**Component API:**
+```text
+<CreatorApplicationForm 
+  buttonVariant="default" 
+  buttonSize="lg" 
+  buttonClassName="w-full" 
+/>
+```
+
+---
+
+### Files to Modify
+
+**`src/pages/Competitions.tsx`** -- 3 replacements:
+1. Line 147-149: Replace `<Link to="/competitions/apply">Apply to Compete</Link>` button in card footer with `<CreatorApplicationForm buttonClassName="w-full" />`
+2. Line 300-302: Replace `<Link to="/competitions/apply">Apply to Compete</Link>` button in final CTA with `<CreatorApplicationForm buttonSize="lg" buttonVariant="outline" />`
+3. Update FAQ answer for "how do I join?" to say "Click the Apply to Compete button on this page" instead of referencing a separate page
+
+**`src/pages/Advocates.tsx`** -- 1 replacement:
+1. Lines 120-123: Replace the `<Link to="/competitions/apply">` button in "How to Get Featured" with `<CreatorApplicationForm buttonSize="lg" />`
 
 ---
 
@@ -53,9 +88,10 @@ Replace the current emotional narrative `/support` page with a cleaner, action-o
 
 | Aspect | Detail |
 |--------|--------|
-| Components used | `Layout`, `SEO`, `DonateActionSchema`, `BreadcrumbSchema`, `ContentSection`, `Button`, `Card`, `Link` |
-| Removed | `VideoObjectSchema`, YouTube embed, old emotional narrative, Heart icon |
-| All donation links | `https://valorwell.org/donate` opening in new tab |
-| Pattern | Matches Competitions page styling (badge, grid chips, section spacing) |
-| No new files | Only `src/pages/Support.tsx` is modified |
+| Dialog | `max-h-[85vh] overflow-y-auto` for scrolling on smaller screens |
+| Form sections | Visual dividers with section headings matching TherapistApplicationForm style |
+| Validation | All required fields validated client-side with zod before Supabase insert |
+| Social profiles | `useFieldArray` from react-hook-form; starts with 1 entry |
+| Success state | Replaces form content with checkmark and "Application Received!" message |
+| Supabase insert | Follows same pattern as TherapistApplicationForm (`supabase.from("creator_applications").insert(...)`) |
 
