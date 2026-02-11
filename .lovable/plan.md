@@ -1,58 +1,61 @@
 
 
-## Replace Autoplay Video with Click-to-Load Facade
+## Add "Official Rules / Prize Terms" Step to Creator Application
 
-### 1. New Component: `src/components/ClickToLoadYouTubeShort.tsx`
+### Overview
 
-A reusable component with two states:
+Add a 5th step to the existing 4-step Creator Application wizard that displays the official rules and prize terms, with a required checkbox the applicant must check before submitting.
 
-**Default state (facade):**
-- Shows a 9:16 aspect-ratio container with the YouTube thumbnail (`https://i.ytimg.com/vi/{videoId}/hqdefault.jpg`) as a background image
-- Centered "Watch Short" `<button>` with `aria-label="Watch Short"`, keyboard accessible
-- Helper caption below: "After it loads, press play in the player to start."
+### Changes
 
-**After click:**
-- Replaces thumbnail with an iframe:
-  - `src`: `https://www.youtube.com/embed/{videoId}?rel=0` (NO `autoplay=1`, NO `mute=1`)
-  - `allow`: `"accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"` (NO `autoplay`)
-  - `allowFullScreen: true`
-  - Fills container via absolute positioning (width/height 100%)
+**File: `src/components/forms/CreatorApplicationForm.tsx`**
 
-**Props:**
-- `videoId: string` (required)
-- `title?: string` (default "YouTube Short")
-- `className?: string`
+1. **Add `Checkbox` import** from `@/components/ui/checkbox`
 
-**Sizing:** Uses CSS `aspect-ratio: 9/16` with a `min-w-[200px] min-h-[200px]` to meet YouTube's minimum, and `max-w-sm` + `mx-auto` for centering (matching current layout).
+2. **Add `acceptedRules` field to the Zod schema**
+   - `acceptedRules: z.literal(true, { errorMap: () => ({ message: "You must accept the official rules to continue" }) })`
 
-### 2. Update `src/pages/Therapists.tsx`
+3. **Update `STEP_TITLES`** from 4 items to 5:
+   - Add `"Official Rules / Prize Terms"` as the 5th entry
 
-**Video section (lines 222-251):** Replace the current `AspectRatio` + autoplay iframe block with:
+4. **Update `STEP_FIELDS`** from 4 entries to 5:
+   - Add `["acceptedRules"]` as the 5th entry
 
-```tsx
-<ClickToLoadYouTubeShort
-  videoId={videoId}
-  title="A Quick Message From Luke"
-/>
-```
+5. **Update all "of 4" references to "of 5"**:
+   - Progress text: `Step {currentStep + 1} of 5`
+   - Progress bar: `((currentStep + 1) / 5) * 100`
+   - Navigation: `currentStep < 4` (was `< 3`) for showing Next vs Submit
+   - The `currentStep === 3` step (Fundraising Readiness) stays unchanged
 
-- Keep the `useQuery` fetch from `site_config` and the `extractYouTubeId` helper (still needed to get the video ID)
-- Keep the skeleton loading state while the URL is being fetched
-- Remove the `AspectRatio` and `Skeleton` imports if no longer used elsewhere on this page
+6. **Add new Step 5 section** (`currentStep === 4`) containing:
+   - H3 title: "Official Rules -- Creator Challenge: Sponsor a Veteran"
+   - Scrollable container (`max-h-[40vh] overflow-y-auto`) with all the rules content organized with bold sub-headings:
+     - **Eligibility** -- two bullet points
+     - **Competition Period** -- March 1-31, 2026
+     - **How Winner Is Determined** -- three bullet points
+     - **Minimum to Qualify for Prize** -- $1,250 / 25 sessions
+     - **Prize Provider** -- LuxGive
+     - **Prize Terms Summary (Riviera Maya Magic)** -- bullet list of all terms
+     - "Full terms appear on the winner certificate."
+   - Required checkbox using the `Checkbox` component with label: "I have read and agree to the Official Rules and Prize Terms *"
+   - Validation error message below if unchecked
 
-### 3. Removed Behavior
+7. **Update `saveStepData`** -- add `else if (step === 3)` to save Step 4 (Fundraising Readiness) data before advancing to Step 5. Currently Step 4 data is only saved on final submit; with a new step in between, it needs to be persisted when clicking Next.
 
-- No `autoplay=1` parameter
-- No `mute=1` parameter
-- No `loop=1` parameter
-- No `autoplay` in the iframe `allow` attribute
-- Iframe not loaded until user clicks the facade button
+8. **Update `onSubmit` payload** -- add `accepted_rules: true` to the final update/insert payloads (records that the applicant agreed).
+
+9. **Update `defaultValues`** -- add `acceptedRules: false as any` (since the field expects `true` literal, false will fail validation as intended).
+
+### No database migration needed
+
+The `accepted_rules` boolean will be included in the update payload using the existing `as any` cast pattern. If the column doesn't exist in the table yet, it will be silently ignored by Supabase -- no error. The rules content is purely client-side display.
 
 ### Technical Summary
 
 | Aspect | Detail |
 |--------|--------|
-| New file | `src/components/ClickToLoadYouTubeShort.tsx` |
-| Modified file | `src/pages/Therapists.tsx` (video section only) |
-| Dependencies | None new |
+| Files modified | `src/components/forms/CreatorApplicationForm.tsx` only |
+| New dependencies | None (Checkbox component already exists) |
+| Database changes | None required |
+| Step count | 4 --> 5 |
 
