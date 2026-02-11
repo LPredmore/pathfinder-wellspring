@@ -5,8 +5,8 @@ import { CTABlock, StepsSection, FAQSection } from "@/components/sections";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ClickToLoadYouTubeShort } from "@/components/ClickToLoadYouTubeShort";
 import {
   DollarSign,
   FileX,
@@ -227,23 +227,16 @@ const Therapists = () => {
               A Quick Message From Luke
             </h2>
           </div>
-          <div className="max-w-sm mx-auto">
-            {isVideoLoading ? (
-              <AspectRatio ratio={9 / 16}>
-                <Skeleton className="w-full h-full rounded-lg" />
-              </AspectRatio>
-            ) : videoId ? (
-              <AspectRatio ratio={9 / 16}>
-                <iframe
-                  className="w-full h-full rounded-lg"
-                  src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=1&rel=0`}
-                  title="A Quick Message From Luke"
-                  allow="autoplay; encrypted-media"
-                  allowFullScreen
-                />
-              </AspectRatio>
-            ) : null}
-          </div>
+          {isVideoLoading ? (
+            <div className="max-w-sm mx-auto min-h-[200px] rounded-lg" style={{ aspectRatio: "9 / 16" }}>
+              <Skeleton className="w-full h-full rounded-lg" />
+            </div>
+          ) : videoId ? (
+            <ClickToLoadYouTubeShort
+              videoId={videoId}
+              title="A Quick Message From Luke"
+            />
+          ) : null}
           <p className="mt-6 text-center text-muted-foreground max-w-2xl mx-auto italic">
             "If you've wanted to serve veterans without sacrificing your time, sanity, or clinical judgment—this is what we built ValorWell for."
           </p>
