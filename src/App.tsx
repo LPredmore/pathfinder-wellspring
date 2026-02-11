@@ -22,6 +22,7 @@ import Donate from "./pages/Donate";
 import Support from "./pages/Support";
 import Competitions from "./pages/Competitions";
 import OperationClaimsSuccess from "./pages/OperationClaimsSuccess";
+import Advocates from "./pages/Advocates";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -52,6 +53,7 @@ const App = () => (
             <Route path="/support" element={<Support />} />
             <Route path="/competitions" element={<Competitions />} />
             <Route path="/operation-claims-success" element={<OperationClaimsSuccess />} />
+            <Route path="/advocates" element={<Advocates />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
