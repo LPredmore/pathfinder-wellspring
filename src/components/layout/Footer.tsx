@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Phone, Mail, MapPin, Briefcase, Heart, Trophy } from "lucide-react";
+import { Phone, Mail, MapPin, Briefcase, Heart, Trophy, Award } from "lucide-react";
 
 const footerLinks = {
   resources: [
@@ -16,6 +16,7 @@ const footerLinks = {
     { name: "Join Our Team", href: "/therapists", external: false },
     { name: "Support a Veteran", href: "/support", external: false },
     { name: "Competition", href: "/competitions", external: false },
+    { name: "Wall of Advocates", href: "/advocates", external: false },
   ],
 };
 
@@ -27,6 +28,7 @@ const getInvolvedIcons: Record<string, typeof Briefcase> = {
   "Join Our Team": Briefcase,
   "Support a Veteran": Heart,
   "Competition": Trophy,
+  "Wall of Advocates": Award,
 };
 
 export function Footer() {
