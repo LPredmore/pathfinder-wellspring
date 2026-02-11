@@ -17,51 +17,51 @@ export type Database = {
       creator_applications: {
         Row: {
           additional_info: string | null
-          comfort_level: string
+          comfort_level: string | null
           created_at: string
           email: string
           first_name: string
-          fundraising_goal: string
+          fundraising_goal: string | null
           id: string
           last_name: string
-          motivation: string
-          social_profiles: Json
+          motivation: string | null
+          social_profiles: Json | null
           state: string
           status: string
           veteran_connection: string | null
-          willing_to_share: boolean
+          willing_to_share: boolean | null
         }
         Insert: {
           additional_info?: string | null
-          comfort_level: string
+          comfort_level?: string | null
           created_at?: string
           email: string
           first_name: string
-          fundraising_goal: string
+          fundraising_goal?: string | null
           id?: string
           last_name: string
-          motivation: string
-          social_profiles: Json
+          motivation?: string | null
+          social_profiles?: Json | null
           state: string
           status?: string
           veteran_connection?: string | null
-          willing_to_share: boolean
+          willing_to_share?: boolean | null
         }
         Update: {
           additional_info?: string | null
-          comfort_level?: string
+          comfort_level?: string | null
           created_at?: string
           email?: string
           first_name?: string
-          fundraising_goal?: string
+          fundraising_goal?: string | null
           id?: string
           last_name?: string
-          motivation?: string
-          social_profiles?: Json
+          motivation?: string | null
+          social_profiles?: Json | null
           state?: string
           status?: string
           veteran_connection?: string | null
-          willing_to_share?: boolean
+          willing_to_share?: boolean | null
         }
         Relationships: []
       }
