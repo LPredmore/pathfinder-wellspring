@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { SEO, BreadcrumbSchema, FAQSchema } from "@/components/SEO";
 import { ContentSection, StepsSection, FAQSection } from "@/components/sections";
@@ -6,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
 import { Trophy, Users, Heart, Star, Mic, Award } from "lucide-react";
 import { toast } from "sonner";
+import { CreatorApplicationForm } from "@/components/forms/CreatorApplicationForm";
 import flagSkyBackground from "@/assets/flag-sky-background-vertical.png";
 
 import resortBeach from "@/assets/resort-beach.png";
@@ -33,7 +33,7 @@ const faqItems = [
   {
     question: "I'm a creator—how do I join?",
     answer:
-      "Click Apply to Compete. If selected, you'll receive onboarding steps, your fundraising page setup instructions, and the \"Why I'm here\" video prompt.",
+      "Click the Apply to Compete button on this page. If selected, you'll receive onboarding steps, your fundraising page setup instructions, and the \"Why I'm here\" video prompt.",
   },
 ];
 
@@ -144,9 +144,7 @@ export default function Competitions() {
                 </ul>
               </CardContent>
               <CardFooter>
-                <Button asChild className="w-full">
-                  <Link to="/competitions/apply">Apply to Compete</Link>
-                </Button>
+                <CreatorApplicationForm buttonClassName="w-full" />
               </CardFooter>
             </Card>
 
@@ -297,9 +295,7 @@ export default function Competitions() {
             <Button size="lg" variant="secondary" onClick={handleSupportCreator}>
               Support a Creator
             </Button>
-            <Button asChild size="lg" variant="outline">
-              <Link to="/competitions/apply">Apply to Compete</Link>
-            </Button>
+            <CreatorApplicationForm buttonSize="lg" buttonVariant="outline" />
           </div>
         </div>
       </section>
