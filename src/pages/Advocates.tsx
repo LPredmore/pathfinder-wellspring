@@ -1,14 +1,9 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { SEO, BreadcrumbSchema } from "@/components/SEO";
 import { ContentSection } from "@/components/sections";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
 import { Users, Heart, Video, BarChart3, HandHeart, PartyPopper } from "lucide-react";
 import { toast } from "sonner";
 
@@ -40,17 +35,6 @@ const features = [
 ];
 
 export default function Advocates() {
-  const [email, setEmail] = useState("");
-  const [isCreator, setIsCreator] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email) return;
-    toast.success("You're on the list! We'll notify you when the Wall launches.");
-    setEmail("");
-    setIsCreator(false);
-  };
-
   return (
     <Layout>
       <SEO
@@ -74,9 +58,9 @@ export default function Advocates() {
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-6">
             Coming soon — a public wall honoring the people funding real therapy sessions for veterans.
           </p>
-          <Badge className="text-lg px-6 py-3 mb-6">
+          <div className="inline-block rounded-lg bg-primary text-primary-foreground px-6 py-3 text-lg font-semibold mb-6">
             $50 sponsors 1 therapy session
-          </Badge>
+          </div>
           <p className="text-muted-foreground max-w-xl mx-auto text-sm mb-8">
             If you want to help right now, you can sponsor a session or support a creator in the current challenge.
           </p>
@@ -175,43 +159,6 @@ export default function Advocates() {
               </CardFooter>
             </Card>
           </div>
-        </div>
-      </section>
-
-      {/* Email signup */}
-      <section className="section-padding section-alt">
-        <div className="container-wide max-w-xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-foreground mb-4">
-            Get Notified When the Wall Launches
-          </h2>
-          <p className="text-muted-foreground mb-8">
-            Want a reminder when the Wall of Advocates goes live (and when the next competition opens)?
-          </p>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <Input
-              type="email"
-              placeholder="Your email address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-            <div className="flex items-center gap-2 justify-center">
-              <Checkbox
-                id="is-creator"
-                checked={isCreator}
-                onCheckedChange={(checked) => setIsCreator(checked === true)}
-              />
-              <Label htmlFor="is-creator" className="text-sm text-muted-foreground cursor-pointer">
-                I'm a creator
-              </Label>
-            </div>
-            <Button type="submit" size="lg" className="w-full sm:w-auto">
-              Get Updates
-            </Button>
-          </form>
-          <p className="text-xs text-muted-foreground mt-4">
-            We'll only email you about competitions, impact updates, and how to sponsor sessions. Unsubscribe anytime.
-          </p>
         </div>
       </section>
 
