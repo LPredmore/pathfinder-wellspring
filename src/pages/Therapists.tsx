@@ -190,6 +190,29 @@ const Therapists = () => {
           </div>
         </section>
 
+        {/* A Mission That Includes Clinicians */}
+        <section className="relative z-10 pt-4 pb-8 md:pt-6 md:pb-10">
+          <div className="container-wide">
+            <div className="max-w-3xl mx-auto text-center">
+              <h2 className="text-2xl md:text-3xl font-bold text-foreground">
+                A Mission That Includes Clinicians
+              </h2>
+              <p className="mt-4 text-lg text-muted-foreground">
+                ValorWell started with a simple goal: make it easier for veterans and military families to get the support they deserve.
+              </p>
+              <p className="mt-4 text-lg text-muted-foreground">
+                But as we built, we saw something else just as clearly<strong className="text-foreground">—clinicians were being drained by the very systems that were supposed to enable care</strong>. Endless admin, billing friction, and unnecessary second-guessing don't just burn out professionals—they reduce access for the people who need help most.
+              </p>
+              <p className="mt-4 text-lg text-muted-foreground">
+                So our mission expanded: <strong className="text-foreground">to serve those who served, we also have to serve the mental health professionals who serve them.</strong>
+              </p>
+              <p className="mt-4 text-lg text-muted-foreground">
+                That means building an environment where clinicians can practice at the top of their license—with the tools, autonomy, and infrastructure to do their best work.
+              </p>
+            </div>
+          </div>
+        </section>
+
         {/* Clinician Benefits Grid */}
         <section className="relative z-10 pt-4 pb-12 md:pt-6 md:pb-16">
           <div className="container-wide">
