@@ -5,6 +5,7 @@ import { SEO, DonateActionSchema, BreadcrumbSchema } from "@/components/SEO";
 import { ContentSection } from "@/components/sections";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, BarChart3, TrendingUp, Trophy } from "lucide-react";
+import flagSkyBackground from "@/assets/flag-sky-background-vertical.png";
 
 const Support = () => {
   useEffect(() => {
@@ -26,8 +27,14 @@ const Support = () => {
         ]}
       />
 
+      <div
+        className="relative bg-cover bg-top bg-no-repeat"
+        style={{ backgroundImage: `url(${flagSkyBackground})` }}
+      >
+        <div className="absolute inset-0 bg-white/70" />
+
       {/* Hero */}
-      <section className="section-padding bg-primary/5">
+      <section className="relative z-10 section-padding">
         <div className="container-wide text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
             Support the Bridge Program
@@ -67,7 +74,7 @@ const Support = () => {
       </section>
 
       {/* What the Bridge Program Does */}
-      <ContentSection title="What the Bridge Program Does">
+      <ContentSection title="What the Bridge Program Does" className="relative z-10">
         <p>
           The Bridge Program exists for one reason: to get veterans support
           now—not only after months of waiting, paperwork, or scheduling
@@ -80,7 +87,7 @@ const Support = () => {
       </ContentSection>
 
       {/* Why Continued Support Matters */}
-      <ContentSection title="Why Continued Support Matters" variant="alt">
+      <ContentSection title="Why Continued Support Matters" variant="alt" className="relative z-10">
         <p>
           One-time donations help. Continued support changes what we can reliably
           do.
@@ -108,7 +115,7 @@ const Support = () => {
       </ContentSection>
 
       {/* What Your Gift Funds */}
-      <section className="section-padding">
+      <section className="relative z-10 section-padding">
         <div className="container-wide">
           <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8">
             What Your Gift Funds
@@ -161,7 +168,7 @@ const Support = () => {
       </section>
 
       {/* Other Ways to Help */}
-      <ContentSection title="Other Ways to Help" variant="alt">
+      <ContentSection title="Other Ways to Help" variant="alt" className="relative z-10">
         <p className="mb-4">
           Not everyone can give financially. These actions still help fund
           sessions:
@@ -184,7 +191,7 @@ const Support = () => {
       </ContentSection>
 
       {/* Transparency and Accountability */}
-      <section className="section-padding">
+      <section className="relative z-10 section-padding">
         <div className="container-wide">
           <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
             Transparency and Accountability
@@ -210,6 +217,7 @@ const Support = () => {
           </p>
         </div>
       </section>
+      </div>
     </Layout>
   );
 };
