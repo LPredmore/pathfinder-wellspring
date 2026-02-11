@@ -117,6 +117,7 @@ export function CreatorApplicationForm({
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [currentStep, setCurrentStep] = useState(0);
+  const [rowId, setRowId] = useState<string | null>(null);
 
   const {
     register,
@@ -126,6 +127,7 @@ export function CreatorApplicationForm({
     watch,
     reset,
     trigger,
+    getValues,
     formState: { errors, isSubmitting },
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -145,10 +147,77 @@ export function CreatorApplicationForm({
   const fundraisingGoal = watch("fundraisingGoal");
   const veteranConnection = watch("veteranConnection");
 
+  const saveStepData = async (step: number) => {
+    const data = getValues();
+
+    if (step === 0 && !rowId) {
+      // Insert new partial row
+      const { data: inserted, error } = await supabase
+        .from("creator_applications" as any)
+        .insert({
+          first_name: data.firstName,
+          last_name: data.lastName,
+          email: data.email,
+          state: data.state,
+          status: "partial",
+        } as any)
+        .select("id")
+        .single();
+
+      if (error || !inserted) {
+        setSubmitError("Could not save progress. Please try again.");
+        return false;
+      }
+      setRowId((inserted as any).id);
+      return true;
+    }
+
+    if (!rowId) return true;
+
+    let updatePayload: Record<string, any> = {};
+
+    if (step === 0) {
+      updatePayload = {
+        first_name: data.firstName,
+        last_name: data.lastName,
+        email: data.email,
+        state: data.state,
+      };
+    } else if (step === 1) {
+      updatePayload = {
+        social_profiles: data.socialProfiles.map((sp) => ({
+          platform: sp.platform,
+          handle: sp.handle,
+          followers: sp.followers,
+        })),
+      };
+    } else if (step === 2) {
+      updatePayload = {
+        motivation: data.motivation,
+        veteran_connection: data.veteranConnection || null,
+      };
+    }
+
+    const { error } = await supabase
+      .from("creator_applications" as any)
+      .update(updatePayload as any)
+      .eq("id", rowId);
+
+    if (error) {
+      setSubmitError("Could not save progress. Please try again.");
+      return false;
+    }
+    setSubmitError(null);
+    return true;
+  };
+
   const handleNext = async () => {
     const fieldsToValidate = STEP_FIELDS[currentStep] as any;
     const isValid = await trigger(fieldsToValidate);
-    if (isValid) setCurrentStep((s) => s + 1);
+    if (!isValid) return;
+
+    const saved = await saveStepData(currentStep);
+    if (saved) setCurrentStep((s) => s + 1);
   };
 
   const handleBack = () => setCurrentStep((s) => s - 1);
@@ -156,29 +225,50 @@ export function CreatorApplicationForm({
   const onSubmit = async (data: FormData) => {
     setSubmitError(null);
 
-    const socialProfilesJson = data.socialProfiles.map((sp) => ({
-      platform: sp.platform,
-      handle: sp.handle,
-      followers: sp.followers,
-    }));
-
-    const { error } = await supabase.from("creator_applications" as any).insert({
-      first_name: data.firstName,
-      last_name: data.lastName,
-      email: data.email,
-      state: data.state,
-      social_profiles: socialProfilesJson,
-      motivation: data.motivation,
-      veteran_connection: data.veteranConnection || null,
+    const finalPayload: Record<string, any> = {
       willing_to_share: data.willingToShare === "yes",
       comfort_level: data.comfortLevel,
       fundraising_goal: data.fundraisingGoal,
       additional_info: data.additionalInfo || null,
-    } as any);
+      status: "new",
+    };
 
-    if (error) {
-      setSubmitError("Something went wrong. Please try again.");
-      return;
+    if (rowId) {
+      const { error } = await supabase
+        .from("creator_applications" as any)
+        .update(finalPayload as any)
+        .eq("id", rowId);
+
+      if (error) {
+        setSubmitError("Something went wrong. Please try again.");
+        return;
+      }
+    } else {
+      // Fallback: full insert if somehow no rowId
+      const socialProfilesJson = data.socialProfiles.map((sp) => ({
+        platform: sp.platform,
+        handle: sp.handle,
+        followers: sp.followers,
+      }));
+
+      const { error } = await supabase.from("creator_applications" as any).insert({
+        first_name: data.firstName,
+        last_name: data.lastName,
+        email: data.email,
+        state: data.state,
+        social_profiles: socialProfilesJson,
+        motivation: data.motivation,
+        veteran_connection: data.veteranConnection || null,
+        willing_to_share: data.willingToShare === "yes",
+        comfort_level: data.comfortLevel,
+        fundraising_goal: data.fundraisingGoal,
+        additional_info: data.additionalInfo || null,
+      } as any);
+
+      if (error) {
+        setSubmitError("Something went wrong. Please try again.");
+        return;
+      }
     }
 
     setIsSubmitted(true);
@@ -191,6 +281,7 @@ export function CreatorApplicationForm({
         setIsSubmitted(false);
         setSubmitError(null);
         setCurrentStep(0);
+        setRowId(null);
         reset();
       }, 300);
     }
