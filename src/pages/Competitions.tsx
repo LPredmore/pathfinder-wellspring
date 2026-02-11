@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
 import { Trophy, Users, Heart, Star, Mic, Award } from "lucide-react";
 import { toast } from "sonner";
+import flagSkyBackground from "@/assets/flag-sky-background-vertical.png";
 
 import resortBeach from "@/assets/resort-beach.png";
 import resortDinner from "@/assets/resort-dinner.png";
@@ -92,8 +93,14 @@ export default function Competitions() {
       />
       <FAQSchema faqs={faqItems} />
 
+      <div
+        className="relative bg-cover bg-top bg-no-repeat"
+        style={{ backgroundImage: `url(${flagSkyBackground})` }}
+      >
+        <div className="absolute inset-0 bg-white/70" />
+
       {/* Hero */}
-      <section className="section-padding bg-primary/5">
+      <section className="relative z-10 section-padding">
         <div className="container-wide text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
             Creator Challenge: Sponsor a Veteran
@@ -112,7 +119,7 @@ export default function Competitions() {
       </section>
 
       {/* Participation Cards */}
-      <section className="section-padding">
+      <section className="relative z-10 section-padding">
         <div className="container-wide">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground text-center mb-12">
             Choose How You Want to Participate
@@ -194,7 +201,7 @@ export default function Competitions() {
       </section>
 
       {/* What This Is */}
-      <ContentSection title="What This Is" variant="alt">
+      <ContentSection title="What This Is" variant="alt" className="relative z-10">
         <p>
           The Creator Challenge is a 30-day peer-to-peer fundraising competition
           where creators and community advocates raise money to sponsor therapy
@@ -210,10 +217,11 @@ export default function Competitions() {
       <StepsSection
         title="How It Works"
         steps={steps}
+        className="relative z-10"
       />
 
       {/* Eligibility & Milestones */}
-      <section className="section-padding section-alt">
+      <section className="relative z-10 section-padding section-alt">
         <div className="container-wide">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground text-center mb-4">
             Eligibility &amp; Milestones
@@ -240,7 +248,7 @@ export default function Competitions() {
       </section>
 
       {/* Prize */}
-      <ContentSection title="Prize">
+      <ContentSection title="Prize" className="relative z-10">
         <p>
           The top fundraiser wins a romantic resort vacation package in Mexico.
           Full prize details and terms are provided on the application page.
@@ -270,10 +278,10 @@ export default function Competitions() {
       </ContentSection>
 
       {/* FAQ */}
-      <FAQSection items={faqItems} />
+      <FAQSection items={faqItems} className="relative z-10" />
 
       {/* Final CTA */}
-      <section className="section-padding bg-primary/5">
+      <section className="relative z-10 section-padding">
         <div className="container-wide text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
             Sponsor a Session Today
@@ -295,6 +303,7 @@ export default function Competitions() {
           </div>
         </div>
       </section>
+      </div>
     </Layout>
   );
 }
