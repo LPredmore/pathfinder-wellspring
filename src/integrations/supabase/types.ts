@@ -14,6 +14,57 @@ export type Database = {
   }
   public: {
     Tables: {
+      creator_applications: {
+        Row: {
+          additional_info: string | null
+          comfort_level: string
+          created_at: string
+          email: string
+          first_name: string
+          fundraising_goal: string
+          id: string
+          last_name: string
+          motivation: string
+          social_profiles: Json
+          state: string
+          status: string
+          veteran_connection: string | null
+          willing_to_share: boolean
+        }
+        Insert: {
+          additional_info?: string | null
+          comfort_level: string
+          created_at?: string
+          email: string
+          first_name: string
+          fundraising_goal: string
+          id?: string
+          last_name: string
+          motivation: string
+          social_profiles: Json
+          state: string
+          status?: string
+          veteran_connection?: string | null
+          willing_to_share: boolean
+        }
+        Update: {
+          additional_info?: string | null
+          comfort_level?: string
+          created_at?: string
+          email?: string
+          first_name?: string
+          fundraising_goal?: string
+          id?: string
+          last_name?: string
+          motivation?: string
+          social_profiles?: Json
+          state?: string
+          status?: string
+          veteran_connection?: string | null
+          willing_to_share?: boolean
+        }
+        Relationships: []
+      }
       donation_attribution: {
         Row: {
           created_at: string

@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { SEO, BreadcrumbSchema } from "@/components/SEO";
 import { ContentSection } from "@/components/sections";
@@ -6,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
 import { Users, Heart, Video, BarChart3, HandHeart, PartyPopper } from "lucide-react";
 import { toast } from "sonner";
+import { CreatorApplicationForm } from "@/components/forms/CreatorApplicationForm";
 import flagSkyBackground from "@/assets/flag-sky-background-vertical.png";
 
 const handleSupportCreator = () => {
@@ -117,9 +117,7 @@ export default function Advocates() {
           If you're a creator who wants to compete and fund sessions with your audience, apply to join the next round.
         </p>
         <div className="mt-6 not-prose">
-          <Button asChild size="lg">
-            <Link to="/competitions/apply">Apply to Compete</Link>
-          </Button>
+          <CreatorApplicationForm buttonSize="lg" />
         </div>
       </ContentSection>
 
