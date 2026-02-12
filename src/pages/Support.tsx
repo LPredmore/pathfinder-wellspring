@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Layout } from "@/components/layout";
 import { SEO, DonateActionSchema, BreadcrumbSchema } from "@/components/SEO";
+import { trackDonateConversion } from "@/lib/tracking";
 import { ContentSection } from "@/components/sections";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, BarChart3, TrendingUp, Trophy } from "lucide-react";
@@ -51,7 +52,7 @@ const Support = () => {
             $50 sponsors 1 therapy session
           </div>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button asChild size="lg">
+            <Button asChild size="lg" onClick={() => trackDonateConversion()}>
               <a
                 href="https://valorwell.org/donate"
                 target="_blank"
@@ -60,7 +61,7 @@ const Support = () => {
                 Sponsor a Session
               </a>
             </Button>
-            <Button asChild size="lg" variant="outline">
+            <Button asChild size="lg" variant="outline" onClick={() => trackDonateConversion()}>
               <a
                 href="https://valorwell.org/donate"
                 target="_blank"
@@ -155,7 +156,7 @@ const Support = () => {
             </li>
           </ul>
 
-          <Button asChild size="lg">
+          <Button asChild size="lg" onClick={() => trackDonateConversion()}>
             <a
               href="https://valorwell.org/donate"
               target="_blank"

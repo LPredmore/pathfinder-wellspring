@@ -6,6 +6,7 @@ import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/componen
 import { Trophy, Users, Heart, Star, Mic, Award } from "lucide-react";
 import { toast } from "sonner";
 import { CreatorApplicationForm } from "@/components/forms/CreatorApplicationForm";
+import { trackDonateConversion } from "@/lib/tracking";
 import flagSkyBackground from "@/assets/flag-sky-background-vertical.png";
 
 import resortBeach from "@/assets/resort-beach.png";
@@ -186,10 +187,10 @@ export default function Competitions() {
                 </div>
               </CardContent>
               <CardFooter className="flex-col gap-2">
-                <Button asChild className="w-full">
+                <Button asChild className="w-full" onClick={() => trackDonateConversion()}>
                   <a href="https://valorwell.org/donate" target="_blank" rel="noopener noreferrer">Sponsor a Session</a>
                 </Button>
-                <Button asChild variant="outline" className="w-full">
+                <Button asChild variant="outline" className="w-full" onClick={() => trackDonateConversion()}>
                   <a href="https://valorwell.org/donate" target="_blank" rel="noopener noreferrer">Become a Monthly Sponsor</a>
                 </Button>
               </CardFooter>
@@ -289,7 +290,7 @@ export default function Competitions() {
             it.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button asChild size="lg">
+            <Button asChild size="lg" onClick={() => trackDonateConversion()}>
               <a href="https://valorwell.org/donate" target="_blank" rel="noopener noreferrer">Sponsor a Session</a>
             </Button>
             <Button size="lg" variant="secondary" onClick={handleSupportCreator}>

@@ -6,6 +6,7 @@ import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/componen
 import { Users, Heart, Video, BarChart3, HandHeart, PartyPopper } from "lucide-react";
 import { toast } from "sonner";
 import { CreatorApplicationForm } from "@/components/forms/CreatorApplicationForm";
+import { trackDonateConversion } from "@/lib/tracking";
 import flagSkyBackground from "@/assets/flag-sky-background-vertical.png";
 
 const handleSupportCreator = () => {
@@ -75,7 +76,7 @@ export default function Advocates() {
             <Button size="lg" variant="secondary" onClick={handleSupportCreator}>
               Support a Creator
             </Button>
-            <Button asChild size="lg">
+            <Button asChild size="lg" onClick={() => trackDonateConversion()}>
               <a href="https://valorwell.org/donate" target="_blank" rel="noopener noreferrer">
                 Sponsor a Session
               </a>
@@ -156,7 +157,7 @@ export default function Advocates() {
                 </p>
               </CardContent>
               <CardFooter>
-                <Button asChild className="w-full">
+                <Button asChild className="w-full" onClick={() => trackDonateConversion()}>
                   <a href="https://valorwell.org/donate" target="_blank" rel="noopener noreferrer">
                     Sponsor a Session
                   </a>
