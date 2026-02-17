@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      content_instructions: {
+        Row: {
+          created_at: string
+          id: number
+          instruction: string
+          is_active: boolean
+          scope: string
+          updated_at: string
+          version: number
+        }
+        Insert: {
+          created_at?: string
+          id?: never
+          instruction: string
+          is_active?: boolean
+          scope: string
+          updated_at?: string
+          version?: number
+        }
+        Update: {
+          created_at?: string
+          id?: never
+          instruction?: string
+          is_active?: boolean
+          scope?: string
+          updated_at?: string
+          version?: number
+        }
+        Relationships: []
+      }
       creator_applications: {
         Row: {
           additional_info: string | null
@@ -143,6 +173,155 @@ export type Database = {
         }
         Relationships: []
       }
+      platform_instructions: {
+        Row: {
+          component: string
+          created_at: string
+          hashtag_max: number | null
+          hashtag_min: number | null
+          id: number
+          instruction: string
+          is_active: boolean
+          platform: string
+          preferred_aspect_ratio: string
+          updated_at: string
+          version: number
+        }
+        Insert: {
+          component: string
+          created_at?: string
+          hashtag_max?: number | null
+          hashtag_min?: number | null
+          id?: number
+          instruction: string
+          is_active?: boolean
+          platform: string
+          preferred_aspect_ratio?: string
+          updated_at?: string
+          version?: number
+        }
+        Update: {
+          component?: string
+          created_at?: string
+          hashtag_max?: number | null
+          hashtag_min?: number | null
+          id?: number
+          instruction?: string
+          is_active?: boolean
+          platform?: string
+          preferred_aspect_ratio?: string
+          updated_at?: string
+          version?: number
+        }
+        Relationships: []
+      }
+      playlists: {
+        Row: {
+          created_at: string
+          id: number
+          playlist_title: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          playlist_title?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          playlist_title?: string | null
+        }
+        Relationships: []
+      }
+      posted_content: {
+        Row: {
+          created_at: string
+          error: string | null
+          facebook_desc: string | null
+          id: string
+          ig_tiktok_desc: string | null
+          image: string | null
+          image_url: string | null
+          linkedin_desc: string | null
+          playlist_id: number | null
+          post_length: Database["public"]["Enums"]["video_length"] | null
+          post_title: string | null
+          posted_at: string | null
+          scheduled_at: string | null
+          scheduled_platforms: string[] | null
+          status: Database["public"]["Enums"]["post_status"]
+          topic: string
+          updated_at: string
+          user_id: string
+          video_mime_type: string | null
+          video_original_filename: string | null
+          video_storage_path: string | null
+          video_url: string | null
+          youtube_desc: string | null
+          youtube_title: string | null
+        }
+        Insert: {
+          created_at?: string
+          error?: string | null
+          facebook_desc?: string | null
+          id?: string
+          ig_tiktok_desc?: string | null
+          image?: string | null
+          image_url?: string | null
+          linkedin_desc?: string | null
+          playlist_id?: number | null
+          post_length?: Database["public"]["Enums"]["video_length"] | null
+          post_title?: string | null
+          posted_at?: string | null
+          scheduled_at?: string | null
+          scheduled_platforms?: string[] | null
+          status?: Database["public"]["Enums"]["post_status"]
+          topic: string
+          updated_at?: string
+          user_id: string
+          video_mime_type?: string | null
+          video_original_filename?: string | null
+          video_storage_path?: string | null
+          video_url?: string | null
+          youtube_desc?: string | null
+          youtube_title?: string | null
+        }
+        Update: {
+          created_at?: string
+          error?: string | null
+          facebook_desc?: string | null
+          id?: string
+          ig_tiktok_desc?: string | null
+          image?: string | null
+          image_url?: string | null
+          linkedin_desc?: string | null
+          playlist_id?: number | null
+          post_length?: Database["public"]["Enums"]["video_length"] | null
+          post_title?: string | null
+          posted_at?: string | null
+          scheduled_at?: string | null
+          scheduled_platforms?: string[] | null
+          status?: Database["public"]["Enums"]["post_status"]
+          topic?: string
+          updated_at?: string
+          user_id?: string
+          video_mime_type?: string | null
+          video_original_filename?: string | null
+          video_storage_path?: string | null
+          video_url?: string | null
+          youtube_desc?: string | null
+          youtube_title?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "posted_content_playlist_id_fkey"
+            columns: ["playlist_id"]
+            isOneToOne: false
+            referencedRelation: "playlists"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       site_config: {
         Row: {
           key: string
@@ -160,6 +339,125 @@ export type Database = {
           value?: string
         }
         Relationships: []
+      }
+      social_content: {
+        Row: {
+          created_at: string
+          error: string | null
+          facebook_desc: string | null
+          id: string
+          ig_tiktok_desc: string | null
+          image: string | null
+          linkedin_desc: string | null
+          playlist_id: number | null
+          post_length: Database["public"]["Enums"]["video_length"] | null
+          post_title: string | null
+          posted_at: string | null
+          scheduled_at: string | null
+          scheduled_platforms: string[] | null
+          status: Database["public"]["Enums"]["post_status"]
+          topic: string
+          updated_at: string
+          upload_at: string | null
+          user_id: string
+          video_mime_type: string | null
+          video_original_filename: string | null
+          video_size_bytes: number | null
+          video_storage_path: string | null
+          video_url: string | null
+          youtube_comment: string | null
+          youtube_comment_error_detail: string | null
+          youtube_comment_id: string | null
+          youtube_comment_posted_at: string | null
+          youtube_comment_status: string | null
+          youtube_desc: string | null
+          youtube_error_detail: string | null
+          youtube_status: string | null
+          youtube_title: string | null
+          youtube_uploaded_at: string | null
+          youtube_video_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          error?: string | null
+          facebook_desc?: string | null
+          id?: string
+          ig_tiktok_desc?: string | null
+          image?: string | null
+          linkedin_desc?: string | null
+          playlist_id?: number | null
+          post_length?: Database["public"]["Enums"]["video_length"] | null
+          post_title?: string | null
+          posted_at?: string | null
+          scheduled_at?: string | null
+          scheduled_platforms?: string[] | null
+          status?: Database["public"]["Enums"]["post_status"]
+          topic: string
+          updated_at?: string
+          upload_at?: string | null
+          user_id: string
+          video_mime_type?: string | null
+          video_original_filename?: string | null
+          video_size_bytes?: number | null
+          video_storage_path?: string | null
+          video_url?: string | null
+          youtube_comment?: string | null
+          youtube_comment_error_detail?: string | null
+          youtube_comment_id?: string | null
+          youtube_comment_posted_at?: string | null
+          youtube_comment_status?: string | null
+          youtube_desc?: string | null
+          youtube_error_detail?: string | null
+          youtube_status?: string | null
+          youtube_title?: string | null
+          youtube_uploaded_at?: string | null
+          youtube_video_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          error?: string | null
+          facebook_desc?: string | null
+          id?: string
+          ig_tiktok_desc?: string | null
+          image?: string | null
+          linkedin_desc?: string | null
+          playlist_id?: number | null
+          post_length?: Database["public"]["Enums"]["video_length"] | null
+          post_title?: string | null
+          posted_at?: string | null
+          scheduled_at?: string | null
+          scheduled_platforms?: string[] | null
+          status?: Database["public"]["Enums"]["post_status"]
+          topic?: string
+          updated_at?: string
+          upload_at?: string | null
+          user_id?: string
+          video_mime_type?: string | null
+          video_original_filename?: string | null
+          video_size_bytes?: number | null
+          video_storage_path?: string | null
+          video_url?: string | null
+          youtube_comment?: string | null
+          youtube_comment_error_detail?: string | null
+          youtube_comment_id?: string | null
+          youtube_comment_posted_at?: string | null
+          youtube_comment_status?: string | null
+          youtube_desc?: string | null
+          youtube_error_detail?: string | null
+          youtube_status?: string | null
+          youtube_title?: string | null
+          youtube_uploaded_at?: string | null
+          youtube_video_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "social_content_playlist_id_fkey"
+            columns: ["playlist_id"]
+            isOneToOne: false
+            referencedRelation: "playlists"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       support_session_inquiries: {
         Row: {
@@ -245,15 +543,97 @@ export type Database = {
         }
         Relationships: []
       }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      youtube_connections: {
+        Row: {
+          channel_id: string | null
+          channel_title: string | null
+          created_at: string
+          google_email: string | null
+          id: string
+          refresh_token: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          channel_id?: string | null
+          channel_title?: string | null
+          created_at?: string
+          google_email?: string | null
+          id?: string
+          refresh_token: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          channel_id?: string | null
+          channel_title?: string | null
+          created_at?: string
+          google_email?: string | null
+          id?: string
+          refresh_token?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      youtube_cron_http_log: {
+        Row: {
+          created_at: string
+          id: number
+          request_id: number
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          request_id: number
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          request_id?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      kick_youtube_run_due: { Args: never; Returns: undefined }
+      reset_stuck_youtube_uploads: {
+        Args: { minutes_stuck?: number }
+        Returns: number
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "user"
+      post_status: "incomplete" | "unscheduled" | "scheduled" | "posted"
+      video_length: "Short" | "Long"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -380,6 +760,10 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "user"],
+      post_status: ["incomplete", "unscheduled", "scheduled", "posted"],
+      video_length: ["Short", "Long"],
+    },
   },
 } as const
