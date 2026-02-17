@@ -70,11 +70,7 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-declare global {
-  interface Window {
-    gtag?: (...args: unknown[]) => void;
-  }
-}
+// gtag type declared in vite-env.d.ts
 
 export function TherapistApplicationForm() {
   const [isSubmitted, setIsSubmitted] = useState(false);
