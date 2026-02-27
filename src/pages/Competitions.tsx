@@ -32,12 +32,12 @@ const faqItems = [
 {
   question: "What is Permanent Partner Status?",
   answer:
-  "At 25 hours secured, Mission Partners unlock long-term status tied to the supporter base they helped build."
+  "At 25 hours secured, Mission Partners unlock long-term status tied to the supporter base they helped build. You will continue to earn your Growth Grant each month for the support you continue to show. We believe is continuing to help those, who continue to help our nations heroes."
 },
 {
   question: "How do Growth Grant payments work?",
   answer:
-  "All Creator Growth Grants are processed through HomeFromCollege."
+  "As a show of support. We give 10% of the money earned back to influencers who are dedicated to helping veterans. At ValorWell, we believe that the best way to say thank you, is to support those who support us. That's what Beyond the Yellow is about."
 },
 {
   question: "Can I help without competing?",
