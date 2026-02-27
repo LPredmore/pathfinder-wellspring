@@ -16,7 +16,7 @@ const footerLinks = {
     { name: "Join Our Team", href: "/therapists", external: false },
     { name: "Support a Veteran", href: "/support", external: false },
     { name: "Beyond the Yellow", href: "/beyondtheyellow", external: false },
-    { name: "Wall of Advocates", href: "/advocates", external: false },
+    { name: "Heroes for Heroes", href: "/advocates", external: false },
   ],
 };
 
@@ -28,7 +28,7 @@ const getInvolvedIcons: Record<string, typeof Briefcase> = {
   "Join Our Team": Briefcase,
   "Support a Veteran": Heart,
   "Beyond the Yellow": Trophy,
-  "Wall of Advocates": Award,
+  "Heroes for Heroes": Award,
 };
 
 export function Footer() {
