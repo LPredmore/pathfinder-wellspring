@@ -230,7 +230,7 @@ export default function Competitions() {
         </section>
 
         {/* What This Really Is */}
-        <ContentSection title="What The $75 Mission Really Is" variant="alt" className="relative z-10">
+        <ContentSection title='What "Beyond the Yellow" Really Is' variant="alt" className="relative z-10">
           <p>Beyond the Yellow is a creator-driven campaign built to secure actual therapy hours for veterans and military families. Every hour funded creates direct, measurable impact.
 
           </p>
