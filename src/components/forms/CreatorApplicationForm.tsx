@@ -77,6 +77,7 @@ const socialProfileSchema = z.object({
 const formSchema = z.object({
   firstName: z.string().trim().min(1, "First name is required").max(100),
   lastName: z.string().trim().min(1, "Last name is required").max(100),
+  prefName: z.string().trim().max(100).optional(),
   email: z.string().trim().email("Invalid email address").max(255),
   state: z.string().min(1, "Select your state"),
   socialProfiles: z.array(socialProfileSchema).min(1, "Add at least one social profile"),
@@ -99,7 +100,7 @@ const STEP_TITLES = [
 ];
 
 const STEP_FIELDS: (keyof FormData | string)[][] = [
-  ["firstName", "lastName", "email", "state"],
+  ["firstName", "lastName", "prefName", "email", "state"],
   ["socialProfiles"],
   ["motivation"],
   ["comfortLevel", "fundraisingGoal"],
@@ -161,6 +162,7 @@ export function CreatorApplicationForm({
         .insert({
           first_name: data.firstName,
           last_name: data.lastName,
+          pref_name: data.prefName || null,
           email: data.email,
           state: data.state,
           status: "partial",
@@ -184,6 +186,7 @@ export function CreatorApplicationForm({
       updatePayload = {
         first_name: data.firstName,
         last_name: data.lastName,
+        pref_name: data.prefName || null,
         email: data.email,
         state: data.state,
       };
@@ -264,6 +267,7 @@ export function CreatorApplicationForm({
       const { error } = await supabase.from("creator_applications" as any).insert({
         first_name: data.firstName,
         last_name: data.lastName,
+        pref_name: data.prefName || null,
         email: data.email,
         state: data.state,
         social_profiles: socialProfilesJson,
@@ -339,6 +343,11 @@ export function CreatorApplicationForm({
                       <Input id="ca-lastName" {...register("lastName")} />
                       {errors.lastName && <p className="text-sm text-destructive">{errors.lastName.message}</p>}
                     </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="ca-prefName">Preferred Display Name</Label>
+                    <Input id="ca-prefName" {...register("prefName")} placeholder="e.g. Johnny V" />
+                    <p className="text-xs text-muted-foreground">How would you like your name shown publicly? (optional)</p>
                   </div>
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div className="space-y-2">
