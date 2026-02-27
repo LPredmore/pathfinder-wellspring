@@ -46,6 +46,7 @@ export type Database = {
       }
       creator_applications: {
         Row: {
+          accepted_rules: boolean | null
           additional_info: string | null
           comfort_level: string | null
           created_at: string
@@ -55,6 +56,7 @@ export type Database = {
           id: string
           last_name: string
           motivation: string | null
+          pref_name: string | null
           social_profiles: Json | null
           state: string
           status: string
@@ -62,6 +64,7 @@ export type Database = {
           willing_to_share: boolean | null
         }
         Insert: {
+          accepted_rules?: boolean | null
           additional_info?: string | null
           comfort_level?: string | null
           created_at?: string
@@ -71,6 +74,7 @@ export type Database = {
           id?: string
           last_name: string
           motivation?: string | null
+          pref_name?: string | null
           social_profiles?: Json | null
           state: string
           status?: string
@@ -78,6 +82,7 @@ export type Database = {
           willing_to_share?: boolean | null
         }
         Update: {
+          accepted_rules?: boolean | null
           additional_info?: string | null
           comfort_level?: string | null
           created_at?: string
@@ -87,6 +92,7 @@ export type Database = {
           id?: string
           last_name?: string
           motivation?: string | null
+          pref_name?: string | null
           social_profiles?: Json | null
           state?: string
           status?: string
