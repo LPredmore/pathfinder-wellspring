@@ -145,9 +145,9 @@ export default function Competitions() {
                 </a>
               </Button>
             </div>
-            <p className="mt-4 text-xs text-muted-foreground">Creator Growth Grants for Influencers that Promote Help for Veterans
+            
 
-            </p>
+
           </div>
         </section>
 
