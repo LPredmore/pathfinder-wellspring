@@ -158,7 +158,7 @@ export default function Competitions() {
             {/* Row 1: Counters */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <Card className="border-2 border-primary/30 p-8 text-center">
-                <span className="block text-5xl md:text-6xl font-bold text-primary">---</span>
+                <span className="block text-5xl md:text-6xl font-bold text-primary">1150+</span>
                 <span className="block text-lg font-semibold text-foreground mt-2">Hours of Therapy Secured</span>
                 <p className="text-sm text-muted-foreground mt-2">
                   Every $75 moves this counter. This is not a donation page. It is a scoreboard.
