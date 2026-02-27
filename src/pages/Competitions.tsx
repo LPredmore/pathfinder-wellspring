@@ -7,6 +7,7 @@ import { Unlock, Star, Award, Trophy, Target, Heart, Zap, Shield, ArrowRight, Tr
 import { toast } from "sonner";
 import { CreatorApplicationForm } from "@/components/forms/CreatorApplicationForm";
 import { trackDonateConversion } from "@/lib/tracking";
+import flagSkyBackground from "@/assets/flag-sky-background-vertical.png";
 
 const faqItems = [
   {
@@ -122,8 +123,14 @@ export default function Competitions() {
       />
       <FAQSchema faqs={faqItems} />
 
+      <div
+        className="relative bg-cover bg-top bg-no-repeat"
+        style={{ backgroundImage: `url(${flagSkyBackground})` }}
+      >
+        <div className="absolute inset-0 bg-white/70" />
+
       {/* Hero */}
-      <section className="hero-gradient py-20 md:py-28">
+      <section className="relative z-10 hero-gradient py-20 md:py-28">
         <div className="container-wide text-center">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4">
             Become a ValorWell Ambassador
@@ -152,7 +159,7 @@ export default function Competitions() {
       </section>
 
       {/* Choose Your Path */}
-      <section className="section-padding">
+      <section className="relative z-10 section-padding">
         <div className="container-wide">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground text-center mb-12">
             Choose Your Path
@@ -219,7 +226,7 @@ export default function Competitions() {
       </section>
 
       {/* What This Campaign Really Is */}
-      <ContentSection title="What This Campaign Really Is" variant="alt">
+      <ContentSection title="What This Campaign Really Is" variant="alt" className="relative z-10">
         <p>
           The ValorWell Ambassador Challenge is a creator-driven campaign built to fund actual therapy sessions for veterans and military families. Every sponsored session creates direct, measurable impact.
         </p>
@@ -229,7 +236,7 @@ export default function Competitions() {
       </ContentSection>
 
       {/* How It Works */}
-      <div id="how-it-works">
+      <div id="how-it-works" className="relative z-10">
         <StepsSection title="How It Works" steps={steps} />
         <div className="container-wide pb-8">
           <p className="text-sm text-muted-foreground text-center max-w-2xl mx-auto">
@@ -239,7 +246,7 @@ export default function Competitions() {
       </div>
 
       {/* Milestones That Matter */}
-      <section className="section-padding section-alt">
+      <section className="relative z-10 section-padding section-alt">
         <div className="container-wide">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground text-center mb-10">
             Milestones That Matter
@@ -260,7 +267,7 @@ export default function Competitions() {
       </section>
 
       {/* Why Ambassadors Join */}
-      <section className="section-padding">
+      <section className="relative z-10 section-padding">
         <div className="container-wide">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground text-center mb-10">
             Why Ambassadors Join
@@ -282,7 +289,7 @@ export default function Competitions() {
       </section>
 
       {/* Permanent Ambassador Status */}
-      <ContentSection title="What Permanent Ambassador Status Means" variant="alt">
+      <ContentSection title="What Permanent Ambassador Status Means" variant="alt" className="relative z-10">
         <p>
           When an ambassador reaches 25 sessions funded, they unlock Permanent Ambassador Status. That means they keep a lasting relationship to the donor network they helped build — and can continue earning on qualified future donations tied to the supporters they originally brought in.
         </p>
@@ -292,7 +299,7 @@ export default function Competitions() {
       </ContentSection>
 
       {/* Live Momentum */}
-      <section className="section-padding">
+      <section className="relative z-10 section-padding">
         <div className="container-wide">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground text-center mb-10">
             Live Momentum
@@ -316,10 +323,10 @@ export default function Competitions() {
       </section>
 
       {/* FAQ */}
-      <FAQSection items={faqItems} />
+      <FAQSection items={faqItems} className="relative z-10" />
 
       {/* Final CTA */}
-      <section className="section-padding">
+      <section className="relative z-10 section-padding">
         <div className="container-wide text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
             Apply to Become a ValorWell Ambassador
@@ -340,6 +347,7 @@ export default function Competitions() {
           </p>
         </div>
       </section>
+      </div>
     </Layout>
   );
 }
