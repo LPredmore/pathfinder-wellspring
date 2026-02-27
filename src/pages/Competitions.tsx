@@ -231,8 +231,8 @@ export default function Competitions() {
 
         {/* What This Really Is */}
         <ContentSection title="What The $75 Mission Really Is" variant="alt" className="relative z-10">
-          <p>
-            The $75 Mission is a creator-driven campaign built to secure actual therapy hours for veterans and military families. Every hour funded creates direct, measurable impact.
+          <p>Beyond the Yellow is a creator-driven campaign built to secure actual therapy hours for veterans and military families. Every hour funded creates direct, measurable impact.
+
           </p>
           <p className="mt-4">
             This is not a generic awareness campaign. Mission Partners turn attention into treatment — and build lasting influence around something that matters.
