@@ -308,8 +308,8 @@ export default function Competitions() {
         {/* Final CTA */}
         <section className="relative z-10 section-padding">
           <div className="container-wide text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Join The $75 Mission
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Join Beyond the Yellow
+
             </h2>
             <p className="text-lg text-muted-foreground max-w-xl mx-auto mb-8">
               Turn your platform into secured therapy hours for veterans and military families.
