@@ -3,87 +3,115 @@ import { SEO, BreadcrumbSchema, FAQSchema } from "@/components/SEO";
 import { ContentSection, StepsSection, FAQSection } from "@/components/sections";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
-import { Trophy, Users, Heart, Star, Mic, Award } from "lucide-react";
+import { Unlock, Star, Award, Trophy, Target, Heart, Zap, Shield, ArrowRight, TrendingUp, Users } from "lucide-react";
 import { toast } from "sonner";
 import { CreatorApplicationForm } from "@/components/forms/CreatorApplicationForm";
 import { trackDonateConversion } from "@/lib/tracking";
-import flagSkyBackground from "@/assets/flag-sky-background-vertical.png";
-
-import resortBeach from "@/assets/resort-beach.png";
-import resortDinner from "@/assets/resort-dinner.png";
-import resortPoolSunset from "@/assets/resort-pool-sunset.png";
-import resortPoolDay from "@/assets/resort-pool-day.png";
-import resortInfinity from "@/assets/resort-infinity.png";
 
 const faqItems = [
   {
-    question: "Where does the money go?",
+    question: "Who is this for?",
     answer:
-      "Donations fund mental health therapy sessions for veterans through the Bridge Program. Every dollar goes to pay for actual therapy sessions for a veteran in need. This is what makes us different.",
+      "Creators, advocates, and community-driven people who want to use their audience to help fund therapy sessions for veterans and military families.",
   },
   {
-    question: "Why monthly sponsorship matters",
+    question: "Do I need a huge following to apply?",
     answer:
-      "Monthly sponsors create predictability—helping fund sessions consistently and plan ahead for veterans who need continued support.",
+      "No. Applicants are placed into divisions based on audience size, so both smaller and larger creators can compete fairly.",
   },
   {
-    question: "Can I support a creator and still fund sessions?",
+    question: "How do I get selected?",
     answer:
-      "Yes. Supporting a creator is simply a way to route your donation through their fundraising page—your gift still funds sessions.",
+      "Applications are reviewed based on platform presence, fit, and readiness to participate in the campaign.",
   },
   {
-    question: "I'm a creator—how do I join?",
+    question: "When does commission start?",
+    answer: "Commission activates after 5 sessions are funded through your private link.",
+  },
+  {
+    question: "What is Permanent Ambassador Status?",
     answer:
-      "Click the Apply to Compete button on this page. If selected, you'll receive onboarding steps, your fundraising page setup instructions, and the \"Why I'm here\" video prompt.",
+      "At 25 sessions funded, ambassadors unlock long-term status tied to the supporter base they helped build.",
+  },
+  {
+    question: "How do payments work?",
+    answer:
+      "If earned, ambassador payouts are processed through HomeFromCollege.",
+  },
+  {
+    question: "Can I still help if I don't want to compete?",
+    answer:
+      "Yes. Visitors can support an ambassador or sponsor sessions directly without applying.",
+  },
+  {
+    question: "What am I not allowed to claim?",
+    answer:
+      "Ambassadors may not promise outcomes, give medical advice, or misrepresent how the campaign works.",
   },
 ];
 
 const steps = [
   {
     number: 1,
-    title: "Creators Apply and Get Selected",
-    description:
-      "Creators submit an application and, if selected, receive their own fundraising page.",
+    title: "Apply",
+    description: "Creators apply with their platform details and audience information.",
   },
   {
     number: 2,
-    title: "Fundraise on the Leaderboard",
+    title: "Get Verified",
     description:
-      "Each creator competes on the leaderboard by rallying their community to sponsor sessions.",
+      "Follower counts are reviewed, and each ambassador is assigned to the correct division based on their primary platform.",
   },
   {
     number: 3,
-    title: "Donors Sponsor Sessions",
+    title: "Get Your Private Link",
     description:
-      "Donors sponsor sessions by donating to a creator's page or directly to the campaign.",
+      "Approved ambassadors receive a private donation link to track the sessions they help fund.",
+  },
+  {
+    number: 4,
+    title: "Start Funding Sessions",
+    description:
+      "Share your link, compete on the leaderboard, and unlock milestone recognition as you create impact.",
   },
 ];
 
 const milestones = [
-  { icon: Star, count: "10 sessions funded", label: "Featured Moment spotlight" },
-  { icon: Users, count: "25 sessions funded", label: "Added to the Wall of Advocates" },
-  { icon: Mic, count: "50 sessions funded", label: "Podcast feature" },
-  { icon: Award, count: "Top 5", label: "Finalist spotlight" },
+  { sessions: 5, label: "Commission Unlocked", icon: Unlock },
+  { sessions: 10, label: "Recognition + Momentum Spotlight", icon: Star },
+  { sessions: 25, label: "Permanent Ambassador Status", icon: Award },
+  { sessions: 50, label: "Elite Recognition Feature", icon: Trophy },
+  { sessions: 100, label: "Champion-Level Impact", icon: Target },
 ];
 
-const galleryImages = [
-  { src: resortPoolSunset, alt: "Resort pool at sunset" },
-  { src: resortBeach, alt: "Resort beachfront" },
-  { src: resortDinner, alt: "Resort dining experience" },
-  { src: resortPoolDay, alt: "Resort pool during the day" },
-  { src: resortInfinity, alt: "Resort infinity pool view" },
+const whyCards = [
+  {
+    icon: Heart,
+    title: "Create Real Impact",
+    body: "You're not just posting. You're helping fund therapy sessions people actually need.",
+  },
+  {
+    icon: Shield,
+    title: "Build Credibility",
+    body: "This is the kind of campaign people feel good being associated with — measurable, mission-driven, and real.",
+  },
+  {
+    icon: TrendingUp,
+    title: "Earn Ongoing Upside",
+    body: "After you reach the required threshold, you can unlock recurring commission tied to the impact you create.",
+  },
 ];
 
 const handleSupportCreator = () => {
-  toast("Competition starts on March 1, 2026");
+  toast("The leaderboard is not live yet — check back when the campaign launches.");
 };
 
 export default function Competitions() {
   return (
     <Layout>
       <SEO
-        title="Beyond the Yellow"
-        description="A 30-day creator challenge funding real therapy sessions for veterans. $75 sponsors 1 session. Compete, support a creator, or sponsor a session today."
+        title="Become a ValorWell Ambassador | Beyond the Yellow"
+        description="Apply to become a ValorWell Ambassador. Help fund real therapy sessions for veterans and military families — turn your platform into measurable impact."
         canonical="/beyondtheyellow"
       />
       <BreadcrumbSchema
@@ -94,104 +122,95 @@ export default function Competitions() {
       />
       <FAQSchema faqs={faqItems} />
 
-      <div
-        className="relative bg-cover bg-top bg-no-repeat"
-        style={{ backgroundImage: `url(${flagSkyBackground})` }}
-      >
-        <div className="absolute inset-0 bg-white/70" />
-
       {/* Hero */}
-      <section className="relative z-10 section-padding">
+      <section className="hero-gradient py-20 md:py-28">
         <div className="container-wide text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Beyond the Yellow
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4">
+            Become a ValorWell Ambassador
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-6">
-            Fund real therapy sessions for veterans — one session at a time.
+            Help fund therapy sessions for veterans and military families — and turn your platform into measurable impact.
           </p>
-          <div className="inline-block rounded-lg bg-primary text-primary-foreground px-6 py-3 text-lg font-semibold">
-            $75 sponsors 1 therapy session
+          <div className="inline-block rounded-lg bg-primary text-primary-foreground px-6 py-3 text-lg font-semibold mb-4">
+            $75 funds 1 therapy session
           </div>
-          <p className="mt-4 text-muted-foreground max-w-xl mx-auto text-sm">
-            This is direct care through ValorWell's Bridge Program, helping
-            veterans access support while longer timelines play out.
+          <p className="text-muted-foreground max-w-xl mx-auto text-sm mb-8">
+            This is not just awareness. It is real funding for real treatment.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <CreatorApplicationForm buttonSize="lg" />
+            <Button variant="outline" size="lg" asChild>
+              <a href="#how-it-works">
+                See How It Works <ArrowRight className="ml-2 h-4 w-4" />
+              </a>
+            </Button>
+          </div>
+          <p className="mt-4 text-xs text-muted-foreground">
+            If accepted, ambassador payouts are processed through HomeFromCollege.
           </p>
         </div>
       </section>
 
-      {/* Participation Cards */}
-      <section className="relative z-10 section-padding">
+      {/* Choose Your Path */}
+      <section className="section-padding">
         <div className="container-wide">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground text-center mb-12">
-            Choose How You Want to Participate
+            Choose Your Path
           </h2>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {/* Card 1 */}
-            <Card className="flex flex-col">
-              <CardHeader>
-                <Trophy className="h-8 w-8 text-primary mb-2" />
-                <CardTitle>Compete as a Creator</CardTitle>
-              </CardHeader>
-              <CardContent className="flex-1 space-y-2 text-muted-foreground">
-                <p>
-                  If you're a creator with a mission and a community, compete on
-                  the leaderboard by fundraising through your own campaign page.
-                </p>
-                <ul className="list-disc list-inside space-y-1 text-sm">
-                  <li>Your own fundraising page and link</li>
-                  <li>The chance to be featured by ValorWell throughout the month</li>
-                  <li>A clear, tangible mission: $75 = 1 session</li>
-                </ul>
-              </CardContent>
-              <CardFooter>
-                <CreatorApplicationForm buttonClassName="w-full" />
-              </CardFooter>
-            </Card>
+          {/* Ambassador card — dominant */}
+          <Card className="border-2 border-primary mb-8">
+            <CardHeader>
+              <Zap className="h-8 w-8 text-primary mb-2" />
+              <CardTitle className="text-2xl">Become an Ambassador</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3 text-muted-foreground">
+              <p>
+                Apply to represent ValorWell, receive your own private tracked donation link, and compete on the leaderboard to fund therapy sessions.
+              </p>
+              <ul className="list-disc list-inside space-y-1 text-sm">
+                <li>Your own private donation link</li>
+                <li>Compete in the appropriate division</li>
+                <li>Unlock milestone recognition</li>
+                <li>Become eligible for ongoing commission after 5 sessions funded</li>
+                <li>Permanent Ambassador status unlocks at 25 sessions</li>
+              </ul>
+            </CardContent>
+            <CardFooter>
+              <CreatorApplicationForm buttonClassName="w-full" />
+            </CardFooter>
+          </Card>
 
-            {/* Card 2 */}
+          {/* Secondary cards */}
+          <div className="grid sm:grid-cols-2 gap-6">
             <Card className="flex flex-col">
               <CardHeader>
-                <Users className="h-8 w-8 text-primary mb-2" />
-                <CardTitle>Support a Creator</CardTitle>
+                <Users className="h-6 w-6 text-primary mb-2" />
+                <CardTitle>Support an Ambassador</CardTitle>
               </CardHeader>
-              <CardContent className="flex-1 text-muted-foreground">
-                <p>
-                  Want to back a specific creator? Choose one from the
-                  leaderboard and donate through their page.
-                </p>
+              <CardContent className="flex-1 text-muted-foreground text-sm">
+                <p>Support a creator you believe in while helping fund therapy sessions.</p>
               </CardContent>
               <CardFooter>
                 <Button variant="secondary" className="w-full" onClick={handleSupportCreator}>
-                  Support a Creator
+                  View Leaderboard
                 </Button>
               </CardFooter>
             </Card>
 
-            {/* Card 3 */}
             <Card className="flex flex-col">
               <CardHeader>
-                <Heart className="h-8 w-8 text-primary mb-2" />
-                <CardTitle>Sponsor a Session</CardTitle>
+                <Heart className="h-6 w-6 text-primary mb-2" />
+                <CardTitle>Fund a Session Directly</CardTitle>
               </CardHeader>
-              <CardContent className="flex-1 text-muted-foreground space-y-3">
-                <p>
-                  Prefer to donate directly to the campaign? Sponsor sessions
-                  without choosing a specific creator.
-                </p>
-                <div className="grid grid-cols-2 gap-2 text-sm font-medium">
-                  <span className="rounded bg-muted px-3 py-1.5 text-center">$75 = 1 session</span>
-                  <span className="rounded bg-muted px-3 py-1.5 text-center">$150 = 2 sessions</span>
-                  <span className="rounded bg-muted px-3 py-1.5 text-center">$375 = 5 sessions</span>
-                  <span className="rounded bg-muted px-3 py-1.5 text-center">$750 = 10 sessions</span>
-                </div>
+              <CardContent className="flex-1 text-muted-foreground text-sm">
+                <p>Donate straight to the campaign if you want to support the mission without choosing a creator.</p>
               </CardContent>
-              <CardFooter className="flex-col gap-2">
+              <CardFooter>
                 <Button asChild className="w-full" onClick={() => trackDonateConversion()}>
-                  <a href="https://valorwell.org/donate" target="_blank" rel="noopener noreferrer">Sponsor a Session</a>
-                </Button>
-                <Button asChild variant="outline" className="w-full" onClick={() => trackDonateConversion()}>
-                  <a href="https://valorwell.org/donate" target="_blank" rel="noopener noreferrer">Become a Monthly Sponsor</a>
+                  <a href="https://valorwell.org/donate" target="_blank" rel="noopener noreferrer">
+                    Sponsor a Session
+                  </a>
                 </Button>
               </CardFooter>
             </Card>
@@ -199,46 +218,40 @@ export default function Competitions() {
         </div>
       </section>
 
-      {/* What This Is */}
-      <ContentSection title="What This Is" variant="alt" className="relative z-10">
+      {/* What This Campaign Really Is */}
+      <ContentSection title="What This Campaign Really Is" variant="alt">
         <p>
-          The Creator Challenge is a 30-day peer-to-peer fundraising competition
-          where creators and community advocates raise money to sponsor therapy
-          sessions for veterans through ValorWell's Bridge Program.
+          The ValorWell Ambassador Challenge is a creator-driven campaign built to fund actual therapy sessions for veterans and military families. Every sponsored session creates direct, measurable impact.
         </p>
         <p className="mt-4">
-          It's not an "awareness" campaign. It's a direct funding mechanism for
-          real treatment sessions.
+          This is not a generic awareness campaign. It is a real opportunity to turn attention into treatment — and build lasting influence around something that matters.
         </p>
       </ContentSection>
 
       {/* How It Works */}
-      <StepsSection
-        title="How It Works"
-        steps={steps}
-        className="relative z-10"
-      />
-
-      {/* Eligibility & Milestones */}
-      <section className="relative z-10 section-padding section-alt">
-        <div className="container-wide">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground text-center mb-4">
-            Eligibility &amp; Milestones
-          </h2>
-          <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-10">
-            To be eligible for the grand prize, a creator must fund at least 25
-            sessions ($1,875) during the contest period. The creator who raises
-            the most by the deadline wins.
+      <div id="how-it-works">
+        <StepsSection title="How It Works" steps={steps} />
+        <div className="container-wide pb-8">
+          <p className="text-sm text-muted-foreground text-center max-w-2xl mx-auto">
+            <strong>Hero Division</strong> = under 10,000 followers · <strong>Elite Division</strong> = 10,000+ followers · Division is locked once assigned for the campaign.
           </p>
+        </div>
+      </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-4xl mx-auto">
+      {/* Milestones That Matter */}
+      <section className="section-padding section-alt">
+        <div className="container-wide">
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground text-center mb-10">
+            Milestones That Matter
+          </h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-5 max-w-5xl mx-auto">
             {milestones.map((m) => (
               <div
-                key={m.count}
-                className="flex flex-col items-center text-center rounded-lg border bg-card p-6"
+                key={m.sessions}
+                className="flex flex-col items-center text-center rounded-lg border-l-4 border-primary bg-card p-6 shadow-sm"
               >
-                <m.icon className="h-8 w-8 text-primary mb-3" />
-                <span className="font-semibold text-foreground">{m.count}</span>
+                <m.icon className="h-7 w-7 text-primary mb-3" />
+                <span className="font-bold text-foreground">{m.sessions} Sessions</span>
                 <span className="text-sm text-muted-foreground mt-1">{m.label}</span>
               </div>
             ))}
@@ -246,61 +259,87 @@ export default function Competitions() {
         </div>
       </section>
 
-      {/* Prize */}
-      <ContentSection title="Prize" className="relative z-10">
-        <p>
-          The top fundraiser wins a romantic resort vacation package in Mexico.
-          Full prize details and terms are provided on the application page.
-        </p>
-
-        {/* Resort Image Gallery */}
-        <div className="mt-8">
-          <div className="rounded-xl overflow-hidden shadow-lg">
-            <img
-              src={galleryImages[0].src}
-              alt={galleryImages[0].alt}
-              className="w-full h-64 md:h-96 object-cover"
-            />
+      {/* Why Ambassadors Join */}
+      <section className="section-padding">
+        <div className="container-wide">
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground text-center mb-10">
+            Why Ambassadors Join
+          </h2>
+          <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            {whyCards.map((c) => (
+              <Card key={c.title} className="text-center">
+                <CardHeader>
+                  <c.icon className="h-8 w-8 text-primary mx-auto mb-2" />
+                  <CardTitle>{c.title}</CardTitle>
+                </CardHeader>
+                <CardContent className="text-muted-foreground text-sm">
+                  {c.body}
+                </CardContent>
+              </Card>
+            ))}
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3">
-            {galleryImages.slice(1).map((img) => (
-              <div key={img.alt} className="rounded-lg overflow-hidden shadow-md">
-                <img
-                  src={img.src}
-                  alt={img.alt}
-                  className="w-full h-32 md:h-40 object-cover hover:scale-105 transition-transform duration-300"
-                />
+        </div>
+      </section>
+
+      {/* Permanent Ambassador Status */}
+      <ContentSection title="What Permanent Ambassador Status Means" variant="alt">
+        <p>
+          When an ambassador reaches 25 sessions funded, they unlock Permanent Ambassador Status. That means they keep a lasting relationship to the donor network they helped build — and can continue earning on qualified future donations tied to the supporters they originally brought in.
+        </p>
+        <p className="mt-4 text-sm">
+          All payouts, if earned, are processed through HomeFromCollege.
+        </p>
+      </ContentSection>
+
+      {/* Live Momentum */}
+      <section className="section-padding">
+        <div className="container-wide">
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground text-center mb-10">
+            Live Momentum
+          </h2>
+          <div className="grid sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
+            {[
+              { label: "Total Sessions Funded", value: "—" },
+              { label: "Hero Division Leader", value: "Coming Soon" },
+              { label: "Elite Division Leader", value: "Coming Soon" },
+            ].map((s) => (
+              <div
+                key={s.label}
+                className="rounded-lg border bg-card p-6 text-center"
+              >
+                <span className="block text-2xl font-bold text-foreground">{s.value}</span>
+                <span className="text-sm text-muted-foreground mt-1 block">{s.label}</span>
               </div>
             ))}
           </div>
         </div>
-      </ContentSection>
+      </section>
 
       {/* FAQ */}
-      <FAQSection items={faqItems} className="relative z-10" />
+      <FAQSection items={faqItems} />
 
       {/* Final CTA */}
-      <section className="relative z-10 section-padding">
+      <section className="section-padding">
         <div className="container-wide text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Sponsor a Session Today
+            Apply to Become a ValorWell Ambassador
           </h2>
           <p className="text-lg text-muted-foreground max-w-xl mx-auto mb-8">
-            If you've ever wanted to help veterans in a concrete way, this is
-            it.
+            If you want your platform to do more than raise awareness, this is your chance to help fund real therapy sessions and build something meaningful around your influence.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button asChild size="lg" onClick={() => trackDonateConversion()}>
-              <a href="https://valorwell.org/donate" target="_blank" rel="noopener noreferrer">Sponsor a Session</a>
+            <CreatorApplicationForm buttonSize="lg" />
+            <Button asChild size="lg" variant="outline" onClick={() => trackDonateConversion()}>
+              <a href="https://valorwell.org/donate" target="_blank" rel="noopener noreferrer">
+                Support a Session
+              </a>
             </Button>
-            <Button size="lg" variant="secondary" onClick={handleSupportCreator}>
-              Support a Creator
-            </Button>
-            <CreatorApplicationForm buttonSize="lg" buttonVariant="outline" />
           </div>
+          <p className="mt-4 text-xs text-muted-foreground">
+            Applications are reviewed manually. Approved ambassadors receive onboarding and a private donation link.
+          </p>
         </div>
       </section>
-      </div>
     </Layout>
   );
 }
