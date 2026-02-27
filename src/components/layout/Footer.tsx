@@ -27,7 +27,7 @@ const contactInfo = [
 const getInvolvedIcons: Record<string, typeof Briefcase> = {
   "Join Our Team": Briefcase,
   "Support a Veteran": Heart,
-  "Competition": Trophy,
+  "Beyond the Yellow": Trophy,
   "Wall of Advocates": Award,
 };
 
