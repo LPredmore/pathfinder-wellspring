@@ -304,7 +304,7 @@ export function CreatorApplicationForm({
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         <Button variant={buttonVariant} size={buttonSize} className={buttonClassName}>
-          Apply to Compete
+          Become a Mission Partner
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
@@ -313,7 +313,7 @@ export function CreatorApplicationForm({
             <CheckCircle className="h-16 w-16 text-primary mx-auto mb-4" />
             <h3 className="text-2xl font-bold text-foreground mb-2">Application Received!</h3>
             <p className="text-muted-foreground">
-              Thank you for applying to the Creator Challenge. We'll review your application and be in touch soon.
+              Thank you for applying to The $75 Mission. We'll review your application and be in touch soon.
             </p>
           </div>
         ) : (
@@ -517,7 +517,7 @@ export function CreatorApplicationForm({
               {/* Step 5 — Participation Agreement */}
               {currentStep === 4 && (
                 <div className="space-y-4">
-                  <h3 className="text-lg font-bold text-foreground">ValorWell Ambassador Challenge — Ambassador Participation Agreement</h3>
+                  <h3 className="text-lg font-bold text-foreground">ValorWell $75 Mission — Mission Partner Agreement</h3>
                   <div className="max-h-[40vh] overflow-y-auto rounded-md border p-4 space-y-4 text-sm text-muted-foreground">
 
                     <p>This Ambassador Participation Agreement ("Agreement") is entered into by and between ValorWell, Inc. ("ValorWell," "we," or "us") and the individual ("Ambassador" or "you") who submits an application and is accepted into the ValorWell Ambassador Challenge ("Program").</p>
@@ -703,7 +703,7 @@ export function CreatorApplicationForm({
                       onCheckedChange={(checked) => setValue("acceptedRules", checked === true ? true : false as any, { shouldValidate: true })}
                     />
                     <Label htmlFor="ca-acceptedRules" className="font-normal cursor-pointer leading-snug">
-                      I have read and agree to the Ambassador Participation Agreement *
+                      I have read and agree to the Mission Partner Agreement *
                     </Label>
                   </div>
                   {errors.acceptedRules && <p className="text-sm text-destructive">{errors.acceptedRules.message}</p>}
