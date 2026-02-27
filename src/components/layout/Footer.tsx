@@ -15,7 +15,7 @@ const footerLinks = {
   getInvolved: [
     { name: "Join Our Team", href: "/therapists", external: false },
     { name: "Support a Veteran", href: "/support", external: false },
-    { name: "Competition", href: "/competitions", external: false },
+    { name: "Beyond the Yellow", href: "/beyondtheyellow", external: false },
     { name: "Wall of Advocates", href: "/advocates", external: false },
   ],
 };

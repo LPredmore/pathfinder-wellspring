@@ -82,14 +82,14 @@ export default function Competitions() {
   return (
     <Layout>
       <SEO
-        title="Creator Challenge: Sponsor a Veteran"
+        title="Beyond the Yellow"
         description="A 30-day creator challenge funding real therapy sessions for veterans. $50 sponsors 1 session. Compete, support a creator, or sponsor a session today."
-        canonical="/competitions"
+        canonical="/beyondtheyellow"
       />
       <BreadcrumbSchema
         items={[
           { name: "Home", url: "/" },
-          { name: "Creator Challenge", url: "/competitions" },
+          { name: "Beyond the Yellow", url: "/beyondtheyellow" },
         ]}
       />
       <FAQSchema faqs={faqItems} />
@@ -104,7 +104,7 @@ export default function Competitions() {
       <section className="relative z-10 section-padding">
         <div className="container-wide text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Creator Challenge: Sponsor a Veteran
+            Beyond the Yellow
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-6">
             Fund real therapy sessions for veterans — one session at a time.

@@ -186,7 +186,7 @@ const Support = () => {
         </ul>
         <div className="mt-6">
           <Button asChild variant="outline">
-            <Link to="/competitions">View Competitions</Link>
+            <Link to="/beyondtheyellow">Beyond the Yellow</Link>
           </Button>
         </div>
       </ContentSection>
