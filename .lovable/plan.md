@@ -1,39 +1,55 @@
 
 
-## Rename /competitions to /beyondtheyellow
+## Update Creator Application Form and Session Pricing
 
 ### Overview
 
-Rename the route, update all internal links, and change display text from "Competition" / "Creator Challenge" to "Beyond the Yellow" across the site. No content changes to the page itself (that's coming later).
+Two changes: (1) remove the "willing to share" field from the application form, and (2) update all session pricing from $50/session to $75/session site-wide, plus add a 5-session option to the fundraising goals.
 
 ### Changes
 
-**1. `src/App.tsx`**
-- Change import name: `Competitions` stays as the component name (file rename is cosmetic and not required since the page will be revamped anyway)
-- Change route path from `/competitions` to `/beyondtheyellow`
+**1. `src/components/forms/CreatorApplicationForm.tsx`**
 
-**2. `src/components/layout/Footer.tsx`** (line 18)
-- Change `{ name: "Competition", href: "/competitions" }` to `{ name: "Beyond the Yellow", href: "/beyondtheyellow" }`
+- **Remove `willingToShare` from the Zod schema** (line 84): Delete the `willingToShare` field entirely
+- **Remove from `STEP_FIELDS`** (line 105): Remove `"willingToShare"` from the step 4 array
+- **Remove the `willingToShare` watch** (line 150)
+- **Remove the "willing to share" radio group UI** (lines 468-484): Delete the entire block
+- **Remove `willing_to_share` from step 3 save payload** (line 206)
+- **Remove `willing_to_share` from `onSubmit` final payload** (line 241)
+- **Remove `willing_to_share` from the fallback insert** (line 275)
+- **Update `FUNDRAISING_GOALS`** (lines 62-68): Change to $75/session math and add 5-session option:
+  - `"5 sessions ($375)"`
+  - `"10 sessions ($750)"`
+  - `"25 sessions ($1,875)"`
+  - `"50 sessions ($3,750)"`
+  - `"100 sessions ($7,500+)"`
+  - `"Not sure yet"`
 
-**3. `src/pages/Support.tsx`** (line 189)
-- Change `<Link to="/competitions">View Competitions</Link>` to `<Link to="/beyondtheyellow">Beyond the Yellow</Link>`
+**2. `src/pages/Competitions.tsx`** -- Update all $50 references to $75:
 
-**4. `src/pages/Competitions.tsx`**
-- Update `canonical` from `/competitions` to `/beyondtheyellow`
-- Update breadcrumb name from `"Creator Challenge"` to `"Beyond the Yellow"` and URL to `/beyondtheyellow`
-- Update `<h1>` from `"Creator Challenge: Sponsor a Veteran"` to `"Beyond the Yellow"` (keeping the subtitle as-is for now since a full revamp is coming)
+- SEO description (line 86): `$75 sponsors 1 session`
+- Hero badge (line 113): `$75 sponsors 1 therapy session`
+- Creator card bullet (line 144): `$75 = 1 session`
+- Sponsor card grid (lines 183-186): Recalculate with $75 and add 5-session tier:
+  - `$75 = 1 session`
+  - `$150 = 2 sessions`
+  - `$375 = 5 sessions`
+  - `$750 = 10 sessions`
+- Eligibility section (currently says 25 sessions / $1,250): Update to `$1,875`
 
-**5. No changes to**:
-- `CreatorApplicationForm.tsx` -- internal form copy, not navigation
-- `Advocates.tsx` -- mentions "Creator Challenge" in body text, not a heading or link
-- The filename `Competitions.tsx` -- since the page will be fully revamped soon anyway
+**3. `src/pages/Support.tsx`** -- Update $50 references to $75:
 
-### Files Modified
+- SEO description: `$75 sponsors 1 session`
+- Hero badge: `$75 sponsors 1 therapy session`
+- Donation tier grid: Recalculate with $75 and add 5-session option
+- Monthly sponsor line: `$75/month`
 
-| File | What changes |
-|------|-------------|
-| `src/App.tsx` | Route path `/competitions` to `/beyondtheyellow` |
-| `src/components/layout/Footer.tsx` | Link text and href |
-| `src/pages/Support.tsx` | Link `to` and display text |
-| `src/pages/Competitions.tsx` | SEO canonical, breadcrumb, and h1 heading |
+**4. `src/pages/Advocates.tsx`** -- Update $50 references to $75:
+
+- SEO description: `$75 sponsors 1 session`
+- Hero badge: `$75 sponsors 1 therapy session`
+
+### Note on Database
+
+You mentioned you'll manually delete the `willing_to_share` column in Supabase -- the code changes will simply stop reading/writing that column, so both can happen in any order without breaking anything.
 
