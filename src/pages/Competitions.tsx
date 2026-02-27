@@ -297,9 +297,9 @@ export default function Competitions() {
           <p>
             At 25 hours secured, Mission Partners unlock Permanent Partner Status — a lasting relationship to the supporter network they helped build, with an ongoing Creator Growth Grant tied to their impact.
           </p>
-          <p className="mt-4 text-sm">
-            All Growth Grants are processed through HomeFromCollege.
-          </p>
+          
+
+
         </ContentSection>
 
         {/* FAQ */}
