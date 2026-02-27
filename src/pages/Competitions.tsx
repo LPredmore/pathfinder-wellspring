@@ -165,7 +165,7 @@ export default function Competitions() {
                 </p>
               </Card>
               <Card className="border-2 border-destructive/30 p-8 text-center">
-                <span className="block text-5xl md:text-6xl font-bold text-destructive">---</span>
+                <span className="block text-5xl md:text-6xl font-bold text-destructive">800+</span>
                 <span className="block text-lg font-semibold text-foreground mt-2">Veterans Still Waiting</span>
                 <p className="text-sm text-muted-foreground mt-2">
                   Every session funded moves someone off this list.
