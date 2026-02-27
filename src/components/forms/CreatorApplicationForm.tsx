@@ -60,10 +60,11 @@ const COMFORT_LEVELS = [
 ] as const;
 
 const FUNDRAISING_GOALS = [
-  "10 sessions ($500)",
-  "25 sessions ($1,250)",
-  "50 sessions ($2,500)",
-  "100 sessions ($5,000+)",
+  "5 sessions ($375)",
+  "10 sessions ($750)",
+  "25 sessions ($1,875)",
+  "50 sessions ($3,750)",
+  "100 sessions ($7,500+)",
   "Not sure yet",
 ] as const;
 
@@ -81,7 +82,6 @@ const formSchema = z.object({
   socialProfiles: z.array(socialProfileSchema).min(1, "Add at least one social profile"),
   motivation: z.string().trim().min(1, "This field is required").max(5000),
   veteranConnection: z.string().optional(),
-  willingToShare: z.enum(["yes", "no"], { required_error: "Select yes or no" }),
   comfortLevel: z.string().min(1, "Select your comfort level"),
   fundraisingGoal: z.string().min(1, "Select a fundraising goal"),
   additionalInfo: z.string().trim().max(5000).optional(),
@@ -102,7 +102,7 @@ const STEP_FIELDS: (keyof FormData | string)[][] = [
   ["firstName", "lastName", "email", "state"],
   ["socialProfiles"],
   ["motivation"],
-  ["willingToShare", "comfortLevel", "fundraisingGoal"],
+  ["comfortLevel", "fundraisingGoal"],
   ["acceptedRules"],
 ];
 
@@ -147,7 +147,6 @@ export function CreatorApplicationForm({
   });
 
   const state = watch("state");
-  const willingToShare = watch("willingToShare");
   const comfortLevel = watch("comfortLevel");
   const fundraisingGoal = watch("fundraisingGoal");
   const veteranConnection = watch("veteranConnection");
@@ -203,7 +202,6 @@ export function CreatorApplicationForm({
       };
     } else if (step === 3) {
       updatePayload = {
-        willing_to_share: data.willingToShare === "yes",
         comfort_level: data.comfortLevel,
         fundraising_goal: data.fundraisingGoal,
         additional_info: data.additionalInfo || null,
@@ -238,7 +236,6 @@ export function CreatorApplicationForm({
     setSubmitError(null);
 
     const finalPayload: Record<string, any> = {
-      willing_to_share: data.willingToShare === "yes",
       comfort_level: data.comfortLevel,
       fundraising_goal: data.fundraisingGoal,
       additional_info: data.additionalInfo || null,
@@ -272,7 +269,6 @@ export function CreatorApplicationForm({
         social_profiles: socialProfilesJson,
         motivation: data.motivation,
         veteran_connection: data.veteranConnection || null,
-        willing_to_share: data.willingToShare === "yes",
         comfort_level: data.comfortLevel,
         fundraising_goal: data.fundraisingGoal,
         additional_info: data.additionalInfo || null,
@@ -466,24 +462,6 @@ export function CreatorApplicationForm({
               {currentStep === 3 && (
                 <div className="space-y-4">
                   <div className="space-y-2">
-                    <Label>Are you willing to share your fundraiser link at least 2 times during the 30-day challenge? *</Label>
-                    <RadioGroup
-                      value={willingToShare}
-                      onValueChange={(v) => setValue("willingToShare", v as "yes" | "no", { shouldValidate: true })}
-                    >
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="yes" id="wts-yes" />
-                        <Label htmlFor="wts-yes" className="font-normal cursor-pointer">Yes</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="no" id="wts-no" />
-                        <Label htmlFor="wts-no" className="font-normal cursor-pointer">No</Label>
-                      </div>
-                    </RadioGroup>
-                    {errors.willingToShare && <p className="text-sm text-destructive">{errors.willingToShare.message}</p>}
-                  </div>
-
-                  <div className="space-y-2">
                     <Label>How comfortable are you asking your audience to donate to a cause? *</Label>
                     <RadioGroup
                       value={comfortLevel}
@@ -553,7 +531,7 @@ export function CreatorApplicationForm({
                     </div>
                     <div>
                       <p className="font-bold text-foreground">Minimum to Qualify for Prize</p>
-                      <p className="mt-1">To qualify for the grand prize, creators must raise at least $1,250 (25 sessions) during the competition period.</p>
+                      <p className="mt-1">To qualify for the grand prize, creators must raise at least $1,875 (25 sessions) during the competition period.</p>
                     </div>
                     <div>
                       <p className="font-bold text-foreground">Prize Provider</p>

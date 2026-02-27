@@ -41,7 +41,7 @@ export default function Advocates() {
     <Layout>
       <SEO
         title="Wall of Advocates"
-        description="Meet the creators and community advocates funding therapy sessions for veterans. $50 sponsors 1 session. Support a creator or sponsor a session today."
+        description="Meet the creators and community advocates funding therapy sessions for veterans. $75 sponsors 1 session. Support a creator or sponsor a session today."
         canonical="/advocates"
       />
       <BreadcrumbSchema
@@ -67,7 +67,7 @@ export default function Advocates() {
             Coming soon — a public wall honoring the people funding real therapy sessions for veterans.
           </p>
           <div className="inline-block rounded-lg bg-primary text-primary-foreground px-6 py-3 text-lg font-semibold mb-6">
-            $50 sponsors 1 therapy session
+            $75 sponsors 1 therapy session
           </div>
           <p className="text-muted-foreground max-w-xl mx-auto text-sm mb-8">
             If you want to help right now, you can sponsor a session or support a creator in the current challenge.
@@ -112,7 +112,7 @@ export default function Advocates() {
       {/* How to get featured */}
       <ContentSection title="How to Get Featured on the Wall" variant="alt" className="relative z-10">
         <p>
-          Advocates are featured after funding 25 sessions ($1,250) during the Creator Challenge.
+          Advocates are featured after funding 25 sessions ($1,875) during the Creator Challenge.
         </p>
         <p className="mt-4">
           If you're a creator who wants to compete and fund sessions with your audience, apply to join the next round.

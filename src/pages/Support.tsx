@@ -17,7 +17,7 @@ const Support = () => {
     <Layout>
       <SEO
         title="Support the Bridge Program"
-        description="Help fund real mental health therapy sessions for veterans through ValorWell's Bridge Program. $50 sponsors 1 session. Become a monthly sponsor or give once."
+        description="Help fund real mental health therapy sessions for veterans through ValorWell's Bridge Program. $75 sponsors 1 session. Become a monthly sponsor or give once."
         canonical="/support"
       />
       <DonateActionSchema />
@@ -49,7 +49,7 @@ const Support = () => {
             support—measured in sessions funded.
           </p>
           <div className="inline-block rounded-lg bg-primary text-primary-foreground px-6 py-3 text-lg font-semibold mb-8">
-            $50 sponsors 1 therapy session
+            $75 sponsors 1 therapy session
           </div>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Button asChild size="lg" onClick={() => trackDonateConversion()}>
@@ -124,10 +124,10 @@ const Support = () => {
 
           <div className="grid grid-cols-2 gap-3 max-w-md mb-8">
             {[
-              { amount: "$50", sessions: "1 session" },
-              { amount: "$100", sessions: "2 sessions" },
-              { amount: "$250", sessions: "5 sessions" },
-              { amount: "$500", sessions: "10 sessions" },
+              { amount: "$75", sessions: "1 session" },
+              { amount: "$150", sessions: "2 sessions" },
+              { amount: "$375", sessions: "5 sessions" },
+              { amount: "$750", sessions: "10 sessions" },
             ].map((tier) => (
               <span
                 key={tier.amount}
@@ -142,18 +142,18 @@ const Support = () => {
             Suggested monthly sponsorships
           </h3>
           <ul className="space-y-2 text-muted-foreground mb-8">
-            <li className="flex items-center gap-2">
-              <span className="font-medium text-foreground">$50/month</span> —
-              Sponsor 1 session each month
-            </li>
-            <li className="flex items-center gap-2">
-              <span className="font-medium text-foreground">$100/month</span> —
-              Sponsor 2 sessions each month
-            </li>
-            <li className="flex items-center gap-2">
-              <span className="font-medium text-foreground">$250/month</span> —
-              Sponsor 5 sessions each month
-            </li>
+             <li className="flex items-center gap-2">
+              <span className="font-medium text-foreground">$75/month</span> —
+               Sponsor 1 session each month
+             </li>
+             <li className="flex items-center gap-2">
+              <span className="font-medium text-foreground">$150/month</span> —
+               Sponsor 2 sessions each month
+             </li>
+             <li className="flex items-center gap-2">
+              <span className="font-medium text-foreground">$375/month</span> —
+               Sponsor 5 sessions each month
+             </li>
           </ul>
 
           <Button asChild size="lg" onClick={() => trackDonateConversion()}>
