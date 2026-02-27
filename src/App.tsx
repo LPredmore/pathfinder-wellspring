@@ -51,7 +51,7 @@ const App = () => (
             <Route path="/foundation" element={<Foundation />} />
             <Route path="/donate" element={<Donate />} />
             <Route path="/support" element={<Support />} />
-            <Route path="/competitions" element={<Competitions />} />
+            <Route path="/beyondtheyellow" element={<Competitions />} />
             <Route path="/operation-claims-success" element={<OperationClaimsSuccess />} />
             <Route path="/advocates" element={<Advocates />} />
             <Route path="*" element={<NotFound />} />
