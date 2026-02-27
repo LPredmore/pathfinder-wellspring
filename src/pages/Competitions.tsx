@@ -9,99 +9,99 @@ import { trackDonateConversion } from "@/lib/tracking";
 import flagSkyBackground from "@/assets/flag-sky-background-vertical.png";
 
 const faqItems = [
-  {
-    question: "Who is this for?",
-    answer:
-      "Creators, advocates, and community-driven people who want to use their platform to help secure therapy hours for veterans and military families.",
-  },
-  {
-    question: "Do I need a huge following to apply?",
-    answer:
-      "No. Mission Partners are placed into divisions based on audience size, so both smaller and larger creators can compete fairly.",
-  },
-  {
-    question: "How do I get selected?",
-    answer:
-      "Applications are reviewed based on platform presence, fit, and readiness to participate in the mission.",
-  },
-  {
-    question: "When does my Creator Growth Grant activate?",
-    answer:
-      "Your Creator Growth Grant activates after 5 hours of therapy are secured through your private tracked link.",
-  },
-  {
-    question: "What is Permanent Partner Status?",
-    answer:
-      "At 25 hours secured, Mission Partners unlock long-term status tied to the supporter base they helped build.",
-  },
-  {
-    question: "How do Growth Grant payments work?",
-    answer:
-      "All Creator Growth Grants are processed through HomeFromCollege.",
-  },
-  {
-    question: "Can I help without competing?",
-    answer:
-      "Yes. You can fund sessions directly at valorwell.org/donate without applying as a Mission Partner.",
-  },
-  {
-    question: "What am I not allowed to claim?",
-    answer:
-      "Mission Partners may not promise outcomes, give medical advice, or misrepresent how the mission works.",
-  },
-];
+{
+  question: "Who is this for?",
+  answer:
+  "Creators, advocates, and community-driven people who want to use their platform to help secure therapy hours for veterans and military families."
+},
+{
+  question: "Do I need a huge following to apply?",
+  answer:
+  "No. Mission Partners are placed into divisions based on audience size, so both smaller and larger creators can compete fairly."
+},
+{
+  question: "How do I get selected?",
+  answer:
+  "Applications are reviewed based on platform presence, fit, and readiness to participate in the mission."
+},
+{
+  question: "When does my Creator Growth Grant activate?",
+  answer:
+  "Your Creator Growth Grant activates after 5 hours of therapy are secured through your private tracked link."
+},
+{
+  question: "What is Permanent Partner Status?",
+  answer:
+  "At 25 hours secured, Mission Partners unlock long-term status tied to the supporter base they helped build."
+},
+{
+  question: "How do Growth Grant payments work?",
+  answer:
+  "All Creator Growth Grants are processed through HomeFromCollege."
+},
+{
+  question: "Can I help without competing?",
+  answer:
+  "Yes. You can fund sessions directly at valorwell.org/donate without applying as a Mission Partner."
+},
+{
+  question: "What am I not allowed to claim?",
+  answer:
+  "Mission Partners may not promise outcomes, give medical advice, or misrepresent how the mission works."
+}];
+
 
 const steps = [
-  {
-    number: 1,
-    title: "Apply",
-    description: "Submit your platform details and audience information.",
-  },
-  {
-    number: 2,
-    title: "Get Verified",
-    description:
-      "Follower counts are reviewed and each Mission Partner is assigned to the correct division.",
-  },
-  {
-    number: 3,
-    title: "Get Your Tracked Link",
-    description:
-      "Approved Mission Partners receive a private link to track the hours they help secure.",
-  },
-  {
-    number: 4,
-    title: "Start Securing Hours",
-    description:
-      "Share your link, compete on the leaderboard, and unlock milestones as you create real impact.",
-  },
-];
+{
+  number: 1,
+  title: "Apply",
+  description: "Submit your platform details and audience information."
+},
+{
+  number: 2,
+  title: "Get Verified",
+  description:
+  "Follower counts are reviewed and each Mission Partner is assigned to the correct division."
+},
+{
+  number: 3,
+  title: "Get Your Tracked Link",
+  description:
+  "Approved Mission Partners receive a private link to track the hours they help secure."
+},
+{
+  number: 4,
+  title: "Start Securing Hours",
+  description:
+  "Share your link, compete on the leaderboard, and unlock milestones as you create real impact."
+}];
+
 
 const milestones = [
-  { sessions: 5, label: "Creator Growth Grant Unlocked", icon: Unlock },
-  { sessions: 10, label: "Recognition + Momentum Spotlight", icon: Star },
-  { sessions: 25, label: "Permanent Mission Partner Status", icon: Award },
-  { sessions: 50, label: "Elite Recognition Feature", icon: Trophy },
-  { sessions: 100, label: "Champion-Level Impact", icon: Target },
-];
+{ sessions: 5, label: "Creator Growth Grant Unlocked", icon: Unlock },
+{ sessions: 10, label: "Recognition + Momentum Spotlight", icon: Star },
+{ sessions: 25, label: "Permanent Mission Partner Status", icon: Award },
+{ sessions: 50, label: "Elite Recognition Feature", icon: Trophy },
+{ sessions: 100, label: "Champion-Level Impact", icon: Target }];
+
 
 const whyCards = [
-  {
-    icon: Heart,
-    title: "Create Real Impact",
-    body: "You're not just posting. You're securing therapy hours people actually need.",
-  },
-  {
-    icon: Shield,
-    title: "Build Credibility",
-    body: "This is a measurable, mission-driven partnership — the kind of work people feel good being associated with.",
-  },
-  {
-    icon: TrendingUp,
-    title: "Earn a Creator Growth Grant",
-    body: "Not commission — a professional investment in your channel. Unlocks after you hit the required threshold.",
-  },
-];
+{
+  icon: Heart,
+  title: "Create Real Impact",
+  body: "You're not just posting. You're securing therapy hours people actually need."
+},
+{
+  icon: Shield,
+  title: "Build Credibility",
+  body: "This is a measurable, mission-driven partnership — the kind of work people feel good being associated with."
+},
+{
+  icon: TrendingUp,
+  title: "Earn a Creator Growth Grant",
+  body: "Not commission — a professional investment in your channel. Unlocks after you hit the required threshold."
+}];
+
 
 export default function Competitions() {
   return (
@@ -109,20 +109,20 @@ export default function Competitions() {
       <SEO
         title="The $75 Mission | Beyond the Yellow"
         description="Join The $75 Mission as a ValorWell Mission Partner. Help secure real therapy hours for veterans and military families — $75 at a time."
-        canonical="/beyondtheyellow"
-      />
+        canonical="/beyondtheyellow" />
+
       <BreadcrumbSchema
         items={[
-          { name: "Home", url: "/" },
-          { name: "Beyond the Yellow", url: "/beyondtheyellow" },
-        ]}
-      />
+        { name: "Home", url: "/" },
+        { name: "Beyond the Yellow", url: "/beyondtheyellow" }]
+        } />
+
       <FAQSchema faqs={faqItems} />
 
       <div
         className="relative bg-cover bg-top bg-no-repeat"
-        style={{ backgroundImage: `url(${flagSkyBackground})` }}
-      >
+        style={{ backgroundImage: `url(${flagSkyBackground})` }}>
+
         <div className="absolute inset-0 bg-white/85" />
 
         {/* Hero */}
@@ -145,8 +145,8 @@ export default function Competitions() {
                 </a>
               </Button>
             </div>
-            <p className="mt-4 text-xs text-muted-foreground">
-              Creator Growth Grants processed through HomeFromCollege.
+            <p className="mt-4 text-xs text-muted-foreground">Creator Growth Grants for Influencers that Promote Help for Veterans
+
             </p>
           </div>
         </section>
@@ -256,16 +256,16 @@ export default function Competitions() {
               Milestones That Matter
             </h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-5 max-w-5xl mx-auto">
-              {milestones.map((m) => (
-                <div
-                  key={m.sessions}
-                  className="flex flex-col items-center text-center rounded-lg border-l-4 border-primary bg-card p-6 shadow-sm"
-                >
+              {milestones.map((m) =>
+              <div
+                key={m.sessions}
+                className="flex flex-col items-center text-center rounded-lg border-l-4 border-primary bg-card p-6 shadow-sm">
+
                   <m.icon className="h-7 w-7 text-primary mb-3" />
                   <span className="font-bold text-foreground">{m.sessions} Hours Secured</span>
                   <span className="text-sm text-muted-foreground mt-1">{m.label}</span>
                 </div>
-              ))}
+              )}
             </div>
           </div>
         </section>
@@ -277,8 +277,8 @@ export default function Competitions() {
               Why Mission Partners Join
             </h2>
             <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-              {whyCards.map((c) => (
-                <Card key={c.title} className="text-center">
+              {whyCards.map((c) =>
+              <Card key={c.title} className="text-center">
                   <CardHeader>
                     <c.icon className="h-8 w-8 text-primary mx-auto mb-2" />
                     <CardTitle>{c.title}</CardTitle>
@@ -287,7 +287,7 @@ export default function Competitions() {
                     {c.body}
                   </CardContent>
                 </Card>
-              ))}
+              )}
             </div>
           </div>
         </section>
@@ -328,6 +328,6 @@ export default function Competitions() {
           </div>
         </section>
       </div>
-    </Layout>
-  );
+    </Layout>);
+
 }
