@@ -83,7 +83,7 @@ export default function Competitions() {
     <Layout>
       <SEO
         title="Beyond the Yellow"
-        description="A 30-day creator challenge funding real therapy sessions for veterans. $50 sponsors 1 session. Compete, support a creator, or sponsor a session today."
+        description="A 30-day creator challenge funding real therapy sessions for veterans. $75 sponsors 1 session. Compete, support a creator, or sponsor a session today."
         canonical="/beyondtheyellow"
       />
       <BreadcrumbSchema
@@ -110,7 +110,7 @@ export default function Competitions() {
             Fund real therapy sessions for veterans — one session at a time.
           </p>
           <div className="inline-block rounded-lg bg-primary text-primary-foreground px-6 py-3 text-lg font-semibold">
-            $50 sponsors 1 therapy session
+            $75 sponsors 1 therapy session
           </div>
           <p className="mt-4 text-muted-foreground max-w-xl mx-auto text-sm">
             This is direct care through ValorWell's Bridge Program, helping
@@ -141,7 +141,7 @@ export default function Competitions() {
                 <ul className="list-disc list-inside space-y-1 text-sm">
                   <li>Your own fundraising page and link</li>
                   <li>The chance to be featured by ValorWell throughout the month</li>
-                  <li>A clear, tangible mission: $50 = 1 session</li>
+                  <li>A clear, tangible mission: $75 = 1 session</li>
                 </ul>
               </CardContent>
               <CardFooter>
@@ -180,10 +180,10 @@ export default function Competitions() {
                   without choosing a specific creator.
                 </p>
                 <div className="grid grid-cols-2 gap-2 text-sm font-medium">
-                  <span className="rounded bg-muted px-3 py-1.5 text-center">$50 = 1 session</span>
-                  <span className="rounded bg-muted px-3 py-1.5 text-center">$100 = 2 sessions</span>
-                  <span className="rounded bg-muted px-3 py-1.5 text-center">$250 = 5 sessions</span>
-                  <span className="rounded bg-muted px-3 py-1.5 text-center">$500 = 10 sessions</span>
+                  <span className="rounded bg-muted px-3 py-1.5 text-center">$75 = 1 session</span>
+                  <span className="rounded bg-muted px-3 py-1.5 text-center">$150 = 2 sessions</span>
+                  <span className="rounded bg-muted px-3 py-1.5 text-center">$375 = 5 sessions</span>
+                  <span className="rounded bg-muted px-3 py-1.5 text-center">$750 = 10 sessions</span>
                 </div>
               </CardContent>
               <CardFooter className="flex-col gap-2">
@@ -227,7 +227,7 @@ export default function Competitions() {
           </h2>
           <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-10">
             To be eligible for the grand prize, a creator must fund at least 25
-            sessions ($1,250) during the contest period. The creator who raises
+            sessions ($1,875) during the contest period. The creator who raises
             the most by the deadline wins.
           </p>
 
