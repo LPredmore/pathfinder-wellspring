@@ -1,55 +1,44 @@
 
 
-## Update Creator Application Form and Session Pricing
+## Replace Step 5 Agreement with Ambassador Participation Agreement
 
 ### Overview
 
-Two changes: (1) remove the "willing to share" field from the application form, and (2) update all session pricing from $50/session to $75/session site-wide, plus add a 5-session option to the fundraising goals.
+Replace the current hardcoded "Official Rules" content in Step 5 of the Creator Application Form with the full ValorWell Ambassador Challenge - Ambassador Participation Agreement from the uploaded PDF. The agreement will be rendered as scrollable formatted text within the existing dialog step.
 
-### Changes
+### What Changes
 
-**1. `src/components/forms/CreatorApplicationForm.tsx`**
+**File: `src/components/forms/CreatorApplicationForm.tsx` (lines 508-564)**
 
-- **Remove `willingToShare` from the Zod schema** (line 84): Delete the `willingToShare` field entirely
-- **Remove from `STEP_FIELDS`** (line 105): Remove `"willingToShare"` from the step 4 array
-- **Remove the `willingToShare` watch** (line 150)
-- **Remove the "willing to share" radio group UI** (lines 468-484): Delete the entire block
-- **Remove `willing_to_share` from step 3 save payload** (line 206)
-- **Remove `willing_to_share` from `onSubmit` final payload** (line 241)
-- **Remove `willing_to_share` from the fallback insert** (line 275)
-- **Update `FUNDRAISING_GOALS`** (lines 62-68): Change to $75/session math and add 5-session option:
-  - `"5 sessions ($375)"`
-  - `"10 sessions ($750)"`
-  - `"25 sessions ($1,875)"`
-  - `"50 sessions ($3,750)"`
-  - `"100 sessions ($7,500+)"`
-  - `"Not sure yet"`
+Replace the entire Step 5 content block with the full Ambassador Participation Agreement, structured into its 16 sections:
 
-**2. `src/pages/Competitions.tsx`** -- Update all $50 references to $75:
+1. Purpose of the Program
+2. Term
+3. Program Structure and Division Assignment (3.1 Division Assignment, 3.2 Follower Verification)
+4. Ambassador Responsibilities (4.1 Minimum Content Requirements, 4.2 No Unauthorized Representations)
+5. Required Messaging and Prohibited Claims (5.1 Core Campaign Framing, 5.2 Prohibited Claims, 5.3 Required Disclosures)
+6. Compensation and Payouts (6.1-6.9 including Session Funding Unit, Activation Threshold, Net Cleared Donations, Division Winner Bonus, Milestone Rewards, Permanent Ambassador Status, Payment Processing, Taxes)
+7. Content License, Name, Image, and Publicity Rights (7.1-7.2)
+8. Brand Use and Conduct (8.1-8.2)
+9. Removal, Disqualification, and Termination (9.1-9.3)
+10. Independent Relationship
+11. Representations and Compliance
+12. Limitation of Expectations and No Guarantees
+13. Confidentiality and Internal Information
+14. Limitation of Liability
+15. Governing Law and Dispute Handling
+16. General Terms
 
-- SEO description (line 86): `$75 sponsors 1 session`
-- Hero badge (line 113): `$75 sponsors 1 therapy session`
-- Creator card bullet (line 144): `$75 = 1 session`
-- Sponsor card grid (lines 183-186): Recalculate with $75 and add 5-session tier:
-  - `$75 = 1 session`
-  - `$150 = 2 sessions`
-  - `$375 = 5 sessions`
-  - `$750 = 10 sessions`
-- Eligibility section (currently says 25 sessions / $1,250): Update to `$1,875`
+**Specific changes:**
 
-**3. `src/pages/Support.tsx`** -- Update $50 references to $75:
+- The `<h3>` heading changes from "Official Rules -- Creator Challenge: Sponsor a Veteran" to "ValorWell Ambassador Challenge - Ambassador Participation Agreement"
+- The scrollable container keeps the same styling (`max-h-[40vh] overflow-y-auto rounded-md border p-4`)
+- Each section rendered with bold headings and properly formatted lists (bulleted where the PDF uses bullets, numbered where appropriate)
+- The checkbox label updates from "I have read and agree to the Official Rules and Prize Terms" to "I have read and agree to the Ambassador Participation Agreement"
+- The step title in `STEP_TITLES` changes from "Official Rules / Prize Terms" to "Participation Agreement"
+- The Zod error message for `acceptedRules` updates from "You must accept the official rules to continue" to "You must accept the participation agreement to continue"
 
-- SEO description: `$75 sponsors 1 session`
-- Hero badge: `$75 sponsors 1 therapy session`
-- Donation tier grid: Recalculate with $75 and add 5-session option
-- Monthly sponsor line: `$75/month`
+### No other files change
 
-**4. `src/pages/Advocates.tsx`** -- Update $50 references to $75:
-
-- SEO description: `$75 sponsors 1 session`
-- Hero badge: `$75 sponsors 1 therapy session`
-
-### Note on Database
-
-You mentioned you'll manually delete the `willing_to_share` column in Supabase -- the code changes will simply stop reading/writing that column, so both can happen in any order without breaking anything.
+The agreement is self-contained within the form component. No database schema changes needed -- the `accepted_rules` boolean column still works the same way.
 
