@@ -1,44 +1,28 @@
 
 
-## Replace Step 5 Agreement with Ambassador Participation Agreement
+## Add "Preferred Display Name" Field to Step 1
 
 ### Overview
+Add an optional "Preferred Display Name" text field to Step 1 (Basic Information) of the creator application form, saving it to the existing `pref_name` column in the `creator_applications` table.
 
-Replace the current hardcoded "Official Rules" content in Step 5 of the Creator Application Form with the full ValorWell Ambassador Challenge - Ambassador Participation Agreement from the uploaded PDF. The agreement will be rendered as scrollable formatted text within the existing dialog step.
+### Changes (single file)
 
-### What Changes
+**File: `src/components/forms/CreatorApplicationForm.tsx`**
 
-**File: `src/components/forms/CreatorApplicationForm.tsx` (lines 508-564)**
+1. **Zod schema** (line ~78): Add `prefName: z.string().trim().max(100).optional()` field.
 
-Replace the entire Step 5 content block with the full Ambassador Participation Agreement, structured into its 16 sections:
+2. **STEP_FIELDS** (line ~102): Add `"prefName"` to the step 0 array so it validates with the rest of Basic Info.
 
-1. Purpose of the Program
-2. Term
-3. Program Structure and Division Assignment (3.1 Division Assignment, 3.2 Follower Verification)
-4. Ambassador Responsibilities (4.1 Minimum Content Requirements, 4.2 No Unauthorized Representations)
-5. Required Messaging and Prohibited Claims (5.1 Core Campaign Framing, 5.2 Prohibited Claims, 5.3 Required Disclosures)
-6. Compensation and Payouts (6.1-6.9 including Session Funding Unit, Activation Threshold, Net Cleared Donations, Division Winner Bonus, Milestone Rewards, Permanent Ambassador Status, Payment Processing, Taxes)
-7. Content License, Name, Image, and Publicity Rights (7.1-7.2)
-8. Brand Use and Conduct (8.1-8.2)
-9. Removal, Disqualification, and Termination (9.1-9.3)
-10. Independent Relationship
-11. Representations and Compliance
-12. Limitation of Expectations and No Guarantees
-13. Confidentiality and Internal Information
-14. Limitation of Liability
-15. Governing Law and Dispute Handling
-16. General Terms
+3. **Step 0 save payloads**: Include `pref_name: data.prefName || null` in both:
+   - The initial insert (line ~161)
+   - The step 0 update payload (line ~184)
 
-**Specific changes:**
+4. **Final fallback insert** (line ~264): Include `pref_name: data.prefName || null`.
 
-- The `<h3>` heading changes from "Official Rules -- Creator Challenge: Sponsor a Veteran" to "ValorWell Ambassador Challenge - Ambassador Participation Agreement"
-- The scrollable container keeps the same styling (`max-h-[40vh] overflow-y-auto rounded-md border p-4`)
-- Each section rendered with bold headings and properly formatted lists (bulleted where the PDF uses bullets, numbered where appropriate)
-- The checkbox label updates from "I have read and agree to the Official Rules and Prize Terms" to "I have read and agree to the Ambassador Participation Agreement"
-- The step title in `STEP_TITLES` changes from "Official Rules / Prize Terms" to "Participation Agreement"
-- The Zod error message for `acceptedRules` updates from "You must accept the official rules to continue" to "You must accept the participation agreement to continue"
+5. **Step 1 UI** (after the Last Name field, around line ~341): Add a new full-width field:
+   - Label: "Preferred Display Name"
+   - Helper text: "How would you like your name shown publicly? (optional)"
+   - No asterisk (it's optional)
 
-### No other files change
-
-The agreement is self-contained within the form component. No database schema changes needed -- the `accepted_rules` boolean column still works the same way.
-
+### No database changes needed
+The `pref_name` column already exists as a nullable text column in `creator_applications`.
