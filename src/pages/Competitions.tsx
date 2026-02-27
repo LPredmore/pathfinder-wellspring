@@ -128,8 +128,8 @@ export default function Competitions() {
         {/* Hero */}
         <section className="relative z-10 hero-gradient py-20 md:py-28">
           <div className="container-wide text-center">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4">
-              The $75 Mission
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4">Beyond the Yellow
+
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-6">
               We don't do ribbons. We buy results. One hour at a time.
