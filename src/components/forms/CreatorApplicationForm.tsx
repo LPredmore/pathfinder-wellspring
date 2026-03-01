@@ -162,7 +162,7 @@ export function CreatorApplicationForm({
         .insert({
           first_name: data.firstName,
           last_name: data.lastName,
-          pref_name: data.prefName || null,
+          pref_name: data.prefName || `${data.firstName} ${data.lastName}`,
           email: data.email,
           state: data.state,
           status: "partial",
@@ -186,17 +186,20 @@ export function CreatorApplicationForm({
       updatePayload = {
         first_name: data.firstName,
         last_name: data.lastName,
-        pref_name: data.prefName || null,
+        pref_name: data.prefName || `${data.firstName} ${data.lastName}`,
         email: data.email,
         state: data.state,
       };
     } else if (step === 1) {
+      const profiles = data.socialProfiles.map((sp) => ({
+        platform: sp.platform,
+        handle: sp.handle,
+        followers: sp.followers,
+      }));
+      const division = profiles.some((p) => p.followers >= 10000) ? "Elite" : "Hero";
       updatePayload = {
-        social_profiles: data.socialProfiles.map((sp) => ({
-          platform: sp.platform,
-          handle: sp.handle,
-          followers: sp.followers,
-        })),
+        social_profiles: profiles,
+        division,
       };
     } else if (step === 2) {
       updatePayload = {
@@ -238,12 +241,15 @@ export function CreatorApplicationForm({
   const onSubmit = async (data: FormData) => {
     setSubmitError(null);
 
+    const division = data.socialProfiles.some((p) => p.followers >= 10000) ? "Elite" : "Hero";
+
     const finalPayload: Record<string, any> = {
       comfort_level: data.comfortLevel,
       fundraising_goal: data.fundraisingGoal,
       additional_info: data.additionalInfo || null,
       accepted_rules: true,
       status: "new",
+      division,
     };
 
     if (rowId) {
@@ -267,7 +273,7 @@ export function CreatorApplicationForm({
       const { error } = await supabase.from("creator_applications" as any).insert({
         first_name: data.firstName,
         last_name: data.lastName,
-        pref_name: data.prefName || null,
+        pref_name: data.prefName || `${data.firstName} ${data.lastName}`,
         email: data.email,
         state: data.state,
         social_profiles: socialProfilesJson,
@@ -276,6 +282,7 @@ export function CreatorApplicationForm({
         comfort_level: data.comfortLevel,
         fundraising_goal: data.fundraisingGoal,
         additional_info: data.additionalInfo || null,
+        division,
       } as any);
 
       if (error) {
