@@ -14,6 +14,503 @@ export type Database = {
   }
   public: {
     Tables: {
+      app_activity_events: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          entity_id: string
+          entity_type: string
+          event_type: string
+          id: string
+          metadata: Json
+          new_value: string | null
+          old_value: string | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          entity_id: string
+          entity_type: string
+          event_type: string
+          id?: string
+          metadata?: Json
+          new_value?: string | null
+          old_value?: string | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          entity_id?: string
+          entity_type?: string
+          event_type?: string
+          id?: string
+          metadata?: Json
+          new_value?: string | null
+          old_value?: string | null
+        }
+        Relationships: []
+      }
+      app_bulk_send_logs: {
+        Row: {
+          body_html: string
+          created_at: string
+          created_by: string
+          entity_type: string
+          failed_count: number
+          id: string
+          recipient_count: number
+          sent_count: number
+          status: string
+          subject: string
+        }
+        Insert: {
+          body_html: string
+          created_at?: string
+          created_by: string
+          entity_type: string
+          failed_count?: number
+          id?: string
+          recipient_count?: number
+          sent_count?: number
+          status?: string
+          subject: string
+        }
+        Update: {
+          body_html?: string
+          created_at?: string
+          created_by?: string
+          entity_type?: string
+          failed_count?: number
+          id?: string
+          recipient_count?: number
+          sent_count?: number
+          status?: string
+          subject?: string
+        }
+        Relationships: []
+      }
+      app_bulk_send_recipients: {
+        Row: {
+          bulk_send_id: string
+          email: string | null
+          entity_id: string
+          entity_type: string
+          error_message: string | null
+          id: string
+          sent_at: string | null
+          status: string
+        }
+        Insert: {
+          bulk_send_id: string
+          email?: string | null
+          entity_id: string
+          entity_type: string
+          error_message?: string | null
+          id?: string
+          sent_at?: string | null
+          status?: string
+        }
+        Update: {
+          bulk_send_id?: string
+          email?: string | null
+          entity_id?: string
+          entity_type?: string
+          error_message?: string | null
+          id?: string
+          sent_at?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "app_bulk_send_recipients_bulk_send_id_fkey"
+            columns: ["bulk_send_id"]
+            isOneToOne: false
+            referencedRelation: "app_bulk_send_logs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      app_bulk_sms_logs: {
+        Row: {
+          body_text: string
+          created_at: string
+          created_by: string
+          entity_type: string
+          failed_count: number
+          id: string
+          recipient_count: number
+          sent_count: number
+          status: string
+        }
+        Insert: {
+          body_text: string
+          created_at?: string
+          created_by: string
+          entity_type: string
+          failed_count?: number
+          id?: string
+          recipient_count?: number
+          sent_count?: number
+          status?: string
+        }
+        Update: {
+          body_text?: string
+          created_at?: string
+          created_by?: string
+          entity_type?: string
+          failed_count?: number
+          id?: string
+          recipient_count?: number
+          sent_count?: number
+          status?: string
+        }
+        Relationships: []
+      }
+      app_bulk_sms_recipients: {
+        Row: {
+          bulk_sms_id: string
+          entity_id: string
+          entity_type: string
+          error_message: string | null
+          id: string
+          phone: string | null
+          sent_at: string | null
+          status: string
+        }
+        Insert: {
+          bulk_sms_id: string
+          entity_id: string
+          entity_type: string
+          error_message?: string | null
+          id?: string
+          phone?: string | null
+          sent_at?: string | null
+          status?: string
+        }
+        Update: {
+          bulk_sms_id?: string
+          entity_id?: string
+          entity_type?: string
+          error_message?: string | null
+          id?: string
+          phone?: string | null
+          sent_at?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "app_bulk_sms_recipients_bulk_sms_id_fkey"
+            columns: ["bulk_sms_id"]
+            isOneToOne: false
+            referencedRelation: "app_bulk_sms_logs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      app_campaign_enrollments: {
+        Row: {
+          campaign_id: string
+          cancelled_at: string | null
+          completed_at: string | null
+          current_step_order: number
+          enrolled_at: string
+          entity_id: string
+          entity_type: string
+          id: string
+          status: string
+        }
+        Insert: {
+          campaign_id: string
+          cancelled_at?: string | null
+          completed_at?: string | null
+          current_step_order?: number
+          enrolled_at?: string
+          entity_id: string
+          entity_type: string
+          id?: string
+          status?: string
+        }
+        Update: {
+          campaign_id?: string
+          cancelled_at?: string | null
+          completed_at?: string | null
+          current_step_order?: number
+          enrolled_at?: string
+          entity_id?: string
+          entity_type?: string
+          id?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "app_campaign_enrollments_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "app_campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      app_campaign_step_logs: {
+        Row: {
+          channel: string
+          created_at: string
+          enrollment_id: string
+          error_message: string | null
+          executed_at: string | null
+          id: string
+          scheduled_for: string | null
+          status: string
+          step_id: string
+        }
+        Insert: {
+          channel?: string
+          created_at?: string
+          enrollment_id: string
+          error_message?: string | null
+          executed_at?: string | null
+          id?: string
+          scheduled_for?: string | null
+          status?: string
+          step_id: string
+        }
+        Update: {
+          channel?: string
+          created_at?: string
+          enrollment_id?: string
+          error_message?: string | null
+          executed_at?: string | null
+          id?: string
+          scheduled_for?: string | null
+          status?: string
+          step_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "app_campaign_step_logs_enrollment_id_fkey"
+            columns: ["enrollment_id"]
+            isOneToOne: false
+            referencedRelation: "app_campaign_enrollments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "app_campaign_step_logs_step_id_fkey"
+            columns: ["step_id"]
+            isOneToOne: false
+            referencedRelation: "app_campaign_steps"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      app_campaign_steps: {
+        Row: {
+          body_html: string | null
+          body_text: string | null
+          campaign_id: string
+          channel: string
+          created_at: string
+          delay_days: number
+          id: string
+          signature_id: string | null
+          step_order: number
+          subject: string | null
+          updated_at: string
+        }
+        Insert: {
+          body_html?: string | null
+          body_text?: string | null
+          campaign_id: string
+          channel?: string
+          created_at?: string
+          delay_days?: number
+          id?: string
+          signature_id?: string | null
+          step_order?: number
+          subject?: string | null
+          updated_at?: string
+        }
+        Update: {
+          body_html?: string | null
+          body_text?: string | null
+          campaign_id?: string
+          channel?: string
+          created_at?: string
+          delay_days?: number
+          id?: string
+          signature_id?: string | null
+          step_order?: number
+          subject?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "app_campaign_steps_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "app_campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      app_campaigns: {
+        Row: {
+          created_at: string
+          created_by: string
+          description: string | null
+          entity_type: string
+          id: string
+          is_active: boolean
+          name: string
+          on_complete_status: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          description?: string | null
+          entity_type: string
+          id?: string
+          is_active?: boolean
+          name: string
+          on_complete_status?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          entity_type?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          on_complete_status?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      app_email_signatures: {
+        Row: {
+          body_html: string
+          created_at: string
+          created_by: string
+          id: string
+          is_default: boolean
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          body_html: string
+          created_at?: string
+          created_by: string
+          id?: string
+          is_default?: boolean
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          body_html?: string
+          created_at?: string
+          created_by?: string
+          id?: string
+          is_default?: boolean
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      app_helpscout_settings: {
+        Row: {
+          app_id: string | null
+          app_secret: string | null
+          created_at: string
+          id: string
+          is_active: boolean
+          mailbox_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          app_id?: string | null
+          app_secret?: string | null
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          mailbox_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          app_id?: string | null
+          app_secret?: string | null
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          mailbox_id?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      app_kanban_config: {
+        Row: {
+          created_at: string
+          entity_type: string
+          id: string
+          updated_at: string
+          user_id: string
+          visible_statuses: string[]
+        }
+        Insert: {
+          created_at?: string
+          entity_type: string
+          id?: string
+          updated_at?: string
+          user_id: string
+          visible_statuses?: string[]
+        }
+        Update: {
+          created_at?: string
+          entity_type?: string
+          id?: string
+          updated_at?: string
+          user_id?: string
+          visible_statuses?: string[]
+        }
+        Relationships: []
+      }
+      app_notes: {
+        Row: {
+          created_at: string
+          created_by: string
+          entity_id: string
+          entity_type: string
+          id: string
+          is_pinned: boolean
+          note_content: string
+          note_type: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          entity_id: string
+          entity_type: string
+          id?: string
+          is_pinned?: boolean
+          note_content: string
+          note_type?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          entity_id?: string
+          entity_type?: string
+          id?: string
+          is_pinned?: boolean
+          note_content?: string
+          note_type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       content_ideas: {
         Row: {
           avatar: string | null
@@ -22,6 +519,7 @@ export type Database = {
           id: number
           length: Database["public"]["Enums"]["video_length"] | null
           planned_date: string | null
+          playlist_id: number | null
           topic: string | null
         }
         Insert: {
@@ -31,6 +529,7 @@ export type Database = {
           id?: number
           length?: Database["public"]["Enums"]["video_length"] | null
           planned_date?: string | null
+          playlist_id?: number | null
           topic?: string | null
         }
         Update: {
@@ -40,6 +539,7 @@ export type Database = {
           id?: number
           length?: Database["public"]["Enums"]["video_length"] | null
           planned_date?: string | null
+          playlist_id?: number | null
           topic?: string | null
         }
         Relationships: []
@@ -555,6 +1055,7 @@ export type Database = {
           motivation: string
           phone: string
           referral_source: string
+          status: string
           telehealth_experience: boolean
           weekly_hours: string
         }
@@ -569,6 +1070,7 @@ export type Database = {
           motivation: string
           phone: string
           referral_source: string
+          status?: string
           telehealth_experience: boolean
           weekly_hours: string
         }
@@ -583,6 +1085,7 @@ export type Database = {
           motivation?: string
           phone?: string
           referral_source?: string
+          status?: string
           telehealth_experience?: boolean
           weekly_hours?: string
         }
