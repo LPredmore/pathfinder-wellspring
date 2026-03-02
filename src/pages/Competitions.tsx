@@ -216,16 +216,22 @@ export default function Competitions() {
             </div>
 
             {/* Row 3: Leaderboard placeholders */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Card className="p-6 text-center">
-                <span className="block text-2xl font-bold text-foreground">Coming Soon</span>
-                <span className="text-sm text-muted-foreground mt-1 block">Hero Division (Under 10K)</span>
-              </Card>
-              <Card className="p-6 text-center">
-                <span className="block text-2xl font-bold text-foreground">Coming Soon</span>
-                <span className="text-sm text-muted-foreground mt-1 block">Elite Division (10K+)</span>
-              </Card>
-            </div>
+            <Card className="border-2 border-primary">
+              <CardHeader className="text-center">
+                <Trophy className="h-8 w-8 text-primary mx-auto mb-2" />
+                <CardTitle className="text-2xl">Current Challenge</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="relative overflow-hidden w-full" style={{ paddingTop: "240px" }}>
+                  <iframe
+                    title="Donation form powered by Zeffy"
+                    className="absolute inset-0 w-full h-full border-0"
+                    src="https://www.zeffy.com/embed/leaderboard/creator-challenge-sponsor-a-veteran"
+                    allowTransparency
+                  />
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </section>
 
