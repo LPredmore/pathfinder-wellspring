@@ -1,38 +1,47 @@
 
 
-## Auto-Compute Division and Default Display Name
+## Replace Leaderboard Placeholders with Live Zeffy Leaderboard
 
-### Changes to `src/components/forms/CreatorApplicationForm.tsx`
+### What Changes
 
-**1. Auto-compute `division` from social profiles**
+Replace the two "Coming Soon" placeholder cards (Hero Division / Elite Division) on lines 218-228 with a single, prominent "Current Challenge" leaderboard section that embeds the Zeffy leaderboard iframe.
 
-In the `onSubmit` function (and the fallback full-insert path), compute the division before saving:
-- Check all `socialProfiles` entries — if ANY has `followers >= 10000`, set `division = "Elite"`
-- Otherwise, set `division = "Hero"`
-- Include `division` in the final update/insert payload
+### File Changed
 
-Also include `division` in the Step 1 social profiles save (`saveStepData` step 1) so the value is captured as early as possible. Since social profiles are saved at step 1, the division logic will run there AND again at final submit to ensure it reflects the latest data.
+**`src/pages/Competitions.tsx`** -- one edit region (lines 218-228)
 
-**2. Default `pref_name` to full name**
+### Layout
 
-In both the Step 0 save (`saveStepData` step 0) and the final submit fallback insert, change:
-- `pref_name: data.prefName || null` to `pref_name: data.prefName || \`${data.firstName} ${data.lastName}\``
+The two placeholder cards get replaced with a single full-width `Card` that:
 
-This ensures that if the user leaves the preferred display name blank, their first and last name are saved instead.
+- Has a bold heading: "Current Challenge" with a `Trophy` icon
+- Contains the Zeffy leaderboard iframe embedded responsively
+- Uses a primary border (`border-2 border-primary`) to make it visually prominent and match the "Become a Mission Partner" card above
+- The iframe container uses `relative overflow-hidden w-full` with `padding-top: 240px` (matching the provided embed code) so it scales properly
 
 ### Technical Details
 
-Both changes are string-level edits within the existing `saveStepData` and `onSubmit` functions. No new components, no schema changes, no database migrations needed — the `division` and `pref_name` columns already exist on `creator_applications`.
+The embed markup translated to React/JSX:
 
-**Division computation helper** (added near the top of the component or inline):
-```typescript
-const computeDivision = (profiles: { followers: number }[]) =>
-  profiles.some((p) => p.followers >= 10000) ? "Elite" : "Hero";
+```tsx
+<Card className="border-2 border-primary">
+  <CardHeader className="text-center">
+    <Trophy className="h-8 w-8 text-primary mx-auto mb-2" />
+    <CardTitle className="text-2xl">Current Challenge</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <div className="relative overflow-hidden w-full" style={{ paddingTop: "240px" }}>
+      <iframe
+        title="Donation form powered by Zeffy"
+        className="absolute inset-0 w-full h-full border-0"
+        src="https://www.zeffy.com/embed/leaderboard/creator-challenge-sponsor-a-veteran"
+        allowTransparency
+      />
+    </div>
+  </CardContent>
+</Card>
 ```
 
-**Touched code locations:**
-- `saveStepData` step 0: default `pref_name`
-- `saveStepData` step 1: add `division` to the update payload
-- `onSubmit` (rowId path): add `division` to final payload
-- `onSubmit` (fallback insert path): add `division` and default `pref_name`
-
+- `Trophy` icon is already imported
+- No new dependencies or components needed
+- Single edit replacing lines 218-228
