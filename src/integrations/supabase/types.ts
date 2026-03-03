@@ -656,7 +656,7 @@ export type Database = {
         Row: {
           approved_platform: boolean | null
           created_at: string
-          creator_id: string | null
+          creator_id: string
           follower_count: number | null
           handle: string | null
           id: number
@@ -665,7 +665,7 @@ export type Database = {
         Insert: {
           approved_platform?: boolean | null
           created_at?: string
-          creator_id?: string | null
+          creator_id: string
           follower_count?: number | null
           handle?: string | null
           id?: number
@@ -674,13 +674,21 @@ export type Database = {
         Update: {
           approved_platform?: boolean | null
           created_at?: string
-          creator_id?: string | null
+          creator_id?: string
           follower_count?: number | null
           handle?: string | null
           id?: number
           platform_name?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "creator_platforms_creator_id_fkey"
+            columns: ["creator_id"]
+            isOneToOne: false
+            referencedRelation: "creator_applications"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       current_competitors: {
         Row: {
