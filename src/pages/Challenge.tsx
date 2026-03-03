@@ -8,17 +8,12 @@ import { supabase } from "@/integrations/supabase/client";
 import { PlatformIcon, buildSocialUrl } from "@/components/icons/PlatformIcon";
 import flagSkyBackground from "@/assets/flag-sky-background-vertical.png";
 
-interface SocialProfile {
-  platform: string;
-  handle: string;
-  followers?: number;
+interface CreatorPlatform {
+  platform_name: string | null;
+  handle: string | null;
 }
 
-function CompetitorCard({ competitor }: { competitor: any }) {
-  const profiles: SocialProfile[] = Array.isArray(competitor.social_profiles)
-    ? competitor.social_profiles
-    : [];
-
+function CompetitorCard({ competitor, platforms }: { competitor: any; platforms: CreatorPlatform[] }) {
   const name = competitor.pref_name || `${competitor.first_name} ${competitor.last_name}`;
   const hasAvatar = !!competitor.avatar_url;
   const hasMission = !!competitor.personal_mission;
@@ -37,10 +32,12 @@ function CompetitorCard({ competitor }: { competitor: any }) {
         <CardTitle className="text-xl">{name}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
-        {profiles.length > 0 && (
+        {platforms.length > 0 && (
           <div className="flex items-center justify-center gap-3">
-            {profiles.map((p, i) => {
-              const url = buildSocialUrl(p.platform, p.handle);
+            {platforms.map((p, i) => {
+              const platformName = p.platform_name || "Other";
+              const handle = p.handle || "";
+              const url = buildSocialUrl(platformName, handle);
               return url ? (
                 <a
                   key={i}
@@ -48,14 +45,14 @@ function CompetitorCard({ competitor }: { competitor: any }) {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-muted-foreground hover:text-primary transition-colors"
-                  title={p.platform}
+                  title={platformName}
                 >
-                  <PlatformIcon platform={p.platform} className="h-5 w-5" />
+                  <PlatformIcon platform={platformName} className="h-5 w-5" />
                 </a>
               ) : (
                 <span key={i} className="text-muted-foreground flex items-center gap-1 text-sm">
-                  <PlatformIcon platform={p.platform} className="h-4 w-4" />
-                  {p.handle}
+                  <PlatformIcon platform={platformName} className="h-4 w-4" />
+                  {handle}
                 </span>
               );
             })}
@@ -70,17 +67,35 @@ function CompetitorCard({ competitor }: { competitor: any }) {
 }
 
 export default function Challenge() {
-  const { data: competitors = [], isLoading } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["current-competitors"],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data: competitors, error } = await supabase
         .from("current_competitors")
         .select("*")
         .order("created_at", { ascending: true });
       if (error) throw error;
-      return data;
+
+      const ids = competitors.map((c) => c.id);
+      const { data: platforms, error: pErr } = await supabase
+        .from("creator_platforms")
+        .select("creator_id, platform_name, handle")
+        .in("creator_id", ids);
+      if (pErr) throw pErr;
+
+      const platformMap = new Map<string, CreatorPlatform[]>();
+      for (const p of platforms) {
+        const list = platformMap.get(p.creator_id) || [];
+        list.push({ platform_name: p.platform_name, handle: p.handle });
+        platformMap.set(p.creator_id, list);
+      }
+
+      return { competitors, platformMap };
     },
   });
+
+  const competitors = data?.competitors ?? [];
+  const platformMap = data?.platformMap ?? new Map<string, CreatorPlatform[]>();
 
   return (
     <Layout>
@@ -123,7 +138,7 @@ export default function Challenge() {
             ) : (
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {competitors.map((c) => (
-                  <CompetitorCard key={c.id} competitor={c} />
+                  <CompetitorCard key={c.id} competitor={c} platforms={platformMap.get(c.id) || []} />
                 ))}
               </div>
             )}
