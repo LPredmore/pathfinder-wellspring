@@ -652,6 +652,36 @@ export type Database = {
         }
         Relationships: []
       }
+      creator_platforms: {
+        Row: {
+          approved_platform: boolean | null
+          created_at: string
+          creator_id: string | null
+          follower_count: number | null
+          handle: string | null
+          id: number
+          platform_name: string | null
+        }
+        Insert: {
+          approved_platform?: boolean | null
+          created_at?: string
+          creator_id?: string | null
+          follower_count?: number | null
+          handle?: string | null
+          id?: number
+          platform_name?: string | null
+        }
+        Update: {
+          approved_platform?: boolean | null
+          created_at?: string
+          creator_id?: string | null
+          follower_count?: number | null
+          handle?: string | null
+          id?: number
+          platform_name?: string | null
+        }
+        Relationships: []
+      }
       current_competitors: {
         Row: {
           accepted_rules: boolean | null
@@ -960,6 +990,21 @@ export type Database = {
           key?: string
           updated_at?: string | null
           value?: string
+        }
+        Relationships: []
+      }
+      sm_platforms: {
+        Row: {
+          id: number
+          name: string
+        }
+        Insert: {
+          id?: number
+          name: string
+        }
+        Update: {
+          id?: number
+          name?: string
         }
         Relationships: []
       }
