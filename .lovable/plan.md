@@ -1,28 +1,17 @@
 
 
-## Migrate `social_profiles` JSON → `creator_platforms` Rows
+## Fix 4 Misclassified `creator_platforms` Rows
 
-### Current Data
+### Data Corrections (via insert/update tool)
 
-There are ~15 creator_applications with `social_profiles` JSON arrays. Each entry has `platform`, `handle`, and `followers`. Some use "Other" as the platform name. The `sm_platforms` table has 11 known platforms (TikTok, Instagram, YouTube, Facebook, LinkedIn, Reddit, SnapChat, BlueSky, Patreon, Twitch, X).
+Three rows can be normalized to known platforms. One remains genuinely "Other."
 
-### Migration Logic
-
-A single SQL migration that:
-
-1. Loops through every `creator_applications` row where `social_profiles IS NOT NULL`
-2. Unnests the JSON array
-3. For each entry, normalizes the platform name by doing a case-insensitive match against `sm_platforms.name` (e.g. "tiktok" → "TikTok")
-4. If no match is found, keeps the original name (treats it as a custom/other platform)
-5. Sets `approved_platform = true` if the normalized name exists in `sm_platforms`, `false` otherwise
-6. Inserts into `creator_platforms` with `creator_id`, `platform_name`, `handle`, `follower_count`, `approved_platform`
-7. Skips duplicates (same creator_id + platform_name + handle) to be safe on re-runs
+1. **Row 24** (Liberty Adams): Update `platform_name` → `SnapChat`, `handle` → `Liberty_516`, `approved_platform` → `true`
+2. **Row 22** (Zoe Halpate): Update `platform_name` → `TikTok`, `handle` → `@zoe_halpate`, `approved_platform` → `true`
+3. **Row 23** (Kate Inspires): Update `platform_name` → `Reddit`, `handle` → `KateInspiresUGC`, `approved_platform` → `true`
+4. **Row 21** (Robyn Davis): Leave as-is — no platform identifiable from source data. Could optionally ask the user if they know which platform this is.
 
 ### Files Touched
 
-| File | Action |
-|---|---|
-| New migration SQL | Insert data from JSON into `creator_platforms` |
-
-No code changes needed — this is a one-time data backfill.
+No code changes. Three UPDATE statements against `creator_platforms`.
 
