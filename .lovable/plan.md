@@ -1,30 +1,28 @@
 
 
-## Updated Plan: Social Profiles → `creator_platforms` with Foreign Key
+## Migrate `social_profiles` JSON → `creator_platforms` Rows
 
-### Database Migration
+### Current Data
 
-1. **Add foreign key** on `creator_platforms.creator_id` → `creator_applications.id` with `ON DELETE CASCADE`
-2. **Make `creator_id` NOT NULL** (every platform entry must belong to an application)
-3. **Enable RLS on `sm_platforms`** + public SELECT policy (anyone can read the platform list)
-4. **Enable RLS on `creator_platforms`** + anonymous INSERT policy + anonymous SELECT policy (applicants write their entries; `/challenge` page may read them)
+There are ~15 creator_applications with `social_profiles` JSON arrays. Each entry has `platform`, `handle`, and `followers`. Some use "Other" as the platform name. The `sm_platforms` table has 11 known platforms (TikTok, Instagram, YouTube, Facebook, LinkedIn, Reddit, SnapChat, BlueSky, Patreon, Twitch, X).
 
-### Form Component Changes (`CreatorApplicationForm.tsx`)
+### Migration Logic
 
-1. On dialog open, fetch platform names from `sm_platforms` table
-2. Render them as dropdown options + a hardcoded "Other" at the end
-3. When "Other" is selected, show a free-text input for the platform name
-4. On Step 2 "Next", insert rows into `creator_platforms` (not JSON into `creator_applications.social_profiles`) with:
-   - `creator_id` = application row ID from Step 1
-   - `platform_name` = selected name or free-text value
-   - `handle` = user-entered handle
-   - `follower_count` = user-entered count
-   - `approved_platform` = `true` if platform matches an `sm_platforms` name, `false` for custom entries
+A single SQL migration that:
+
+1. Loops through every `creator_applications` row where `social_profiles IS NOT NULL`
+2. Unnests the JSON array
+3. For each entry, normalizes the platform name by doing a case-insensitive match against `sm_platforms.name` (e.g. "tiktok" → "TikTok")
+4. If no match is found, keeps the original name (treats it as a custom/other platform)
+5. Sets `approved_platform = true` if the normalized name exists in `sm_platforms`, `false` otherwise
+6. Inserts into `creator_platforms` with `creator_id`, `platform_name`, `handle`, `follower_count`, `approved_platform`
+7. Skips duplicates (same creator_id + platform_name + handle) to be safe on re-runs
 
 ### Files Touched
 
 | File | Action |
 |---|---|
-| DB migration | FK constraint, NOT NULL on creator_id, RLS policies on both tables |
-| `src/components/forms/CreatorApplicationForm.tsx` | Fetch from `sm_platforms`, "Other" free-text, save to `creator_platforms` |
+| New migration SQL | Insert data from JSON into `creator_platforms` |
+
+No code changes needed — this is a one-time data backfill.
 
