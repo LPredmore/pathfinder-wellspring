@@ -1,20 +1,45 @@
 
 
-## Plan: Add Donate Button to Competitor Cards
+## Plan: Add Settings Tab with Welcome Email Template + Auto-Send on Signup
 
-### What's happening now
-The Challenge page queries the `influencers` table directly (filtering by `is_competing = true`) but never touches `current_competitors`. The `comp_link` field — which holds each competitor's unique Zeffy fundraising URL — lives in `current_competitors`, not `influencers`.
+### Overview
+Add a "Settings" tab to the Admin Dashboard with an email template editor. Create an edge function that sends a welcome email via Resend when a new mission partner signs up (called from the existing `create-mission-partner` function).
 
-### What needs to change
+### What changes
 
-**Single file: `src/pages/Challenge.tsx`**
+**1. Database: `site_config` table (no migration needed)**
+The `site_config` table already exists with `key`/`value` columns and public SELECT RLS. We need to add admin INSERT/UPDATE policies and store two keys: `welcome_email_subject` and `welcome_email_body`. Data inserts will use the insert tool.
 
-1. **Fetch `comp_link` data**: After fetching influencers and platforms, also query `current_competitors` for `influencer_id` and `comp_link` where `influencer_id` is in the list of competing influencer IDs. Build a `Map<string, string>` mapping `influencer_id → comp_link`.
+**2. Database migration: Add admin write access to `site_config`**
+Add RLS policies so admins can INSERT and UPDATE rows in `site_config`.
 
-2. **Pass `compLink` to `CompetitorCard`**: Add a `compLink` prop (string or null) to the card component.
+**3. `src/pages/AdminDashboard.tsx`**
+- Wrap the list view in a Tabs component with two tabs: "Mission Partners" (current list) and "Settings".
+- The Settings tab contains a card with subject and body fields for the welcome email template.
+- Body field supports `{{first_name}}`, `{{last_name}}`, `{{email}}`, `{{password}}` placeholders with a helper legend.
+- Load/save from `site_config` table using keys `welcome_email_subject` and `welcome_email_body`.
+- The detail view (when an influencer is selected) stays outside the tabs as it does now.
 
-3. **Render a donate button**: At the bottom of `CardContent`, if `compLink` exists, render an anchor styled as a primary button: "Sponsor This Partner" linking to the `comp_link` URL (opens in new tab). Uses the existing `Button` component with `asChild` wrapping an `<a>` tag. If no `comp_link` is set, no button appears.
+**4. New edge function: `supabase/functions/send-welcome-email/index.ts`**
+- Accepts `{ to, first_name, last_name, email, password }` from the `create-mission-partner` function.
+- Reads the email template from `site_config`.
+- Replaces placeholders with actual values.
+- Sends via Resend API using a `RESEND_API_KEY` secret.
+- Returns success/failure. If no template is configured, silently skips.
 
-### No database or migration changes needed
-The `current_competitors` table already has public SELECT via RLS, and `comp_link` is already populated for the competitors.
+**5. Update `supabase/functions/create-mission-partner/index.ts`**
+- After successful influencer creation, call `send-welcome-email` internally (via fetch to the function URL) passing the new user's details and the generated password.
+- Fire-and-forget so signup isn't blocked by email delivery.
+
+**6. `supabase/config.toml`**
+- Add `[functions.send-welcome-email]` with `verify_jwt = false`.
+
+**7. Secret: `RESEND_API_KEY`**
+- Will prompt you to provide the Resend API key, stored as a Supabase secret.
+
+### Placeholder variables for the template
+- `{{first_name}}` — partner's first name
+- `{{last_name}}` — partner's last name  
+- `{{email}}` — partner's email/login
+- `{{password}}` — the generated password
 
