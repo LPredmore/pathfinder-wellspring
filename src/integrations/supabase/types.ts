@@ -604,6 +604,7 @@ export type Database = {
           first_name: string
           fundraising_goal: string | null
           id: string
+          influencer_id: string | null
           last_name: string
           motivation: string | null
           personal_mission: string | null
@@ -625,6 +626,7 @@ export type Database = {
           first_name: string
           fundraising_goal?: string | null
           id?: string
+          influencer_id?: string | null
           last_name: string
           motivation?: string | null
           personal_mission?: string | null
@@ -646,6 +648,7 @@ export type Database = {
           first_name?: string
           fundraising_goal?: string | null
           id?: string
+          influencer_id?: string | null
           last_name?: string
           motivation?: string | null
           personal_mission?: string | null
@@ -656,7 +659,15 @@ export type Database = {
           veteran_connection?: string | null
           willing_to_share?: boolean | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "current_competitors_influencer_id_fkey"
+            columns: ["influencer_id"]
+            isOneToOne: false
+            referencedRelation: "influencers"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       donation_attribution: {
         Row: {
