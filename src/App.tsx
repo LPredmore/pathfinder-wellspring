@@ -21,6 +21,7 @@ import Foundation from "./pages/Foundation";
 import Donate from "./pages/Donate";
 import Support from "./pages/Support";
 import Competitions from "./pages/Competitions";
+import Challenge from "./pages/Challenge";
 import OperationClaimsSuccess from "./pages/OperationClaimsSuccess";
 import Advocates from "./pages/Advocates";
 import NotFound from "./pages/NotFound";
@@ -52,6 +53,7 @@ const App = () => (
             <Route path="/donate" element={<Donate />} />
             <Route path="/support" element={<Support />} />
             <Route path="/beyondtheyellow" element={<Competitions />} />
+            <Route path="/challenge" element={<Challenge />} />
             <Route path="/operation-claims-success" element={<OperationClaimsSuccess />} />
             <Route path="/advocates" element={<Advocates />} />
             <Route path="*" element={<NotFound />} />

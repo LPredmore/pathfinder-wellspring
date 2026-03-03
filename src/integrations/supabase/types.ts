@@ -638,6 +638,7 @@ export type Database = {
         Row: {
           accepted_rules: boolean | null
           additional_info: string | null
+          avatar_url: string | null
           comfort_level: string | null
           created_at: string
           division: string | null
@@ -658,6 +659,7 @@ export type Database = {
         Insert: {
           accepted_rules?: boolean | null
           additional_info?: string | null
+          avatar_url?: string | null
           comfort_level?: string | null
           created_at?: string
           division?: string | null
@@ -678,6 +680,7 @@ export type Database = {
         Update: {
           accepted_rules?: boolean | null
           additional_info?: string | null
+          avatar_url?: string | null
           comfort_level?: string | null
           created_at?: string
           division?: string | null
