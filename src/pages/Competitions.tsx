@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Layout } from "@/components/layout/Layout";
 import { SEO, BreadcrumbSchema, FAQSchema } from "@/components/SEO";
 import { ContentSection, StepsSection, FAQSection } from "@/components/sections";
@@ -104,6 +105,10 @@ const whyCards = [
 
 
 export default function Competitions() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <Layout>
       <SEO
