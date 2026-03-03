@@ -578,15 +578,21 @@ export type Database = {
         Row: {
           accepted_rules: boolean | null
           additional_info: string | null
+          avatar_url: string | null
           comfort_level: string | null
           created_at: string
-          division: string | null
           email: string
           first_name: string
           fundraising_goal: string | null
+          "has competed": boolean | null
+          highest_follower_count: number | null
+          highest_follower_platform: string | null
           id: string
           last_name: string
           motivation: string | null
+          password: string | null
+          past_competitions: Json[] | null
+          personal_mission: string | null
           pref_name: string | null
           social_profiles: Json | null
           state: string
@@ -597,15 +603,21 @@ export type Database = {
         Insert: {
           accepted_rules?: boolean | null
           additional_info?: string | null
+          avatar_url?: string | null
           comfort_level?: string | null
           created_at?: string
-          division?: string | null
           email: string
           first_name: string
           fundraising_goal?: string | null
+          "has competed"?: boolean | null
+          highest_follower_count?: number | null
+          highest_follower_platform?: string | null
           id?: string
           last_name: string
           motivation?: string | null
+          password?: string | null
+          past_competitions?: Json[] | null
+          personal_mission?: string | null
           pref_name?: string | null
           social_profiles?: Json | null
           state: string
@@ -616,15 +628,21 @@ export type Database = {
         Update: {
           accepted_rules?: boolean | null
           additional_info?: string | null
+          avatar_url?: string | null
           comfort_level?: string | null
           created_at?: string
-          division?: string | null
           email?: string
           first_name?: string
           fundraising_goal?: string | null
+          "has competed"?: boolean | null
+          highest_follower_count?: number | null
+          highest_follower_platform?: string | null
           id?: string
           last_name?: string
           motivation?: string | null
+          password?: string | null
+          past_competitions?: Json[] | null
+          personal_mission?: string | null
           pref_name?: string | null
           social_profiles?: Json | null
           state?: string
