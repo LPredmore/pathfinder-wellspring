@@ -215,42 +215,7 @@ export default function Competitions() {
               </Card>
             </div>
 
-            {/* Row 3: Leaderboard placeholders */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <Card className="border-2 border-primary">
-                <CardHeader className="text-center">
-                  <Trophy className="h-8 w-8 text-primary mx-auto mb-2" />
-                  <CardTitle className="text-2xl">Current Challenge</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="relative overflow-hidden w-full" style={{ paddingTop: "240px" }}>
-                    <iframe
-                      title="Donation form powered by Zeffy"
-                      className="absolute inset-0 w-full h-full border-0"
-                      src="https://www.zeffy.com/embed/leaderboard/creator-challenge-sponsor-a-veteran"
-                      allowTransparency
-                    />
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="border-2 border-primary/30">
-                <CardHeader className="text-center">
-                  <Target className="h-8 w-8 text-primary mx-auto mb-2" />
-                  <CardTitle className="text-2xl">Campaign Progress</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="relative overflow-hidden w-full" style={{ paddingTop: "120px" }}>
-                    <iframe
-                      title="Donation thermometer powered by Zeffy"
-                      className="absolute inset-0 w-full h-full border-0"
-                      src="https://www.zeffy.com/embed/thermometer/creator-challenge-sponsor-a-veteran"
-                      allowTransparency
-                    />
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+            {/* Leaderboard moved to /challenge */}
           </div>
         </section>
 
