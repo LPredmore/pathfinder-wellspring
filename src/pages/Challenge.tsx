@@ -2,52 +2,16 @@ import { Layout } from "@/components/layout/Layout";
 import { SEO } from "@/components/SEO";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Trophy, Target, Instagram, Youtube, Facebook, Globe } from "lucide-react";
+import { Trophy, Target } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { PlatformIcon, buildSocialUrl } from "@/components/icons/PlatformIcon";
 import flagSkyBackground from "@/assets/flag-sky-background-vertical.png";
 
 interface SocialProfile {
   platform: string;
   handle: string;
   followers?: number;
-}
-
-const TikTokIcon = ({ className }: { className?: string }) => (
-  <svg viewBox="0 0 24 24" fill="currentColor" className={className} xmlns="http://www.w3.org/2000/svg">
-    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 0 0-.79-.05A6.34 6.34 0 0 0 3.15 15a6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.34-6.34V8.61a8.21 8.21 0 0 0 4.76 1.51v-3.44a4.85 4.85 0 0 1-1-.01Z" />
-  </svg>
-);
-
-function buildSocialUrl(platform: string, handle: string): string | null {
-  const cleanHandle = handle.replace(/^@/, "");
-  switch (platform.toLowerCase()) {
-    case "tiktok":
-      return `https://www.tiktok.com/@${cleanHandle}`;
-    case "instagram":
-      return `https://www.instagram.com/${cleanHandle}`;
-    case "youtube":
-      return handle.startsWith("http") ? handle : `https://www.youtube.com/@${cleanHandle}`;
-    case "facebook":
-      return handle.startsWith("http") ? handle : `https://www.facebook.com/${cleanHandle}`;
-    default:
-      return handle.startsWith("http") ? handle : null;
-  }
-}
-
-function PlatformIcon({ platform, className }: { platform: string; className?: string }) {
-  switch (platform.toLowerCase()) {
-    case "tiktok":
-      return <TikTokIcon className={className} />;
-    case "instagram":
-      return <Instagram className={className} />;
-    case "youtube":
-      return <Youtube className={className} />;
-    case "facebook":
-      return <Facebook className={className} />;
-    default:
-      return <Globe className={className} />;
-  }
 }
 
 function CompetitorCard({ competitor }: { competitor: any }) {
