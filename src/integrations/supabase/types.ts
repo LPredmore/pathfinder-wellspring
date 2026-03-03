@@ -1003,14 +1003,17 @@ export type Database = {
       }
       sm_platforms: {
         Row: {
+          has_icon: boolean
           id: number
           name: string
         }
         Insert: {
+          has_icon?: boolean
           id?: number
           name: string
         }
         Update: {
+          has_icon?: boolean
           id?: number
           name?: string
         }
