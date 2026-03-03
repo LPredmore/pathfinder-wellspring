@@ -1,18 +1,17 @@
 
 
-## Fix `influencer_platforms` Sequence
+## Fix Step 4 Auto-Skip and Make Veteran Connection Required
 
-Single database migration to reset the auto-increment sequence on `influencer_platforms.id` so it starts after the current max ID.
+Two issues to address:
 
-### SQL Migration
+### 1. Make `veteranConnection` mandatory
+In `src/components/forms/CreatorApplicationForm.tsx`, change the zod schema from `z.string().optional()` to `z.string().min(1, "Please select an option")`.
 
-```sql
-SELECT setval(
-  pg_get_serial_sequence('public.influencer_platforms', 'id'),
-  COALESCE((SELECT MAX(id) FROM public.influencer_platforms), 0) + 1,
-  false
-);
-```
+### 2. Prevent the auto-submit bug
+The "Next" button on Step 2 and the "Submit" button on Step 3 occupy the same position in the JSX tree. React reuses the DOM element, so a click on "Next" can fire as a form submit when the button type swaps instantly.
 
-This uses `COALESCE` so it's safe even if the table is empty. The `false` parameter means the next `nextval()` call will return exactly that number (max + 1), not max + 2.
+Fix: add a `key` prop to both buttons (`key="next"` and `key="submit"`) so React treats them as distinct elements and recreates the DOM node on step change.
+
+### Files changed
+- `src/components/forms/CreatorApplicationForm.tsx` — two small edits (schema + button keys)
 
