@@ -11,3 +11,6 @@ verify_jwt = false
 
 [functions.send-bulk-welcome]
 verify_jwt = false
+
+[functions.notify-make-youtube-published]
+verify_jwt = false
