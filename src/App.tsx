@@ -26,6 +26,7 @@ import Challenge from "./pages/Challenge";
 import OperationClaimsSuccess from "./pages/OperationClaimsSuccess";
 import Advocates from "./pages/Advocates";
 import InfluencerPortal from "./pages/InfluencerPortal";
+import AdminDashboard from "./pages/AdminDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -60,6 +61,7 @@ const App = () => (
               <Route path="/operation-claims-success" element={<OperationClaimsSuccess />} />
               <Route path="/advocates" element={<Advocates />} />
               <Route path="/influencer" element={<InfluencerPortal />} />
+              <Route path="/admin" element={<AdminDashboard />} />
               <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
