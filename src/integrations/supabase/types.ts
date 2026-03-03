@@ -584,7 +584,6 @@ export type Database = {
           email: string
           first_name: string
           fundraising_goal: string | null
-          "has competed": boolean | null
           highest_follower_count: number | null
           highest_follower_platform: string | null
           id: string
@@ -594,7 +593,7 @@ export type Database = {
           past_competitions: Json[] | null
           personal_mission: string | null
           pref_name: string | null
-          social_profiles: Json | null
+          profile_complete: boolean | null
           state: string
           status: string
           veteran_connection: string | null
@@ -609,7 +608,6 @@ export type Database = {
           email: string
           first_name: string
           fundraising_goal?: string | null
-          "has competed"?: boolean | null
           highest_follower_count?: number | null
           highest_follower_platform?: string | null
           id?: string
@@ -619,7 +617,7 @@ export type Database = {
           past_competitions?: Json[] | null
           personal_mission?: string | null
           pref_name?: string | null
-          social_profiles?: Json | null
+          profile_complete?: boolean | null
           state: string
           status?: string
           veteran_connection?: string | null
@@ -634,7 +632,6 @@ export type Database = {
           email?: string
           first_name?: string
           fundraising_goal?: string | null
-          "has competed"?: boolean | null
           highest_follower_count?: number | null
           highest_follower_platform?: string | null
           id?: string
@@ -644,7 +641,7 @@ export type Database = {
           past_competitions?: Json[] | null
           personal_mission?: string | null
           pref_name?: string | null
-          social_profiles?: Json | null
+          profile_complete?: boolean | null
           state?: string
           status?: string
           veteran_connection?: string | null
@@ -656,34 +653,34 @@ export type Database = {
         Row: {
           approved_platform: boolean | null
           created_at: string
-          creator_id: string
           follower_count: number | null
           handle: string | null
           id: number
+          influencer_id: string
           platform_name: string | null
         }
         Insert: {
           approved_platform?: boolean | null
           created_at?: string
-          creator_id: string
           follower_count?: number | null
           handle?: string | null
           id?: number
+          influencer_id: string
           platform_name?: string | null
         }
         Update: {
           approved_platform?: boolean | null
           created_at?: string
-          creator_id?: string
           follower_count?: number | null
           handle?: string | null
           id?: number
+          influencer_id?: string
           platform_name?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "creator_platforms_creator_id_fkey"
-            columns: ["creator_id"]
+            foreignKeyName: "creator_platforms_influencer_id_fkey"
+            columns: ["influencer_id"]
             isOneToOne: false
             referencedRelation: "creator_applications"
             referencedColumns: ["id"]
@@ -831,6 +828,119 @@ export type Database = {
           raw?: Json
           token?: string | null
           transaction_id?: string
+        }
+        Relationships: []
+      }
+      influencer_platforms: {
+        Row: {
+          approved_platform: boolean | null
+          created_at: string
+          follower_count: number | null
+          handle: string | null
+          id: number
+          influencer_id: string
+          platform_name: string | null
+        }
+        Insert: {
+          approved_platform?: boolean | null
+          created_at?: string
+          follower_count?: number | null
+          handle?: string | null
+          id?: number
+          influencer_id: string
+          platform_name?: string | null
+        }
+        Update: {
+          approved_platform?: boolean | null
+          created_at?: string
+          follower_count?: number | null
+          handle?: string | null
+          id?: number
+          influencer_id?: string
+          platform_name?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "influencer_platforms_influencer_id_fkey"
+            columns: ["influencer_id"]
+            isOneToOne: false
+            referencedRelation: "influencers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      influencers: {
+        Row: {
+          accepted_rules: boolean | null
+          additional_info: string | null
+          avatar_url: string | null
+          comfort_level: string | null
+          created_at: string
+          email: string
+          first_name: string
+          fundraising_goal: string | null
+          highest_follower_count: number | null
+          highest_follower_platform: string | null
+          id: string
+          last_name: string
+          motivation: string | null
+          password: string | null
+          past_competitions: Json[] | null
+          personal_mission: string | null
+          pref_name: string | null
+          profile_complete: boolean | null
+          state: string
+          status: string
+          veteran_connection: string | null
+          willing_to_share: boolean | null
+        }
+        Insert: {
+          accepted_rules?: boolean | null
+          additional_info?: string | null
+          avatar_url?: string | null
+          comfort_level?: string | null
+          created_at?: string
+          email: string
+          first_name: string
+          fundraising_goal?: string | null
+          highest_follower_count?: number | null
+          highest_follower_platform?: string | null
+          id?: string
+          last_name: string
+          motivation?: string | null
+          password?: string | null
+          past_competitions?: Json[] | null
+          personal_mission?: string | null
+          pref_name?: string | null
+          profile_complete?: boolean | null
+          state: string
+          status?: string
+          veteran_connection?: string | null
+          willing_to_share?: boolean | null
+        }
+        Update: {
+          accepted_rules?: boolean | null
+          additional_info?: string | null
+          avatar_url?: string | null
+          comfort_level?: string | null
+          created_at?: string
+          email?: string
+          first_name?: string
+          fundraising_goal?: string | null
+          highest_follower_count?: number | null
+          highest_follower_platform?: string | null
+          id?: string
+          last_name?: string
+          motivation?: string | null
+          password?: string | null
+          past_competitions?: Json[] | null
+          personal_mission?: string | null
+          pref_name?: string | null
+          profile_complete?: boolean | null
+          state?: string
+          status?: string
+          veteran_connection?: string | null
+          willing_to_share?: boolean | null
         }
         Relationships: []
       }
@@ -982,6 +1092,45 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string | null
+          id: number
+          password: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          id?: number
+          password?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          id?: number
+          password?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      role_options: {
+        Row: {
+          id: number
+          role: string | null
+        }
+        Insert: {
+          id?: number
+          role?: string | null
+        }
+        Update: {
+          id?: number
+          role?: string | null
+        }
+        Relationships: []
       }
       site_config: {
         Row: {
