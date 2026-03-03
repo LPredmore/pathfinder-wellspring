@@ -148,20 +148,22 @@ export default function InfluencerPortal() {
     setUploadingAvatar(true);
     try {
       const ext = file.name.split(".").pop();
-      const fileName = `${influencer.id}.${ext}`;
+      const filePath = `${influencer.id}/photo.${ext}`;
 
       const { error: uploadError } = await supabase.storage
         .from("avatars")
-        .upload(fileName, file, { upsert: true });
+        .upload(filePath, file, { upsert: true });
       if (uploadError) throw uploadError;
+
+      const fullUrl = `https://asjhkidpuhqodryczuth.supabase.co/storage/v1/object/public/avatars/${filePath}`;
 
       const { error: updateError } = await supabase
         .from("influencers")
-        .update({ avatar_url: fileName })
+        .update({ avatar_url: fullUrl })
         .eq("id", influencer.id);
       if (updateError) throw updateError;
 
-      setInfluencer({ ...influencer, avatar_url: fileName });
+      setInfluencer({ ...influencer, avatar_url: fullUrl });
       toast.success("Profile photo updated.");
     } catch (err: any) {
       toast.error(err.message || "Failed to upload avatar.");
@@ -244,7 +246,9 @@ export default function InfluencerPortal() {
 
   const displayName = influencer.pref_name || influencer.first_name;
   const avatarUrl = influencer.avatar_url
-    ? `https://asjhkidpuhqodryczuth.supabase.co/storage/v1/object/public/avatars/${influencer.avatar_url}`
+    ? influencer.avatar_url.startsWith("http")
+      ? influencer.avatar_url
+      : `https://asjhkidpuhqodryczuth.supabase.co/storage/v1/object/public/avatars/${influencer.avatar_url}`
     : undefined;
 
   return (
