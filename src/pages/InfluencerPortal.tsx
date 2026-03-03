@@ -12,12 +12,20 @@ import { Textarea } from "@/components/ui/textarea";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { PlatformIcon, buildSocialUrl } from "@/components/icons/PlatformIcon";
-import { Pencil, Check, X, Plus, Trash2, Camera, Loader2 } from "lucide-react";
+import { Pencil, Plus, Trash2, Camera, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import type { Tables } from "@/integrations/supabase/types";
 
 type Influencer = Tables<"influencers">;
 type Platform = Tables<"influencer_platforms">;
+
+const US_STATES = [
+  "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA",
+  "HI","ID","IL","IN","IA","KS","KY","LA","ME","MD",
+  "MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ",
+  "NM","NY","NC","ND","OH","OK","OR","PA","RI","SC",
+  "SD","TN","TX","UT","VT","VA","WA","WV","WI","WY",
+] as const;
 
 const PLATFORM_OPTIONS = [
   "BlueSky", "Facebook", "Instagram", "LinkedIn", "Patreon",
@@ -37,6 +45,14 @@ export default function InfluencerPortal() {
   const [saving, setSaving] = useState(false);
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
   const avatarInputRef = useRef<HTMLInputElement>(null);
+
+  // Header edit mode (all-in-one)
+  const [editingHeader, setEditingHeader] = useState(false);
+  const [headerEdits, setHeaderEdits] = useState({
+    pref_name: "",
+    email: "",
+    state: "",
+  });
 
   // Platform editing
   const [addingPlatform, setAddingPlatform] = useState(false);
@@ -86,34 +102,67 @@ export default function InfluencerPortal() {
     setEditValue("");
   };
 
+  const startHeaderEdit = () => {
+    if (!influencer) return;
+    setEditingHeader(true);
+    setHeaderEdits({
+      pref_name: influencer.pref_name || "",
+      email: influencer.email,
+      state: influencer.state,
+    });
+  };
+
+  const cancelHeaderEdit = () => {
+    setEditingHeader(false);
+  };
+
+  const saveHeader = async () => {
+    if (!influencer) return;
+    setSaving(true);
+    try {
+      const updates: Record<string, any> = {};
+      let emailChanged = false;
+
+      if (headerEdits.pref_name !== (influencer.pref_name || "")) {
+        updates.pref_name = headerEdits.pref_name || null;
+      }
+      if (headerEdits.email !== influencer.email) {
+        const { error: authError } = await supabase.auth.updateUser({ email: headerEdits.email });
+        if (authError) throw authError;
+        updates.email = headerEdits.email;
+        emailChanged = true;
+      }
+      if (headerEdits.state !== influencer.state) {
+        updates.state = headerEdits.state;
+      }
+
+      if (Object.keys(updates).length > 0) {
+        const { error } = await supabase
+          .from("influencers")
+          .update(updates)
+          .eq("id", influencer.id);
+        if (error) throw error;
+        setInfluencer({ ...influencer, ...updates });
+      }
+
+      setEditingHeader(false);
+      toast.success(emailChanged
+        ? "Profile updated. Check your new email for a confirmation link."
+        : "Profile updated."
+      );
+    } catch (err: any) {
+      toast.error(err.message || "Failed to save.");
+    } finally {
+      setSaving(false);
+    }
+  };
+
   const saveField = async (field: string) => {
     if (!influencer) return;
     setSaving(true);
 
     try {
-      if (field === "email") {
-        // Update auth email
-        const { error: authError } = await supabase.auth.updateUser({ email: editValue });
-        if (authError) throw authError;
-
-        // Update influencers table
-        const { error } = await supabase
-          .from("influencers")
-          .update({ email: editValue })
-          .eq("id", influencer.id);
-        if (error) throw error;
-
-        setInfluencer({ ...influencer, email: editValue });
-        toast.success("Email updated. Check your new email for a confirmation link.");
-      } else if (field === "pref_name") {
-        const { error } = await supabase
-          .from("influencers")
-          .update({ pref_name: editValue || null })
-          .eq("id", influencer.id);
-        if (error) throw error;
-        setInfluencer({ ...influencer, pref_name: editValue || null });
-        toast.success("Display name updated.");
-      } else if (field === "personal_mission") {
+      if (field === "personal_mission") {
         const { error } = await supabase
           .from("influencers")
           .update({ personal_mission: editValue || null })
@@ -255,7 +304,7 @@ export default function InfluencerPortal() {
     <Layout>
       <div className="container-wide py-12 max-w-3xl mx-auto space-y-8">
         {/* Profile Header */}
-        <div className="flex items-center gap-6">
+        <div className="flex items-start gap-6">
           <div className="relative group">
             <Avatar className="h-20 w-20">
               <AvatarImage src={avatarUrl} alt={displayName} />
@@ -283,75 +332,78 @@ export default function InfluencerPortal() {
               onChange={handleAvatarUpload}
             />
           </div>
+
           <div className="flex-1">
-            <div className="flex items-center gap-2">
-              {editingField === "pref_name" ? (
-                <div className="flex items-center gap-2">
+            {editingHeader ? (
+              <div className="space-y-3">
+                <div>
+                  <label className="text-xs font-medium text-muted-foreground">Display Name</label>
                   <Input
-                    value={editValue}
-                    onChange={(e) => setEditValue(e.target.value)}
-                    placeholder="Display name"
-                    className="h-9 w-48"
+                    value={headerEdits.pref_name}
+                    onChange={(e) => setHeaderEdits({ ...headerEdits, pref_name: e.target.value })}
+                    placeholder="Display name (optional)"
+                    className="mt-1"
                   />
-                  <Button size="icon" variant="ghost" onClick={() => saveField("pref_name")} disabled={saving}>
-                    <Check className="h-4 w-4" />
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-muted-foreground">Email</label>
+                  <Input
+                    type="email"
+                    value={headerEdits.email}
+                    onChange={(e) => setHeaderEdits({ ...headerEdits, email: e.target.value })}
+                    className="mt-1"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-muted-foreground">State</label>
+                  <Select
+                    value={headerEdits.state}
+                    onValueChange={(val) => setHeaderEdits({ ...headerEdits, state: val })}
+                  >
+                    <SelectTrigger className="mt-1">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {US_STATES.map((s) => (
+                        <SelectItem key={s} value={s}>{s}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="flex gap-2">
+                  <Button size="sm" onClick={saveHeader} disabled={saving}>
+                    {saving ? <Loader2 className="h-4 w-4 animate-spin mr-1" /> : null}
+                    Save
                   </Button>
-                  <Button size="icon" variant="ghost" onClick={cancelEdit}>
-                    <X className="h-4 w-4" />
+                  <Button size="sm" variant="outline" onClick={cancelHeaderEdit}>
+                    Cancel
                   </Button>
                 </div>
-              ) : (
-                <>
+              </div>
+            ) : (
+              <>
+                <div className="flex items-center gap-2">
                   <h1 className="text-3xl font-bold text-foreground">
-                    {displayName} {influencer.last_name}
+                    {displayName}
                   </h1>
                   <Button
                     size="icon"
                     variant="ghost"
                     className="h-7 w-7"
-                    onClick={() => startEdit("pref_name", influencer.pref_name || "")}
+                    onClick={startHeaderEdit}
                   >
                     <Pencil className="h-3.5 w-3.5" />
                   </Button>
-                </>
-              )}
-            </div>
-
-            <div className="flex items-center gap-2 mt-1">
-              {editingField === "email" ? (
-                <div className="flex items-center gap-2">
-                  <Input
-                    type="email"
-                    value={editValue}
-                    onChange={(e) => setEditValue(e.target.value)}
-                    className="h-8 w-64"
-                  />
-                  <Button size="icon" variant="ghost" onClick={() => saveField("email")} disabled={saving}>
-                    <Check className="h-4 w-4" />
-                  </Button>
-                  <Button size="icon" variant="ghost" onClick={cancelEdit}>
-                    <X className="h-4 w-4" />
-                  </Button>
                 </div>
-              ) : (
-                <>
-                  <p className="text-muted-foreground">{influencer.email}</p>
-                  <Button
-                    size="icon"
-                    variant="ghost"
-                    className="h-6 w-6"
-                    onClick={() => startEdit("email", influencer.email)}
-                  >
-                    <Pencil className="h-3 w-3" />
-                  </Button>
-                </>
-              )}
-            </div>
-
-            <div className="flex gap-2 mt-2">
-              <Badge variant="secondary">{influencer.state}</Badge>
-              <Badge variant="outline">{influencer.status}</Badge>
-            </div>
+                <p className="text-muted-foreground mt-0.5">
+                  {influencer.first_name} {influencer.last_name}
+                </p>
+                <p className="text-sm text-muted-foreground">{influencer.email}</p>
+                <div className="mt-2">
+                  <Badge variant="secondary">{influencer.state}</Badge>
+                </div>
+              </>
+            )}
           </div>
         </div>
 
