@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
+import { AuthProvider } from "@/contexts/AuthContext";
 import Index from "./pages/Index";
 import Therapy from "./pages/Therapy";
 import SupportSessions from "./pages/SupportSessions";
@@ -24,6 +25,7 @@ import Competitions from "./pages/Competitions";
 import Challenge from "./pages/Challenge";
 import OperationClaimsSuccess from "./pages/OperationClaimsSuccess";
 import Advocates from "./pages/Advocates";
+import InfluencerPortal from "./pages/InfluencerPortal";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -35,29 +37,32 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/therapy" element={<Therapy />} />
-            <Route path="/support-sessions" element={<SupportSessions />} />
-            
-            <Route path="/how-it-works" element={<HowItWorks />} />
-            <Route path="/therapists" element={<Therapists />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/faq" element={<FAQ />} />
-            <Route path="/get-started" element={<GetStarted />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/privacy" element={<Privacy />} />
-            <Route path="/terms" element={<Terms />} />
-            <Route path="/urgent-help" element={<UrgentHelp />} />
-            <Route path="/foundation" element={<Foundation />} />
-            <Route path="/donate" element={<Donate />} />
-            <Route path="/support" element={<Support />} />
-            <Route path="/beyondtheyellow" element={<Competitions />} />
-            <Route path="/challenge" element={<Challenge />} />
-            <Route path="/operation-claims-success" element={<OperationClaimsSuccess />} />
-            <Route path="/advocates" element={<Advocates />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <AuthProvider>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/therapy" element={<Therapy />} />
+              <Route path="/support-sessions" element={<SupportSessions />} />
+              
+              <Route path="/how-it-works" element={<HowItWorks />} />
+              <Route path="/therapists" element={<Therapists />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/faq" element={<FAQ />} />
+              <Route path="/get-started" element={<GetStarted />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/privacy" element={<Privacy />} />
+              <Route path="/terms" element={<Terms />} />
+              <Route path="/urgent-help" element={<UrgentHelp />} />
+              <Route path="/foundation" element={<Foundation />} />
+              <Route path="/donate" element={<Donate />} />
+              <Route path="/support" element={<Support />} />
+              <Route path="/beyondtheyellow" element={<Competitions />} />
+              <Route path="/challenge" element={<Challenge />} />
+              <Route path="/operation-claims-success" element={<OperationClaimsSuccess />} />
+              <Route path="/advocates" element={<Advocates />} />
+              <Route path="/influencer" element={<InfluencerPortal />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </AuthProvider>
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>
