@@ -151,9 +151,12 @@ export default function Challenge() {
         {/* Mission Partners */}
         <section className="relative z-10 section-padding">
           <div className="container-wide">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground text-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground text-center mb-4">
               Meet Our Mission Partners
             </h2>
+            <p className="text-center text-lg text-muted-foreground max-w-3xl mx-auto mb-10">
+              These are the heroes who answered the call for our heroes. We encourage everyone to go check out their social media profiles and show them the same support they are showing our veterans. And pick one to donate through.
+            </p>
             {isLoading ? (
               <p className="text-center text-muted-foreground">Loading…</p>
             ) : competitors.length === 0 ? (
