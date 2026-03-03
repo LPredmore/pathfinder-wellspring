@@ -8,3 +8,6 @@ verify_jwt = false
 
 [functions.backfill-competitor-auth]
 verify_jwt = false
+
+[functions.send-bulk-welcome]
+verify_jwt = false
