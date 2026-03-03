@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { RichTextEditor } from "@/components/RichTextEditor";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -712,13 +713,12 @@ export default function AdminDashboard() {
                       />
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-foreground">Body (HTML)</label>
-                      <Textarea
+                      <label className="text-sm font-medium text-foreground">Body</label>
+                      <RichTextEditor
                         value={emailBody}
-                        onChange={(e) => setEmailBody(e.target.value)}
-                        placeholder="<p>Hi {{first_name}},</p><p>Your account has been created…</p>"
-                        rows={10}
-                        className="mt-1 font-mono text-sm"
+                        onChange={(html) => setEmailBody(html)}
+                        placeholder="Hi {{first_name}}, your account has been created…"
+                        className="mt-1"
                       />
                     </div>
                     <div className="rounded-md bg-muted p-3 text-sm text-muted-foreground">
