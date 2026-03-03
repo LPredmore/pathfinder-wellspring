@@ -1,47 +1,68 @@
 
 
-## Replace Leaderboard Placeholders with Live Zeffy Leaderboard
+## Create `/challenge` Page with Competitor Cards
 
-### What Changes
+### Overview
 
-Replace the two "Coming Soon" placeholder cards (Hero Division / Elite Division) on lines 218-228 with a single, prominent "Current Challenge" leaderboard section that embeds the Zeffy leaderboard iframe.
+Create a new `/challenge` route that houses the Zeffy leaderboard and thermometer embeds (moved from `/beyondtheyellow`) plus a grid of competitor cards pulled from `current_competitors`. Each card shows their avatar, display name, social links (with platform icons), and personal mission statement -- omitting anything that's empty.
 
-### File Changed
+### Database Changes
 
-**`src/pages/Competitions.tsx`** -- one edit region (lines 218-228)
+1. **Add `avatar_url` column** to `current_competitors` -- a nullable text column for a Supabase Storage path/URL.
 
-### Layout
+2. **Add RLS policy** for public SELECT on `current_competitors` so the frontend can read competitor data without auth. The table currently has no RLS policies and RLS appears disabled -- we need to enable RLS and add a public select policy.
 
-The two placeholder cards get replaced with a single full-width `Card` that:
+### File Changes
 
-- Has a bold heading: "Current Challenge" with a `Trophy` icon
-- Contains the Zeffy leaderboard iframe embedded responsively
-- Uses a primary border (`border-2 border-primary`) to make it visually prominent and match the "Become a Mission Partner" card above
-- The iframe container uses `relative overflow-hidden w-full` with `padding-top: 240px` (matching the provided embed code) so it scales properly
+**1. `src/pages/Challenge.tsx` (new file)**
 
-### Technical Details
+- Hero section with title "Current Challenge" 
+- Two-column grid with the Zeffy leaderboard iframe (left) and thermometer iframe (right) -- moved from Competitions.tsx
+- Below that, a "Meet Our Mission Partners" section with a responsive grid of competitor cards
+- Each card:
+  - Circle-framed avatar using `Avatar` component (hidden if no `avatar_url`)
+  - `pref_name` as the name
+  - Row of social platform icons (using Lucide icons for known platforms: Instagram, Facebook, Youtube; generic Globe/Link for others) linking to the profile handle/URL
+  - `personal_mission` text (hidden if empty)
+- Data fetched from `current_competitors` via Supabase client using `@tanstack/react-query`
 
-The embed markup translated to React/JSX:
+**2. `src/pages/Competitions.tsx`**
 
-```tsx
-<Card className="border-2 border-primary">
-  <CardHeader className="text-center">
-    <Trophy className="h-8 w-8 text-primary mx-auto mb-2" />
-    <CardTitle className="text-2xl">Current Challenge</CardTitle>
-  </CardHeader>
-  <CardContent>
-    <div className="relative overflow-hidden w-full" style={{ paddingTop: "240px" }}>
-      <iframe
-        title="Donation form powered by Zeffy"
-        className="absolute inset-0 w-full h-full border-0"
-        src="https://www.zeffy.com/embed/leaderboard/creator-challenge-sponsor-a-veteran"
-        allowTransparency
-      />
-    </div>
-  </CardContent>
-</Card>
+- Remove the "Row 3: Leaderboard placeholders" grid (lines 218-253) containing the two iframe cards
+- They now live on `/challenge`
+
+**3. `src/App.tsx`**
+
+- Import and add route: `<Route path="/challenge" element={<Challenge />} />`
+
+### Social Platform Icon Mapping
+
+The `social_profiles` jsonb contains objects like `{ platform: "TikTok", handle: "@user", followers: 300 }`. We'll map known platform names to Lucide icons and construct URLs where possible:
+
+- "TikTok" -- custom SVG or fallback icon, link to `tiktok.com/@handle`
+- "Instagram" -- Instagram icon, link to `instagram.com/handle`  
+- "YouTube" -- Youtube icon, link to channel
+- "Facebook" -- Facebook icon
+- "Other" -- Globe icon, show handle as text
+
+For platforms where we can construct a URL from the handle, the icon will be a clickable link. For "Other" or ambiguous handles, show icon + handle text.
+
+### Competitor Card Layout
+
+```text
++---------------------------+
+|      (circle avatar)      |
+|       Liberty Adams       |
+|   [TikTok] [Instagram]    |
+|                           |
+|  "I want to help veterans |
+|   feel protected..."      |
++---------------------------+
 ```
 
-- `Trophy` icon is already imported
-- No new dependencies or components needed
-- Single edit replacing lines 218-228
+### Files touched
+- `src/pages/Challenge.tsx` -- new
+- `src/pages/Competitions.tsx` -- remove iframe section
+- `src/App.tsx` -- add route
+- DB migration: add `avatar_url` column + RLS
+
