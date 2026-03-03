@@ -511,24 +511,6 @@ export type Database = {
         }
         Relationships: []
       }
-      competition_links: {
-        Row: {
-          id: number
-          influener_id: string | null
-          "payment link": string | null
-        }
-        Insert: {
-          id?: number
-          influener_id?: string | null
-          "payment link"?: string | null
-        }
-        Update: {
-          id?: number
-          influener_id?: string | null
-          "payment link"?: string | null
-        }
-        Relationships: []
-      }
       content_ideas: {
         Row: {
           avatar: string | null
@@ -595,69 +577,30 @@ export type Database = {
       current_competitors: {
         Row: {
           accepted_rules: boolean | null
-          additional_info: string | null
-          avatar_url: string | null
-          comfort_level: string | null
+          comp_link: string | null
           created_at: string
           division: string | null
-          email: string
-          first_name: string
-          fundraising_goal: string | null
           id: string
           influencer_id: string | null
-          last_name: string
-          motivation: string | null
-          personal_mission: string | null
           pref_name: string | null
-          social_profiles: Json | null
-          state: string
-          status: string
-          veteran_connection: string | null
-          willing_to_share: boolean | null
         }
         Insert: {
           accepted_rules?: boolean | null
-          additional_info?: string | null
-          avatar_url?: string | null
-          comfort_level?: string | null
+          comp_link?: string | null
           created_at?: string
           division?: string | null
-          email: string
-          first_name: string
-          fundraising_goal?: string | null
           id?: string
           influencer_id?: string | null
-          last_name: string
-          motivation?: string | null
-          personal_mission?: string | null
           pref_name?: string | null
-          social_profiles?: Json | null
-          state: string
-          status?: string
-          veteran_connection?: string | null
-          willing_to_share?: boolean | null
         }
         Update: {
           accepted_rules?: boolean | null
-          additional_info?: string | null
-          avatar_url?: string | null
-          comfort_level?: string | null
+          comp_link?: string | null
           created_at?: string
           division?: string | null
-          email?: string
-          first_name?: string
-          fundraising_goal?: string | null
           id?: string
           influencer_id?: string | null
-          last_name?: string
-          motivation?: string | null
-          personal_mission?: string | null
           pref_name?: string | null
-          social_profiles?: Json | null
-          state?: string
-          status?: string
-          veteran_connection?: string | null
-          willing_to_share?: boolean | null
         }
         Relationships: [
           {
