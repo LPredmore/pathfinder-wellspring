@@ -208,7 +208,7 @@ export function CreatorApplicationForm({
           const isOther = sp.platform === "__other__";
           const platformName = isOther ? (sp.customPlatform || "Other") : sp.platform;
           return {
-            creator_id: rowId,
+            influencer_id: rowId,
             platform_name: platformName,
             handle: sp.handle,
             follower_count: sp.followers,
@@ -216,7 +216,7 @@ export function CreatorApplicationForm({
           };
         });
         const { error } = await supabase
-          .from("creator_platforms")
+          .from("influencer_platforms")
           .insert(rows);
         if (error) throw new Error("Could not save social profiles");
       }
@@ -257,7 +257,7 @@ export function CreatorApplicationForm({
       }
 
       const { error } = await supabase
-        .from("creator_applications" as any)
+        .from("influencers")
         .update(updatePayload as any)
         .eq("id", rowId);
 

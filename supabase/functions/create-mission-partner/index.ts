@@ -46,7 +46,7 @@ Deno.serve(async (req) => {
 
     const password = generatePassword(16);
 
-    // Create auth user
+    // 1. Create auth user
     const { data: authData, error: authError } =
       await supabaseAdmin.auth.admin.createUser({
         email,
@@ -55,7 +55,6 @@ Deno.serve(async (req) => {
       });
 
     if (authError) {
-      // Check for duplicate email
       if (
         authError.message?.toLowerCase().includes("already") ||
         authError.message?.toLowerCase().includes("exists") ||
@@ -82,26 +81,59 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Insert creator_applications row with plaintext password
-    const { data: appRow, error: insertError } = await supabaseAdmin
-      .from("creator_applications")
+    const userId = authData.user!.id;
+
+    // 2. Insert profiles row (email + plaintext password)
+    const { error: profileError } = await supabaseAdmin
+      .from("profiles")
+      .insert({ id: userId, email, password });
+
+    if (profileError) {
+      console.error("Profile insert error:", profileError);
+      await supabaseAdmin.auth.admin.deleteUser(userId);
+      return new Response(
+        JSON.stringify({ error: "Failed to create profile" }),
+        {
+          status: 500,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        }
+      );
+    }
+
+    // 3. Insert user_roles row with 'influencer' role
+    const { error: roleError } = await supabaseAdmin
+      .from("user_roles")
+      .insert({ user_id: userId, role: "influencer" });
+
+    if (roleError) {
+      console.error("Role insert error:", roleError);
+      await supabaseAdmin.auth.admin.deleteUser(userId);
+      return new Response(
+        JSON.stringify({ error: "Failed to assign role" }),
+        {
+          status: 500,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        }
+      );
+    }
+
+    // 4. Insert influencers row
+    const { data: influencerRow, error: influencerError } = await supabaseAdmin
+      .from("influencers")
       .insert({
+        user_id: userId,
         first_name,
         last_name,
         email,
         state,
-        password,
         status: "partial",
       })
       .select("id")
       .single();
 
-    if (insertError) {
-      console.error("Insert error:", insertError);
-      // Try to clean up the auth user if insert fails
-      if (authData?.user?.id) {
-        await supabaseAdmin.auth.admin.deleteUser(authData.user.id);
-      }
+    if (influencerError) {
+      console.error("Influencer insert error:", influencerError);
+      await supabaseAdmin.auth.admin.deleteUser(userId);
       return new Response(
         JSON.stringify({ error: "Failed to create application record" }),
         {
@@ -111,7 +143,7 @@ Deno.serve(async (req) => {
       );
     }
 
-    return new Response(JSON.stringify({ id: appRow.id }), {
+    return new Response(JSON.stringify({ id: influencerRow.id }), {
       status: 200,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
