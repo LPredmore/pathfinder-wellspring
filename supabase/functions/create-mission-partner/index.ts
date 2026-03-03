@@ -143,6 +143,23 @@ Deno.serve(async (req) => {
       );
     }
 
+    // 5. Fire-and-forget welcome email
+    const fnUrl = `${Deno.env.get("SUPABASE_URL")}/functions/v1/send-welcome-email`;
+    fetch(fnUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")}`,
+      },
+      body: JSON.stringify({
+        to: email,
+        first_name,
+        last_name,
+        email,
+        password,
+      }),
+    }).catch((err) => console.error("Welcome email fire-and-forget error:", err));
+
     return new Response(JSON.stringify({ id: influencerRow.id }), {
       status: 200,
       headers: { ...corsHeaders, "Content-Type": "application/json" },

@@ -4,13 +4,14 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { supabase } from "@/integrations/supabase/client";
 import { Layout } from "@/components/layout";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Select,
   SelectContent,
@@ -35,6 +36,9 @@ import {
   Camera,
   Loader2,
   Search,
+  Save,
+  Settings,
+  Users,
 } from "lucide-react";
 import { toast } from "sonner";
 import type { Tables } from "@/integrations/supabase/types";
@@ -99,6 +103,12 @@ export default function AdminDashboard() {
   const [newPlatformHandle, setNewPlatformHandle] = useState("");
   const [newPlatformFollowers, setNewPlatformFollowers] = useState("");
 
+  // Settings tab state
+  const [emailSubject, setEmailSubject] = useState("");
+  const [emailBody, setEmailBody] = useState("");
+  const [settingsLoading, setSettingsLoading] = useState(false);
+  const [settingsSaving, setSettingsSaving] = useState(false);
+
   // Auth/role gate
   useEffect(() => {
     if (authLoading || roleLoading) return;
@@ -111,6 +121,7 @@ export default function AdminDashboard() {
   useEffect(() => {
     if (authLoading || roleLoading || !isAdmin) return;
     fetchList();
+    fetchEmailSettings();
   }, [isAdmin, authLoading, roleLoading]);
 
   const fetchList = async () => {
@@ -122,6 +133,46 @@ export default function AdminDashboard() {
     setInfluencers(infRes.data ?? []);
     setAllPlatforms(platRes.data ?? []);
     setListLoading(false);
+  };
+
+  const fetchEmailSettings = async () => {
+    setSettingsLoading(true);
+    try {
+      const { data } = await supabase
+        .from("site_config")
+        .select("key, value")
+        .in("key", ["welcome_email_subject", "welcome_email_body"]);
+      if (data) {
+        for (const row of data) {
+          if (row.key === "welcome_email_subject") setEmailSubject(row.value);
+          if (row.key === "welcome_email_body") setEmailBody(row.value);
+        }
+      }
+    } catch (err) {
+      console.error("Failed to load email settings", err);
+    } finally {
+      setSettingsLoading(false);
+    }
+  };
+
+  const saveEmailSettings = async () => {
+    setSettingsSaving(true);
+    try {
+      for (const { key, value } of [
+        { key: "welcome_email_subject", value: emailSubject },
+        { key: "welcome_email_body", value: emailBody },
+      ]) {
+        const { error } = await supabase
+          .from("site_config")
+          .upsert({ key, value, updated_at: new Date().toISOString() }, { onConflict: "key" });
+        if (error) throw error;
+      }
+      toast.success("Email template saved.");
+    } catch (err: any) {
+      toast.error(err.message || "Failed to save email template.");
+    } finally {
+      setSettingsSaving(false);
+    }
   };
 
   const openDetail = (inf: Influencer) => {
@@ -542,86 +593,153 @@ export default function AdminDashboard() {
       <div className="container-wide py-12 space-y-6">
         <h1 className="text-3xl font-bold text-foreground">Admin Dashboard</h1>
 
-        <div className="flex flex-col sm:flex-row gap-3">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Search by name or email…"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="pl-9"
-            />
-          </div>
-          <Select value={statusFilter} onValueChange={setStatusFilter}>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All statuses</SelectItem>
-              {STATUS_OPTIONS.map((s) => (
-                <SelectItem key={s} value={s}>{s}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+        <Tabs defaultValue="partners">
+          <TabsList>
+            <TabsTrigger value="partners" className="gap-1.5">
+              <Users className="h-4 w-4" /> Mission Partners
+            </TabsTrigger>
+            <TabsTrigger value="settings" className="gap-1.5">
+              <Settings className="h-4 w-4" /> Settings
+            </TabsTrigger>
+          </TabsList>
 
-        {listLoading ? (
-          <div className="space-y-3">
-            {[1, 2, 3].map((i) => <Skeleton key={i} className="h-12 w-full" />)}
-          </div>
-        ) : filtered.length === 0 ? (
-          <p className="text-muted-foreground text-center py-8">No influencers found.</p>
-        ) : (
-          <div className="rounded-md border">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-12"></TableHead>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Email</TableHead>
-                  <TableHead>State</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead className="text-right">Platforms</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filtered.map((inf) => {
-                  const platformCount = allPlatforms.filter((p) => p.influencer_id === inf.id).length;
-                  const avatarSrc = inf.avatar_url
-                    ? inf.avatar_url.startsWith("http")
-                      ? inf.avatar_url
-                      : `https://asjhkidpuhqodryczuth.supabase.co/storage/v1/object/public/avatars/${inf.avatar_url}`
-                    : undefined;
+          <TabsContent value="partners" className="space-y-6 mt-4">
+            <div className="flex flex-col sm:flex-row gap-3">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  placeholder="Search by name or email…"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="pl-9"
+                />
+              </div>
+              <Select value={statusFilter} onValueChange={setStatusFilter}>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All statuses</SelectItem>
+                  {STATUS_OPTIONS.map((s) => (
+                    <SelectItem key={s} value={s}>{s}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
 
-                  return (
-                    <TableRow
-                      key={inf.id}
-                      className="cursor-pointer hover:bg-muted/50"
-                      onClick={() => openDetail(inf)}
-                    >
-                      <TableCell>
-                        <Avatar className="h-8 w-8">
-                          <AvatarImage src={avatarSrc} />
-                          <AvatarFallback className="text-xs">{inf.first_name[0]}{inf.last_name[0]}</AvatarFallback>
-                        </Avatar>
-                      </TableCell>
-                      <TableCell className="font-medium">
-                        {inf.pref_name || `${inf.first_name} ${inf.last_name}`}
-                        {inf.pref_name && (
-                          <span className="text-muted-foreground text-xs ml-1">({inf.first_name} {inf.last_name})</span>
-                        )}
-                      </TableCell>
-                      <TableCell className="text-muted-foreground">{inf.email}</TableCell>
-                      <TableCell><Badge variant="secondary">{inf.state}</Badge></TableCell>
-                      <TableCell><Badge variant="outline">{inf.status}</Badge></TableCell>
-                      <TableCell className="text-right text-muted-foreground">{platformCount}</TableCell>
+            {listLoading ? (
+              <div className="space-y-3">
+                {[1, 2, 3].map((i) => <Skeleton key={i} className="h-12 w-full" />)}
+              </div>
+            ) : filtered.length === 0 ? (
+              <p className="text-muted-foreground text-center py-8">No influencers found.</p>
+            ) : (
+              <div className="rounded-md border">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="w-12"></TableHead>
+                      <TableHead>Name</TableHead>
+                      <TableHead>Email</TableHead>
+                      <TableHead>State</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead className="text-right">Platforms</TableHead>
                     </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
-          </div>
-        )}
+                  </TableHeader>
+                  <TableBody>
+                    {filtered.map((inf) => {
+                      const platformCount = allPlatforms.filter((p) => p.influencer_id === inf.id).length;
+                      const avatarSrc = inf.avatar_url
+                        ? inf.avatar_url.startsWith("http")
+                          ? inf.avatar_url
+                          : `https://asjhkidpuhqodryczuth.supabase.co/storage/v1/object/public/avatars/${inf.avatar_url}`
+                        : undefined;
+
+                      return (
+                        <TableRow
+                          key={inf.id}
+                          className="cursor-pointer hover:bg-muted/50"
+                          onClick={() => openDetail(inf)}
+                        >
+                          <TableCell>
+                            <Avatar className="h-8 w-8">
+                              <AvatarImage src={avatarSrc} />
+                              <AvatarFallback className="text-xs">{inf.first_name[0]}{inf.last_name[0]}</AvatarFallback>
+                            </Avatar>
+                          </TableCell>
+                          <TableCell className="font-medium">
+                            {inf.pref_name || `${inf.first_name} ${inf.last_name}`}
+                            {inf.pref_name && (
+                              <span className="text-muted-foreground text-xs ml-1">({inf.first_name} {inf.last_name})</span>
+                            )}
+                          </TableCell>
+                          <TableCell className="text-muted-foreground">{inf.email}</TableCell>
+                          <TableCell><Badge variant="secondary">{inf.state}</Badge></TableCell>
+                          <TableCell><Badge variant="outline">{inf.status}</Badge></TableCell>
+                          <TableCell className="text-right text-muted-foreground">{platformCount}</TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              </div>
+            )}
+          </TabsContent>
+
+          <TabsContent value="settings" className="mt-4">
+            <Card>
+              <CardHeader>
+                <CardTitle>Welcome Email Template</CardTitle>
+                <CardDescription>
+                  This email is automatically sent when a new Mission Partner signs up. Use placeholders to personalise the message.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {settingsLoading ? (
+                  <div className="space-y-3">
+                    <Skeleton className="h-10 w-full" />
+                    <Skeleton className="h-32 w-full" />
+                  </div>
+                ) : (
+                  <>
+                    <div>
+                      <label className="text-sm font-medium text-foreground">Subject</label>
+                      <Input
+                        value={emailSubject}
+                        onChange={(e) => setEmailSubject(e.target.value)}
+                        placeholder="Welcome to ValorWell, {{first_name}}!"
+                        className="mt-1"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium text-foreground">Body (HTML)</label>
+                      <Textarea
+                        value={emailBody}
+                        onChange={(e) => setEmailBody(e.target.value)}
+                        placeholder="<p>Hi {{first_name}},</p><p>Your account has been created…</p>"
+                        rows={10}
+                        className="mt-1 font-mono text-sm"
+                      />
+                    </div>
+                    <div className="rounded-md bg-muted p-3 text-sm text-muted-foreground">
+                      <p className="font-medium text-foreground mb-1">Available placeholders:</p>
+                      <ul className="list-disc list-inside space-y-0.5">
+                        <li><code className="bg-background px-1 rounded">{`{{first_name}}`}</code> — Partner's first name</li>
+                        <li><code className="bg-background px-1 rounded">{`{{last_name}}`}</code> — Partner's last name</li>
+                        <li><code className="bg-background px-1 rounded">{`{{email}}`}</code> — Partner's login email</li>
+                        <li><code className="bg-background px-1 rounded">{`{{password}}`}</code> — Generated temporary password</li>
+                      </ul>
+                    </div>
+                    <Button onClick={saveEmailSettings} disabled={settingsSaving} className="gap-2">
+                      {settingsSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+                      Save Template
+                    </Button>
+                  </>
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
       </div>
     </Layout>
   );
