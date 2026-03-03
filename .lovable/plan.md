@@ -1,70 +1,81 @@
 
 
-## Admin Influencer Management Dashboard
+## Admin Dashboard Implementation Plan
 
-### Overview
-Create an admin dashboard at `/admin` that lets admin users view all influencer profiles in a sortable table, click into any profile, and edit all their information — using the same editing UI patterns already in the Influencer Portal.
+### Problem Summary
 
-### Routing & Auth Flow
+The admin user logs in via "Login as Mission Partner," gets sent to `/influencer`, and that page queries the `influencers` table for a row matching their `user_id`. Admins don't have an influencer profile, so the page shows "No Profile Found." There is no `/admin` route, no `AdminDashboard` page, and no role-checking logic anywhere in the app.
 
-**Login redirect logic**: Update `InfluencerLoginDialog` to check the user's role after login. If they have the `admin` role (via `user_roles` table), redirect to `/admin` instead of `/influencer`. Similarly, update the Header "My Portal" dropdown to show "Admin Dashboard" link for admins.
+### Architecture Decision: Separate Admin Page, Not a Mode Toggle
 
-**New route**: `/admin` → `AdminDashboard` page
+The admin dashboard will be a **standalone page** at `/admin` rather than a conditional mode within `InfluencerPortal`. This is the correct decision for three reasons:
 
-**Role check**: Query `user_roles` table on the admin page to verify the logged-in user has the `admin` role. Redirect non-admins away.
+1. **Separation of concerns.** The influencer portal is a self-service view scoped to one user's own data. The admin view is a management tool that operates across all users. Mixing them creates a tangle of conditional rendering and dual data-fetching logic.
+2. **Security clarity.** A dedicated page with its own role gate makes the access boundary explicit and auditable. There's no risk of an influencer accidentally seeing admin UI due to a rendering bug.
+3. **Maintainability.** The admin page will grow (bulk actions, filters, status changes). Keeping it separate avoids bloating the influencer portal.
 
-### Database Changes (Migration)
+### Implementation Steps
 
-Add RLS policies so admins can update influencer data directly:
+#### 1. Role-aware login redirect (`InfluencerLoginDialog.tsx`)
 
-```sql
--- Admin can update influencers
-CREATE POLICY "Admins can update influencers"
-ON public.influencers FOR UPDATE TO authenticated
-USING (public.has_role(auth.uid(), 'admin'))
-WITH CHECK (public.has_role(auth.uid(), 'admin'));
+After successful `signIn`, query `user_roles` for the authenticated user before navigating. If the user has the `admin` role, navigate to `/admin`. Otherwise, navigate to `/influencer`.
 
--- Admin can manage all influencer platforms
-CREATE POLICY "Admins can insert influencer platforms"
-ON public.influencer_platforms FOR INSERT TO authenticated
-WITH CHECK (public.has_role(auth.uid(), 'admin'));
-
-CREATE POLICY "Admins can update influencer platforms"
-ON public.influencer_platforms FOR UPDATE TO authenticated
-USING (public.has_role(auth.uid(), 'admin'));
-
-CREATE POLICY "Admins can delete influencer platforms"
-ON public.influencer_platforms FOR DELETE TO authenticated
-USING (public.has_role(auth.uid(), 'admin'));
+```text
+signIn() → success → query user_roles where user_id = auth.uid()
+  → has 'admin' role? → navigate("/admin")
+  → otherwise        → navigate("/influencer")
 ```
 
-### New Page: `src/pages/AdminDashboard.tsx`
+This is a single async query added between the `signIn` call and the `navigate` call. The `user_roles` table already has an RLS policy allowing users to read their own roles.
 
-**List View** (default):
-- Fetches all influencers with their platforms
-- Displays a table with columns: Avatar, Name, Email, State, Status, Division, Platforms count
-- Sortable by status (filter dropdown), name, state
-- Search/filter bar for quick lookup
-- Click a row to open that influencer's detail/edit view
+#### 2. Role-aware header dropdown (`Header.tsx`)
 
-**Detail/Edit View** (inline or separate panel):
-- When an influencer is selected, show their full profile in an editable form — reusing the same card-based layout as the Influencer Portal
-- Admin can edit: avatar (upload), display name, first name, last name, email, state, personal mission, veteran connection, status, is_competing flag
-- Admin can manage their social platforms (add/remove/edit)
-- Note: admin edits to email will NOT update auth email (only the influencers table), since admins shouldn't change another user's auth credentials
-- Back button to return to the list
+When the user is authenticated, query `user_roles` once (via `useEffect`) to check if they're an admin. Store in local state (`isAdmin`).
+
+- If admin: show "Admin Dashboard" link → `/admin` (instead of or in addition to "View Profile")
+- If not admin: show "View Profile" → `/influencer` (current behavior)
+
+Same change in the mobile menu section.
+
+#### 3. New page: `AdminDashboard.tsx`
+
+**Role gate:** On mount, query `user_roles` for the current user. If they lack the `admin` role, redirect to `/`. This is a client-side guard; the RLS policies are the real security boundary.
+
+**List view (default state):**
+- Fetch all rows from `influencers` with a separate fetch for `influencer_platforms`
+- Join platforms to influencers client-side by `influencer_id`
+- Render a table: Avatar, Display Name, First/Last Name, Email, State, Status, Platform count
+- Search input filters by name/email
+- Status filter dropdown (all / new / reviewing / approved / etc.)
+- Clickable rows open the detail view
+
+**Detail/edit view (selected influencer):**
+- Reuse the same card-based layout pattern from `InfluencerPortal` (avatar, header fields, personal mission, veteran connection, platforms)
+- Admin can edit: `pref_name`, `first_name`, `last_name`, `email` (influencers table only — no auth email change), `state`, `personal_mission`, `veteran_connection`, `status`, `is_competing`
+- Admin can add/remove/edit social platforms
+- Admin can upload a new avatar (same storage bucket logic)
+- Back button returns to the list
+- All updates go through the existing RLS policies (admin UPDATE policies already applied)
+
+#### 4. Route registration (`App.tsx`)
+
+Add: `<Route path="/admin" element={<AdminDashboard />} />`
+
+#### 5. Auth context — add a `useIsAdmin` hook
+
+Create a small reusable hook (e.g., in `src/hooks/useIsAdmin.ts`) that queries `user_roles` and returns `{ isAdmin: boolean, loading: boolean }`. This avoids duplicating the role query in the login dialog, header, and admin page. The hook caches the result in state and only re-queries when the user changes.
 
 ### File Changes
 
 | File | Change |
 |------|--------|
-| `src/pages/AdminDashboard.tsx` | New file — list + detail views |
+| `src/hooks/useIsAdmin.ts` | New — reusable hook querying `user_roles` for admin role |
+| `src/pages/AdminDashboard.tsx` | New — full admin management page with list + detail views |
 | `src/App.tsx` | Add `/admin` route |
-| `src/components/InfluencerLoginDialog.tsx` | After login, check role and redirect to `/admin` or `/influencer` |
-| `src/components/layout/Header.tsx` | Show "Admin Dashboard" link in My Portal dropdown for admin users |
-| Migration SQL | Add admin RLS policies on `influencers` and `influencer_platforms` |
+| `src/components/InfluencerLoginDialog.tsx` | After login, check role → redirect to `/admin` or `/influencer` |
+| `src/components/layout/Header.tsx` | Use `useIsAdmin` to conditionally show admin vs influencer links |
 
-### Header Portal Dropdown (for admins)
+### No Database Changes Needed
 
-Add a state check: after auth, query `user_roles` for the current user. If admin, show "Admin Dashboard" link pointing to `/admin` instead of (or in addition to) "View Profile".
+The RLS policies from the previous migration already cover admin read/update on `influencers` and full CRUD on `influencer_platforms`. The `user_roles` SELECT policy already allows users to read their own roles and admins to read all roles. No new migration is required.
 
