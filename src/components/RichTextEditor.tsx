@@ -3,7 +3,8 @@ import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import Placeholder from "@tiptap/extension-placeholder";
 import TextAlign from "@tiptap/extension-text-align";
-import { useEffect } from "react";
+import Link from "@tiptap/extension-link";
+import { useEffect, useCallback } from "react";
 import { cn } from "@/lib/utils";
 import {
   Bold,
@@ -17,6 +18,8 @@ import {
   AlignRight,
   Undo,
   Redo,
+  Link as LinkIcon,
+  Unlink,
 } from "lucide-react";
 import { Toggle } from "@/components/ui/toggle";
 import { Separator } from "@/components/ui/separator";
@@ -37,6 +40,12 @@ export function RichTextEditor({ value, onChange, placeholder, className }: Rich
       Underline,
       Placeholder.configure({ placeholder: placeholder ?? "Start typing…" }),
       TextAlign.configure({ types: ["heading", "paragraph"] }),
+      Link.configure({
+        openOnClick: false,
+        HTMLAttributes: {
+          class: "text-primary underline cursor-pointer",
+        },
+      }),
     ],
     content: value,
     onUpdate: ({ editor }) => {
@@ -57,6 +66,18 @@ export function RichTextEditor({ value, onChange, placeholder, className }: Rich
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
+
+  const setLink = useCallback(() => {
+    if (!editor) return;
+    const previousUrl = editor.getAttributes("link").href;
+    const url = window.prompt("Enter URL", previousUrl || "https://");
+    if (url === null) return; // cancelled
+    if (url === "") {
+      editor.chain().focus().extendMarkRange("link").unsetLink().run();
+      return;
+    }
+    editor.chain().focus().extendMarkRange("link").setLink({ href: url }).run();
+  }, [editor]);
 
   if (!editor) return null;
 
@@ -115,6 +136,24 @@ export function RichTextEditor({ value, onChange, placeholder, className }: Rich
         >
           <Strikethrough className="h-4 w-4" />
         </ToolbarButton>
+
+        <Separator orientation="vertical" className="mx-1 h-6" />
+
+        <ToolbarButton
+          active={editor.isActive("link")}
+          onClick={setLink}
+          title="Add link"
+        >
+          <LinkIcon className="h-4 w-4" />
+        </ToolbarButton>
+        {editor.isActive("link") && (
+          <ToolbarButton
+            onClick={() => editor.chain().focus().unsetLink().run()}
+            title="Remove link"
+          >
+            <Unlink className="h-4 w-4" />
+          </ToolbarButton>
+        )}
 
         <Separator orientation="vertical" className="mx-1 h-6" />
 
