@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 import {
   Dialog,
   DialogContent,
@@ -31,17 +32,32 @@ export function InfluencerLoginDialog({ open, onOpenChange }: Props) {
     setLoading(true);
 
     const { error } = await signIn(email, password);
-    setLoading(false);
-
     if (error) {
+      setLoading(false);
       setError("Invalid email or password. Please try again.");
       return;
     }
 
-    onOpenChange(false);
-    setEmail("");
-    setPassword("");
-    navigate("/influencer");
+    // Check if user has admin role
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) {
+      const { data: roleRow } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", user.id)
+        .eq("role", "admin")
+        .maybeSingle();
+
+      onOpenChange(false);
+      setEmail("");
+      setPassword("");
+      setLoading(false);
+      navigate(roleRow ? "/admin" : "/influencer");
+    } else {
+      setLoading(false);
+      onOpenChange(false);
+      navigate("/influencer");
+    }
   };
 
   return (

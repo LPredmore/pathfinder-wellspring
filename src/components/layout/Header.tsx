@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
+import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { InfluencerLoginDialog } from "@/components/InfluencerLoginDialog";
 
 const services = [
@@ -29,6 +30,7 @@ export function Header() {
   const [loginDialogOpen, setLoginDialogOpen] = useState(false);
   const location = useLocation();
   const { user, signOut } = useAuth();
+  const { isAdmin } = useIsAdmin();
 
   const isActive = (href: string) => location.pathname === href;
   const isServicesActive = services.some((s) => location.pathname === s.href);
@@ -108,8 +110,8 @@ export function Header() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                   <DropdownMenuItem asChild>
-                    <Link to="/influencer" className="w-full cursor-pointer">
-                      View Profile
+                    <Link to={isAdmin ? "/admin" : "/influencer"} className="w-full cursor-pointer">
+                      {isAdmin ? "Admin Dashboard" : "View Profile"}
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem
@@ -235,8 +237,8 @@ export function Header() {
               {user ? (
                 <div className="space-y-2">
                   <Button variant="outline" className="w-full" asChild>
-                    <Link to="/influencer" onClick={() => setMobileMenuOpen(false)}>
-                      View Profile
+                    <Link to={isAdmin ? "/admin" : "/influencer"} onClick={() => setMobileMenuOpen(false)}>
+                      {isAdmin ? "Admin Dashboard" : "View Profile"}
                     </Link>
                   </Button>
                   <Button
