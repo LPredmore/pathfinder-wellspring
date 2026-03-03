@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -33,17 +33,6 @@ const US_STATES = [
   "SD","TN","TX","UT","VT","VA","WA","WV","WI","WY",
 ] as const;
 
-const PLATFORMS = [
-  "TikTok",
-  "Instagram",
-  "YouTube",
-  "LinkedIn",
-  "Facebook",
-  "X (Twitter)",
-  "Podcast",
-  "Other",
-] as const;
-
 const VETERAN_CONNECTION_OPTIONS = [
   "I'm a veteran",
   "Military spouse/family",
@@ -54,9 +43,13 @@ const VETERAN_CONNECTION_OPTIONS = [
 
 const socialProfileSchema = z.object({
   platform: z.string().min(1, "Select a platform"),
+  customPlatform: z.string().trim().max(100).optional(),
   handle: z.string().trim().min(1, "Handle or URL is required").max(500),
   followers: z.coerce.number().min(0, "Must be 0 or more"),
-});
+}).refine(
+  (data) => data.platform !== "__other__" || (data.customPlatform && data.customPlatform.length > 0),
+  { message: "Enter the platform name", path: ["customPlatform"] }
+);
 
 const formSchema = z.object({
   firstName: z.string().trim().min(1, "First name is required").max(100),
@@ -107,6 +100,18 @@ export function CreatorApplicationForm({
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [smPlatforms, setSmPlatforms] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (!open) return;
+    supabase
+      .from("sm_platforms")
+      .select("name")
+      .order("name")
+      .then(({ data }) => {
+        if (data) setSmPlatforms(data.map((r) => r.name));
+      });
+  }, [open]);
 
   const {
     register,
@@ -121,7 +126,7 @@ export function CreatorApplicationForm({
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      socialProfiles: [{ platform: "", handle: "", followers: 0 }],
+      socialProfiles: [{ platform: "", customPlatform: "", handle: "", followers: 0 }],
     },
   });
 
@@ -197,17 +202,22 @@ export function CreatorApplicationForm({
         });
         setRowId(result.id);
       } else if (currentStep === 1 && rowId) {
-        // Save social profiles
+        // Save social profiles to creator_platforms table
         const data = getValues();
-        const profiles = data.socialProfiles.map((sp) => ({
-          platform: sp.platform,
-          handle: sp.handle,
-          followers: sp.followers,
-        }));
+        const rows = data.socialProfiles.map((sp) => {
+          const isOther = sp.platform === "__other__";
+          const platformName = isOther ? (sp.customPlatform || "Other") : sp.platform;
+          return {
+            creator_id: rowId,
+            platform_name: platformName,
+            handle: sp.handle,
+            follower_count: sp.followers,
+            approved_platform: !isOther && smPlatforms.includes(platformName),
+          };
+        });
         const { error } = await supabase
-          .from("creator_applications" as any)
-          .update({ social_profiles: profiles } as any)
-          .eq("id", rowId);
+          .from("creator_platforms")
+          .insert(rows);
         if (error) throw new Error("Could not save social profiles");
       }
 
@@ -373,21 +383,34 @@ export function CreatorApplicationForm({
                           <Label>Platform *</Label>
                           <Select
                             value={watch(`socialProfiles.${index}.platform`)}
-                            onValueChange={(v) => setValue(`socialProfiles.${index}.platform`, v, { shouldValidate: true })}
+                            onValueChange={(v) => {
+                              setValue(`socialProfiles.${index}.platform`, v, { shouldValidate: true });
+                              if (v !== "__other__") setValue(`socialProfiles.${index}.customPlatform`, "", { shouldValidate: false });
+                            }}
                           >
                             <SelectTrigger>
                               <SelectValue placeholder="Select" />
                             </SelectTrigger>
                             <SelectContent>
-                              {PLATFORMS.map((p) => (
+                              {smPlatforms.map((p) => (
                                 <SelectItem key={p} value={p}>{p}</SelectItem>
                               ))}
+                              <SelectItem value="__other__">Other</SelectItem>
                             </SelectContent>
                           </Select>
                           {errors.socialProfiles?.[index]?.platform && (
                             <p className="text-xs text-destructive">{errors.socialProfiles[index]?.platform?.message}</p>
                           )}
                         </div>
+                        {watch(`socialProfiles.${index}.platform`) === "__other__" && (
+                          <div className="space-y-1">
+                            <Label>Platform Name *</Label>
+                            <Input {...register(`socialProfiles.${index}.customPlatform`)} placeholder="e.g. Threads" />
+                            {(errors.socialProfiles?.[index] as any)?.customPlatform && (
+                              <p className="text-xs text-destructive">{(errors.socialProfiles?.[index] as any)?.customPlatform?.message}</p>
+                            )}
+                          </div>
+                        )}
                         <div className="space-y-1">
                           <Label>Handle / URL *</Label>
                           <Input {...register(`socialProfiles.${index}.handle`)} placeholder="@handle or URL" />
@@ -409,7 +432,7 @@ export function CreatorApplicationForm({
                     type="button"
                     variant="outline"
                     size="sm"
-                    onClick={() => append({ platform: "", handle: "", followers: 0 })}
+                    onClick={() => append({ platform: "", customPlatform: "", handle: "", followers: 0 })}
                   >
                     <Plus className="h-4 w-4 mr-1" /> Add a social platform
                   </Button>
