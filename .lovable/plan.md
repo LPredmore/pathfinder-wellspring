@@ -1,68 +1,87 @@
 
 
-## Create `/challenge` Page with Competitor Cards
+## Redesign the Mission Partner Application Form
 
-### Overview
+### Architecture Decision: Edge Function for Account Creation
 
-Create a new `/challenge` route that houses the Zeffy leaderboard and thermometer embeds (moved from `/beyondtheyellow`) plus a grid of competitor cards pulled from `current_competitors`. Each card shows their avatar, display name, social links (with platform icons), and personal mission statement -- omitting anything that's empty.
+The form needs to create a Supabase auth account with a generated password and store that password in `creator_applications.password`. This **cannot** be done from the client — `supabase.auth.admin.createUser()` requires the service role key, which must never be exposed client-side. The right approach is an **edge function** that:
+
+1. Generates a random password
+2. Calls `auth.admin.createUser({ email, password })` using the service role key
+3. Inserts the initial `creator_applications` row (with the plaintext password) in the same transaction
+4. Returns the row ID to the client
+
+This keeps the service role key server-side and ensures the auth account and application row are created atomically. The client form calls this edge function at the end of Step 1 instead of doing a direct Supabase insert.
+
+### Storage: Avatar Uploads
+
+The existing `content-media` bucket is private. Avatar photos for competitors need to be publicly viewable on `/challenge`. Rather than making `content-media` public (it likely has other private assets), we create a **new public bucket** called `avatars`. The form uploads to `avatars/{application_id}/photo.{ext}` and stores the public URL in `creator_applications.avatar_url`.
+
+### New Form Structure (4 steps, down from 5)
+
+The old form had 5 steps covering campaign-specific fields (comfort level, fundraising goal, participation agreement). Those are removed — this is now a general application to participate in **future** competitions. The agreement and campaign-specific onboarding happen later, administratively.
+
+**Step 1 — Welcome + Basic Info**
+- Thank-you message: brief text thanking them for their eagerness to be part of Beyond the Yellow
+- First Name, Last Name, Email, State (dropdown)
+- On "Next": calls edge function `create-mission-partner` which creates auth account + inserts partial `creator_applications` row with generated password
+- Error handling: if email already exists in auth, show a clear message
+
+**Step 2 — Social Profiles**
+- Intro copy: "ValorWell is as committed to supporting you as you are to supporting us. We will promote your social media profiles while you are competing for us. Please list them all below."
+- Same multi-entry social profile UI (platform dropdown, handle, followers) — reuse existing pattern
+- Saves to `creator_applications.social_profiles` via direct Supabase update (row already exists from Step 1)
+
+**Step 3 — Profile & Mission**
+- Photo upload (stored to `avatars` bucket → URL saved to `creator_applications.avatar_url`)
+- Competition Display Name (saved to `pref_name`)
+- "Why do you want to be part of Beyond the Yellow?" textarea (saved to `personal_mission`)
+
+**Step 4 — Veteran Connection**
+- Same veteran connection radio group as before (optional)
+- On submit: final update to row, sets `status` to `'new'`
 
 ### Database Changes
 
-1. **Add `avatar_url` column** to `current_competitors` -- a nullable text column for a Supabase Storage path/URL.
+1. **Create `avatars` storage bucket** (public) with RLS policy allowing anonymous uploads and public reads
+2. No schema changes needed — all required columns already exist on `creator_applications` (`password`, `avatar_url`, `personal_mission`, `pref_name`)
 
-2. **Add RLS policy** for public SELECT on `current_competitors` so the frontend can read competitor data without auth. The table currently has no RLS policies and RLS appears disabled -- we need to enable RLS and add a public select policy.
+### Edge Function: `create-mission-partner`
 
-### File Changes
+**Location:** `supabase/functions/create-mission-partner/index.ts`
 
-**1. `src/pages/Challenge.tsx` (new file)**
+- Accepts POST with `{ first_name, last_name, email, state }`
+- Generates a 16-char random password
+- Creates auth user via `supabase.auth.admin.createUser({ email, password, email_confirm: true })`
+- Inserts into `creator_applications` with the user data + plaintext password + `status: 'partial'`
+- Returns `{ id: <row_id> }`
+- If email already taken in auth, returns 409 with clear error message
+- Uses `SUPABASE_SERVICE_ROLE_KEY` (already configured in secrets)
 
-- Hero section with title "Current Challenge" 
-- Two-column grid with the Zeffy leaderboard iframe (left) and thermometer iframe (right) -- moved from Competitions.tsx
-- Below that, a "Meet Our Mission Partners" section with a responsive grid of competitor cards
-- Each card:
-  - Circle-framed avatar using `Avatar` component (hidden if no `avatar_url`)
-  - `pref_name` as the name
-  - Row of social platform icons (using Lucide icons for known platforms: Instagram, Facebook, Youtube; generic Globe/Link for others) linking to the profile handle/URL
-  - `personal_mission` text (hidden if empty)
-- Data fetched from `current_competitors` via Supabase client using `@tanstack/react-query`
+### Form Schema Changes
 
-**2. `src/pages/Competitions.tsx`**
+The zod schema is simplified:
+- **Removed**: `comfortLevel`, `fundraisingGoal`, `additionalInfo`, `acceptedRules`
+- **Added**: `personalMission` (required, max 2000 chars), `prefName` now lives in Step 3
+- **Kept**: `firstName`, `lastName`, `email`, `state`, `socialProfiles`, `veteranConnection`
 
-- Remove the "Row 3: Leaderboard placeholders" grid (lines 218-253) containing the two iframe cards
-- They now live on `/challenge`
+### Button Text Change
 
-**3. `src/App.tsx`**
+The trigger button text changes from "Become a Mission Partner" to **"Apply to Compete"** — clearer about the intent being future competition participation.
 
-- Import and add route: `<Route path="/challenge" element={<Challenge />} />`
+### Files Touched
 
-### Social Platform Icon Mapping
+| File | Action |
+|---|---|
+| `supabase/functions/create-mission-partner/index.ts` | New edge function |
+| `src/components/forms/CreatorApplicationForm.tsx` | Rewrite: 4-step form, edge function call, avatar upload, new copy |
+| DB migration | Create `avatars` public bucket + RLS policies |
 
-The `social_profiles` jsonb contains objects like `{ platform: "TikTok", handle: "@user", followers: 300 }`. We'll map known platform names to Lucide icons and construct URLs where possible:
+### What's Removed
 
-- "TikTok" -- custom SVG or fallback icon, link to `tiktok.com/@handle`
-- "Instagram" -- Instagram icon, link to `instagram.com/handle`  
-- "YouTube" -- Youtube icon, link to channel
-- "Facebook" -- Facebook icon
-- "Other" -- Globe icon, show handle as text
-
-For platforms where we can construct a URL from the handle, the icon will be a clickable link. For "Other" or ambiguous handles, show icon + handle text.
-
-### Competitor Card Layout
-
-```text
-+---------------------------+
-|      (circle avatar)      |
-|       Liberty Adams       |
-|   [TikTok] [Instagram]    |
-|                           |
-|  "I want to help veterans |
-|   feel protected..."      |
-+---------------------------+
-```
-
-### Files touched
-- `src/pages/Challenge.tsx` -- new
-- `src/pages/Competitions.tsx` -- remove iframe section
-- `src/App.tsx` -- add route
-- DB migration: add `avatar_url` column + RLS
+- Comfort level question
+- Fundraising goal question  
+- Additional info field
+- Full participation agreement + checkbox (this belongs in competition-specific onboarding, not general application)
+- The `motivation` field is replaced by `personal_mission` which maps to the same-named column
 
