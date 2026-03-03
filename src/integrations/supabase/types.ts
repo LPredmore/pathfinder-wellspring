@@ -882,6 +882,7 @@ export type Database = {
           highest_follower_count: number | null
           highest_follower_platform: string | null
           id: string
+          is_competing: boolean
           last_name: string
           motivation: string | null
           password: string | null
@@ -891,6 +892,7 @@ export type Database = {
           profile_complete: boolean | null
           state: string
           status: string
+          user_id: string | null
           veteran_connection: string | null
           willing_to_share: boolean | null
         }
@@ -906,6 +908,7 @@ export type Database = {
           highest_follower_count?: number | null
           highest_follower_platform?: string | null
           id?: string
+          is_competing?: boolean
           last_name: string
           motivation?: string | null
           password?: string | null
@@ -915,6 +918,7 @@ export type Database = {
           profile_complete?: boolean | null
           state: string
           status?: string
+          user_id?: string | null
           veteran_connection?: string | null
           willing_to_share?: boolean | null
         }
@@ -930,6 +934,7 @@ export type Database = {
           highest_follower_count?: number | null
           highest_follower_platform?: string | null
           id?: string
+          is_competing?: boolean
           last_name?: string
           motivation?: string | null
           password?: string | null
@@ -939,6 +944,7 @@ export type Database = {
           profile_complete?: boolean | null
           state?: string
           status?: string
+          user_id?: string | null
           veteran_connection?: string | null
           willing_to_share?: boolean | null
         }
@@ -1096,24 +1102,24 @@ export type Database = {
       profiles: {
         Row: {
           created_at: string
-          email: string | null
-          id: number
+          email: string
+          id: string
           password: string | null
-          updated_at: string | null
+          updated_at: string
         }
         Insert: {
           created_at?: string
-          email?: string | null
-          id?: number
+          email: string
+          id: string
           password?: string | null
-          updated_at?: string | null
+          updated_at?: string
         }
         Update: {
           created_at?: string
-          email?: string | null
-          id?: number
+          email?: string
+          id?: string
           password?: string | null
-          updated_at?: string | null
+          updated_at?: string
         }
         Relationships: []
       }
@@ -1468,7 +1474,7 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "admin" | "user"
+      app_role: "admin" | "user" | "influencer"
       post_status:
         | "incomplete"
         | "unscheduled"
@@ -1603,7 +1609,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "user"],
+      app_role: ["admin", "user", "influencer"],
       post_status: [
         "incomplete",
         "unscheduled",

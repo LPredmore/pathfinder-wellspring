@@ -71,23 +71,26 @@ export default function Challenge() {
     queryKey: ["current-competitors"],
     queryFn: async () => {
       const { data: competitors, error } = await supabase
-        .from("current_competitors")
+        .from("influencers")
         .select("*")
+        .eq("is_competing", true)
         .order("created_at", { ascending: true });
       if (error) throw error;
 
       const ids = competitors.map((c) => c.id);
+      if (ids.length === 0) return { competitors, platformMap: new Map<string, CreatorPlatform[]>() };
+
       const { data: platforms, error: pErr } = await supabase
-        .from("creator_platforms")
-        .select("creator_id, platform_name, handle")
-        .in("creator_id", ids);
+        .from("influencer_platforms")
+        .select("influencer_id, platform_name, handle")
+        .in("influencer_id", ids);
       if (pErr) throw pErr;
 
       const platformMap = new Map<string, CreatorPlatform[]>();
       for (const p of platforms) {
-        const list = platformMap.get(p.creator_id) || [];
+        const list = platformMap.get(p.influencer_id) || [];
         list.push({ platform_name: p.platform_name, handle: p.handle });
-        platformMap.set(p.creator_id, list);
+        platformMap.set(p.influencer_id, list);
       }
 
       return { competitors, platformMap };
