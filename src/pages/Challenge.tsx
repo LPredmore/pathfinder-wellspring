@@ -14,7 +14,7 @@ interface CreatorPlatform {
   handle: string | null;
 }
 
-function CompetitorCard({ competitor, platforms, compLink }: { competitor: any; platforms: CreatorPlatform[]; compLink?: string | null }) {
+function CompetitorCard({ competitor, platforms, compLink }: {competitor: any;platforms: CreatorPlatform[];compLink?: string | null;}) {
   const name = competitor.pref_name || `${competitor.first_name} ${competitor.last_name}`;
   const hasAvatar = !!competitor.avatar_url;
   const hasMission = !!competitor.personal_mission;
@@ -22,76 +22,76 @@ function CompetitorCard({ competitor, platforms, compLink }: { competitor: any; 
   return (
     <Card className="text-center">
       <CardHeader className="items-center pb-2">
-        {hasAvatar && (
-          <Avatar className="h-20 w-20 mb-3">
+        {hasAvatar &&
+        <Avatar className="h-20 w-20 mb-3">
             <AvatarImage src={competitor.avatar_url} alt={name} />
             <AvatarFallback className="text-lg font-bold">
               {name.charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>
-        )}
+        }
         <CardTitle className="text-xl">{name}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
-        {platforms.length > 0 && (
-          <div className="flex items-center justify-center gap-3">
+        {platforms.length > 0 &&
+        <div className="flex items-center justify-center gap-3">
             {platforms.map((p, i) => {
-              const platformName = p.platform_name || "Other";
-              const handle = p.handle || "";
-              const url = buildSocialUrl(platformName, handle);
-              return url ? (
-                <a
-                  key={i}
-                  href={url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-primary transition-colors"
-                  title={platformName}
-                >
+            const platformName = p.platform_name || "Other";
+            const handle = p.handle || "";
+            const url = buildSocialUrl(platformName, handle);
+            return url ?
+            <a
+              key={i}
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-primary transition-colors"
+              title={platformName}>
+              
                   <PlatformIcon platform={platformName} className="h-5 w-5" />
-                </a>
-              ) : (
-                <span key={i} className="text-muted-foreground flex items-center gap-1 text-sm">
+                </a> :
+
+            <span key={i} className="text-muted-foreground flex items-center gap-1 text-sm">
                   <PlatformIcon platform={platformName} className="h-4 w-4" />
                   {handle}
-                </span>
-              );
-            })}
+                </span>;
+
+          })}
           </div>
-        )}
-        {hasMission && (
-          <p className="text-sm text-muted-foreground italic">"{competitor.personal_mission}"</p>
-        )}
-        {compLink && (
-          <Button asChild className="w-full mt-2">
+        }
+        {hasMission &&
+        <p className="text-sm text-muted-foreground italic">"{competitor.personal_mission}"</p>
+        }
+        {compLink &&
+        <Button asChild className="w-full mt-2">
             <a href={compLink} target="_blank" rel="noopener noreferrer">
               Sponsor This Partner
             </a>
           </Button>
-        )}
+        }
       </CardContent>
-    </Card>
-  );
+    </Card>);
+
 }
 
 export default function Challenge() {
   const { data, isLoading } = useQuery({
     queryKey: ["current-competitors"],
     queryFn: async () => {
-      const { data: competitors, error } = await supabase
-        .from("influencers")
-        .select("*")
-        .eq("is_competing", true)
-        .order("created_at", { ascending: true });
+      const { data: competitors, error } = await supabase.
+      from("influencers").
+      select("*").
+      eq("is_competing", true).
+      order("created_at", { ascending: true });
       if (error) throw error;
 
       const ids = competitors.map((c) => c.id);
       if (ids.length === 0) return { competitors, platformMap: new Map<string, CreatorPlatform[]>(), compLinkMap: new Map<string, string>() };
 
-      const { data: platforms, error: pErr } = await supabase
-        .from("influencer_platforms")
-        .select("influencer_id, platform_name, handle")
-        .in("influencer_id", ids);
+      const { data: platforms, error: pErr } = await supabase.
+      from("influencer_platforms").
+      select("influencer_id, platform_name, handle").
+      in("influencer_id", ids);
       if (pErr) throw pErr;
 
       const platformMap = new Map<string, CreatorPlatform[]>();
@@ -101,10 +101,10 @@ export default function Challenge() {
         platformMap.set(p.influencer_id, list);
       }
 
-      const { data: compData, error: cErr } = await supabase
-        .from("current_competitors")
-        .select("influencer_id, comp_link")
-        .in("influencer_id", ids);
+      const { data: compData, error: cErr } = await supabase.
+      from("current_competitors").
+      select("influencer_id, comp_link").
+      in("influencer_id", ids);
       if (cErr) throw cErr;
 
       const compLinkMap = new Map<string, string>();
@@ -115,7 +115,7 @@ export default function Challenge() {
       }
 
       return { competitors, platformMap, compLinkMap };
-    },
+    }
   });
 
   const competitors = data?.competitors ?? [];
@@ -127,13 +127,13 @@ export default function Challenge() {
       <SEO
         title="Current Challenge | Beyond the Yellow"
         description="Meet our Mission Partners competing to secure therapy hours for veterans and military families."
-        canonical="/challenge"
-      />
+        canonical="/challenge" />
+      
 
       <div
         className="relative bg-cover bg-top bg-no-repeat"
-        style={{ backgroundImage: `url(${flagSkyBackground})` }}
-      >
+        style={{ backgroundImage: `url(${flagSkyBackground})` }}>
+        
         <div className="absolute inset-0 bg-white/85" />
 
         {/* Hero */}
@@ -154,22 +154,22 @@ export default function Challenge() {
             <h2 className="text-3xl md:text-4xl font-bold text-foreground text-center mb-4">
               Meet Our Mission Partners
             </h2>
-            <p className="text-center text-lg text-muted-foreground max-w-3xl mx-auto mb-10">
-              These are the heroes who answered the call for our heroes. We encourage everyone to go check out their social media profiles and show them the same support they are showing our veterans. And pick one to donate through.
+            <p className="text-center text-lg text-muted-foreground max-w-3xl mx-auto mb-10">These are the heroes who answered the call for our heroes. Go check out their social media profiles and show them the same support they are showing our veterans. And pick one to donate through.
+
             </p>
-            {isLoading ? (
-              <p className="text-center text-muted-foreground">Loading…</p>
-            ) : competitors.length === 0 ? (
-              <p className="text-center text-muted-foreground">
+            {isLoading ?
+            <p className="text-center text-muted-foreground">Loading…</p> :
+            competitors.length === 0 ?
+            <p className="text-center text-muted-foreground">
                 Mission Partners will appear here once the challenge begins.
-              </p>
-            ) : (
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {competitors.map((c) => (
-                  <CompetitorCard key={c.id} competitor={c} platforms={platformMap.get(c.id) || []} compLink={compLinkMap.get(c.id)} />
-                ))}
+              </p> :
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {competitors.map((c) =>
+              <CompetitorCard key={c.id} competitor={c} platforms={platformMap.get(c.id) || []} compLink={compLinkMap.get(c.id)} />
+              )}
               </div>
-            )}
+            }
           </div>
         </section>
 
@@ -188,8 +188,8 @@ export default function Challenge() {
                       title="Donation form powered by Zeffy"
                       className="absolute inset-0 w-full h-full border-0"
                       src="https://www.zeffy.com/embed/leaderboard/creator-challenge-sponsor-a-veteran"
-                      allowTransparency
-                    />
+                      allowTransparency />
+                    
                   </div>
                 </CardContent>
               </Card>
@@ -205,8 +205,8 @@ export default function Challenge() {
                       title="Donation thermometer powered by Zeffy"
                       className="absolute inset-0 w-full h-full border-0"
                       src="https://www.zeffy.com/embed/thermometer/creator-challenge-sponsor-a-veteran"
-                      allowTransparency
-                    />
+                      allowTransparency />
+                    
                   </div>
                 </CardContent>
               </Card>
@@ -214,6 +214,6 @@ export default function Challenge() {
           </div>
         </section>
       </div>
-    </Layout>
-  );
+    </Layout>);
+
 }
