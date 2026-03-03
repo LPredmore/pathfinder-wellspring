@@ -126,7 +126,7 @@ export default function Competitions() {
         <div className="absolute inset-0 bg-white/85" />
 
         {/* Hero */}
-        <section className="relative z-10 hero-gradient py-20 md:py-28">
+        <section className="relative z-10 hero-gradient py-10 md:py-14">
           <div className="container-wide text-center">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4">Beyond the Yellow
 
