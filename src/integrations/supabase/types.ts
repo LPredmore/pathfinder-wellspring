@@ -511,6 +511,24 @@ export type Database = {
         }
         Relationships: []
       }
+      competition_links: {
+        Row: {
+          id: number
+          influener_id: string | null
+          "payment link": string | null
+        }
+        Insert: {
+          id?: number
+          influener_id?: string | null
+          "payment link"?: string | null
+        }
+        Update: {
+          id?: number
+          influener_id?: string | null
+          "payment link"?: string | null
+        }
+        Relationships: []
+      }
       content_ideas: {
         Row: {
           avatar: string | null
