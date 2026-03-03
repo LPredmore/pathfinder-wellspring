@@ -6,6 +6,7 @@ import { Trophy, Target } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { PlatformIcon, buildSocialUrl } from "@/components/icons/PlatformIcon";
+import { Button } from "@/components/ui/button";
 import flagSkyBackground from "@/assets/flag-sky-background-vertical.png";
 
 interface CreatorPlatform {
@@ -13,7 +14,7 @@ interface CreatorPlatform {
   handle: string | null;
 }
 
-function CompetitorCard({ competitor, platforms }: { competitor: any; platforms: CreatorPlatform[] }) {
+function CompetitorCard({ competitor, platforms, compLink }: { competitor: any; platforms: CreatorPlatform[]; compLink?: string | null }) {
   const name = competitor.pref_name || `${competitor.first_name} ${competitor.last_name}`;
   const hasAvatar = !!competitor.avatar_url;
   const hasMission = !!competitor.personal_mission;
@@ -61,6 +62,13 @@ function CompetitorCard({ competitor, platforms }: { competitor: any; platforms:
         {hasMission && (
           <p className="text-sm text-muted-foreground italic">"{competitor.personal_mission}"</p>
         )}
+        {compLink && (
+          <Button asChild className="w-full mt-2">
+            <a href={compLink} target="_blank" rel="noopener noreferrer">
+              Sponsor This Partner
+            </a>
+          </Button>
+        )}
       </CardContent>
     </Card>
   );
@@ -78,7 +86,7 @@ export default function Challenge() {
       if (error) throw error;
 
       const ids = competitors.map((c) => c.id);
-      if (ids.length === 0) return { competitors, platformMap: new Map<string, CreatorPlatform[]>() };
+      if (ids.length === 0) return { competitors, platformMap: new Map<string, CreatorPlatform[]>(), compLinkMap: new Map<string, string>() };
 
       const { data: platforms, error: pErr } = await supabase
         .from("influencer_platforms")
@@ -93,12 +101,26 @@ export default function Challenge() {
         platformMap.set(p.influencer_id, list);
       }
 
-      return { competitors, platformMap };
+      const { data: compData, error: cErr } = await supabase
+        .from("current_competitors")
+        .select("influencer_id, comp_link")
+        .in("influencer_id", ids);
+      if (cErr) throw cErr;
+
+      const compLinkMap = new Map<string, string>();
+      for (const c of compData) {
+        if (c.influencer_id && c.comp_link) {
+          compLinkMap.set(c.influencer_id, c.comp_link);
+        }
+      }
+
+      return { competitors, platformMap, compLinkMap };
     },
   });
 
   const competitors = data?.competitors ?? [];
   const platformMap = data?.platformMap ?? new Map<string, CreatorPlatform[]>();
+  const compLinkMap = data?.compLinkMap ?? new Map<string, string>();
 
   return (
     <Layout>
@@ -141,7 +163,7 @@ export default function Challenge() {
             ) : (
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {competitors.map((c) => (
-                  <CompetitorCard key={c.id} competitor={c} platforms={platformMap.get(c.id) || []} />
+                  <CompetitorCard key={c.id} competitor={c} platforms={platformMap.get(c.id) || []} compLink={compLinkMap.get(c.id)} />
                 ))}
               </div>
             )}
