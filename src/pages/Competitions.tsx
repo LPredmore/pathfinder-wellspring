@@ -151,6 +151,33 @@ export default function Competitions() {
           </div>
         </section>
 
+        {/* Current Challenge CTA */}
+        <section className="relative z-10 py-10">
+          <div className="container-wide">
+            <a
+              href="/challenge"
+              className="group block relative overflow-hidden rounded-2xl border-2 border-primary bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 p-8 md:p-12 text-center transition-all duration-300 hover:border-primary hover:shadow-[0_0_40px_-8px_hsl(var(--primary)/0.4)] hover:scale-[1.01]"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="relative z-10">
+                <span className="inline-block px-4 py-1 mb-4 rounded-full bg-primary/15 text-primary text-sm font-semibold uppercase tracking-widest animate-fade-in">
+                  🔥 Live Now
+                </span>
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3">
+                  The Creator Challenge Is On
+                </h2>
+                <p className="text-lg text-muted-foreground max-w-xl mx-auto mb-6">
+                  See the leaderboard, track campaign progress, and meet the Mission Partners competing to secure therapy hours.
+                </p>
+                <span className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary text-primary-foreground font-semibold text-lg group-hover:gap-3 transition-all duration-300">
+                  View the Challenge
+                  <svg className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+                </span>
+              </div>
+            </a>
+          </div>
+        </section>
+
         {/* Mission Control — Bento Grid */}
         <section className="relative z-10 section-padding">
           <div className="container-wide space-y-6">
