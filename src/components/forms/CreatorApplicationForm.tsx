@@ -59,7 +59,7 @@ const formSchema = z.object({
   socialProfiles: z.array(socialProfileSchema).min(1, "Add at least one social profile"),
   prefName: z.string().trim().max(100).optional(),
   personalMission: z.string().trim().min(1, "This field is required").max(2000),
-  veteranConnection: z.string().optional(),
+  veteranConnection: z.string().min(1, "Please select an option"),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -540,7 +540,7 @@ export function CreatorApplicationForm({
                 )}
 
                 {currentStep < 3 ? (
-                  <Button type="button" onClick={handleNext} disabled={isStepLoading}>
+                  <Button key="next" type="button" onClick={handleNext} disabled={isStepLoading}>
                     {isStepLoading ? (
                       <>
                         <Loader2 className="h-4 w-4 animate-spin mr-1" /> Saving…
@@ -550,7 +550,7 @@ export function CreatorApplicationForm({
                     )}
                   </Button>
                 ) : (
-                  <Button type="submit" disabled={isSubmitting}>
+                  <Button key="submit" type="submit" disabled={isSubmitting}>
                     {isSubmitting ? (
                       <>
                         <Loader2 className="h-4 w-4 animate-spin mr-1" /> Submitting…
