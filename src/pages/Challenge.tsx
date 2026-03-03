@@ -144,8 +144,30 @@ export default function Challenge() {
           </div>
         </section>
 
-        {/* Leaderboard + Thermometer */}
+        {/* Mission Partners */}
         <section className="relative z-10 section-padding">
+          <div className="container-wide">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground text-center mb-10">
+              Meet Our Mission Partners
+            </h2>
+            {isLoading ? (
+              <p className="text-center text-muted-foreground">Loading…</p>
+            ) : competitors.length === 0 ? (
+              <p className="text-center text-muted-foreground">
+                Mission Partners will appear here once the challenge begins.
+              </p>
+            ) : (
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {competitors.map((c) => (
+                  <CompetitorCard key={c.id} competitor={c} />
+                ))}
+              </div>
+            )}
+          </div>
+        </section>
+
+        {/* Leaderboard + Thermometer */}
+        <section className="relative z-10 section-padding section-alt">
           <div className="container-wide">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <Card className="border-2 border-primary">
@@ -182,28 +204,6 @@ export default function Challenge() {
                 </CardContent>
               </Card>
             </div>
-          </div>
-        </section>
-
-        {/* Mission Partners */}
-        <section className="relative z-10 section-padding section-alt">
-          <div className="container-wide">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground text-center mb-10">
-              Meet Our Mission Partners
-            </h2>
-            {isLoading ? (
-              <p className="text-center text-muted-foreground">Loading…</p>
-            ) : competitors.length === 0 ? (
-              <p className="text-center text-muted-foreground">
-                Mission Partners will appear here once the challenge begins.
-              </p>
-            ) : (
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {competitors.map((c) => (
-                  <CompetitorCard key={c.id} competitor={c} />
-                ))}
-              </div>
-            )}
           </div>
         </section>
       </div>
