@@ -94,7 +94,7 @@ const Index = () => {
             <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/60 to-transparent" />
             
             {/* Hero content */}
-            <div className="relative z-10 px-6 md:px-12 py-16 lg:py-24 flex items-center min-h-[70vh]">
+            <div className="relative z-10 px-6 md:px-12 py-10 lg:py-14 flex items-center min-h-[70vh]">
               <div className="max-w-lg">
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-navy leading-tight mb-4">
                   Veteran Mental Health<br />
