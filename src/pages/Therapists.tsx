@@ -138,7 +138,7 @@ const Therapists = () => {
         <div className="absolute inset-0 bg-white/70" />
 
         {/* Hero Section */}
-        <section className="relative z-10 py-16 md:py-24">
+        <section className="relative z-10 py-10 md:py-14">
           <div className="container-wide">
             <div className="max-w-3xl mx-auto text-center animate-fade-in">
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground">
