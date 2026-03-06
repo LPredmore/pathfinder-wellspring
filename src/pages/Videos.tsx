@@ -34,20 +34,6 @@ export default function Videos() {
     },
   });
 
-  const handleThumbnailError = useCallback(
-    (e: React.SyntheticEvent<HTMLImageElement>, video: PostedVideo) => {
-      const img = e.currentTarget;
-      const maxres = `https://img.youtube.com/vi/${video.youtube_video_id}/maxresdefault.jpg`;
-      const hq = `https://img.youtube.com/vi/${video.youtube_video_id}/hqdefault.jpg`;
-
-      if (img.src === maxres && video.image_url) {
-        img.src = video.image_url;
-      } else if (img.src === maxres || img.src === video.image_url) {
-        img.src = hq;
-      }
-    },
-    []
-  );
 
   return (
     <Layout>
