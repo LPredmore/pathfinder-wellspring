@@ -42,7 +42,7 @@ export function FAQSection({
               <AccordionTrigger className="text-left text-foreground">
                 {item.question}
               </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground">
+              <AccordionContent className="text-muted-foreground whitespace-pre-line">
                 {item.answer}
               </AccordionContent>
             </AccordionItem>

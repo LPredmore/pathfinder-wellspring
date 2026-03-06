@@ -1,34 +1,36 @@
 
 
-## Plan: Add Bridge Program FAQs to /beyondtheyellow Page
+## Plan: Create Auth Entries for Current Competitors
 
-Add 20 new FAQ items to the existing `faqItems` array in `src/pages/Competitions.tsx`. The FAQs cover the ValorWell Bridge Program details including what it is, how donations work, therapist qualifications, VA system navigation, and campaign mechanics.
+### Context
+There are 13 competitors in `current_competitors`, all linked to `influencers` rows. All have `user_id = null` on their influencer records, and the `profiles` table is empty (we just cleaned it). We need to create auth users, profiles, user_roles, and link everything back.
 
-### Implementation
+### Approach: New Edge Function
 
-**File: `src/pages/Competitions.tsx`**
+Create a one-time-use edge function `backfill-competitor-auth` that, when called by an admin:
 
-Append the following 20 FAQ entries to the existing `faqItems` array (after the current 8 items):
+1. Fetches all `current_competitors` joined with `influencers` to get email, name, and influencer IDs
+2. For each competitor:
+   - Generates a random password
+   - Creates an `auth.users` entry via `supabase.auth.admin.createUser()`
+   - Inserts a `profiles` row (id = new user id, email, password)
+   - Inserts a `user_roles` row (user_id, role = 'influencer')
+   - Updates the `influencers` row to set `user_id` to the new auth user id
+3. Returns a summary of successes and failures
 
-1. What is this campaign for?
-2. What is the Bridge Program?
-3. Why is this needed if the VA already provides mental health care?
-4. How long are veterans typically in the Bridge Program?
-5. Does ValorWell provide therapy indefinitely?
-6. What does a $75 donation pay for?
-7. Does ValorWell keep any of the donated money?
-8. How does ValorWell operate if it keeps $0 from these donations?
-9. Are the therapists licensed professionals?
-10. How does ValorWell help veterans access VA care faster?
-11. What happens when a veteran is able to receive VA care?
-12. Do influencers need to explain the VA Community Care system?
-13. Who can receive support through the Bridge Program?
-14. Is the Bridge Program only for emergency mental health situations?
-15. Is therapy the only support provided?
-16. What is Zeffy and how does the campaign link work?
-17. Do donors receive a receipt for their donation?
-18. Can donors fund multiple therapy sessions?
-19. What is the long-term goal for the Bridge Program?
+### Why an Edge Function?
+- Creating auth users requires `SUPABASE_SERVICE_ROLE_KEY` (server-side only)
+- This mirrors the existing `create-mission-partner` function's pattern
+- Can be triggered once from the browser or via curl, then deleted
 
-Each answer will preserve the full detail provided, with multi-paragraph answers joined using `\n\n` line breaks or rendered as a single string. The existing FAQ section component and schema will automatically pick up the new items.
+### Technical Details
+
+- **New file**: `supabase/functions/backfill-competitor-auth/index.ts`
+- Uses the same password generation utility as `create-mission-partner`
+- Processes all 13 users in a loop, collecting results
+- No welcome email sent (these are existing users being backfilled)
+- After running successfully, the function can be deleted
+
+### No Database Schema Changes
+All required tables and columns already exist. The only data changes are INSERT into `profiles`, `user_roles`, and UPDATE on `influencers.user_id` — all done server-side via service role.
 
