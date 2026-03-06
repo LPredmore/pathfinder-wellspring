@@ -13,10 +13,6 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { InfluencerLoginDialog } from "@/components/InfluencerLoginDialog";
 
-const services = [
-  { name: "Therapy", href: "/therapy" },
-  { name: "Support Sessions", href: "/support-sessions" },
-];
 
 const navigation = [
   { name: "How It Works", href: "/how-it-works" },
