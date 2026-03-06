@@ -7,7 +7,7 @@ import { HelmetProvider } from "react-helmet-async";
 import { AuthProvider } from "@/contexts/AuthContext";
 import Index from "./pages/Index";
 import Therapy from "./pages/Therapy";
-import SupportSessions from "./pages/SupportSessions";
+
 
 import HowItWorks from "./pages/HowItWorks";
 import Therapists from "./pages/Therapists";
@@ -42,7 +42,6 @@ const App = () => (
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/therapy" element={<Therapy />} />
-              <Route path="/support-sessions" element={<SupportSessions />} />
               
               <Route path="/how-it-works" element={<HowItWorks />} />
               <Route path="/therapists" element={<Therapists />} />

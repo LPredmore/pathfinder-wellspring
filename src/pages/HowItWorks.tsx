@@ -17,17 +17,6 @@ const services = [
       "Telehealth & in-person options",
     ],
   },
-  {
-    title: "Support Sessions",
-    description: "Structured guidance for goals and life transitions",
-    icon: MessageCircle,
-    features: [
-      "Trained specialists",
-      "Goal-oriented approach",
-      "Practical skill-building",
-      "Flexible scheduling",
-    ],
-  },
 ];
 
 const steps = [
@@ -35,7 +24,7 @@ const steps = [
     number: 1,
     title: "Choose Your Service",
     description:
-      "Decide whether therapy, support sessions, or groups best fit your current needs.",
+      "Decide whether therapy best fits your current needs.",
   },
   {
     number: 2,

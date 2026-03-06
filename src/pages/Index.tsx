@@ -6,7 +6,6 @@ import heroFamily from "@/assets/hero-family.jpg";
 import womenBanner from "@/assets/valorwell_women_banner_3x1.png";
 import flagSkyBackground from "@/assets/flag-sky-background.png";
 import iconTherapy from "@/assets/icon-therapy.png";
-import iconSupportSessions from "@/assets/icon-support-sessions.png";
 
 import iconVeteranFocused from "@/assets/icon-veteran-focused.png";
 import iconChampva from "@/assets/icon-champva.png";
@@ -18,12 +17,6 @@ const services = [
     description: "Professional, licensed counseling covered by CHAMPVA.",
     icon: iconTherapy,
     href: "/therapy",
-  },
-  {
-    title: "Support Sessions",
-    description: "Guidance and skills-based coaching for everyday challenges.",
-    icon: iconSupportSessions,
-    href: "/support-sessions",
   },
 ];
 

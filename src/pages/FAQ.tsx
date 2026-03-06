@@ -15,7 +15,7 @@ const faqItems = [
   {
     question: "How do I get started?",
     answer:
-      "Click \"Get Started\" and complete a short intake. We'll use your responses to route you into the right service path (Therapy or Support Sessions) and outline clear next steps.",
+      "Click \"Get Care\" and complete a short intake. We'll use your responses to match you with the right therapist and outline clear next steps.",
   },
   {
     question: "What happens after I complete intake?",
@@ -45,17 +45,8 @@ const faqItems = [
       "Availability depends on licensed clinician coverage and capacity by state. You can complete intake anytime; we confirm state-specific availability after intake and then proceed with matching or next-step options.",
   },
 
-  // Support Sessions
-  {
-    question: "What are Support Sessions?",
-    answer:
-      "Support Sessions are structured, one-on-one sessions with a trained Wellness Guide. They're designed to be skills-forward and goal-based—focused on routines, communication, resilience skills, and next-step planning with clear takeaways.",
-  },
-  {
-    question: "What's the difference between Therapy and Support Sessions?",
-    answer:
-      "Therapy is provided by licensed clinicians and is appropriate when you want a clinical therapeutic process. Support Sessions are structured, skills-forward sessions focused on goals, routines, and practical next steps. Your intake helps route you to the best fit for your needs right now.",
-  },
+
+
 
   // Insurance + billing
   {

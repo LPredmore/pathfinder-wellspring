@@ -27,10 +27,6 @@ const differentiators = [{
   title: "Telehealth-First Access",
   description: "Secure, confidential care designed to fit real-life schedules—wherever you are.",
   icon: Laptop
-}, {
-  title: "Multiple Paths to Support",
-  description: "Therapy is one path. We also offer Support Sessions and Groups so people can start making progress without waiting for perfect conditions.",
-  icon: Route
 }];
 
 const values = [{
@@ -99,8 +95,7 @@ const About = () => {
               <p>ValorWell was born from a deeply personal experience. Founders Lucas and Nichole Predmore faced their own struggles in securing affordable mental health support for their family. Confronted with the challenges of finding therapists who accepted CHAMPVA and dealing with lengthy reimbursement delays, they recognized a critical gap in care for veterans and their loved ones. This experience ignited a passion to create a solution that would simplify access to mental health services for the military community. Thus, ValorWell was formed – a beacon of hope in a landscape where mental health support often falls short.</p>
               <p>
                 We built ValorWell to reduce those barriers and make it easier to start. That means offering licensed
-                therapy when available, and providing additional structured support options—Support Sessions and Groups—so
-                people can build momentum instead of waiting.
+                therapy and making sure veterans can access the care they need without unnecessary delays.
               </p>
             </div>
           </div>
@@ -119,13 +114,6 @@ const About = () => {
                   <p className="text-muted-foreground">
                     <span className="font-semibold text-foreground">Therapy is delivered by licensed clinicians</span> and
                     availability can vary by state and provider capacity.
-                  </p>
-                </div>
-                <div className="flex items-start gap-3">
-                  <Route className="h-5 w-5 text-primary mt-0.5" />
-                  <p className="text-muted-foreground">
-                    <span className="font-semibold text-foreground">Support Sessions and Groups</span> provide additional,
-                    structured paths designed to help people start moving forward with clarity and momentum.
                   </p>
                 </div>
                 <div className="flex items-start gap-3">
@@ -230,7 +218,7 @@ const About = () => {
       <CTABlock
         className="py-6 md:py-10"
         title="Start with the support that fits today."
-        subtitle="Choose Therapy, Support Sessions, or Groups. Get started in under a minute."
+        subtitle="Take the first step toward healing. Get started in under a minute."
         variant="muted"
       />
     </Layout>
