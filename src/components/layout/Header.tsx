@@ -29,7 +29,6 @@ export function Header() {
   const { isAdmin } = useIsAdmin();
 
   const isActive = (href: string) => location.pathname === href;
-  const isServicesActive = services.some((s) => location.pathname === s.href);
 
   return (
     <>
