@@ -49,6 +49,82 @@ const faqItems = [
   question: "What am I not allowed to claim?",
   answer:
   "Mission Partners may not promise outcomes, give medical advice, or misrepresent how the mission works."
+},
+{
+  question: "What is this campaign for?",
+  answer: "This campaign funds the ValorWell Bridge Program, which provides therapy sessions for veterans who are waiting to access mental health care through the VA system.\n\nIn many areas, veterans can wait 3–10 months before they are able to see a provider through the VA system. The Bridge Program exists to ensure veterans receive support during that waiting period, rather than being left without care."
+},
+{
+  question: "What is the Bridge Program?",
+  answer: "The Bridge Program is a short-term mental health support program that helps veterans receive therapy while they are waiting for care through the VA system.\n\nThe program focuses on three key things:\n\n• Connecting veterans with a licensed therapist quickly\n• Supporting them consistently during the waiting period\n• Coordinating a smooth transition into VA care once it becomes available\n\nIt is called a bridge because it fills the gap between when a veteran asks for help and when the VA system is able to provide that care."
+},
+{
+  question: "Why is this needed if the VA already provides mental health care?",
+  answer: "The issue most veterans face is access, not eligibility.\n\nEven though veterans may qualify for care through the VA, it can take 3–10 months to actually get an appointment depending on location and provider availability.\n\nMental health challenges do not wait for systems to catch up. The Bridge Program exists so veterans can receive care now, while they navigate the VA process."
+},
+{
+  question: "How long are veterans typically in the Bridge Program?",
+  answer: "The average veteran in the Bridge Program receives:\n\n• 11 therapy sessions\n• Over approximately 5.5 months\n• With sessions typically scheduled every other week\n\nSome veterans transition into VA care sooner, while others may need slightly longer depending on how quickly the VA system can schedule their care."
+},
+{
+  question: "Does ValorWell provide therapy indefinitely?",
+  answer: "No.\n\nThe Bridge Program is designed to provide temporary support, not replace the VA system.\n\nThe goal is to support veterans until they are able to receive care through the VA or VA Community Care network. Once that happens, ValorWell works with VA providers to ensure a clean transition so the veteran does not lose progress."
+},
+{
+  question: "What does a $75 donation pay for?",
+  answer: "A $75 donation covers one full therapy session.\n\nIt is not partial coverage or a symbolic amount. Each $75 donation directly funds one complete session with a licensed therapist."
+},
+{
+  question: "Does ValorWell keep any of the donated money?",
+  answer: "No.\n\nValorWell keeps $0 from Bridge Program session donations.\n\nEvery dollar donated toward therapy sessions goes directly to the licensed therapists providing care to veterans."
+},
+{
+  question: "How does ValorWell operate if it keeps $0 from these donations?",
+  answer: "Bridge Program session donations are restricted to funding therapy sessions.\n\nValorWell's broader operational expenses are supported separately through other funding sources and partnerships. The purpose of this campaign is simple:\n\nSession donations fund therapy sessions."
+},
+{
+  question: "Are the therapists licensed professionals?",
+  answer: "Yes.\n\nTherapy sessions in the Bridge Program are conducted by licensed mental health professionals who are qualified to provide clinical care."
+},
+{
+  question: "How does ValorWell help veterans access VA care faster?",
+  answer: "Many veterans struggle with navigating the VA system and understanding the steps required to receive care.\n\nValorWell helps veterans:\n\n• Understand how to move through the VA process\n• Avoid common administrative delays\n• Navigate the Community Care pathway more efficiently\n• Stay organized while waiting for their appointment\n\nIn many cases, this guidance helps veterans access VA care sooner than they would on their own."
+},
+{
+  question: "What happens when a veteran is able to receive VA care?",
+  answer: "When a veteran is scheduled for care through the VA system or the VA Community Care Network, ValorWell coordinates with the veteran and their VA care team to ensure a smooth hand-off.\n\nThis ensures the veteran does not lose progress or experience gaps in care."
+},
+{
+  question: "Do influencers need to explain the VA Community Care system?",
+  answer: "Not necessarily.\n\nFor most audiences it is simpler to say \"the VA system.\"\n\nInfluencers can mention Community Care if they wish, but keeping the explanation simple often helps audiences understand the message more clearly."
+},
+{
+  question: "Who can receive support through the Bridge Program?",
+  answer: "The Bridge Program is designed for veterans who are attempting to access mental health care through the VA system and are facing delays.\n\nEligibility and onboarding depend on several factors including availability, location, and clinical needs."
+},
+{
+  question: "Is the Bridge Program only for emergency mental health situations?",
+  answer: "No.\n\nThe program supports veterans who need mental health care and are currently waiting for access through the VA system.\n\nSome veterans may be experiencing urgent situations, while others are seeking help early. The goal is to ensure veterans receive support before problems escalate."
+},
+{
+  question: "Is therapy the only support provided?",
+  answer: "The primary focus of the Bridge Program is funding therapy sessions.\n\nHowever, veterans also receive guidance and support as they navigate the VA system so they can successfully transition into long-term care."
+},
+{
+  question: "What is Zeffy and how does the campaign link work?",
+  answer: "Each influencer participating in the campaign has a personal Zeffy donation link.\n\nWhen someone donates through that link:\n\n• Therapy sessions are funded\n• The donation is tracked through the influencer's campaign link\n\nThis helps measure the total number of therapy sessions funded through the campaign."
+},
+{
+  question: "Do donors receive a receipt for their donation?",
+  answer: "Yes.\n\nDonations made through Zeffy generate a confirmation receipt for the donor."
+},
+{
+  question: "Can donors fund multiple therapy sessions?",
+  answer: "Yes.\n\nDonors can sponsor as many sessions as they would like.\n\nExamples:\n\n• $75 = 1 therapy session\n• $150 = 2 therapy sessions\n• $375 = 5 therapy sessions\n\nEvery session funded directly supports a veteran receiving care."
+},
+{
+  question: "What is the long-term goal for the Bridge Program?",
+  answer: "ValorWell's long-term goal is to improve access to mental health care for veterans by working toward direct integration with the VA system.\n\nThis includes pursuing the ability to operate as a Preferred Community Care Network provider, allowing ValorWell to serve veterans directly within the VA care network.\n\nUntil the system can consistently provide timely access to care, the Bridge Program exists to ensure veterans do not fall through the gap while waiting."
 }];
 
 

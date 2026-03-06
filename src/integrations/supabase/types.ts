@@ -885,7 +885,10 @@ export type Database = {
           posted_at: string | null
           scheduled_at: string | null
           scheduled_platforms: string[] | null
+          source_content_id: string | null
           status: Database["public"]["Enums"]["post_status"]
+          tiktok_error: string | null
+          tiktok_status: string | null
           topic: string
           updated_at: string
           user_id: string
@@ -893,8 +896,14 @@ export type Database = {
           video_original_filename: string | null
           video_storage_path: string | null
           video_url: string | null
+          youtube_comment: string | null
+          youtube_comment_error_detail: string | null
+          youtube_comment_id: string | null
+          youtube_comment_posted_at: string | null
+          youtube_comment_status: string | null
           youtube_desc: string | null
           youtube_title: string | null
+          youtube_video_id: string | null
         }
         Insert: {
           created_at?: string
@@ -911,7 +920,10 @@ export type Database = {
           posted_at?: string | null
           scheduled_at?: string | null
           scheduled_platforms?: string[] | null
+          source_content_id?: string | null
           status?: Database["public"]["Enums"]["post_status"]
+          tiktok_error?: string | null
+          tiktok_status?: string | null
           topic: string
           updated_at?: string
           user_id: string
@@ -919,8 +931,14 @@ export type Database = {
           video_original_filename?: string | null
           video_storage_path?: string | null
           video_url?: string | null
+          youtube_comment?: string | null
+          youtube_comment_error_detail?: string | null
+          youtube_comment_id?: string | null
+          youtube_comment_posted_at?: string | null
+          youtube_comment_status?: string | null
           youtube_desc?: string | null
           youtube_title?: string | null
+          youtube_video_id?: string | null
         }
         Update: {
           created_at?: string
@@ -937,7 +955,10 @@ export type Database = {
           posted_at?: string | null
           scheduled_at?: string | null
           scheduled_platforms?: string[] | null
+          source_content_id?: string | null
           status?: Database["public"]["Enums"]["post_status"]
+          tiktok_error?: string | null
+          tiktok_status?: string | null
           topic?: string
           updated_at?: string
           user_id?: string
@@ -945,8 +966,14 @@ export type Database = {
           video_original_filename?: string | null
           video_storage_path?: string | null
           video_url?: string | null
+          youtube_comment?: string | null
+          youtube_comment_error_detail?: string | null
+          youtube_comment_id?: string | null
+          youtube_comment_posted_at?: string | null
+          youtube_comment_status?: string | null
           youtube_desc?: string | null
           youtube_title?: string | null
+          youtube_video_id?: string | null
         }
         Relationships: [
           {
@@ -1048,8 +1075,7 @@ export type Database = {
           posted_at: string | null
           scheduled_at: string | null
           scheduled_platforms: string[] | null
-          script_long: string | null
-          script_short: string | null
+          script: string | null
           status: Database["public"]["Enums"]["post_status"]
           topic: string
           updated_at: string
@@ -1068,7 +1094,6 @@ export type Database = {
           youtube_desc: string | null
           youtube_error_detail: string | null
           youtube_status: string | null
-          youtube_title: string | null
           youtube_uploaded_at: string | null
           youtube_video_id: string | null
         }
@@ -1086,8 +1111,7 @@ export type Database = {
           posted_at?: string | null
           scheduled_at?: string | null
           scheduled_platforms?: string[] | null
-          script_long?: string | null
-          script_short?: string | null
+          script?: string | null
           status?: Database["public"]["Enums"]["post_status"]
           topic: string
           updated_at?: string
@@ -1106,7 +1130,6 @@ export type Database = {
           youtube_desc?: string | null
           youtube_error_detail?: string | null
           youtube_status?: string | null
-          youtube_title?: string | null
           youtube_uploaded_at?: string | null
           youtube_video_id?: string | null
         }
@@ -1124,8 +1147,7 @@ export type Database = {
           posted_at?: string | null
           scheduled_at?: string | null
           scheduled_platforms?: string[] | null
-          script_long?: string | null
-          script_short?: string | null
+          script?: string | null
           status?: Database["public"]["Enums"]["post_status"]
           topic?: string
           updated_at?: string
@@ -1144,7 +1166,6 @@ export type Database = {
           youtube_desc?: string | null
           youtube_error_detail?: string | null
           youtube_status?: string | null
-          youtube_title?: string | null
           youtube_uploaded_at?: string | null
           youtube_video_id?: string | null
         }
@@ -1340,7 +1361,7 @@ export type Database = {
         | "scheduled"
         | "posted"
         | "scripted"
-      video_length: "Short" | "Long"
+      video_length: "Short" | "Long" | "Both"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1476,7 +1497,7 @@ export const Constants = {
         "posted",
         "scripted",
       ],
-      video_length: ["Short", "Long"],
+      video_length: ["Short", "Long", "Both"],
     },
   },
 } as const
