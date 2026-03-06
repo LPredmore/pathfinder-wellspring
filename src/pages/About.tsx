@@ -218,7 +218,7 @@ const About = () => {
       <CTABlock
         className="py-6 md:py-10"
         title="Start with the support that fits today."
-        subtitle="Choose Therapy, Support Sessions, or Groups. Get started in under a minute."
+        subtitle="Take the first step toward healing. Get started in under a minute."
         variant="muted"
       />
     </Layout>

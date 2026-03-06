@@ -24,7 +24,7 @@ const steps = [
     number: 1,
     title: "Choose Your Service",
     description:
-      "Decide whether therapy, support sessions, or groups best fit your current needs.",
+      "Decide whether therapy best fits your current needs.",
   },
   {
     number: 2,

@@ -25,12 +25,6 @@ const services = [
     description: "Licensed clinical therapy for mental health treatment",
     icon: Heart,
   },
-  {
-    id: "support-sessions",
-    title: "Support Sessions",
-    description: "Structured guidance for goals and life transitions",
-    icon: MessageCircle,
-  },
 ];
 
 const states = [
