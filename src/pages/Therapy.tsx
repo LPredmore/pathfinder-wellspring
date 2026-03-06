@@ -41,7 +41,7 @@ const Therapy = () => {
       ]} />
       <Hero
         title="Therapy that honors your service—and supports your next chapter."
-        subtitle="When you’re ready for support, the system can feel slow and confusing. ValorWell makes it easier to connect with licensed therapists who understand military life—and start moving toward peace, strength, and resilience."
+        subtitle="When you're ready for support, the system can feel slow and confusing. ValorWell makes it easier to connect with licensed therapists who understand military life—and start moving toward peace, strength, and resilience."
         size="large"
       />
 
@@ -64,7 +64,7 @@ const Therapy = () => {
           </div>
 
           <p className="mt-5 text-center text-sm text-muted-foreground">
-            If you’re experiencing an emergency, call 911.{" "}
+            If you're experiencing an emergency, call 911.{" "}
             <a href="/urgent-help" className="underline underline-offset-2">
               Urgent help resources
             </a>
@@ -74,9 +74,9 @@ const Therapy = () => {
       </section>
 
       {/* Pain points -> solution */}
-      <ContentSection title="You shouldn’t have to fight the system to get support">
+      <ContentSection title="You shouldn't have to fight the system to get support">
         <p>
-          Many veterans and families reach out for care and hit the same obstacles: long waits, providers who don’t
+          Many veterans and families reach out for care and hit the same obstacles: long waits, providers who don't
           understand military culture, and a process that feels more exhausting than helpful.
         </p>
         <p className="mt-4">
@@ -139,7 +139,7 @@ const Therapy = () => {
         <div className="mt-8 rounded-2xl border border-border bg-background p-6 shadow-sm">
           <div className="font-semibold text-foreground">CHAMPVA accepted</div>
           <p className="mt-2 text-sm text-muted-foreground">
-            If you use CHAMPVA, we’ll help keep the process straightforward so you can focus on care.
+            If you use CHAMPVA, we'll help keep the process straightforward so you can focus on care.
           </p>
         </div>
       </ContentSection>
@@ -156,31 +156,22 @@ const Therapy = () => {
       {/* Hopeful close + capacity reality, framed positively */}
       <ContentSection title="If therapy availability is limited" variant="alt">
         <p>
-          Therapy availability can vary by state and clinician capacity. If a therapist isn’t immediately available, you
-          can join the waitlist and begin building momentum through Support Sessions or Groups while you wait—so your
-          progress doesn’t have to pause.
+          Therapy availability can vary by state and clinician capacity. If a therapist isn't immediately available, you
+          can join the waitlist—we'll keep you updated and get you matched as soon as possible.
         </p>
-        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-          <a
-            href="/support-sessions"
-            className="inline-flex items-center justify-center rounded-xl bg-foreground px-6 py-3 text-base font-semibold text-background shadow-sm hover:opacity-90"
-          >
-            Start Support Sessions
-          </a>
-        </div>
       </ContentSection>
 
       {/* CTA */}
       <CTABlock
-        title="You’ve carried a lot. You don’t have to carry it alone."
-        subtitle="Take the first step toward healing. We’ll help you find the right path and start with a plan."
+        title="You've carried a lot. You don't have to carry it alone."
+        subtitle="Take the first step toward healing. We'll help you find the right path and start with a plan."
       />
 
       {/* Safety note */}
       <section className="pb-12">
         <div className="container-wide">
           <p className="text-center text-sm text-muted-foreground">
-            If you’re in immediate danger or experiencing an emergency, call 911.{" "}
+            If you're in immediate danger or experiencing an emergency, call 911.{" "}
             <a href="/urgent-help" className="underline underline-offset-2">
               Urgent help resources
             </a>
