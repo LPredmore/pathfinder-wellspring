@@ -142,42 +142,7 @@ export function Header() {
         {mobileMenuOpen && (
           <div className="md:hidden border-t bg-background">
             <div className="container-wide py-4 space-y-4">
-              {/* Services Accordion */}
-              <div>
-                <button
-                  className="flex w-full items-center justify-between py-2 text-sm font-medium"
-                  onClick={() => setServicesOpen(!servicesOpen)}
-                >
-                  Services
-                  <ChevronDown
-                    className={cn(
-                      "h-4 w-4 transition-transform",
-                      servicesOpen && "rotate-180"
-                    )}
-                  />
-                </button>
-                {servicesOpen && (
-                  <div className="ml-4 space-y-2 pt-2">
-                    {services.map((service) => (
-                      <Link
-                        key={service.name}
-                        to={service.href}
-                        className={cn(
-                          "block py-2 text-sm transition-colors hover:text-primary",
-                          isActive(service.href)
-                            ? "text-primary"
-                            : "text-muted-foreground"
-                        )}
-                        onClick={() => setMobileMenuOpen(false)}
-                      >
-                        {service.name}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* Other Nav Links */}
+              {/* Nav Links */}
               {navigation.map((item) => (
                 <Link
                   key={item.name}
