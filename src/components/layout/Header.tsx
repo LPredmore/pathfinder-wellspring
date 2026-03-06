@@ -46,37 +46,7 @@ export function Header() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex md:items-center md:gap-6">
-            {/* Services Dropdown */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button
-                  className={cn(
-                    "flex items-center gap-1 text-sm font-medium transition-colors hover:text-primary",
-                    isServicesActive ? "text-primary" : "text-muted-foreground"
-                  )}
-                >
-                  Services
-                  <ChevronDown className="h-4 w-4" />
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="w-48">
-                {services.map((service) => (
-                  <DropdownMenuItem key={service.name} asChild>
-                    <Link
-                      to={service.href}
-                      className={cn(
-                        "w-full cursor-pointer",
-                        isActive(service.href) && "bg-accent"
-                      )}
-                    >
-                      {service.name}
-                    </Link>
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            {/* Other Nav Links */}
+            {/* Nav Links */}
             {navigation.map((item) => (
               <Link
                 key={item.name}
