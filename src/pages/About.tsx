@@ -117,13 +117,6 @@ const About = () => {
                   </p>
                 </div>
                 <div className="flex items-start gap-3">
-                  <Route className="h-5 w-5 text-primary mt-0.5" />
-                  <p className="text-muted-foreground">
-                    <span className="font-semibold text-foreground">Support Sessions and Groups</span> provide additional,
-                    structured paths designed to help people start moving forward with clarity and momentum.
-                  </p>
-                </div>
-                <div className="flex items-start gap-3">
                   <CreditCard className="h-5 w-5 text-primary mt-0.5" />
                   <p className="text-muted-foreground">
                     <span className="font-semibold text-foreground">We accept CHAMPVA</span> and can help you understand how
