@@ -1,36 +1,22 @@
 
 
-## Plan: Create Auth Entries for Current Competitors
+## Diagnosis
 
-### Context
-There are 13 competitors in `current_competitors`, all linked to `influencers` rows. All have `user_id = null` on their influencer records, and the `profiles` table is empty (we just cleaned it). We need to create auth users, profiles, user_roles, and link everything back.
+The thumbnail issue is that YouTube's `maxresdefault.jpg` doesn't return a 404 when unavailable -- it returns a valid but tiny gray placeholder image. Since it's technically a successful image load, the `onError` handler never fires, so the fallback chain never triggers. Additionally, the `image_url` from the database is an R2 signed URL that expires after 1 hour, making it unreliable as a fallback.
 
-### Approach: New Edge Function
+## Should we pull from YouTube directly?
 
-Create a one-time-use edge function `backfill-competitor-auth` that, when called by an admin:
+No. Using the YouTube Data API v3 would require an API key, quota management (10,000 units/day free), and an edge function to proxy requests. The database already has the exact data needed. The only problem is the thumbnail sourcing strategy, which is a simple fix.
 
-1. Fetches all `current_competitors` joined with `influencers` to get email, name, and influencer IDs
-2. For each competitor:
-   - Generates a random password
-   - Creates an `auth.users` entry via `supabase.auth.admin.createUser()`
-   - Inserts a `profiles` row (id = new user id, email, password)
-   - Inserts a `user_roles` row (user_id, role = 'influencer')
-   - Updates the `influencers` row to set `user_id` to the new auth user id
-3. Returns a summary of successes and failures
+## Fix
 
-### Why an Edge Function?
-- Creating auth users requires `SUPABASE_SERVICE_ROLE_KEY` (server-side only)
-- This mirrors the existing `create-mission-partner` function's pattern
-- Can be triggered once from the browser or via curl, then deleted
+Use `hqdefault.jpg` as the primary thumbnail source. It is **always** available for every YouTube video and is 480x360px -- more than sufficient for a grid card. Drop the unreliable `maxresdefault.jpg` → `image_url` → `hqdefault.jpg` fallback chain entirely.
 
-### Technical Details
+**File: `src/pages/Videos.tsx`**
 
-- **New file**: `supabase/functions/backfill-competitor-auth/index.ts`
-- Uses the same password generation utility as `create-mission-partner`
-- Processes all 13 users in a loop, collecting results
-- No welcome email sent (these are existing users being backfilled)
-- After running successfully, the function can be deleted
+1. Change the `<img>` `src` from `maxresdefault.jpg` to `hqdefault.jpg`
+2. Remove the `handleThumbnailError` callback entirely -- it's no longer needed since `hqdefault.jpg` is universally available
+3. Keep the `image_url` only in the `VideoObjectSchema` `thumbnailUrl` prop (for structured data), falling back to `hqdefault.jpg`
 
-### No Database Schema Changes
-All required tables and columns already exist. The only data changes are INSERT into `profiles`, `user_roles`, and UPDATE on `influencers.user_id` — all done server-side via service role.
+This is one file, ~10 lines changed.
 
