@@ -87,11 +87,10 @@ export default function Videos() {
                       className="relative w-full h-full cursor-pointer border-0 p-0 bg-transparent"
                     >
                       <img
-                        src={`https://img.youtube.com/vi/${video.youtube_video_id}/maxresdefault.jpg`}
+                        src={`https://img.youtube.com/vi/${video.youtube_video_id}/hqdefault.jpg`}
                         alt={video.youtube_title || "Video thumbnail"}
                         className="w-full h-full object-cover"
                         loading="lazy"
-                        onError={(e) => handleThumbnailError(e, video)}
                       />
                       <span className="absolute inset-0 flex items-center justify-center">
                         <span className="flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-primary-foreground font-medium shadow-lg">
