@@ -27,10 +27,6 @@ const differentiators = [{
   title: "Telehealth-First Access",
   description: "Secure, confidential care designed to fit real-life schedules—wherever you are.",
   icon: Laptop
-}, {
-  title: "Multiple Paths to Support",
-  description: "Therapy is one path. We also offer Support Sessions and Groups so people can start making progress without waiting for perfect conditions.",
-  icon: Route
 }];
 
 const values = [{
