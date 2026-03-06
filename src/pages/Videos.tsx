@@ -1,9 +1,11 @@
+import { useState, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Layout } from "@/components/layout";
 import { SEO, VideoObjectSchema } from "@/components/SEO";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Play } from "lucide-react";
 
 interface PostedVideo {
   id: string;
@@ -15,6 +17,8 @@ interface PostedVideo {
 }
 
 export default function Videos() {
+  const [activeVideo, setActiveVideo] = useState<string | null>(null);
+
   const { data: videos, isLoading } = useQuery({
     queryKey: ["public-videos"],
     queryFn: async () => {
@@ -29,6 +33,21 @@ export default function Videos() {
       return data as PostedVideo[];
     },
   });
+
+  const handleThumbnailError = useCallback(
+    (e: React.SyntheticEvent<HTMLImageElement>, video: PostedVideo) => {
+      const img = e.currentTarget;
+      const maxres = `https://img.youtube.com/vi/${video.youtube_video_id}/maxresdefault.jpg`;
+      const hq = `https://img.youtube.com/vi/${video.youtube_video_id}/hqdefault.jpg`;
+
+      if (img.src === maxres && video.image_url) {
+        img.src = video.image_url;
+      } else if (img.src === maxres || img.src === video.image_url) {
+        img.src = hq;
+      }
+    },
+    []
+  );
 
   return (
     <Layout>
@@ -66,14 +85,36 @@ export default function Videos() {
             {videos.map((video) => (
               <article key={video.id} className="space-y-3">
                 <AspectRatio ratio={16 / 9} className="rounded-lg overflow-hidden bg-muted">
-                  <iframe
-                    src={`https://www.youtube.com/embed/${video.youtube_video_id}`}
-                    title={video.youtube_title || "ValorWell video"}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    className="w-full h-full border-0"
-                    loading="lazy"
-                  />
+                  {activeVideo === video.id ? (
+                    <iframe
+                      src={`https://www.youtube.com/embed/${video.youtube_video_id}?autoplay=1`}
+                      title={video.youtube_title || "ValorWell video"}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      className="w-full h-full border-0"
+                    />
+                  ) : (
+                    <button
+                      type="button"
+                      aria-label={`Play ${video.youtube_title || "video"}`}
+                      onClick={() => setActiveVideo(video.id)}
+                      className="relative w-full h-full cursor-pointer border-0 p-0 bg-transparent"
+                    >
+                      <img
+                        src={`https://img.youtube.com/vi/${video.youtube_video_id}/maxresdefault.jpg`}
+                        alt={video.youtube_title || "Video thumbnail"}
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                        onError={(e) => handleThumbnailError(e, video)}
+                      />
+                      <span className="absolute inset-0 flex items-center justify-center">
+                        <span className="flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-primary-foreground font-medium shadow-lg">
+                          <Play className="h-5 w-5" />
+                          Watch
+                        </span>
+                      </span>
+                    </button>
+                  )}
                 </AspectRatio>
 
                 {video.youtube_title && (
@@ -82,7 +123,6 @@ export default function Videos() {
                   </h2>
                 )}
 
-                {/* SEO-only description — visible to screen readers and crawlers */}
                 {video.youtube_desc && (
                   <span className="sr-only">{video.youtube_desc}</span>
                 )}
