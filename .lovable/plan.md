@@ -1,36 +1,63 @@
 
 
-## Plan: Create Auth Entries for Current Competitors
+## Plan: /videos Page for Long-Form YouTube Content
 
-### Context
-There are 13 competitors in `current_competitors`, all linked to `influencers` rows. All have `user_id = null` on their influencer records, and the `profiles` table is empty (we just cleaned it). We need to create auth users, profiles, user_roles, and link everything back.
+### Architecture Decision
 
-### Approach: New Edge Function
+Use standard YouTube `<iframe>` embeds (`youtube.com/embed/{videoId}`). This is the only correct approach because:
 
-Create a one-time-use edge function `backfill-competitor-auth` that, when called by an admin:
+- YouTube's Terms of Service require using their official embed player for view counting. Any custom player or API-based playback that hides the YouTube player violates their ToS and will not count views.
+- The embed player handles adaptive bitrate, captions, and all YouTube UI natively.
+- The `youtube_video_id` column on `posted_content` already stores the video ID needed for embedding.
 
-1. Fetches all `current_competitors` joined with `influencers` to get email, name, and influencer IDs
-2. For each competitor:
-   - Generates a random password
-   - Creates an `auth.users` entry via `supabase.auth.admin.createUser()`
-   - Inserts a `profiles` row (id = new user id, email, password)
-   - Inserts a `user_roles` row (user_id, role = 'influencer')
-   - Updates the `influencers` row to set `user_id` to the new auth user id
-3. Returns a summary of successes and failures
+For SEO: Each video's `youtube_desc` will be rendered in a `<meta>` tag via `VideoObjectSchema` structured data and also placed in a visually-hidden `<span>` (using `sr-only` class). This gives search engines the description text without cluttering the UI. This is not cloaking because the content is accessible to screen readers; it is standard accessibility practice.
 
-### Why an Edge Function?
-- Creating auth users requires `SUPABASE_SERVICE_ROLE_KEY` (server-side only)
-- This mirrors the existing `create-mission-partner` function's pattern
-- Can be triggered once from the browser or via curl, then deleted
+### Implementation
 
-### Technical Details
+**1. Add route and nav link**
 
-- **New file**: `supabase/functions/backfill-competitor-auth/index.ts`
-- Uses the same password generation utility as `create-mission-partner`
-- Processes all 13 users in a loop, collecting results
-- No welcome email sent (these are existing users being backfilled)
-- After running successfully, the function can be deleted
+- `src/App.tsx`: Add `import Videos` and `<Route path="/videos" element={<Videos />} />`
+- `src/components/layout/Header.tsx`: Add `{ name: "Videos", href: "/videos" }` to the `navigation` array
 
-### No Database Schema Changes
-All required tables and columns already exist. The only data changes are INSERT into `profiles`, `user_roles`, and UPDATE on `influencers.user_id` — all done server-side via service role.
+**2. Create `src/pages/Videos.tsx`**
+
+- Fetch from `posted_content` where `post_length = 'Long'` and `youtube_video_id IS NOT NULL`, ordered by `scheduled_at` descending
+- Use the existing Supabase client and `useQuery` from TanStack Query
+- RLS note: `posted_content` only allows SELECT for admins or the owning user. This means the current RLS policies will block anonymous/public access. A new RLS policy is required.
+
+**3. Database migration: Add public SELECT policy on `posted_content`**
+
+```sql
+CREATE POLICY "Public can view published long content"
+ON public.posted_content
+FOR SELECT
+USING (
+  post_length = 'Long'
+  AND youtube_video_id IS NOT NULL
+  AND status = 'posted'
+);
+```
+
+This scopes public access strictly to published long-form content with a YouTube video. No other rows are exposed.
+
+**4. Page layout and SEO**
+
+- Page-level `<SEO>` component with title "Videos | ValorWell" and a description about veteran mental health content
+- Each video rendered as a card:
+  - YouTube iframe embed: `https://www.youtube.com/embed/{youtube_video_id}` in 16:9 aspect ratio
+  - `youtube_title` displayed below the embed
+  - `youtube_desc` rendered as `<span className="sr-only">` for screen reader / SEO accessibility
+  - `VideoObjectSchema` JSON-LD for each video (name, description, embedUrl, thumbnailUrl from YouTube)
+- Responsive grid: 1 column mobile, 2 columns tablet, 3 columns desktop
+- Loading skeleton state while data fetches
+- Empty state if no videos exist
+
+**5. Files changed**
+
+| File | Change |
+|------|--------|
+| `src/pages/Videos.tsx` | New file |
+| `src/App.tsx` | Add route + import |
+| `src/components/layout/Header.tsx` | Add "Videos" nav link |
+| Migration SQL | Public SELECT policy on `posted_content` |
 
