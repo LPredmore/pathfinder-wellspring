@@ -7,7 +7,7 @@ import { HelmetProvider } from "react-helmet-async";
 import { AuthProvider } from "@/contexts/AuthContext";
 import Index from "./pages/Index";
 import Therapy from "./pages/Therapy";
-import SupportSessions from "./pages/SupportSessions";
+
 
 import HowItWorks from "./pages/HowItWorks";
 import Therapists from "./pages/Therapists";
