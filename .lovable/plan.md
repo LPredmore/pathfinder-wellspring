@@ -1,41 +1,36 @@
 
 
-## Diagnosis
+## Plan: Create Auth Entries for Current Competitors
 
-There are **7 videos** in the database (not 6). Here is exactly what's happening:
+### Context
+There are 13 competitors in `current_competitors`, all linked to `influencers` rows. All have `user_id = null` on their influencer records, and the `profiles` table is empty (we just cleaned it). We need to create auth users, profiles, user_roles, and link everything back.
 
-### The `image` column problem
-The `image` column stores paths like `content/28d1bc0f-.../cover.png`. The current code tries to sign these via `supabase.storage.from("content-media").createSignedUrls()` -- but the files **do not exist in Supabase storage**. They exist in **Cloudflare R2**. So the signing silently fails and `thumbnailUrl` stays undefined.
+### Approach: New Edge Function
 
-### The `image_url` column problem
-The `image_url` column already has fully-formed R2 signed URLs like:
-`https://3cba9086c8f9957a37877b96f1325185.r2.cloudflarestorage.com/valorwell-videos/content/.../cover.png?X-Amz-Expires=3600&...`
+Create a one-time-use edge function `backfill-competitor-auth` that, when called by an admin:
 
-These are pre-signed at content creation time with a **1-hour expiry**. By the time a visitor loads the /videos page, they're expired and return access denied.
+1. Fetches all `current_competitors` joined with `influencers` to get email, name, and influencer IDs
+2. For each competitor:
+   - Generates a random password
+   - Creates an `auth.users` entry via `supabase.auth.admin.createUser()`
+   - Inserts a `profiles` row (id = new user id, email, password)
+   - Inserts a `user_roles` row (user_id, role = 'influencer')
+   - Updates the `influencers` row to set `user_id` to the new auth user id
+3. Returns a summary of successes and failures
 
-### The YouTube `hqdefault.jpg` fallback
-This returns an auto-generated frame from the video, **not** the custom thumbnail you uploaded in YouTube Studio. YouTube only serves custom thumbnails via the Data API. So the fallback shows a random video frame -- which is what you're seeing.
+### Why an Edge Function?
+- Creating auth users requires `SUPABASE_SERVICE_ROLE_KEY` (server-side only)
+- This mirrors the existing `create-mission-partner` function's pattern
+- Can be triggered once from the browser or via curl, then deleted
 
-### Summary
-- Supabase signed URLs fail: files aren't in Supabase storage
-- R2 `image_url` is expired: signed at upload time, only valid 1 hour
-- YouTube static URL: returns an auto-generated frame, not your custom thumbnail
+### Technical Details
 
----
+- **New file**: `supabase/functions/backfill-competitor-auth/index.ts`
+- Uses the same password generation utility as `create-mission-partner`
+- Processes all 13 users in a loop, collecting results
+- No welcome email sent (these are existing users being backfilled)
+- After running successfully, the function can be deleted
 
-## Fix
-
-Create a **Supabase Edge Function** that generates fresh R2 signed URLs on demand. The R2 credentials already exist as secrets (`R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_ENDPOINT`, `R2_BUCKET_NAME`).
-
-### 1. New Edge Function: `r2-sign-urls`
-
-Accepts an array of R2 storage paths, returns fresh signed URLs (1-hour expiry) using AWS S3-compatible signing with the existing R2 credentials.
-
-### 2. Update `src/pages/Videos.tsx`
-
-- Also select `image_url` from the query (to extract the R2 path from it as a fallback)
-- Replace the failed `supabase.storage.from("content-media").createSignedUrls()` call with a call to the new `r2-sign-urls` edge function
-- Pass the `image` paths (e.g. `content/.../cover.png`) to the edge function
-- Use the returned signed URLs as thumbnail sources
-- Fall back to `hqdefault.jpg` only if the edge function fails entirely
+### No Database Schema Changes
+All required tables and columns already exist. The only data changes are INSERT into `profiles`, `user_roles`, and UPDATE on `influencers.user_id` — all done server-side via service role.
 
