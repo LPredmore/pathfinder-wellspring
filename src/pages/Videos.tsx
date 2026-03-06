@@ -34,26 +34,28 @@ export default function Videos() {
 
       const rows = data as PostedVideo[];
 
-      // Generate signed URLs for all thumbnails that have a storage path
+      // Collect R2 storage paths from the image column
       const pathsToSign = rows
         .map((v) => v.image)
         .filter((p): p is string => !!p);
 
       if (pathsToSign.length > 0) {
-        const { data: signed } = await supabase.storage
-          .from("content-media")
-          .createSignedUrls(pathsToSign, 3600);
+        try {
+          const { data: signData, error: signError } = await supabase.functions.invoke(
+            "r2-sign-urls",
+            { body: { paths: pathsToSign } }
+          );
 
-        if (signed) {
-          const urlMap = new Map<string, string>();
-          signed.forEach((s) => {
-            if (s.signedUrl) urlMap.set(s.path ?? "", s.signedUrl);
-          });
-          rows.forEach((v) => {
-            if (v.image && urlMap.has(v.image)) {
-              v.thumbnailUrl = urlMap.get(v.image);
-            }
-          });
+          if (!signError && signData?.signed) {
+            const urlMap = signData.signed as Record<string, string>;
+            rows.forEach((v) => {
+              if (v.image && urlMap[v.image]) {
+                v.thumbnailUrl = urlMap[v.image];
+              }
+            });
+          }
+        } catch (e) {
+          console.warn("Failed to sign R2 URLs, falling back to YouTube thumbnails", e);
         }
       }
 
