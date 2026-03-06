@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Layout } from "@/components/layout";
@@ -34,20 +34,6 @@ export default function Videos() {
     },
   });
 
-  const handleThumbnailError = useCallback(
-    (e: React.SyntheticEvent<HTMLImageElement>, video: PostedVideo) => {
-      const img = e.currentTarget;
-      const maxres = `https://img.youtube.com/vi/${video.youtube_video_id}/maxresdefault.jpg`;
-      const hq = `https://img.youtube.com/vi/${video.youtube_video_id}/hqdefault.jpg`;
-
-      if (img.src === maxres && video.image_url) {
-        img.src = video.image_url;
-      } else if (img.src === maxres || img.src === video.image_url) {
-        img.src = hq;
-      }
-    },
-    []
-  );
 
   return (
     <Layout>
@@ -101,11 +87,10 @@ export default function Videos() {
                       className="relative w-full h-full cursor-pointer border-0 p-0 bg-transparent"
                     >
                       <img
-                        src={`https://img.youtube.com/vi/${video.youtube_video_id}/maxresdefault.jpg`}
+                        src={`https://img.youtube.com/vi/${video.youtube_video_id}/hqdefault.jpg`}
                         alt={video.youtube_title || "Video thumbnail"}
                         className="w-full h-full object-cover"
                         loading="lazy"
-                        onError={(e) => handleThumbnailError(e, video)}
                       />
                       <span className="absolute inset-0 flex items-center justify-center">
                         <span className="flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-primary-foreground font-medium shadow-lg">
