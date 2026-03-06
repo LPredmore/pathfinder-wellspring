@@ -15,7 +15,7 @@ const faqItems = [
   {
     question: "How do I get started?",
     answer:
-      "Click \"Get Started\" and complete a short intake. We'll use your responses to route you into the right service path (Therapy or Support Sessions) and outline clear next steps.",
+      "Click \"Get Care\" and complete a short intake. We'll use your responses to match you with the right therapist and outline clear next steps.",
   },
   {
     question: "What happens after I complete intake?",
