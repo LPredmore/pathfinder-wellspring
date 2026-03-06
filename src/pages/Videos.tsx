@@ -13,7 +13,8 @@ interface PostedVideo {
   youtube_title: string | null;
   youtube_desc: string | null;
   scheduled_at: string | null;
-  image_url: string | null;
+  image: string | null;
+  thumbnailUrl?: string;
 }
 
 export default function Videos() {
@@ -24,16 +25,41 @@ export default function Videos() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("posted_content")
-        .select("id, youtube_video_id, youtube_title, youtube_desc, scheduled_at, image_url")
+        .select("id, youtube_video_id, youtube_title, youtube_desc, scheduled_at, image")
         .eq("post_length", "Long")
         .eq("status", "posted")
         .not("youtube_video_id", "is", null)
         .order("scheduled_at", { ascending: false });
       if (error) throw error;
-      return data as PostedVideo[];
+
+      const rows = data as PostedVideo[];
+
+      // Generate signed URLs for all thumbnails that have a storage path
+      const pathsToSign = rows
+        .map((v) => v.image)
+        .filter((p): p is string => !!p);
+
+      if (pathsToSign.length > 0) {
+        const { data: signed } = await supabase.storage
+          .from("content-media")
+          .createSignedUrls(pathsToSign, 3600);
+
+        if (signed) {
+          const urlMap = new Map<string, string>();
+          signed.forEach((s) => {
+            if (s.signedUrl) urlMap.set(s.path ?? "", s.signedUrl);
+          });
+          rows.forEach((v) => {
+            if (v.image && urlMap.has(v.image)) {
+              v.thumbnailUrl = urlMap.get(v.image);
+            }
+          });
+        }
+      }
+
+      return rows;
     },
   });
-
 
   return (
     <Layout>
@@ -68,58 +94,64 @@ export default function Videos() {
 
         {!isLoading && videos && videos.length > 0 && (
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {videos.map((video) => (
-              <article key={video.id} className="space-y-3">
-                <AspectRatio ratio={16 / 9} className="rounded-lg overflow-hidden bg-muted">
-                  {activeVideo === video.id ? (
-                    <iframe
-                      src={`https://www.youtube.com/embed/${video.youtube_video_id}?autoplay=1`}
-                      title={video.youtube_title || "ValorWell video"}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      className="w-full h-full border-0"
-                    />
-                  ) : (
-                    <button
-                      type="button"
-                      aria-label={`Play ${video.youtube_title || "video"}`}
-                      onClick={() => setActiveVideo(video.id)}
-                      className="relative w-full h-full cursor-pointer border-0 p-0 bg-transparent"
-                    >
-                      <img
-                        src={`https://img.youtube.com/vi/${video.youtube_video_id}/hqdefault.jpg`}
-                        alt={video.youtube_title || "Video thumbnail"}
-                        className="w-full h-full object-cover"
-                        loading="lazy"
+            {videos.map((video) => {
+              const thumb =
+                video.thumbnailUrl ||
+                `https://img.youtube.com/vi/${video.youtube_video_id}/hqdefault.jpg`;
+
+              return (
+                <article key={video.id} className="space-y-3">
+                  <AspectRatio ratio={16 / 9} className="rounded-lg overflow-hidden bg-muted">
+                    {activeVideo === video.id ? (
+                      <iframe
+                        src={`https://www.youtube.com/embed/${video.youtube_video_id}?autoplay=1`}
+                        title={video.youtube_title || "ValorWell video"}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        className="w-full h-full border-0"
                       />
-                      <span className="absolute inset-0 flex items-center justify-center">
-                        <span className="flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-primary-foreground font-medium shadow-lg">
-                          <Play className="h-5 w-5" />
-                          Watch
+                    ) : (
+                      <button
+                        type="button"
+                        aria-label={`Play ${video.youtube_title || "video"}`}
+                        onClick={() => setActiveVideo(video.id)}
+                        className="relative w-full h-full cursor-pointer border-0 p-0 bg-transparent"
+                      >
+                        <img
+                          src={thumb}
+                          alt={video.youtube_title || "Video thumbnail"}
+                          className="w-full h-full object-cover"
+                          loading="lazy"
+                        />
+                        <span className="absolute inset-0 flex items-center justify-center">
+                          <span className="flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-primary-foreground font-medium shadow-lg">
+                            <Play className="h-5 w-5" />
+                            Watch
+                          </span>
                         </span>
-                      </span>
-                    </button>
+                      </button>
+                    )}
+                  </AspectRatio>
+
+                  {video.youtube_title && (
+                    <h2 className="text-base font-semibold text-foreground leading-snug">
+                      {video.youtube_title}
+                    </h2>
                   )}
-                </AspectRatio>
 
-                {video.youtube_title && (
-                  <h2 className="text-base font-semibold text-foreground leading-snug">
-                    {video.youtube_title}
-                  </h2>
-                )}
+                  {video.youtube_desc && (
+                    <span className="sr-only">{video.youtube_desc}</span>
+                  )}
 
-                {video.youtube_desc && (
-                  <span className="sr-only">{video.youtube_desc}</span>
-                )}
-
-                <VideoObjectSchema
-                  name={video.youtube_title || "ValorWell Video"}
-                  description={video.youtube_desc || "Mental health education for veterans and military families."}
-                  embedUrl={`https://www.youtube.com/embed/${video.youtube_video_id}`}
-                  thumbnailUrl={video.image_url || `https://img.youtube.com/vi/${video.youtube_video_id}/hqdefault.jpg`}
-                />
-              </article>
-            ))}
+                  <VideoObjectSchema
+                    name={video.youtube_title || "ValorWell Video"}
+                    description={video.youtube_desc || "Mental health education for veterans and military families."}
+                    embedUrl={`https://www.youtube.com/embed/${video.youtube_video_id}`}
+                    thumbnailUrl={thumb}
+                  />
+                </article>
+              );
+            })}
           </div>
         )}
       </section>
