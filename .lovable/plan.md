@@ -1,24 +1,36 @@
 
 
-## Plan: Click-to-Play Thumbnails on /videos Page
+## Plan: Create Auth Entries for Current Competitors
 
-### Problem
-Currently, the Videos page embeds YouTube iframes immediately for every video in the grid. This loads heavy iframes for all videos at once and shows a generic video player screenshot rather than the actual YouTube thumbnail.
+### Context
+There are 13 competitors in `current_competitors`, all linked to `influencers` rows. All have `user_id = null` on their influencer records, and the `profiles` table is empty (we just cleaned it). We need to create auth users, profiles, user_roles, and link everything back.
 
-### Solution
-Apply the same click-to-load pattern already used by `ClickToLoadYouTubeShort` — show the YouTube thumbnail image first, with a play button overlay, and only load the iframe when clicked.
+### Approach: New Edge Function
 
-For thumbnails, use YouTube's `maxresdefault.jpg` URL (`https://img.youtube.com/vi/{id}/maxresdefault.jpg`) with a fallback to `hqdefault.jpg`. These are the actual thumbnails set on the video in YouTube — no database image needed.
+Create a one-time-use edge function `backfill-competitor-auth` that, when called by an admin:
 
-### Implementation
+1. Fetches all `current_competitors` joined with `influencers` to get email, name, and influencer IDs
+2. For each competitor:
+   - Generates a random password
+   - Creates an `auth.users` entry via `supabase.auth.admin.createUser()`
+   - Inserts a `profiles` row (id = new user id, email, password)
+   - Inserts a `user_roles` row (user_id, role = 'influencer')
+   - Updates the `influencers` row to set `user_id` to the new auth user id
+3. Returns a summary of successes and failures
 
-**File: `src/pages/Videos.tsx`**
+### Why an Edge Function?
+- Creating auth users requires `SUPABASE_SERVICE_ROLE_KEY` (server-side only)
+- This mirrors the existing `create-mission-partner` function's pattern
+- Can be triggered once from the browser or via curl, then deleted
 
-1. Add `useState` import and a local state tracking which video (if any) is playing
-2. Replace the `<iframe>` block with a conditional:
-   - **Default state**: Show an `<img>` of `https://img.youtube.com/vi/{id}/maxresdefault.jpg` with a centered play button overlay (matching the style from `ClickToLoadYouTubeShort`)
-   - **After click**: Swap to the YouTube embed iframe with `?autoplay=1` so it starts immediately
-3. Use the `image_url` from the database as a fallback `onError` source, and `hqdefault.jpg` as a final fallback
+### Technical Details
 
-This avoids loading any iframes until the user explicitly clicks, improving page performance and showing the real YouTube thumbnail.
+- **New file**: `supabase/functions/backfill-competitor-auth/index.ts`
+- Uses the same password generation utility as `create-mission-partner`
+- Processes all 13 users in a loop, collecting results
+- No welcome email sent (these are existing users being backfilled)
+- After running successfully, the function can be deleted
+
+### No Database Schema Changes
+All required tables and columns already exist. The only data changes are INSERT into `profiles`, `user_roles`, and UPDATE on `influencers.user_id` — all done server-side via service role.
 
