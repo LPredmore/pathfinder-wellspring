@@ -62,7 +62,7 @@ export function Header() {
 
             {/* CTA Buttons */}
             <Button asChild>
-              <Link to="/get-started">Get Started</Link>
+              <Link to="/therapy">Get Care</Link>
             </Button>
 
             {user ? (
