@@ -159,8 +159,8 @@ export function Header() {
 
               {/* CTA Buttons */}
               <Button asChild className="w-full">
-                <Link to="/get-started" onClick={() => setMobileMenuOpen(false)}>
-                  Get Started
+                <Link to="/therapy" onClick={() => setMobileMenuOpen(false)}>
+                  Get Care
                 </Link>
               </Button>
 
