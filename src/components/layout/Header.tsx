@@ -59,6 +59,18 @@ export function Header() {
               </Link>
             ))}
 
+            {/* BTY Link */}
+            <Link
+              to="/beyondtheyellow"
+              className={cn(
+                "text-sm font-medium transition-colors hover:text-primary flex items-center gap-1.5",
+                isActive("/beyondtheyellow") ? "text-primary" : "text-muted-foreground"
+              )}
+            >
+              <Ribbon className="h-4 w-4 text-yellow-500" />
+              BTY
+            </Link>
+
             {/* CTA Buttons */}
             <Button asChild>
               <Link to="/therapy">Get Care</Link>
