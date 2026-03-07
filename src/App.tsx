@@ -28,6 +28,7 @@ import Advocates from "./pages/Advocates";
 import Videos from "./pages/Videos";
 import InfluencerPortal from "./pages/InfluencerPortal";
 import AdminDashboard from "./pages/AdminDashboard";
+import CreatorApply from "./pages/CreatorApply";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
