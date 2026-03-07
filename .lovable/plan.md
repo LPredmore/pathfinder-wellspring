@@ -1,36 +1,35 @@
 
 
-## Plan: Create Auth Entries for Current Competitors
+## Plan: Standalone Apply Page with Embedded Form Feel
 
-### Context
-There are 13 competitors in `current_competitors`, all linked to `influencers` rows. All have `user_id = null` on their influencer records, and the `profiles` table is empty (we just cleaned it). We need to create auth users, profiles, user_roles, and link everything back.
+### Concept
 
-### Approach: New Edge Function
+Create `/beyondtheyellow/apply` as a focused page that renders the creator application form **directly in the page** (always visible in DOM for Google Ads), but styled to feel like an overlay/component rather than a full standalone page — centered card with a subtle backdrop, no distracting page content around it.
 
-Create a one-time-use edge function `backfill-competitor-auth` that, when called by an admin:
+### Changes
 
-1. Fetches all `current_competitors` joined with `influencers` to get email, name, and influencer IDs
-2. For each competitor:
-   - Generates a random password
-   - Creates an `auth.users` entry via `supabase.auth.admin.createUser()`
-   - Inserts a `profiles` row (id = new user id, email, password)
-   - Inserts a `user_roles` row (user_id, role = 'influencer')
-   - Updates the `influencers` row to set `user_id` to the new auth user id
-3. Returns a summary of successes and failures
+**1. Refactor `CreatorApplicationForm` to support inline mode**
 
-### Why an Edge Function?
-- Creating auth users requires `SUPABASE_SERVICE_ROLE_KEY` (server-side only)
-- This mirrors the existing `create-mission-partner` function's pattern
-- Can be triggered once from the browser or via curl, then deleted
+Add an optional `inline` prop. When `true`:
+- Skip the `Dialog`/`DialogTrigger`/`DialogContent` wrapper entirely
+- Render the form content (steps, progress, fields, success state) directly as a `Card` component
+- All existing logic (state, validation, submission, tracking) stays identical
 
-### Technical Details
+**2. Create `src/pages/CreatorApply.tsx`**
 
-- **New file**: `supabase/functions/backfill-competitor-auth/index.ts`
-- Uses the same password generation utility as `create-mission-partner`
-- Processes all 13 users in a loop, collecting results
-- No welcome email sent (these are existing users being backfilled)
-- After running successfully, the function can be deleted
+- Minimal page with `Layout` wrapper and SEO
+- Centered content area with a subtle background
+- Renders `<CreatorApplicationForm inline />` so the `<form>` is in the DOM on page load
+- Feels like a focused overlay/component, not a busy page
 
-### No Database Schema Changes
-All required tables and columns already exist. The only data changes are INSERT into `profiles`, `user_roles`, and UPDATE on `influencers.user_id` — all done server-side via service role.
+**3. Add route in `App.tsx`**
+
+- `/beyondtheyellow/apply` → `CreatorApply`
+
+### Result
+
+- Google Ads sees the `<form>` immediately in the DOM at `/beyondtheyellow/apply`
+- Native `submit` event fires normally — automatic tracking works
+- User experience feels like opening a focused component, not navigating to a cluttered page
+- Existing modal on `/beyondtheyellow` remains unchanged
 
