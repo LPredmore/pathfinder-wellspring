@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, ChevronDown, LogOut, User } from "lucide-react";
+import { Menu, X, ChevronDown, LogOut, User, Ribbon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -15,7 +15,6 @@ import { InfluencerLoginDialog } from "@/components/InfluencerLoginDialog";
 
 
 const navigation = [
-  { name: "How It Works", href: "/how-it-works" },
   { name: "Videos", href: "/videos" },
   { name: "About", href: "/about" },
   { name: "FAQ", href: "/faq" },
@@ -59,6 +58,18 @@ export function Header() {
                 {item.name}
               </Link>
             ))}
+
+            {/* BTY Link */}
+            <Link
+              to="/beyondtheyellow"
+              className={cn(
+                "text-sm font-medium transition-colors hover:text-primary flex items-center gap-1.5",
+                isActive("/beyondtheyellow") ? "text-primary" : "text-muted-foreground"
+              )}
+            >
+              <Ribbon className="h-4 w-4 text-gold-accent" />
+              BTY
+            </Link>
 
             {/* CTA Buttons */}
             <Button asChild>
@@ -156,6 +167,19 @@ export function Header() {
                   {item.name}
                 </Link>
               ))}
+
+              {/* BTY Link */}
+              <Link
+                to="/beyondtheyellow"
+                className={cn(
+                  "flex items-center gap-1.5 py-2 text-sm font-medium transition-colors hover:text-primary",
+                  isActive("/beyondtheyellow") ? "text-primary" : "text-muted-foreground"
+                )}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <Ribbon className="h-4 w-4 text-gold-accent" />
+                BTY
+              </Link>
 
               {/* CTA Buttons */}
               <Button asChild className="w-full">
