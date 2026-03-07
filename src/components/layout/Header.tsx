@@ -15,7 +15,6 @@ import { InfluencerLoginDialog } from "@/components/InfluencerLoginDialog";
 
 
 const navigation = [
-  { name: "How It Works", href: "/how-it-works" },
   { name: "Videos", href: "/videos" },
   { name: "About", href: "/about" },
   { name: "FAQ", href: "/faq" },
