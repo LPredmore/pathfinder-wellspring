@@ -264,6 +264,7 @@ export function CreatorApplicationForm({
 
       if (error) throw new Error("Could not submit application");
 
+      trackCreatorApplicationConversion();
       setIsSubmitted(true);
     } catch (err: any) {
       setSubmitError(err.message || "Something went wrong. Please try again.");
