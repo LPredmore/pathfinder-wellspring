@@ -84,6 +84,8 @@ interface CreatorApplicationFormProps {
   buttonSize?: "default" | "sm" | "lg" | "icon";
   buttonClassName?: string;
   buttonText?: string;
+  /** When true, renders the form inline (no Dialog wrapper) */
+  inline?: boolean;
 }
 
 export function CreatorApplicationForm({
@@ -91,6 +93,7 @@ export function CreatorApplicationForm({
   buttonSize = "default",
   buttonClassName,
   buttonText = "Apply to Compete",
+  inline = false,
 }: CreatorApplicationFormProps) {
   const [open, setOpen] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
