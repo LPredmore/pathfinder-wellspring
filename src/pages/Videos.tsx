@@ -72,7 +72,18 @@ export default function Videos() {
       />
 
       <section className="container-wide py-16">
-        <h1 className="text-4xl font-bold text-foreground mb-2">Videos</h1>
+        <div className="flex items-center justify-between mb-2">
+          <h1 className="text-4xl font-bold text-foreground">Videos</h1>
+          <a
+            href="https://www.youtube.com/@ValorWell"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-md bg-destructive px-4 py-2 text-sm font-medium text-destructive-foreground hover:bg-destructive/90 transition-colors"
+          >
+            <Play className="h-4 w-4" />
+            Follow us on YouTube
+          </a>
+        </div>
         <p className="text-muted-foreground mb-10 max-w-2xl">
           Educational content on mental health topics relevant to veterans and military families.
         </p>
