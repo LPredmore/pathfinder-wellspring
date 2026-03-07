@@ -168,6 +168,19 @@ export function Header() {
                 </Link>
               ))}
 
+              {/* BTY Link */}
+              <Link
+                to="/beyondtheyellow"
+                className={cn(
+                  "flex items-center gap-1.5 py-2 text-sm font-medium transition-colors hover:text-primary",
+                  isActive("/beyondtheyellow") ? "text-primary" : "text-muted-foreground"
+                )}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <Ribbon className="h-4 w-4 text-yellow-500" />
+                BTY
+              </Link>
+
               {/* CTA Buttons */}
               <Button asChild className="w-full">
                 <Link to="/therapy" onClick={() => setMobileMenuOpen(false)}>
