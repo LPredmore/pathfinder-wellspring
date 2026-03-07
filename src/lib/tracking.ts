@@ -26,7 +26,7 @@ export function trackCreatorApplicationConversion() {
   if (typeof gtagFn !== "function") return;
 
   gtagFn("event", "conversion", {
-    send_to: "AW-16798905432/6RqRCJ2PnfMbENjoq8o-",
+    send_to: "AW-16798905432/Ps8yCJDJqoQcENjoq8o-",
     value: 1.0,
     currency: "USD",
     transport_type: "beacon",
