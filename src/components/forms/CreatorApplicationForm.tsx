@@ -107,7 +107,7 @@ export function CreatorApplicationForm({
   const [smPlatforms, setSmPlatforms] = useState<string[]>([]);
 
   useEffect(() => {
-    if (!open) return;
+    if (!inline && !open) return;
     supabase
       .from("sm_platforms")
       .select("name")
@@ -115,7 +115,7 @@ export function CreatorApplicationForm({
       .then(({ data }) => {
         if (data) setSmPlatforms(data.map((r) => r.name));
       });
-  }, [open]);
+  }, [open, inline]);
 
   const {
     register,
