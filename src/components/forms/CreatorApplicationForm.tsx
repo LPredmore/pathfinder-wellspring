@@ -3,6 +3,7 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
+import { trackCreatorApplicationConversion } from "@/lib/tracking";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -263,6 +264,7 @@ export function CreatorApplicationForm({
 
       if (error) throw new Error("Could not submit application");
 
+      trackCreatorApplicationConversion();
       setIsSubmitted(true);
     } catch (err: any) {
       setSubmitError(err.message || "Something went wrong. Please try again.");

@@ -227,7 +227,19 @@ export default function Competitions() {
               </Button>
             </div>
             
-
+            
+            {/* Hidden form for Google Ads conversion scanner detection */}
+            <form
+              aria-hidden="true"
+              className="absolute overflow-hidden"
+              style={{ width: 0, height: 0, opacity: 0, pointerEvents: "none" }}
+              onSubmit={(e) => e.preventDefault()}
+            >
+              <input type="text" name="first_name" tabIndex={-1} readOnly />
+              <input type="text" name="last_name" tabIndex={-1} readOnly />
+              <input type="email" name="email" tabIndex={-1} readOnly />
+              <button type="submit" tabIndex={-1}>Apply</button>
+            </form>
 
           </div>
         </section>
