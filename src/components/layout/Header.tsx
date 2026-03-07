@@ -177,7 +177,7 @@ export function Header() {
                 )}
                 onClick={() => setMobileMenuOpen(false)}
               >
-                <Ribbon className="h-4 w-4 text-yellow-500" />
+                <Ribbon className="h-4 w-4 text-gold-accent" />
                 BTY
               </Link>
 
