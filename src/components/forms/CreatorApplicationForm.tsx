@@ -84,6 +84,8 @@ interface CreatorApplicationFormProps {
   buttonSize?: "default" | "sm" | "lg" | "icon";
   buttonClassName?: string;
   buttonText?: string;
+  /** When true, renders the form inline (no Dialog wrapper) */
+  inline?: boolean;
 }
 
 export function CreatorApplicationForm({
@@ -91,6 +93,7 @@ export function CreatorApplicationForm({
   buttonSize = "default",
   buttonClassName,
   buttonText = "Apply to Compete",
+  inline = false,
 }: CreatorApplicationFormProps) {
   const [open, setOpen] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -104,7 +107,7 @@ export function CreatorApplicationForm({
   const [smPlatforms, setSmPlatforms] = useState<string[]>([]);
 
   useEffect(() => {
-    if (!open) return;
+    if (!inline && !open) return;
     supabase
       .from("sm_platforms")
       .select("name")
@@ -112,7 +115,7 @@ export function CreatorApplicationForm({
       .then(({ data }) => {
         if (data) setSmPlatforms(data.map((r) => r.name));
       });
-  }, [open]);
+  }, [open, inline]);
 
   const {
     register,
@@ -286,6 +289,293 @@ export function CreatorApplicationForm({
     }
   };
 
+  const formContent = isSubmitted ? (
+    <div className="py-12 text-center">
+      <CheckCircle className="h-16 w-16 text-primary mx-auto mb-4" />
+      <h3 className="text-2xl font-bold text-foreground mb-2">Application Received!</h3>
+      <p className="text-muted-foreground">
+        Thank you for applying to compete in Beyond the Yellow. We'll review your application and be in touch soon.
+      </p>
+    </div>
+  ) : (
+    <>
+      <div className={inline ? "text-center mb-2" : ""}>
+        {inline ? (
+          <h2 className="text-2xl font-semibold leading-none tracking-tight text-center">
+            {STEP_TITLES[currentStep]}
+          </h2>
+        ) : (
+          <DialogHeader>
+            <DialogTitle className="text-2xl text-center">{STEP_TITLES[currentStep]}</DialogTitle>
+          </DialogHeader>
+        )}
+      </div>
+
+      {/* Progress */}
+      <div className="space-y-1">
+        <p className="text-sm text-muted-foreground text-center">Step {currentStep + 1} of 4</p>
+        <Progress value={((currentStep + 1) / 4) * 100} className="h-2" />
+      </div>
+
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        {/* Step 1 — Welcome + Basic Info */}
+        {currentStep === 0 && (
+          <div className="space-y-4">
+            <div className="rounded-lg bg-primary/5 border border-primary/20 p-4 text-center">
+              <p className="text-foreground font-medium">
+                Thank you for your eagerness to be part of Beyond the Yellow! 💛
+              </p>
+              <p className="text-sm text-muted-foreground mt-1">
+                We're excited to learn more about you. Let's start with the basics.
+              </p>
+            </div>
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="ca-firstName">First Name *</Label>
+                <Input id="ca-firstName" {...register("firstName")} />
+                {errors.firstName && <p className="text-sm text-destructive">{errors.firstName.message}</p>}
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="ca-lastName">Last Name *</Label>
+                <Input id="ca-lastName" {...register("lastName")} />
+                {errors.lastName && <p className="text-sm text-destructive">{errors.lastName.message}</p>}
+              </div>
+            </div>
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="ca-email">Email *</Label>
+                <Input id="ca-email" type="email" {...register("email")} />
+                {errors.email && <p className="text-sm text-destructive">{errors.email.message}</p>}
+              </div>
+              <div className="space-y-2">
+                <Label>State *</Label>
+                <Select value={state} onValueChange={(v) => setValue("state", v, { shouldValidate: true })}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select state" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {US_STATES.map((s) => (
+                      <SelectItem key={s} value={s}>{s}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                {errors.state && <p className="text-sm text-destructive">{errors.state.message}</p>}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Step 2 — Social Profiles */}
+        {currentStep === 1 && (
+          <div className="space-y-4">
+            <div className="rounded-lg bg-primary/5 border border-primary/20 p-4">
+              <p className="text-foreground text-sm">
+                ValorWell is as committed to supporting you as you are to supporting us. We will promote your social media profiles while you are competing for us. Please list them all below.
+              </p>
+            </div>
+            {fields.map((field, index) => (
+              <div key={field.id} className="rounded-md border p-4 space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-muted-foreground">Platform {index + 1}</span>
+                  {fields.length > 1 && (
+                    <Button type="button" variant="ghost" size="sm" onClick={() => remove(index)}>
+                      <Trash2 className="h-4 w-4 text-destructive" />
+                    </Button>
+                  )}
+                </div>
+                <div className="grid sm:grid-cols-3 gap-3">
+                  <div className="space-y-1">
+                    <Label>Platform *</Label>
+                    <Select
+                      value={watch(`socialProfiles.${index}.platform`)}
+                      onValueChange={(v) => {
+                        setValue(`socialProfiles.${index}.platform`, v, { shouldValidate: true });
+                        if (v !== "__other__") setValue(`socialProfiles.${index}.customPlatform`, "", { shouldValidate: false });
+                      }}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {smPlatforms.map((p) => (
+                          <SelectItem key={p} value={p}>{p}</SelectItem>
+                        ))}
+                        <SelectItem value="__other__">Other</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    {errors.socialProfiles?.[index]?.platform && (
+                      <p className="text-xs text-destructive">{errors.socialProfiles[index]?.platform?.message}</p>
+                    )}
+                  </div>
+                  {watch(`socialProfiles.${index}.platform`) === "__other__" && (
+                    <div className="space-y-1">
+                      <Label>Platform Name *</Label>
+                      <Input {...register(`socialProfiles.${index}.customPlatform`)} placeholder="e.g. Threads" />
+                      {(errors.socialProfiles?.[index] as any)?.customPlatform && (
+                        <p className="text-xs text-destructive">{(errors.socialProfiles?.[index] as any)?.customPlatform?.message}</p>
+                      )}
+                    </div>
+                  )}
+                  <div className="space-y-1">
+                    <Label>Handle / URL *</Label>
+                    <Input {...register(`socialProfiles.${index}.handle`)} placeholder="@handle or URL" />
+                    {errors.socialProfiles?.[index]?.handle && (
+                      <p className="text-xs text-destructive">{errors.socialProfiles[index]?.handle?.message}</p>
+                    )}
+                  </div>
+                  <div className="space-y-1">
+                    <Label>Followers *</Label>
+                    <Input type="number" {...register(`socialProfiles.${index}.followers`)} placeholder="0" />
+                    {errors.socialProfiles?.[index]?.followers && (
+                      <p className="text-xs text-destructive">{errors.socialProfiles[index]?.followers?.message}</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => append({ platform: "", customPlatform: "", handle: "", followers: 0 })}
+            >
+              <Plus className="h-4 w-4 mr-1" /> Add a social platform
+            </Button>
+            {errors.socialProfiles?.root && (
+              <p className="text-sm text-destructive">{errors.socialProfiles.root.message}</p>
+            )}
+          </div>
+        )}
+
+        {/* Step 3 — Profile & Mission */}
+        {currentStep === 2 && (
+          <div className="space-y-4">
+            {/* Avatar upload */}
+            <div className="space-y-2">
+              <Label>Profile Photo</Label>
+              <div className="flex items-center gap-4">
+                {avatarPreview ? (
+                  <img
+                    src={avatarPreview}
+                    alt="Preview"
+                    className="h-20 w-20 rounded-full object-cover border-2 border-primary/30"
+                  />
+                ) : (
+                  <div className="h-20 w-20 rounded-full bg-muted flex items-center justify-center border-2 border-dashed border-muted-foreground/30">
+                    <Upload className="h-6 w-6 text-muted-foreground" />
+                  </div>
+                )}
+                <div>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => fileInputRef.current?.click()}
+                  >
+                    {avatarPreview ? "Change Photo" : "Upload Photo"}
+                  </Button>
+                  <p className="text-xs text-muted-foreground mt-1">JPG, PNG, or WebP. Max 5MB.</p>
+                </div>
+              </div>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                className="hidden"
+                onChange={handleAvatarChange}
+              />
+            </div>
+
+            {/* Display name */}
+            <div className="space-y-2">
+              <Label htmlFor="ca-prefName">Competition Display Name</Label>
+              <Input id="ca-prefName" {...register("prefName")} placeholder="e.g. Johnny V" />
+              <p className="text-xs text-muted-foreground">How would you like your name shown publicly? (optional — defaults to your full name)</p>
+            </div>
+
+            {/* Personal mission */}
+            <div className="space-y-2">
+              <Label htmlFor="ca-personalMission">Why do you want to be part of Beyond the Yellow? *</Label>
+              <Textarea
+                id="ca-personalMission"
+                {...register("personalMission")}
+                placeholder="Tell us what drives you to support veterans' mental health..."
+                className="min-h-[120px]"
+              />
+              {errors.personalMission && <p className="text-sm text-destructive">{errors.personalMission.message}</p>}
+            </div>
+          </div>
+        )}
+
+        {/* Step 4 — Veteran Connection */}
+        {currentStep === 3 && (
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label>Do you have a personal connection to veterans or military communities?</Label>
+              <RadioGroup
+                value={veteranConnection}
+                onValueChange={(v) => setValue("veteranConnection", v)}
+              >
+                {VETERAN_CONNECTION_OPTIONS.map((opt) => (
+                  <div key={opt} className="flex items-center space-x-2">
+                    <RadioGroupItem value={opt} id={`vc-${opt}`} />
+                    <Label htmlFor={`vc-${opt}`} className="cursor-pointer font-normal">{opt}</Label>
+                  </div>
+                ))}
+              </RadioGroup>
+            </div>
+          </div>
+        )}
+
+        {/* Error display */}
+        {submitError && (
+          <div className="rounded-md bg-destructive/10 border border-destructive/30 p-3">
+            <p className="text-sm text-destructive">{submitError}</p>
+          </div>
+        )}
+
+        {/* Navigation buttons */}
+        <div className="flex justify-between pt-2">
+          {currentStep > 0 ? (
+            <Button type="button" variant="outline" onClick={handleBack} disabled={isStepLoading || isSubmitting}>
+              Back
+            </Button>
+          ) : (
+            <div />
+          )}
+
+          {currentStep < 3 ? (
+            <Button key="next" type="button" onClick={handleNext} disabled={isStepLoading}>
+              {isStepLoading ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin mr-1" /> Saving…
+                </>
+              ) : (
+                "Next"
+              )}
+            </Button>
+          ) : (
+            <Button key="submit" type="submit" disabled={isSubmitting}>
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin mr-1" /> Submitting…
+                </>
+              ) : (
+                "Submit Application"
+              )}
+            </Button>
+          )}
+        </div>
+      </form>
+    </>
+  );
+
+  // Inline mode — render directly without Dialog
+  if (inline) {
+    return <div className="space-y-4">{formContent}</div>;
+  }
+
+  // Dialog mode — original behavior
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
@@ -294,278 +584,7 @@ export function CreatorApplicationForm({
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
-        {isSubmitted ? (
-          <div className="py-12 text-center">
-            <CheckCircle className="h-16 w-16 text-primary mx-auto mb-4" />
-            <h3 className="text-2xl font-bold text-foreground mb-2">Application Received!</h3>
-            <p className="text-muted-foreground">
-              Thank you for applying to compete in Beyond the Yellow. We'll review your application and be in touch soon.
-            </p>
-          </div>
-        ) : (
-          <>
-            <DialogHeader>
-              <DialogTitle className="text-2xl text-center">{STEP_TITLES[currentStep]}</DialogTitle>
-            </DialogHeader>
-
-            {/* Progress */}
-            <div className="space-y-1">
-              <p className="text-sm text-muted-foreground text-center">Step {currentStep + 1} of 4</p>
-              <Progress value={((currentStep + 1) / 4) * 100} className="h-2" />
-            </div>
-
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-              {/* Step 1 — Welcome + Basic Info */}
-              {currentStep === 0 && (
-                <div className="space-y-4">
-                  <div className="rounded-lg bg-primary/5 border border-primary/20 p-4 text-center">
-                    <p className="text-foreground font-medium">
-                      Thank you for your eagerness to be part of Beyond the Yellow! 💛
-                    </p>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      We're excited to learn more about you. Let's start with the basics.
-                    </p>
-                  </div>
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="ca-firstName">First Name *</Label>
-                      <Input id="ca-firstName" {...register("firstName")} />
-                      {errors.firstName && <p className="text-sm text-destructive">{errors.firstName.message}</p>}
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="ca-lastName">Last Name *</Label>
-                      <Input id="ca-lastName" {...register("lastName")} />
-                      {errors.lastName && <p className="text-sm text-destructive">{errors.lastName.message}</p>}
-                    </div>
-                  </div>
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="ca-email">Email *</Label>
-                      <Input id="ca-email" type="email" {...register("email")} />
-                      {errors.email && <p className="text-sm text-destructive">{errors.email.message}</p>}
-                    </div>
-                    <div className="space-y-2">
-                      <Label>State *</Label>
-                      <Select value={state} onValueChange={(v) => setValue("state", v, { shouldValidate: true })}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select state" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {US_STATES.map((s) => (
-                            <SelectItem key={s} value={s}>{s}</SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      {errors.state && <p className="text-sm text-destructive">{errors.state.message}</p>}
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Step 2 — Social Profiles */}
-              {currentStep === 1 && (
-                <div className="space-y-4">
-                  <div className="rounded-lg bg-primary/5 border border-primary/20 p-4">
-                    <p className="text-foreground text-sm">
-                      ValorWell is as committed to supporting you as you are to supporting us. We will promote your social media profiles while you are competing for us. Please list them all below.
-                    </p>
-                  </div>
-                  {fields.map((field, index) => (
-                    <div key={field.id} className="rounded-md border p-4 space-y-3">
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm font-medium text-muted-foreground">Platform {index + 1}</span>
-                        {fields.length > 1 && (
-                          <Button type="button" variant="ghost" size="sm" onClick={() => remove(index)}>
-                            <Trash2 className="h-4 w-4 text-destructive" />
-                          </Button>
-                        )}
-                      </div>
-                      <div className="grid sm:grid-cols-3 gap-3">
-                        <div className="space-y-1">
-                          <Label>Platform *</Label>
-                          <Select
-                            value={watch(`socialProfiles.${index}.platform`)}
-                            onValueChange={(v) => {
-                              setValue(`socialProfiles.${index}.platform`, v, { shouldValidate: true });
-                              if (v !== "__other__") setValue(`socialProfiles.${index}.customPlatform`, "", { shouldValidate: false });
-                            }}
-                          >
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {smPlatforms.map((p) => (
-                                <SelectItem key={p} value={p}>{p}</SelectItem>
-                              ))}
-                              <SelectItem value="__other__">Other</SelectItem>
-                            </SelectContent>
-                          </Select>
-                          {errors.socialProfiles?.[index]?.platform && (
-                            <p className="text-xs text-destructive">{errors.socialProfiles[index]?.platform?.message}</p>
-                          )}
-                        </div>
-                        {watch(`socialProfiles.${index}.platform`) === "__other__" && (
-                          <div className="space-y-1">
-                            <Label>Platform Name *</Label>
-                            <Input {...register(`socialProfiles.${index}.customPlatform`)} placeholder="e.g. Threads" />
-                            {(errors.socialProfiles?.[index] as any)?.customPlatform && (
-                              <p className="text-xs text-destructive">{(errors.socialProfiles?.[index] as any)?.customPlatform?.message}</p>
-                            )}
-                          </div>
-                        )}
-                        <div className="space-y-1">
-                          <Label>Handle / URL *</Label>
-                          <Input {...register(`socialProfiles.${index}.handle`)} placeholder="@handle or URL" />
-                          {errors.socialProfiles?.[index]?.handle && (
-                            <p className="text-xs text-destructive">{errors.socialProfiles[index]?.handle?.message}</p>
-                          )}
-                        </div>
-                        <div className="space-y-1">
-                          <Label>Followers *</Label>
-                          <Input type="number" {...register(`socialProfiles.${index}.followers`)} placeholder="0" />
-                          {errors.socialProfiles?.[index]?.followers && (
-                            <p className="text-xs text-destructive">{errors.socialProfiles[index]?.followers?.message}</p>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    onClick={() => append({ platform: "", customPlatform: "", handle: "", followers: 0 })}
-                  >
-                    <Plus className="h-4 w-4 mr-1" /> Add a social platform
-                  </Button>
-                  {errors.socialProfiles?.root && (
-                    <p className="text-sm text-destructive">{errors.socialProfiles.root.message}</p>
-                  )}
-                </div>
-              )}
-
-              {/* Step 3 — Profile & Mission */}
-              {currentStep === 2 && (
-                <div className="space-y-4">
-                  {/* Avatar upload */}
-                  <div className="space-y-2">
-                    <Label>Profile Photo</Label>
-                    <div className="flex items-center gap-4">
-                      {avatarPreview ? (
-                        <img
-                          src={avatarPreview}
-                          alt="Preview"
-                          className="h-20 w-20 rounded-full object-cover border-2 border-primary/30"
-                        />
-                      ) : (
-                        <div className="h-20 w-20 rounded-full bg-muted flex items-center justify-center border-2 border-dashed border-muted-foreground/30">
-                          <Upload className="h-6 w-6 text-muted-foreground" />
-                        </div>
-                      )}
-                      <div>
-                        <Button
-                          type="button"
-                          variant="outline"
-                          size="sm"
-                          onClick={() => fileInputRef.current?.click()}
-                        >
-                          {avatarPreview ? "Change Photo" : "Upload Photo"}
-                        </Button>
-                        <p className="text-xs text-muted-foreground mt-1">JPG, PNG, or WebP. Max 5MB.</p>
-                      </div>
-                    </div>
-                    <input
-                      ref={fileInputRef}
-                      type="file"
-                      accept="image/jpeg,image/png,image/webp"
-                      className="hidden"
-                      onChange={handleAvatarChange}
-                    />
-                  </div>
-
-                  {/* Display name */}
-                  <div className="space-y-2">
-                    <Label htmlFor="ca-prefName">Competition Display Name</Label>
-                    <Input id="ca-prefName" {...register("prefName")} placeholder="e.g. Johnny V" />
-                    <p className="text-xs text-muted-foreground">How would you like your name shown publicly? (optional — defaults to your full name)</p>
-                  </div>
-
-                  {/* Personal mission */}
-                  <div className="space-y-2">
-                    <Label htmlFor="ca-personalMission">Why do you want to be part of Beyond the Yellow? *</Label>
-                    <Textarea
-                      id="ca-personalMission"
-                      {...register("personalMission")}
-                      placeholder="Tell us what drives you to support veterans' mental health..."
-                      className="min-h-[120px]"
-                    />
-                    {errors.personalMission && <p className="text-sm text-destructive">{errors.personalMission.message}</p>}
-                  </div>
-                </div>
-              )}
-
-              {/* Step 4 — Veteran Connection */}
-              {currentStep === 3 && (
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <Label>Do you have a personal connection to veterans or military communities?</Label>
-                    <RadioGroup
-                      value={veteranConnection}
-                      onValueChange={(v) => setValue("veteranConnection", v)}
-                    >
-                      {VETERAN_CONNECTION_OPTIONS.map((opt) => (
-                        <div key={opt} className="flex items-center space-x-2">
-                          <RadioGroupItem value={opt} id={`vc-${opt}`} />
-                          <Label htmlFor={`vc-${opt}`} className="cursor-pointer font-normal">{opt}</Label>
-                        </div>
-                      ))}
-                    </RadioGroup>
-                  </div>
-                </div>
-              )}
-
-              {/* Error display */}
-              {submitError && (
-                <div className="rounded-md bg-destructive/10 border border-destructive/30 p-3">
-                  <p className="text-sm text-destructive">{submitError}</p>
-                </div>
-              )}
-
-              {/* Navigation buttons */}
-              <div className="flex justify-between pt-2">
-                {currentStep > 0 ? (
-                  <Button type="button" variant="outline" onClick={handleBack} disabled={isStepLoading || isSubmitting}>
-                    Back
-                  </Button>
-                ) : (
-                  <div />
-                )}
-
-                {currentStep < 3 ? (
-                  <Button key="next" type="button" onClick={handleNext} disabled={isStepLoading}>
-                    {isStepLoading ? (
-                      <>
-                        <Loader2 className="h-4 w-4 animate-spin mr-1" /> Saving…
-                      </>
-                    ) : (
-                      "Next"
-                    )}
-                  </Button>
-                ) : (
-                  <Button key="submit" type="submit" disabled={isSubmitting}>
-                    {isSubmitting ? (
-                      <>
-                        <Loader2 className="h-4 w-4 animate-spin mr-1" /> Submitting…
-                      </>
-                    ) : (
-                      "Submit Application"
-                    )}
-                  </Button>
-                )}
-              </div>
-            </form>
-          </>
-        )}
+        {formContent}
       </DialogContent>
     </Dialog>
   );

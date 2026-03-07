@@ -28,6 +28,7 @@ import Advocates from "./pages/Advocates";
 import Videos from "./pages/Videos";
 import InfluencerPortal from "./pages/InfluencerPortal";
 import AdminDashboard from "./pages/AdminDashboard";
+import CreatorApply from "./pages/CreatorApply";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -61,6 +62,7 @@ const App = () => (
               <Route path="/operation-claims-success" element={<OperationClaimsSuccess />} />
               <Route path="/advocates" element={<Advocates />} />
               <Route path="/videos" element={<Videos />} />
+              <Route path="/beyondtheyellow/apply" element={<CreatorApply />} />
               <Route path="/influencer" element={<InfluencerPortal />} />
               <Route path="/admin" element={<AdminDashboard />} />
               <Route path="*" element={<NotFound />} />
