@@ -5,7 +5,7 @@ import { Layout } from "@/components/layout";
 import { SEO, VideoObjectSchema } from "@/components/SEO";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Play } from "lucide-react";
+import { Play, Youtube } from "lucide-react";
 
 interface PostedVideo {
   id: string;
