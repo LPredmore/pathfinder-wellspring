@@ -1,36 +1,26 @@
 
 
-## Plan: Create Auth Entries for Current Competitors
+## Diagnosis: Why Google Ads Can't Find a Form on /beyondtheyellow
 
-### Context
-There are 13 competitors in `current_competitors`, all linked to `influencers` rows. All have `user_id = null` on their influencer records, and the `profiles` table is empty (we just cleaned it). We need to create auth users, profiles, user_roles, and link everything back.
+### The core problem: There is no `<form>` in the page DOM
 
-### Approach: New Edge Function
+The "Apply to Compete" button on /beyondtheyellow does **not** render a form on the page. It renders a **Radix Dialog** (modal) that is **closed by default**. The `<form>` element only gets mounted into the DOM when a user clicks the button and the dialog opens.
 
-Create a one-time-use edge function `backfill-competitor-auth` that, when called by an admin:
+Google Ads scans the page HTML looking for `<form>` elements to set up conversion tracking. Since the form lives inside a closed dialog, Google sees an empty page with no forms.
 
-1. Fetches all `current_competitors` joined with `influencers` to get email, name, and influencer IDs
-2. For each competitor:
-   - Generates a random password
-   - Creates an `auth.users` entry via `supabase.auth.admin.createUser()`
-   - Inserts a `profiles` row (id = new user id, email, password)
-   - Inserts a `user_roles` row (user_id, role = 'influencer')
-   - Updates the `influencers` row to set `user_id` to the new auth user id
-3. Returns a summary of successes and failures
+### There is also no form submission conversion event
 
-### Why an Edge Function?
-- Creating auth users requires `SUPABASE_SERVICE_ROLE_KEY` (server-side only)
-- This mirrors the existing `create-mission-partner` function's pattern
-- Can be triggered once from the browser or via curl, then deleted
+Looking at `src/lib/tracking.ts`, the only conversion event defined is `trackDonateConversion` — which fires for donate/sponsor button clicks. There is **no conversion event for the creator application form submission**. The `CreatorApplicationForm` component's `onSubmit` handler updates Supabase but never calls `gtag("event", "conversion", ...)`.
 
-### Technical Details
+### The Google Ads account mismatch
 
-- **New file**: `supabase/functions/backfill-competitor-auth/index.ts`
-- Uses the same password generation utility as `create-mission-partner`
-- Processes all 13 users in a loop, collecting results
-- No welcome email sent (these are existing users being backfilled)
-- After running successfully, the function can be deleted
+The conversion events in `tracking.ts` reference Ads account `AW-16798905432`, but `index.html` only configures `AW-11339741081`. The second account is never initialized via `gtag('config', 'AW-16798905432')`, which means even if a conversion event fires, it may not reliably reach the correct Ads account.
 
-### No Database Schema Changes
-All required tables and columns already exist. The only data changes are INSERT into `profiles`, `user_roles`, and UPDATE on `influencers.user_id` — all done server-side via service role.
+### Summary
+
+1. **No visible form on page load** — the form is inside a closed modal dialog, so Google Ads' page scanner can't detect it.
+2. **No conversion tracking on form submit** — the creator application form never fires a `gtag` conversion event.
+3. **Missing Ads config** — the Ads account used in conversion events (`AW-16798905432`) is not configured in the global gtag setup in `index.html`.
+
+All three of these need to be addressed for Google Ads to track creator application conversions on /beyondtheyellow.
 
