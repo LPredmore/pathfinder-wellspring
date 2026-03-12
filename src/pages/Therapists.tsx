@@ -242,6 +242,29 @@ const Therapists = () => {
         </section>
       </div>
 
+      {/* Video Section */}
+      <section id="video-section" className="section-padding bg-muted">
+        <div className="container-wide">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground">
+              A Quick Message From Luke
+            </h2>
+          </div>
+          {isVideoLoading ? (
+            <div className="max-w-sm mx-auto min-h-[200px] rounded-lg" style={{ aspectRatio: "9 / 16" }}>
+              <Skeleton className="w-full h-full rounded-lg" />
+            </div>
+          ) : videoId ? (
+            <ClickToLoadYouTubeShort
+              videoId={videoId}
+              title="A Quick Message From Luke"
+            />
+          ) : null}
+          <p className="mt-6 text-center text-muted-foreground max-w-2xl mx-auto italic">
+            "If you've wanted to serve veterans without sacrificing your time, sanity, or clinical judgment—this is what we built ValorWell for."
+          </p>
+        </div>
+      </section>
 
       {/* Who This Is For */}
       <section className="section-padding">
