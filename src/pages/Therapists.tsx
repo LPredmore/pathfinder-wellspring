@@ -250,16 +250,15 @@ const Therapists = () => {
               A Quick Message From Luke
             </h2>
           </div>
-          {isVideoLoading ? (
-            <div className="max-w-sm mx-auto min-h-[200px] rounded-lg" style={{ aspectRatio: "9 / 16" }}>
-              <Skeleton className="w-full h-full rounded-lg" />
-            </div>
-          ) : videoId ? (
-            <ClickToLoadYouTubeShort
-              videoId={videoId}
+          <div className="max-w-2xl mx-auto rounded-lg overflow-hidden" style={{ aspectRatio: "16 / 9" }}>
+            <iframe
+              className="w-full h-full"
+              src="https://www.youtube.com/embed/jrHNQ9KxC1Q?rel=0"
               title="A Quick Message From Luke"
+              allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
             />
-          ) : null}
+          </div>
           <p className="mt-6 text-center text-muted-foreground max-w-2xl mx-auto italic">
             "If you've wanted to serve veterans without sacrificing your time, sanity, or clinical judgment—this is what we built ValorWell for."
           </p>
