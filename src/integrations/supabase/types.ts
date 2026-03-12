@@ -606,8 +606,15 @@ export type Database = {
           {
             foreignKeyName: "current_competitors_influencer_id_fkey"
             columns: ["influencer_id"]
-            isOneToOne: false
+            isOneToOne: true
             referencedRelation: "influencers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "current_competitors_influencer_id_fkey"
+            columns: ["influencer_id"]
+            isOneToOne: true
+            referencedRelation: "influencers_with_top_platform"
             referencedColumns: ["id"]
           },
         ]
@@ -724,6 +731,13 @@ export type Database = {
             columns: ["influencer_id"]
             isOneToOne: false
             referencedRelation: "influencers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "influencer_platforms_influencer_id_fkey"
+            columns: ["influencer_id"]
+            isOneToOne: false
+            referencedRelation: "influencers_with_top_platform"
             referencedColumns: ["id"]
           },
         ]
@@ -879,6 +893,7 @@ export type Database = {
           image: string | null
           image_url: string | null
           linkedin_desc: string | null
+          planned_date: string | null
           playlist_id: number | null
           post_length: Database["public"]["Enums"]["video_length"] | null
           post_title: string | null
@@ -915,6 +930,7 @@ export type Database = {
           image?: string | null
           image_url?: string | null
           linkedin_desc?: string | null
+          planned_date?: string | null
           playlist_id?: number | null
           post_length?: Database["public"]["Enums"]["video_length"] | null
           post_title?: string | null
@@ -951,6 +967,7 @@ export type Database = {
           image?: string | null
           image_url?: string | null
           linkedin_desc?: string | null
+          planned_date?: string | null
           playlist_id?: number | null
           post_length?: Database["public"]["Enums"]["video_length"] | null
           post_title?: string | null
@@ -1072,6 +1089,7 @@ export type Database = {
           ig_tiktok_desc: string | null
           image: string | null
           linkedin_desc: string | null
+          planned_date: string | null
           playlist_id: number | null
           post_length: Database["public"]["Enums"]["video_length"] | null
           post_title: string | null
@@ -1108,6 +1126,7 @@ export type Database = {
           ig_tiktok_desc?: string | null
           image?: string | null
           linkedin_desc?: string | null
+          planned_date?: string | null
           playlist_id?: number | null
           post_length?: Database["public"]["Enums"]["video_length"] | null
           post_title?: string | null
@@ -1144,6 +1163,7 @@ export type Database = {
           ig_tiktok_desc?: string | null
           image?: string | null
           linkedin_desc?: string | null
+          planned_date?: string | null
           playlist_id?: number | null
           post_length?: Database["public"]["Enums"]["video_length"] | null
           post_title?: string | null
@@ -1340,7 +1360,68 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      competitors_with_influencer: {
+        Row: {
+          accepted_rules: boolean | null
+          avatar_url: string | null
+          comp_link: string | null
+          created_at: string | null
+          division: string | null
+          email: string | null
+          first_name: string | null
+          id: string | null
+          influencer_id: string | null
+          last_name: string | null
+          pref_name: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "current_competitors_influencer_id_fkey"
+            columns: ["influencer_id"]
+            isOneToOne: true
+            referencedRelation: "influencers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "current_competitors_influencer_id_fkey"
+            columns: ["influencer_id"]
+            isOneToOne: true
+            referencedRelation: "influencers_with_top_platform"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      influencers_with_top_platform: {
+        Row: {
+          accepted_rules: boolean | null
+          additional_info: string | null
+          avatar_url: string | null
+          comfort_level: string | null
+          created_at: string | null
+          email: string | null
+          first_name: string | null
+          fundraising_goal: string | null
+          highest_follower_count: number | null
+          highest_follower_platform: string | null
+          id: string | null
+          is_competing: boolean | null
+          last_name: string | null
+          motivation: string | null
+          password: string | null
+          past_competitions: Json[] | null
+          personal_mission: string | null
+          pref_name: string | null
+          profile_complete: boolean | null
+          state: string | null
+          status: string | null
+          top_follower_count: number | null
+          top_platform: string | null
+          user_id: string | null
+          veteran_connection: string | null
+          willing_to_share: boolean | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       has_role: {
