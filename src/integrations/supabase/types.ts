@@ -294,6 +294,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "app_campaign_step_logs_enrollment_id_fkey"
+            columns: ["enrollment_id"]
+            isOneToOne: false
+            referencedRelation: "app_campaign_enrollments_with_entity"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "app_campaign_step_logs_step_id_fkey"
             columns: ["step_id"]
             isOneToOne: false
@@ -309,7 +316,7 @@ export type Database = {
           campaign_id: string
           channel: string
           created_at: string
-          delay_days: number
+          delay_hours: number
           id: string
           signature_id: string | null
           step_order: number
@@ -322,7 +329,7 @@ export type Database = {
           campaign_id: string
           channel?: string
           created_at?: string
-          delay_days?: number
+          delay_hours?: number
           id?: string
           signature_id?: string | null
           step_order?: number
@@ -335,7 +342,7 @@ export type Database = {
           campaign_id?: string
           channel?: string
           created_at?: string
-          delay_days?: number
+          delay_hours?: number
           id?: string
           signature_id?: string | null
           step_order?: number
@@ -345,6 +352,44 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "app_campaign_steps_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "app_campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      app_campaign_triggers: {
+        Row: {
+          campaign_id: string
+          created_at: string
+          entity_type: string
+          id: string
+          is_active: boolean
+          trigger_status: string
+          updated_at: string
+        }
+        Insert: {
+          campaign_id: string
+          created_at?: string
+          entity_type: string
+          id?: string
+          is_active?: boolean
+          trigger_status: string
+          updated_at?: string
+        }
+        Update: {
+          campaign_id?: string
+          created_at?: string
+          entity_type?: string
+          id?: string
+          is_active?: boolean
+          trigger_status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "app_campaign_triggers_campaign_id_fkey"
             columns: ["campaign_id"]
             isOneToOne: false
             referencedRelation: "app_campaigns"
@@ -893,6 +938,7 @@ export type Database = {
           image: string | null
           image_url: string | null
           linkedin_desc: string | null
+          parent_content_id: string | null
           planned_date: string | null
           playlist_id: number | null
           post_length: Database["public"]["Enums"]["video_length"] | null
@@ -930,6 +976,7 @@ export type Database = {
           image?: string | null
           image_url?: string | null
           linkedin_desc?: string | null
+          parent_content_id?: string | null
           planned_date?: string | null
           playlist_id?: number | null
           post_length?: Database["public"]["Enums"]["video_length"] | null
@@ -967,6 +1014,7 @@ export type Database = {
           image?: string | null
           image_url?: string | null
           linkedin_desc?: string | null
+          parent_content_id?: string | null
           planned_date?: string | null
           playlist_id?: number | null
           post_length?: Database["public"]["Enums"]["video_length"] | null
@@ -1089,6 +1137,7 @@ export type Database = {
           ig_tiktok_desc: string | null
           image: string | null
           linkedin_desc: string | null
+          parent_content_id: string | null
           planned_date: string | null
           playlist_id: number | null
           post_length: Database["public"]["Enums"]["video_length"] | null
@@ -1126,6 +1175,7 @@ export type Database = {
           ig_tiktok_desc?: string | null
           image?: string | null
           linkedin_desc?: string | null
+          parent_content_id?: string | null
           planned_date?: string | null
           playlist_id?: number | null
           post_length?: Database["public"]["Enums"]["video_length"] | null
@@ -1163,6 +1213,7 @@ export type Database = {
           ig_tiktok_desc?: string | null
           image?: string | null
           linkedin_desc?: string | null
+          parent_content_id?: string | null
           planned_date?: string | null
           playlist_id?: number | null
           post_length?: Database["public"]["Enums"]["video_length"] | null
@@ -1193,6 +1244,13 @@ export type Database = {
           youtube_video_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "social_content_parent_content_id_fkey"
+            columns: ["parent_content_id"]
+            isOneToOne: false
+            referencedRelation: "social_content"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "social_content_playlist_id_fkey"
             columns: ["playlist_id"]
@@ -1360,6 +1418,30 @@ export type Database = {
       }
     }
     Views: {
+      app_campaign_enrollments_with_entity: {
+        Row: {
+          campaign_id: string | null
+          cancelled_at: string | null
+          completed_at: string | null
+          current_step_order: number | null
+          enrolled_at: string | null
+          entity_email: string | null
+          entity_id: string | null
+          entity_name: string | null
+          entity_type: string | null
+          id: string | null
+          status: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "app_campaign_enrollments_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "app_campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       competitors_with_influencer: {
         Row: {
           accepted_rules: boolean | null
