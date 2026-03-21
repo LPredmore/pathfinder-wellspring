@@ -1,8 +1,9 @@
 import { useEffect } from "react";
+import { trackPageAndRedirect } from "@/lib/tracking";
 
 export default function Apps() {
   useEffect(() => {
-    window.location.replace("https://bestselfs.com");
+    trackPageAndRedirect("https://bestselfs.com");
   }, []);
 
   return (
