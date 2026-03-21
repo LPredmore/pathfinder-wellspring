@@ -33,3 +33,40 @@ export function trackCreatorApplicationConversion() {
     event_callback: () => {},
   });
 }
+
+/**
+ * Sends a page_view beacon to Google Ads, then redirects.
+ * Uses event_callback so the redirect only fires after the beacon is sent.
+ * Hard 2-second timeout ensures users are never stranded.
+ */
+export function trackPageAndRedirect(destinationUrl: string) {
+  let didRedirect = false;
+
+  const redirect = () => {
+    if (didRedirect) return;
+    didRedirect = true;
+    window.location.replace(destinationUrl);
+  };
+
+  const timeout = window.setTimeout(redirect, 2000);
+
+  if (typeof window === "undefined") {
+    redirect();
+    return;
+  }
+
+  const gtagFn = window.gtag;
+  if (typeof gtagFn !== "function") {
+    redirect();
+    return;
+  }
+
+  gtagFn("event", "page_view", {
+    send_to: "AW-11339741081",
+    transport_type: "beacon",
+    event_callback: () => {
+      window.clearTimeout(timeout);
+      redirect();
+    },
+  });
+}
