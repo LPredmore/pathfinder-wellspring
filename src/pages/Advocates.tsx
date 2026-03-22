@@ -3,19 +3,18 @@ import { SEO, BreadcrumbSchema } from "@/components/SEO";
 import { ContentSection } from "@/components/sections";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Heart, ExternalLink } from "lucide-react";
-import { toast } from "sonner";
-import { CreatorApplicationForm } from "@/components/forms/CreatorApplicationForm";
+import { Heart, ExternalLink, Users, Award, TrendingUp } from "lucide-react";
 import { trackDonateConversion } from "@/lib/tracking";
 import flagSkyBackground from "@/assets/flag-sky-background-vertical.png";
 import vibetalesLogo from "@/assets/vibetales-logo.png";
+import { Link } from "react-router-dom";
 
 export default function Advocates() {
   return (
     <Layout>
       <SEO
-        title="Wall of Advocates"
-        description="Meet the creators and community advocates funding therapy sessions for veterans. $75 sponsors 1 session. Support a creator or sponsor a session today."
+        title="Wall of Advocates — Corporate Sponsors for Veteran Mental Health"
+        description="Meet the organizations powering veteran mental health care through ongoing sponsorship. Join mission-driven companies publicly committed to funding therapy for veterans and their families."
         canonical="/advocates"
       />
       <BreadcrumbSchema
@@ -38,19 +37,22 @@ export default function Advocates() {
               Wall of Advocates
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-6">
-              Coming soon — a public wall honoring the people funding real therapy sessions for veterans.
+              A public honor wall recognizing the organizations and individuals who make an ongoing commitment to funding mental health care for veterans and their families.
             </p>
             <div className="inline-block rounded-lg bg-primary text-primary-foreground px-6 py-3 text-lg font-semibold mb-6">
-              $75 sponsors 1 therapy session
+              $75 funds 1 therapy session
             </div>
             <p className="text-muted-foreground max-w-xl mx-auto text-sm mb-8">
-              If you want to help right now, you can sponsor a session or support a creator in the current challenge.
+              The companies featured here don't just write a check — they build veteran mental health into the fabric of their business.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Button asChild size="lg" onClick={() => trackDonateConversion()}>
                 <a href="https://valorwell.org/donate" target="_blank" rel="noopener noreferrer">
                   Sponsor a Session
                 </a>
+              </Button>
+              <Button asChild size="lg" variant="outline">
+                <Link to="/contact">Become a Sponsor</Link>
               </Button>
             </div>
           </div>
@@ -105,16 +107,59 @@ export default function Advocates() {
           </div>
         </section>
 
+        {/* Why Sponsor */}
+        <section className="relative z-10 section-padding">
+          <div className="container-wide">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground text-center mb-4">
+              Why Companies Join the Wall
+            </h2>
+            <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-10">
+              Being featured here isn't about the size of a donation — it's about showing your customers, employees, and community that your organization stands with those who served.
+            </p>
+            <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+              <div className="text-center space-y-3">
+                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
+                  <Award className="h-6 w-6 text-primary" />
+                </div>
+                <h3 className="font-semibold text-foreground">Public Recognition</h3>
+                <p className="text-sm text-muted-foreground">
+                  Your brand is permanently featured alongside other mission-driven organizations making a real difference.
+                </p>
+              </div>
+              <div className="text-center space-y-3">
+                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
+                  <Users className="h-6 w-6 text-primary" />
+                </div>
+                <h3 className="font-semibold text-foreground">Values-Driven Branding</h3>
+                <p className="text-sm text-muted-foreground">
+                  Show your customers and employees what your company truly stands for — not just in words, but in action.
+                </p>
+              </div>
+              <div className="text-center space-y-3">
+                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
+                  <TrendingUp className="h-6 w-6 text-primary" />
+                </div>
+                <h3 className="font-semibold text-foreground">Sustained Impact</h3>
+                <p className="text-sm text-muted-foreground">
+                  Ongoing partnerships fund consistent care — not one session, but a lasting pipeline of support for veterans.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* How to get featured */}
-        <ContentSection title="How to Get Featured on the Wall" variant="alt" className="relative z-10">
+        <ContentSection title="How to Get Featured" variant="alt" className="relative z-10">
           <p>
-            Advocates are featured after funding 25 sessions ($1,875) during the Creator Challenge.
+            We welcome sponsors of all sizes — from startups dedicating a share of revenue, to established companies funding recurring therapy sessions, to organizations providing in-kind support.
           </p>
           <p className="mt-4">
-            If you're a creator who wants to compete and fund sessions with your audience, apply to join the next round.
+            What matters isn't the dollar amount. It's the commitment to showing up for veterans consistently. If your organization is ready to make veteran mental health part of its mission, we'd love to talk.
           </p>
           <div className="mt-6 not-prose">
-            <CreatorApplicationForm buttonSize="lg" />
+            <Button asChild size="lg">
+              <Link to="/contact">Get in Touch</Link>
+            </Button>
           </div>
         </ContentSection>
 
@@ -122,7 +167,7 @@ export default function Advocates() {
         <section className="relative z-10 section-padding">
           <div className="container-wide text-center">
             <p className="text-lg italic text-muted-foreground max-w-2xl mx-auto">
-              This page exists for one reason: to honor the people who turn support into real treatment sessions.
+              This wall exists to honor the organizations that don't just support veterans once — they commit to standing beside them for the long haul.
             </p>
           </div>
         </section>
