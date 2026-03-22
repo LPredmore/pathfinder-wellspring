@@ -66,7 +66,7 @@ const App = () => (
               <Route path="/beyondtheyellow/apply" element={<CreatorApply />} />
               <Route path="/influencer" element={<InfluencerPortal />} />
               <Route path="/admin" element={<AdminDashboard />} />
-              <Route path="/apps" element={<Apps />} />
+              <Route path="/vibetales" element={<VibeTales />} />
               <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
