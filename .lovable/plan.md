@@ -1,40 +1,22 @@
 
 
-## Plan: Fix `/apps` Conversion Tracking Before Redirect
+## Plan: Rewrite Advocates Page as Corporate Sponsor Attraction
 
-### The core problem
+### What changes
 
-The `gtag.js` script is loaded with `async` in `index.html`. When `/apps` mounts, React's `useEffect` fires `window.location.replace()` almost instantly. The browser navigates away before `gtag.js` has finished loading and sending the pageview beacon. Google Ads never sees the visit.
+**Hero section** — Remove "Coming soon," remove challenge references. Reframe as a public honor wall for organizations committed to ongoing support for veteran mental health. Keep the $75/session stat but frame it around sustained impact, not one-off donations.
 
-### The right approach: use gtag's `event_callback`
+**"How to Get Featured" section** — Replace challenge/creator language entirely. Reframe around ongoing commitment: companies that dedicate a portion of revenue, sponsor recurring sessions, or provide in-kind support. Emphasize that it's about consistency, not dollar amount. Replace the `CreatorApplicationForm` with a "Become a Sponsor" contact button (link to `/contact` or email). Remove the `CreatorApplicationForm` import.
 
-The gtag API provides an `event_callback` parameter specifically for this use case -- it fires after the tracking beacon has been sent. We should:
+**Hero subtext** — Add FOMO-driven language: public recognition, brand visibility alongside other mission-driven organizations, demonstrating corporate values to customers and employees.
 
-1. Send an explicit `page_view` event to the Google Ads account (`AW-11339741081`) with an `event_callback` that triggers the redirect.
-2. Set a hard timeout (2 seconds) as a fallback so users are never stranded if gtag fails to load.
+**Sponsors section** — Keep VibeTales card as-is (it's already good). No changes needed.
 
-This is the same pattern Google officially recommends for "click tracking before navigation" and is already partially used in your `tracking.ts` file (the `event_callback` and `transport_type: "beacon"` pattern in `trackDonateConversion`).
+**Final line** — Update to reinforce the ongoing commitment theme rather than just "support into sessions."
 
-### Why not other approaches
+**SEO meta** — Update description to reflect corporate sponsorship focus, remove creator/challenge language.
 
-- **Simple `setTimeout` delay**: Fragile. Too short and tracking still misses; too long and users wait needlessly. It doesn't actually confirm the beacon fired.
-- **`navigator.sendBeacon`**: Would require manually constructing the Measurement Protocol payload, bypassing gtag entirely. Over-engineered and brittle.
-- **Embedding bestselfs.com in an iframe**: Cross-origin issues, breaks the destination site's UX, and Google Ads would flag it.
+### Files changed
 
-### Changes
-
-**1. Add `trackPageAndRedirect` to `src/lib/tracking.ts`**
-
-A new utility function that:
-- Calls `gtag('event', 'page_view', { send_to: 'AW-11339741081', event_callback: () => redirect() })`
-- Sets a 2-second `setTimeout` fallback that redirects anyway if gtag never loads or the callback never fires
-- Uses a `didRedirect` guard (same pattern as `/donate`) to prevent double navigation
-
-**2. Update `src/pages/Apps.tsx`**
-
-Replace the immediate `window.location.replace()` with a call to `trackPageAndRedirect('https://bestselfs.com')`. The component stays minimal -- just the "Redirecting..." message while the beacon fires.
-
-### Why this is the right call
-
-It guarantees the Google Ads pageview beacon completes on `valorwell.org` before leaving the domain. It uses Google's own callback mechanism rather than guessing timing. It follows the exact pattern your codebase already uses for conversion events. And the 2-second fallback ensures no user is ever stuck, even if an ad blocker kills gtag entirely.
+**`src/pages/Advocates.tsx`** — Full rewrite of copy in hero, "How to Get Featured" section, and closing. Remove `CreatorApplicationForm` import. Add a simple CTA button linking to `/contact` in the featured section.
 
