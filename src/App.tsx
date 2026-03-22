@@ -29,7 +29,7 @@ import Videos from "./pages/Videos";
 import InfluencerPortal from "./pages/InfluencerPortal";
 import AdminDashboard from "./pages/AdminDashboard";
 import CreatorApply from "./pages/CreatorApply";
-import Apps from "./pages/Apps";
+import VibeTales from "./pages/VibeTales";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -66,7 +66,7 @@ const App = () => (
               <Route path="/beyondtheyellow/apply" element={<CreatorApply />} />
               <Route path="/influencer" element={<InfluencerPortal />} />
               <Route path="/admin" element={<AdminDashboard />} />
-              <Route path="/apps" element={<Apps />} />
+              <Route path="/vibetales" element={<VibeTales />} />
               <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
