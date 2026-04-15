@@ -25,7 +25,7 @@ import Competitions from "./pages/Competitions";
 import Challenge from "./pages/Challenge";
 import OperationClaimsSuccess from "./pages/OperationClaimsSuccess";
 import Advocates from "./pages/Advocates";
-import Videos from "./pages/Videos";
+
 import InfluencerPortal from "./pages/InfluencerPortal";
 import AdminDashboard from "./pages/AdminDashboard";
 import CreatorApply from "./pages/CreatorApply";
@@ -62,7 +62,7 @@ const App = () => (
               <Route path="/challenge" element={<Challenge />} />
               <Route path="/operation-claims-success" element={<OperationClaimsSuccess />} />
               <Route path="/advocates" element={<Advocates />} />
-              <Route path="/videos" element={<Videos />} />
+              
               <Route path="/beyondtheyellow/apply" element={<CreatorApply />} />
               <Route path="/influencer" element={<InfluencerPortal />} />
               <Route path="/admin" element={<AdminDashboard />} />
