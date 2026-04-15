@@ -1,12 +1,9 @@
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { Layout } from "@/components/layout";
 import { CTABlock, StepsSection, FAQSection } from "@/components/sections";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { Skeleton } from "@/components/ui/skeleton";
-import { ClickToLoadYouTubeShort } from "@/components/ClickToLoadYouTubeShort";
 import {
   DollarSign,
   FileX,
@@ -21,20 +18,8 @@ import {
 import flagSkyBackground from "@/assets/flag-sky-background-vertical.png";
 import { TherapistApplicationForm } from "@/components/forms/TherapistApplicationForm";
 import { SEO, JobPostingSchema, BreadcrumbSchema } from "@/components/SEO";
-import { supabase } from "@/integrations/supabase/client";
 
-function extractYouTubeId(url: string): string | null {
-  // /shorts/ID
-  let match = url.match(/\/shorts\/([a-zA-Z0-9_-]+)/);
-  if (match) return match[1];
-  // watch?v=ID
-  match = url.match(/[?&]v=([a-zA-Z0-9_-]+)/);
-  if (match) return match[1];
-  // youtu.be/ID
-  match = url.match(/youtu\.be\/([a-zA-Z0-9_-]+)/);
-  if (match) return match[1];
-  return null;
-}
+
 
 const clinicianBenefits = [
   {
@@ -102,20 +87,6 @@ const whoThisIsFor = [
 const Therapists = () => {
   const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
 
-  const { data: videoUrl, isLoading: isVideoLoading } = useQuery({
-    queryKey: ["site_config", "therapists_video_url"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("site_config" as any)
-        .select("value")
-        .eq("key", "therapists_video_url")
-        .single();
-      if (error) throw error;
-      return (data as any)?.value as string;
-    },
-  });
-
-  const videoId = videoUrl ? extractYouTubeId(videoUrl) : null;
 
   return (
     <Layout>
@@ -150,13 +121,6 @@ const Therapists = () => {
               <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" onClick={() => setIsApplyModalOpen(true)}>
                   Apply to Work With ValorWell
-                </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  onClick={() => document.getElementById("video-section")?.scrollIntoView({ behavior: "smooth" })}
-                >
-                  Watch: Working as a Clinician at ValorWell
                 </Button>
               </div>
             </div>
@@ -242,28 +206,6 @@ const Therapists = () => {
         </section>
       </div>
 
-      {/* Video Section */}
-      <section id="video-section" className="section-padding bg-muted">
-        <div className="container-wide">
-          <div className="text-center mb-8">
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground">
-              A Quick Message From Luke
-            </h2>
-          </div>
-          <div className="max-w-2xl mx-auto rounded-lg overflow-hidden" style={{ aspectRatio: "16 / 9" }}>
-            <iframe
-              className="w-full h-full"
-              src="https://www.youtube.com/embed/jrHNQ9KxC1Q?rel=0"
-              title="A Quick Message From Luke"
-              allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          </div>
-          <p className="mt-6 text-center text-muted-foreground max-w-2xl mx-auto italic">
-            "If you've wanted to serve veterans without sacrificing your time, sanity, or clinical judgment—this is what we built ValorWell for."
-          </p>
-        </div>
-      </section>
 
       {/* Who This Is For */}
       <section className="section-padding">
