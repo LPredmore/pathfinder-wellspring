@@ -5,20 +5,10 @@ import { Heart } from "lucide-react";
 import heroFamily from "@/assets/hero-family.jpg";
 import womenBanner from "@/assets/valorwell_women_banner_3x1.png";
 import flagSkyBackground from "@/assets/flag-sky-background.png";
-import iconTherapy from "@/assets/icon-therapy.png";
 
 import iconVeteranFocused from "@/assets/icon-veteran-focused.png";
 import iconChampva from "@/assets/icon-champva.png";
 import iconConvenientAccess from "@/assets/icon-convenient-access.png";
-
-const services = [
-  {
-    title: "Therapy",
-    description: "Professional, licensed counseling covered by CHAMPVA.",
-    icon: iconTherapy,
-    href: "/therapy",
-  },
-];
 
 const whyValorwell = [
   {
@@ -116,35 +106,9 @@ const Index = () => {
         >
           {/* Subdued overlay to fade the background */}
           <div className="absolute inset-0 bg-white/70" />
-          {/* Services Section */}
-          <section className="relative z-10 -mt-40">
-            <div className="px-6 md:px-12">
-              <div className="bg-white rounded-2xl shadow-xl border border-border/50 py-6 px-8">
-                <div className="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-border/30">
-                  {services.map((service) => (
-                    <Link
-                      key={service.title}
-                      to={service.href}
-                      className="flex flex-col items-center text-center py-4 md:py-2 px-4 group hover:opacity-80 transition-opacity"
-                    >
-                      <div className="flex items-center gap-3 mb-2">
-                        <img 
-                          src={service.icon} 
-                          alt={`${service.title} icon`}
-                          className="h-10 w-auto"
-                        />
-                        <h3 className="text-xl font-bold text-navy">{service.title}</h3>
-                      </div>
-                      <p className="text-sm text-muted-foreground">{service.description}</p>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </section>
 
           {/* Why ValorWell Section */}
-          <section className="py-16 relative overflow-hidden">
+          <section className="pt-16 pb-16 relative overflow-hidden">
             <div className="px-6 md:px-12 relative z-10">
               <SectionTitle subtitle="Experienced care from professionals who understand military life.">
                 Why ValorWell?
