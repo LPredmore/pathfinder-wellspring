@@ -92,7 +92,7 @@ const About = () => {
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">Our Story</h2>
 
             <div className="space-y-4 text-muted-foreground text-lg leading-relaxed">
-              <p>ValorWell was born from a deeply personal experience. Founders Lucas and Nichole Predmore faced their own struggles in securing affordable mental health support for their family. Confronted with the challenges of finding therapists who accepted CHAMPVA and dealing with lengthy reimbursement delays, they recognized a critical gap in care for veterans and their loved ones. This experience ignited a passion to create a solution that would simplify access to mental health services for the military community. Thus, ValorWell was formed – a beacon of hope in a landscape where mental health support often falls short.</p>
+              <p>ValorWell was born from a deeply personal experience. Our founders — a military family — faced their own struggles in securing affordable mental health support for their loved ones. Confronted with the challenges of finding therapists who accepted CHAMPVA and dealing with lengthy reimbursement delays, they recognized a critical gap in care for veterans and their families. That experience ignited a passion to create a solution that would simplify access to mental health services for the military community. ValorWell was formed to be a beacon of hope in a landscape where mental health support often falls short.</p>
               <p>
                 We built ValorWell to reduce those barriers and make it easier to start. That means offering licensed
                 therapy and making sure veterans can access the care they need without unnecessary delays.
