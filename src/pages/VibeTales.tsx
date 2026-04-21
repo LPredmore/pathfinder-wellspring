@@ -59,23 +59,29 @@ export default function VibeTales() {
               needed didn't exist.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-4">
-              <Button asChild size="lg" className="bg-[hsl(270,65%,55%)] hover:bg-[hsl(270,65%,48%)] text-white">
-                <a href="https://vibetales.bestselfs.com/" target="_blank" rel="noopener noreferrer">
-                  <Monitor className="mr-2 h-5 w-5" />
-                  Try on Web
-                </a>
+              <Button
+                size="lg"
+                className="bg-[hsl(270,65%,55%)] hover:bg-[hsl(270,65%,48%)] text-white"
+                onClick={() => trackVibeTalesOutboundClick("https://vibetales.bestselfs.com/")}
+              >
+                <Monitor className="mr-2 h-5 w-5" />
+                Try on Web
               </Button>
-              <Button asChild size="lg" variant="outline">
-                <a href="https://apps.apple.com/us/app/vibetales/id6751900169" target="_blank" rel="noopener noreferrer">
-                  <Smartphone className="mr-2 h-5 w-5" />
-                  iOS App
-                </a>
+              <Button
+                size="lg"
+                variant="outline"
+                onClick={() => trackVibeTalesOutboundClick("https://apps.apple.com/us/app/vibetales/id6751900169")}
+              >
+                <Smartphone className="mr-2 h-5 w-5" />
+                iOS App
               </Button>
-              <Button asChild size="lg" variant="outline">
-                <a href="https://play.google.com/store/apps/details?id=com.VibeTales" target="_blank" rel="noopener noreferrer">
-                  <Smartphone className="mr-2 h-5 w-5" />
-                  Android App
-                </a>
+              <Button
+                size="lg"
+                variant="outline"
+                onClick={() => trackVibeTalesOutboundClick("https://play.google.com/store/apps/details?id=com.VibeTales")}
+              >
+                <Smartphone className="mr-2 h-5 w-5" />
+                Android App
               </Button>
             </div>
           </div>
