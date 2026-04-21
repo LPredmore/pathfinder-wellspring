@@ -566,6 +566,7 @@ export type Database = {
           planned_date: string | null
           playlist_id: number | null
           topic: string | null
+          user_id: string
         }
         Insert: {
           avatar?: string | null
@@ -576,6 +577,7 @@ export type Database = {
           planned_date?: string | null
           playlist_id?: number | null
           topic?: string | null
+          user_id: string
         }
         Update: {
           avatar?: string | null
@@ -586,6 +588,25 @@ export type Database = {
           planned_date?: string | null
           playlist_id?: number | null
           topic?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      content_instruction_defaults: {
+        Row: {
+          instruction: string
+          scope: string
+          updated_at: string
+        }
+        Insert: {
+          instruction: string
+          scope: string
+          updated_at?: string
+        }
+        Update: {
+          instruction?: string
+          scope?: string
+          updated_at?: string
         }
         Relationships: []
       }
@@ -1056,22 +1077,28 @@ export type Database = {
       profiles: {
         Row: {
           created_at: string
+          display_name: string | null
           email: string
           id: string
+          onboarding_completed: boolean
           password: string | null
           updated_at: string
         }
         Insert: {
           created_at?: string
+          display_name?: string | null
           email: string
           id: string
+          onboarding_completed?: boolean
           password?: string | null
           updated_at?: string
         }
         Update: {
           created_at?: string
+          display_name?: string | null
           email?: string
           id?: string
+          onboarding_completed?: boolean
           password?: string | null
           updated_at?: string
         }
@@ -1344,6 +1371,30 @@ export type Database = {
           status?: string
           telehealth_experience?: boolean
           weekly_hours?: string
+        }
+        Relationships: []
+      }
+      user_content_instructions: {
+        Row: {
+          instruction: string
+          is_active: boolean
+          scope: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          instruction: string
+          is_active?: boolean
+          scope: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          instruction?: string
+          is_active?: boolean
+          scope?: string
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
