@@ -17,6 +17,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import vibetalesLogo from "@/assets/vibetales-logo.png";
+import { trackVibeTalesOutboundClick } from "@/lib/tracking";
 
 export default function VibeTales() {
   useEffect(() => {
