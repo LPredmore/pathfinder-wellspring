@@ -219,14 +219,12 @@ export default function VibeTales() {
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Button
-              asChild
               size="lg"
               className="bg-white text-[hsl(270,65%,45%)] hover:bg-white/90 font-semibold"
+              onClick={() => trackVibeTalesOutboundClick("https://vibetales.bestselfs.com/")}
             >
-              <a href="https://vibetales.bestselfs.com/" target="_blank" rel="noopener noreferrer">
-                Get Started Free
-                <ExternalLink className="ml-2 h-4 w-4" />
-              </a>
+              Get Started Free
+              <ExternalLink className="ml-2 h-4 w-4" />
             </Button>
           </div>
         </div>
