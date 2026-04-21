@@ -1,22 +1,34 @@
 
 
-## Plan: Rewrite Advocates Page as Corporate Sponsor Attraction
+## Plan: Track Outbound Clicks on /vibetales
 
-### What changes
+### What needs to happen
 
-**Hero section** — Remove "Coming soon," remove challenge references. Reframe as a public honor wall for organizations committed to ongoing support for veteran mental health. Keep the $75/session stat but frame it around sustained impact, not one-off donations.
+Google Ads gave you a conversion snippet that fires when a user clicks an outbound link. We need to wire this into the three external buttons on `/vibetales`:
 
-**"How to Get Featured" section** — Replace challenge/creator language entirely. Reframe around ongoing commitment: companies that dedicate a portion of revenue, sponsor recurring sessions, or provide in-kind support. Emphasize that it's about consistency, not dollar amount. Replace the `CreatorApplicationForm` with a "Become a Sponsor" contact button (link to `/contact` or email). Remove the `CreatorApplicationForm` import.
+1. **Try on Web** → `https://vibetales.bestselfs.com/`
+2. **iOS App** → Apple App Store
+3. **Android App** → Google Play
+4. **Get Started Free** (bottom CTA) → `https://vibetales.bestselfs.com/`
 
-**Hero subtext** — Add FOMO-driven language: public recognition, brand visibility alongside other mission-driven organizations, demonstrating corporate values to customers and employees.
+(I'll include the bottom CTA too since it's the same kind of outbound conversion — let me know if you want it excluded.)
 
-**Sponsors section** — Keep VibeTales card as-is (it's already good). No changes needed.
+### How we'll build it
 
-**Final line** — Update to reinforce the ongoing commitment theme rather than just "support into sessions."
+**Add a new tracking function to `src/lib/tracking.ts`** — `trackVibeTalesOutboundClick(url)`. It mirrors the exact pattern from Google's snippet and matches the existing `trackPageAndRedirect` helper already in the file:
 
-**SEO meta** — Update description to reflect corporate sponsorship focus, remove creator/challenge language.
+- Fires `gtag('event', 'conversion', { send_to: 'AW-16798905432/YutLCKDmnqAcENjoq8o-', value: 1.0, currency: 'USD', event_callback })`
+- Uses a 2-second hard timeout fallback (same safety pattern already in the codebase) so users are never stranded if gtag fails or is blocked
+- Navigates to the destination URL via `window.location.href = url` once the beacon fires
+
+**Update `src/pages/VibeTales.tsx`** — Convert the four outbound `<a>` buttons from plain anchor tags into buttons with `onClick` handlers that call the new tracking function. We'll keep them visually identical, keep `target="_blank"` behavior by opening the URL in a new window from the callback (using `window.open` instead of `window.location` for these, since they're external apps you probably want opening in a new tab — confirming that matches current behavior).
 
 ### Files changed
 
-**`src/pages/Advocates.tsx`** — Full rewrite of copy in hero, "How to Get Featured" section, and closing. Remove `CreatorApplicationForm` import. Add a simple CTA button linking to `/contact` in the featured section.
+- **`src/lib/tracking.ts`** — Add `trackVibeTalesOutboundClick` function
+- **`src/pages/VibeTales.tsx`** — Wire the four outbound buttons to call it
+
+### Note on behavior
+
+The current buttons open in a new tab (`target="_blank"`). Google's snippet uses `window.location = url` which navigates the current tab. We'll preserve your current new-tab behavior by calling `window.open(url, '_blank')` inside the `event_callback` instead, so the conversion still fires reliably and the user experience doesn't change.
 
