@@ -35,6 +35,43 @@ export function trackCreatorApplicationConversion() {
 }
 
 /**
+ * Fires the Google Ads conversion event for VibeTales outbound clicks,
+ * then opens the destination URL in a new tab.
+ * Uses event_callback so the new tab opens only after the beacon is sent.
+ * Hard 2-second timeout ensures users are never stranded.
+ */
+export function trackVibeTalesOutboundClick(url: string) {
+  let didOpen = false;
+
+  const openUrl = () => {
+    if (didOpen) return;
+    didOpen = true;
+    window.open(url, "_blank", "noopener,noreferrer");
+  };
+
+  if (typeof window === "undefined") return;
+
+  const timeout = window.setTimeout(openUrl, 2000);
+
+  const gtagFn = window.gtag;
+  if (typeof gtagFn !== "function") {
+    window.clearTimeout(timeout);
+    openUrl();
+    return;
+  }
+
+  gtagFn("event", "conversion", {
+    send_to: "AW-16798905432/YutLCKDmnqAcENjoq8o-",
+    value: 1.0,
+    currency: "USD",
+    event_callback: () => {
+      window.clearTimeout(timeout);
+      openUrl();
+    },
+  });
+}
+
+/**
  * Sends a page_view beacon to Google Ads, then redirects.
  * Uses event_callback so the redirect only fires after the beacon is sent.
  * Hard 2-second timeout ensures users are never stranded.
