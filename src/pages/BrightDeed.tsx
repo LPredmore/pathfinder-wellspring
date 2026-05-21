@@ -78,7 +78,7 @@ export default function BrightDeed() {
     <Layout>
       <SEO
         title="BrightDeed — Daily Kindness App for Families | ValorWell"
-        description="BrightDeed gives families simple daily kindness prompts that help kids practice gratitude, generosity, and thoughtful action. 100% of revenue funds veteran mental health care through ValorWell."
+        description="BrightDeed gives families simple daily kindness prompts that help kids practice gratitude, generosity, and thoughtful action. Free from ValorWell."
       />
 
       {/* Hero */}
