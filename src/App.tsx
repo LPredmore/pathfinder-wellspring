@@ -73,7 +73,7 @@ const App = () => (
               <Route path="/vibetales" element={<VibeTales />} />
               <Route path="/ninjado" element={<NinjaDo />} />
               <Route path="/skillsquest" element={<SkillsQuest />} />
-              <Route path="/SkillsQuest" element={<SkillsQuest />} />
+              <Route path="/SkillsQuest" element={<Navigate to="/skillsquest" replace />} />
               <Route path="/corefeel" element={<CoreFeel />} />
               <Route path="/brightdeed" element={<BrightDeed />} />
               <Route path="*" element={<NotFound />} />
