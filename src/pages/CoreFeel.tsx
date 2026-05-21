@@ -74,7 +74,7 @@ export default function CoreFeel() {
     <Layout>
       <SEO
         title="CoreFeel — Emotional Awareness App for Kids & Teens | ValorWell"
-        description="CoreFeel helps kids and teens understand emotions, worry thoughts, needs, and healthier responses. 100% of revenue funds veteran mental health care through ValorWell."
+        description="CoreFeel helps kids and teens understand emotions, worry thoughts, needs, and healthier responses. Free from ValorWell."
       />
 
       {/* Hero */}
