@@ -1,40 +1,43 @@
-## Plan: Port `/ninjado` and `/skillsquest` from bestselfs-family-hub
+## Plan: Adjust CoreFeel positioning + add footer link
 
-### Goal
-Create two new pages on this site mirroring the bestselfs-family-hub designs for Ninja-Do and SkillsQuest, adapted to ValorWell's `Layout` + `SEO` and with Google Ads outbound tracking (matching what `/vibetales` already does).
+### 1. Add CoreFeel to footer Resources
+In `src/components/layout/Footer.tsx`, append to the `resources` array:
+```ts
+{ name: "CoreFeel", href: "/corefeel" },
+```
+No links added for NinjaDo, SkillsQuest, BrightDeed, or VibeTales — their pages remain direct-URL only.
 
-### Files to create
+### 2. Reframe CoreFeel page copy (`src/pages/CoreFeel.tsx`)
+Shift the messaging from "for kids" to "for everyone — kids and adults," with the angle: building mental habits is a practice; most adults were never taught to work *with* their Worry Voice rather than suppress it.
 
-1. **`src/assets/ninjado-logo.png`** — copied from bestselfs project.
-2. **`src/assets/skillsquest-logo.png`** — copied from bestselfs project.
-3. **`src/pages/NinjaDo.tsx`** — port of bestselfs `NinjaDo.tsx`.
-4. **`src/pages/SkillsQuest.tsx`** — port of bestselfs `SkillsQuest.tsx`.
+Changes:
 
-### Files to edit
+- **SEO title/description**: 
+  - Title: `CoreFeel — Understand Your Mind, Emotions & Worry Voice | ValorWell`
+  - Description: `CoreFeel is a guided practice for understanding how your mind, feelings, and needs connect — built for kids, teens, and adults. Free from ValorWell.`
 
-- **`src/App.tsx`** — add `/ninjado` and `/skillsquest` routes.
-- **`src/lib/tracking.ts`** — generalize the existing `trackVibeTalesOutboundClick` (or add `trackNinjaDoOutboundClick` / `trackSkillsQuestOutboundClick`) so each app fires its own Google Ads conversion. I'll inspect the current tracking helper and pick the cleanest extension; default approach is to keep one helper that takes the destination URL and a conversion label, with per-app constants.
+- **Hero**:
+  - H1: `Build a healthier relationship with your mind.`
+  - Subhead: rewrite to emphasize that thoughts → feelings → needs → responses is a cycle everyone (kids and adults) benefits from understanding; CoreFeel is the guided practice for it.
 
-### Small adaptations (same pattern as /vibetales)
+- **"The problem" section**: replace the kids-only framing with copy explaining that most people — including adults — were taught to *suppress or control* the Worry Voice rather than work alongside it. Practicing with the right tool builds the habit.
 
-For each ported page:
-- Wrap in ValorWell's `Layout` (instead of bestselfs `Header` / `Footer`).
-- Use ValorWell's `SEO` component; drop `softwareApplicationSchema` / `breadcrumbSchema` helpers (not present here) and keep simple `title` + `description`.
-- Replace every `<a target="_blank">` to `webUrl` / `iosUrl` / `androidUrl` with a `Button` whose `onClick` calls the tracking helper (preserves new-tab behavior via `window.open(url, '_blank')` inside `event_callback`).
-- Inline the small content arrays directly in the page file — no separate `*-content.ts` files.
-- Keep the bestselfs amber/emerald palettes inline (these are the app brand colors, not ValorWell chrome).
-- Add a slim ValorWell mission strip under each hero, matching the /vibetales pattern: *"100% of all [App] revenue funds mental health treatment for veterans through ValorWell."* — using `bg-[hsl(var(--patriot-red))] text-white`.
-- Add the same `gtag` `page_view` beacon `useEffect` used on `/vibetales` so each landing fires a Google Ads page-view.
+- **How it works**: keep the 5 steps; rephrase the descriptions in second person ("you / your") so it reads for any user, with a brief note that the same flow works when a parent walks through it with a child.
 
-### Asset copy
+- **"Not just a mood tracker"**: keep, but generalize wording away from "kids."
 
-Use `cross_project--copy_project_asset` to bring `ninjado-logo.png` and `skillsquest-logo.png` into `src/assets/`.
+- **Best for tags**: replace tween/teen-specific tags with universal ones, e.g.: `Worry thoughts`, `Emotional awareness`, `Building mental habits`, `Working with your Worry Voice`, `Big reactions`, `Social stress`, `Shame and embarrassment`, `Frustration tolerance`, `Reflection after conflict`, `Parent-child conversations`, `CBT-informed skill practice`.
 
-### Out of scope
+- **"Parent benefits" section**: rename to **"What CoreFeel gives you"** and rewrite the four cards to address any user (less guessing about your own reactions, better conversations with people in your life, more emotional vocabulary, more self-awareness over time). Add one short line noting it's also great to use with a child.
 
-- No changes to the header navigation — these are dedicated landing routes (same as `/vibetales`).
-- No content rewrite — the bestselfs copy stays.
+- **FAQ**: update questions/answers to cover both adults and kids:
+  - "Who is CoreFeel for?" → everyone; especially useful for anyone who was never taught to work with their inner Worry Voice.
+  - Keep the "Is it therapy?" and "What is a Worry Voice?" items.
+  - Replace the parent-specific Q with one about building a daily/weekly habit of reflection.
+  - Keep one Q about using it with a child.
 
-### Note on Google Ads conversion labels
+- **Final CTA**: H2 → `Practice understanding your mind — one moment at a time.` Keep the Open CoreFeel button + web app link.
 
-The existing `trackVibeTalesOutboundClick` uses a specific conversion label. I'll need to either (a) reuse the same `send_to` for the new apps, or (b) you provide separate conversion snippets for Ninja-Do and SkillsQuest. **Default if no answer:** reuse the existing VibeTales conversion label for all three apps, so clicks still register as outbound conversions and you can split them later when you have per-app snippets. Let me know if you have dedicated AW snippets and I'll wire those in instead.
+### 3. Out of scope
+- No changes to NinjaDo, SkillsQuest, BrightDeed, VibeTales pages or their discoverability.
+- No visual redesign of CoreFeel — same warm rose/amber palette, same section structure, same spacing.
