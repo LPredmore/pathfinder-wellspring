@@ -32,6 +32,8 @@ import CreatorApply from "./pages/CreatorApply";
 import VibeTales from "./pages/VibeTales";
 import NinjaDo from "./pages/NinjaDo";
 import SkillsQuest from "./pages/SkillsQuest";
+import CoreFeel from "./pages/CoreFeel";
+import BrightDeed from "./pages/BrightDeed";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -72,6 +74,8 @@ const App = () => (
               <Route path="/ninjado" element={<NinjaDo />} />
               <Route path="/skillsquest" element={<SkillsQuest />} />
               <Route path="/SkillsQuest" element={<SkillsQuest />} />
+              <Route path="/corefeel" element={<CoreFeel />} />
+              <Route path="/brightdeed" element={<BrightDeed />} />
               <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
