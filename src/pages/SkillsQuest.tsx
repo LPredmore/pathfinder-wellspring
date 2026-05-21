@@ -75,7 +75,7 @@ export default function SkillsQuest() {
     <Layout>
       <SEO
         title="SkillsQuest — Life Skills & Privileges Tracker for Kids | ValorWell"
-        description="Help kids unlock privileges through age-appropriate life skills, responsibility, accountability, and independence. 100% of revenue funds veteran mental health care through ValorWell."
+        description="Help kids unlock privileges through age-appropriate life skills, responsibility, accountability, and independence. Free from ValorWell."
       />
 
       {/* Hero */}
