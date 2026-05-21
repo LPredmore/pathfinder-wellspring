@@ -1,32 +1,40 @@
-
-## Plan: Replace `/vibetales` with the bestselfs-family-hub version
+## Plan: Port `/ninjado` and `/skillsquest` from bestselfs-family-hub
 
 ### Goal
-Recreate the bestselfs-family-hub `/vibetales` layout and copy in this project, adapted to ValorWell's components (Layout, SEO) and preserving the existing Google Ads outbound-click tracking.
+Create two new pages on this site mirroring the bestselfs-family-hub designs for Ninja-Do and SkillsQuest, adapted to ValorWell's `Layout` + `SEO` and with Google Ads outbound tracking (matching what `/vibetales` already does).
 
-### What gets ported
+### Files to create
 
-From `bestselfs-family-hub`:
-- Hero (badge, serif headline, subhead, "Create a Story" + "For Tutors and Educators" CTAs, storybook visual card with sample sentence, sight-word chips, level/min-read line)
-- "The problem" section
-- "How VibeTales helps" 4-card grid (Personalized stories, Sight word practice, Fluency support, Meaningful lessons)
-- "For tutors, educators, and special education support" section with feature list + disclaimer
-- "Best for" tag cloud
-- Final CTA (violet band) with "Open VibeTales" + Web/Google Play/App Store buttons
+1. **`src/assets/ninjado-logo.png`** — copied from bestselfs project.
+2. **`src/assets/skillsquest-logo.png`** — copied from bestselfs project.
+3. **`src/pages/NinjaDo.tsx`** — port of bestselfs `NinjaDo.tsx`.
+4. **`src/pages/SkillsQuest.tsx`** — port of bestselfs `SkillsQuest.tsx`.
 
-### Small changes for this site
+### Files to edit
 
-1. **Wrap in ValorWell's `Layout`** (which renders Header/Footer) instead of bestselfs `Header`/`Footer`.
-2. **Use ValorWell's `SEO` component** with the existing title/description style; drop the bestselfs `softwareApplicationSchema`/`breadcrumbSchema` helpers (not present here) — keep a simple SEO meta.
-3. **Preserve outbound click tracking**: every external link to `webUrl`, `iosUrl`, `androidUrl` becomes a `Button` with `onClick={() => trackVibeTalesOutboundClick(url)}` (same pattern already in the current `VibeTales.tsx`). No raw `<a target="_blank">` for those three destinations.
-4. **Keep the existing `gtag` page_view beacon** `useEffect` from the current page.
-5. **Add the ValorWell mission line** under the hero (preserved from current page, lightly reworded to fit tone): *"50% of all VibeTales revenue funds mental health treatment for veterans through ValorWell."* — placed as a small highlight band below the hero so the veteran connection isn't lost.
-6. **Colors**: keep the bestselfs violet + amber palette inline (as the source does) since it's brand color for VibeTales itself, not ValorWell chrome. Layout/Header/Footer remain on ValorWell's design tokens.
-7. **Inline the content** directly in the page file (don't add a separate `vibetales-content.ts` — the strings only live in one place).
-8. **Assets**: reuse the existing `@/assets/vibetales-logo.png` already in this project.
+- **`src/App.tsx`** — add `/ninjado` and `/skillsquest` routes.
+- **`src/lib/tracking.ts`** — generalize the existing `trackVibeTalesOutboundClick` (or add `trackNinjaDoOutboundClick` / `trackSkillsQuestOutboundClick`) so each app fires its own Google Ads conversion. I'll inspect the current tracking helper and pick the cleanest extension; default approach is to keep one helper that takes the destination URL and a conversion label, with per-app constants.
 
-### Files
+### Small adaptations (same pattern as /vibetales)
 
-- **`src/pages/VibeTales.tsx`** — full rewrite to the ported layout, wrapped in `Layout`, with tracked CTAs and ValorWell mission strip.
+For each ported page:
+- Wrap in ValorWell's `Layout` (instead of bestselfs `Header` / `Footer`).
+- Use ValorWell's `SEO` component; drop `softwareApplicationSchema` / `breadcrumbSchema` helpers (not present here) and keep simple `title` + `description`.
+- Replace every `<a target="_blank">` to `webUrl` / `iosUrl` / `androidUrl` with a `Button` whose `onClick` calls the tracking helper (preserves new-tab behavior via `window.open(url, '_blank')` inside `event_callback`).
+- Inline the small content arrays directly in the page file — no separate `*-content.ts` files.
+- Keep the bestselfs amber/emerald palettes inline (these are the app brand colors, not ValorWell chrome).
+- Add a slim ValorWell mission strip under each hero, matching the /vibetales pattern: *"100% of all [App] revenue funds mental health treatment for veterans through ValorWell."* — using `bg-[hsl(var(--patriot-red))] text-white`.
+- Add the same `gtag` `page_view` beacon `useEffect` used on `/vibetales` so each landing fires a Google Ads page-view.
 
-No routing, no other files affected.
+### Asset copy
+
+Use `cross_project--copy_project_asset` to bring `ninjado-logo.png` and `skillsquest-logo.png` into `src/assets/`.
+
+### Out of scope
+
+- No changes to the header navigation — these are dedicated landing routes (same as `/vibetales`).
+- No content rewrite — the bestselfs copy stays.
+
+### Note on Google Ads conversion labels
+
+The existing `trackVibeTalesOutboundClick` uses a specific conversion label. I'll need to either (a) reuse the same `send_to` for the new apps, or (b) you provide separate conversion snippets for Ninja-Do and SkillsQuest. **Default if no answer:** reuse the existing VibeTales conversion label for all three apps, so clicks still register as outbound conversions and you can split them later when you have per-app snippets. Let me know if you have dedicated AW snippets and I'll wire those in instead.
