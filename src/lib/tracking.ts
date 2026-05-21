@@ -72,6 +72,14 @@ export function trackVibeTalesOutboundClick(url: string) {
 }
 
 /**
+ * Generic outbound-click tracker for app landing pages (Ninja-Do, SkillsQuest, etc.).
+ * Reuses the same Google Ads conversion as VibeTales until per-app labels are provided.
+ */
+export function trackAppOutboundClick(url: string) {
+  trackVibeTalesOutboundClick(url);
+}
+
+/**
  * Sends a page_view beacon to Google Ads, then redirects.
  * Uses event_callback so the redirect only fires after the beacon is sent.
  * Hard 2-second timeout ensures users are never stranded.
