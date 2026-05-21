@@ -81,7 +81,7 @@ export default function VibeTales() {
     <Layout>
       <SEO
         title="VibeTales — Personalized Reading Practice & AI Stories | ValorWell"
-        description="Create personalized reading stories with sight word practice, fluency support, and progress insights. 50% of revenue funds veteran mental health care through ValorWell."
+        description="Create personalized reading stories with sight word practice, fluency support, and progress insights. 100% of revenue funds veteran mental health care through ValorWell."
       />
 
       {/* Hero */}
@@ -169,7 +169,7 @@ export default function VibeTales() {
       <section className="bg-[hsl(var(--patriot-red))] text-white">
         <div className="container-wide py-5">
           <p className="text-center text-base md:text-lg font-semibold">
-            50% of all VibeTales revenue funds mental health treatment for veterans through ValorWell.
+            100% of all VibeTales revenue funds mental health treatment for veterans through ValorWell.
           </p>
         </div>
       </section>
