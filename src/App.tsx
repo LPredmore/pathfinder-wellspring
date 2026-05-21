@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { AuthProvider } from "@/contexts/AuthContext";
 import Index from "./pages/Index";
@@ -73,7 +73,7 @@ const App = () => (
               <Route path="/vibetales" element={<VibeTales />} />
               <Route path="/ninjado" element={<NinjaDo />} />
               <Route path="/skillsquest" element={<SkillsQuest />} />
-              <Route path="/SkillsQuest" element={<SkillsQuest />} />
+              <Route path="/SkillsQuest" element={<Navigate to="/skillsquest" replace />} />
               <Route path="/corefeel" element={<CoreFeel />} />
               <Route path="/brightdeed" element={<BrightDeed />} />
               <Route path="*" element={<NotFound />} />
