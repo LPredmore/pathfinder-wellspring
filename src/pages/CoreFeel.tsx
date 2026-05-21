@@ -28,36 +28,45 @@ import { trackAppOutboundClick } from "@/lib/tracking";
 const webUrl = "https://corefeel.bestselfs.com";
 
 const steps = [
-  { icon: Calendar, title: "Start with the event", body: "What happened? A conflict, a mistake, a social moment, a disappointment, a correction, or a stressful situation." },
-  { icon: MessageCircle, title: "Notice the worry voice", body: "What did the child's mind say about it? CoreFeel helps identify the thought, fear, or belief that made the moment feel bigger." },
-  { icon: Smile, title: "Name the emotion", body: "Kids choose the emotion that fits best, building emotional vocabulary and self-awareness." },
-  { icon: Heart, title: "Connect the heart need", body: "CoreFeel helps kids understand what important need may have been touched — safety, trust, esteem, intimacy, or power/control." },
-  { icon: Sparkles, title: "Try a healthier response", body: "The goal is not to shame the feeling. The goal is to understand it and practice a next step that works better." },
+  { icon: Calendar, title: "Start with the event", body: "What just happened? A conflict, a mistake, a stressful moment, a disappointment, a correction, or something that hit harder than expected." },
+  { icon: MessageCircle, title: "Notice the Worry Voice", body: "What did your mind say about it? CoreFeel helps you name the thought, fear, or belief that made the moment feel bigger." },
+  { icon: Smile, title: "Name the emotion", body: "Pick the feeling that actually fits. Over time you build a richer vocabulary than just mad, sad, or fine." },
+  { icon: Heart, title: "Connect the heart need", body: "Understand what important need may have been touched — safety, trust, esteem, intimacy, or power and control." },
+  { icon: Sparkles, title: "Try a healthier response", body: "Not to shame the feeling, but to understand it and practice a next step that actually works better." },
 ];
 
 const bestFor = [
-  "Worry thoughts", "Emotional awareness", "Tween and teen self-understanding",
-  "Parent-child conversations", "Big reactions", "Social stress",
-  "Shame and embarrassment", "Frustration tolerance", "Reflection after conflict", "CBT-informed skill practice",
+  "Worry thoughts",
+  "Emotional awareness",
+  "Building mental habits",
+  "Working with your Worry Voice",
+  "Big reactions",
+  "Social stress",
+  "Shame and embarrassment",
+  "Frustration tolerance",
+  "Reflection after conflict",
+  "Parent-child conversations",
+  "CBT-informed skill practice",
 ];
 
-const parentBenefits = [
-  { icon: Eye, title: "Less guessing", body: "Parents can better understand what may be driving a child's reaction." },
-  { icon: MessagesSquare, title: "Better conversations", body: "CoreFeel gives families language for what happened without turning the moment into a lecture." },
-  { icon: BookOpen, title: "More emotional vocabulary", body: "Kids learn to identify feelings with more precision than just mad, sad, or fine." },
-  { icon: LineChart, title: "More self-awareness over time", body: "Repeated practice helps kids notice patterns in their thoughts, feelings, and needs." },
+const benefits = [
+  { icon: Eye, title: "Less guessing", body: "Stop wondering why you (or someone you love) reacted that way. CoreFeel surfaces what was really underneath." },
+  { icon: MessagesSquare, title: "Better conversations", body: "Gives you shared language for hard moments — without turning them into a lecture or a fight." },
+  { icon: BookOpen, title: "More emotional vocabulary", body: "Move past mad/sad/fine and learn to identify what you actually feel with more precision." },
+  { icon: LineChart, title: "More self-awareness over time", body: "Repeated practice helps you notice patterns in your thoughts, feelings, and needs." },
 ];
 
 const faqs = [
+  { q: "Who is CoreFeel for?", a: "Everyone. CoreFeel is built for kids, teens, and adults. It's especially useful for anyone who was never taught to work with their inner Worry Voice — which is most of us." },
   { q: "Is CoreFeel therapy?", a: "No. CoreFeel is a practical emotional awareness and reflection tool. It can support conversations and skill practice, but it does not diagnose, treat, or replace professional care." },
-  { q: "What ages is CoreFeel for?", a: "CoreFeel is especially useful for tweens and teens, but younger children may benefit when a parent or caregiver uses it with them." },
-  { q: "Can parents use it with their child?", a: "Yes. CoreFeel is designed to help families talk through situations with more structure, clarity, and compassion." },
-  { q: "What is a worry voice?", a: "A worry voice is the thought, fear, or belief that shows up inside a stressful moment. CoreFeel helps kids notice that thought so they can understand how it affects the emotion." },
+  { q: "What is a Worry Voice?", a: "A Worry Voice is the thought, fear, or belief that shows up inside a stressful moment. CoreFeel helps you notice that voice so you can understand how it shapes the emotion — and respond to it instead of being controlled by it." },
+  { q: "How do I build a habit with it?", a: "Use CoreFeel any time a moment feels bigger than it should. Even a few minutes a week of walking through the cycle starts rewiring how you relate to your own mind." },
+  { q: "Can I use it with my child?", a: "Yes. The same five-step flow works beautifully when a parent walks through it with a child or teen — it gives families structure, clarity, and compassion in hard moments." },
 ];
 
 const heroFlow = [
   { icon: Calendar, label: "Event", tint: "bg-rose-100 text-rose-900" },
-  { icon: MessageCircle, label: "Worry voice", tint: "bg-amber-100 text-amber-900" },
+  { icon: MessageCircle, label: "Worry Voice", tint: "bg-amber-100 text-amber-900" },
   { icon: Smile, label: "Emotion", tint: "bg-orange-100 text-orange-900" },
   { icon: Heart, label: "Heart need", tint: "bg-pink-100 text-pink-900" },
   { icon: Sparkles, label: "Next step", tint: "bg-rose-200 text-rose-950" },
@@ -73,8 +82,8 @@ export default function CoreFeel() {
   return (
     <Layout>
       <SEO
-        title="CoreFeel — Emotional Awareness App for Kids & Teens | ValorWell"
-        description="CoreFeel helps kids and teens understand emotions, worry thoughts, needs, and healthier responses. Free from ValorWell."
+        title="CoreFeel — Understand Your Mind, Emotions & Worry Voice | ValorWell"
+        description="CoreFeel is a guided practice for understanding how your mind, feelings, and needs connect — built for kids, teens, and adults. Free from ValorWell."
       />
 
       {/* Hero */}
@@ -89,10 +98,10 @@ export default function CoreFeel() {
             <div className="space-y-6">
               <Badge className="bg-rose-900 text-rose-50 hover:bg-rose-900/90">CoreFeel</Badge>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-rose-950 leading-[1.05]">
-                Help kids understand the feeling under the reaction.
+                Build a healthier relationship with your mind.
               </h1>
               <p className="text-lg md:text-xl text-rose-900/80 leading-relaxed max-w-2xl">
-                CoreFeel helps kids and teens connect what happened, what they thought, what they felt, what they needed, and what they can try next — so big emotions become easier to understand and talk about.
+                Thoughts shape feelings. Feelings shape needs. Needs shape how we respond. CoreFeel is a guided practice that walks you through that cycle — so you can finally work <em>with</em> your mind instead of against it. Built for kids, teens, and adults.
               </p>
               <div className="flex flex-wrap gap-3 pt-2">
                 <Button
@@ -130,10 +139,10 @@ export default function CoreFeel() {
       <section className="py-8 md:py-14">
         <div className="container-wide max-w-3xl text-center space-y-6">
           <h2 className="text-3xl md:text-4xl font-bold text-rose-950">
-            Big feelings are hard to handle when kids do not understand what is underneath them.
+            Most of us were never taught how to work with our own mind.
           </h2>
           <p className="text-lg text-rose-900/75 leading-relaxed">
-            Kids and teens often know they feel bad, overwhelmed, angry, worried, embarrassed, or shut down — but they may not know why. Parents may see the reaction, but not the worry, belief, fear, or unmet need underneath it. CoreFeel helps slow the moment down so families can understand the pattern instead of just reacting to it.
+            We were told to suppress the Worry Voice. Control the feeling. Push through. But the mind doesn't work that way — and neither do kids. Understanding how thoughts, emotions, and needs move together is a skill, and like any skill, it takes the right tool and regular practice. CoreFeel is that tool, for any age.
           </p>
         </div>
       </section>
@@ -144,6 +153,7 @@ export default function CoreFeel() {
           <div className="text-center max-w-2xl mx-auto mb-8 space-y-3">
             <p className="text-sm uppercase tracking-widest text-rose-900/60 font-semibold">How CoreFeel works</p>
             <h2 className="text-3xl md:text-4xl font-bold text-rose-950">Five small steps to understand a big moment.</h2>
+            <p className="text-sm text-rose-900/70">Works on your own — and works just as well when a parent walks through it with a child.</p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-5">
             {steps.map((step, i) => (
@@ -166,10 +176,10 @@ export default function CoreFeel() {
           <div className="rounded-3xl bg-gradient-to-br from-amber-50 to-rose-50 border border-amber-100 p-8 md:p-12 space-y-4 text-center">
             <p className="text-sm uppercase tracking-widest text-amber-900/70 font-semibold">CoreFeel is not just a mood tracker</p>
             <h2 className="text-3xl md:text-4xl font-bold text-rose-950">
-              From "I feel bad" to "I understand what happened inside me."
+              From "I feel bad" to "I understand what just happened inside me."
             </h2>
             <p className="text-lg text-rose-900/75 leading-relaxed max-w-2xl mx-auto">
-              Mood trackers can show what someone felt. CoreFeel goes deeper by helping kids connect the situation, thought, emotion, need, and response. That makes it easier for parents and kids to talk about patterns instead of arguing about behavior.
+              Mood trackers show what you felt. CoreFeel goes deeper — connecting the situation, the thought, the emotion, the underlying need, and a healthier next step. That's the difference between logging a feeling and actually growing from it.
             </p>
           </div>
         </div>
@@ -189,15 +199,16 @@ export default function CoreFeel() {
         </div>
       </section>
 
-      {/* Parent benefits */}
+      {/* What CoreFeel gives you */}
       <section className="py-8 md:py-14">
         <div className="container-wide max-w-6xl">
           <div className="text-center max-w-2xl mx-auto mb-8 space-y-3">
-            <p className="text-sm uppercase tracking-widest text-rose-900/60 font-semibold">Parent benefits</p>
-            <h2 className="text-3xl md:text-4xl font-bold text-rose-950">Built to make hard moments easier to navigate together.</h2>
+            <p className="text-sm uppercase tracking-widest text-rose-900/60 font-semibold">What CoreFeel gives you</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-rose-950">Built to make hard moments easier to navigate.</h2>
+            <p className="text-sm text-rose-900/70">Powerful on your own — and a great shared tool to use with a child or teen.</p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {parentBenefits.map((b) => (
+            {benefits.map((b) => (
               <div key={b.title} className="rounded-2xl bg-white border border-rose-100 p-6 shadow-sm space-y-3">
                 <div className="h-11 w-11 rounded-xl bg-rose-100 text-rose-900 flex items-center justify-center">
                   <b.icon className="h-5 w-5" aria-hidden />
@@ -218,7 +229,7 @@ export default function CoreFeel() {
             <div className="space-y-2">
               <h3 className="font-semibold text-amber-950">Important trust note</h3>
               <p className="text-sm md:text-base text-amber-900/85 leading-relaxed">
-                CoreFeel is a practical emotional awareness tool. It is not therapy, medical care, crisis support, or a substitute for a licensed mental health professional. If a child is in immediate danger or may harm themselves or someone else, contact emergency services or a qualified crisis resource.
+                CoreFeel is a practical emotional awareness tool. It is not therapy, medical care, crisis support, or a substitute for a licensed mental health professional. If you or someone you know is in immediate danger, contact emergency services or a qualified crisis resource.
               </p>
             </div>
           </div>
@@ -230,7 +241,7 @@ export default function CoreFeel() {
         <div className="container-wide max-w-3xl">
           <div className="text-center mb-10 space-y-3">
             <p className="text-sm uppercase tracking-widest text-rose-900/60 font-semibold">FAQ</p>
-            <h2 className="text-3xl md:text-4xl font-bold text-rose-950">Questions parents ask</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-rose-950">Common questions</h2>
           </div>
           <Accordion type="single" collapsible className="w-full">
             {faqs.map((f, i) => (
@@ -247,7 +258,7 @@ export default function CoreFeel() {
       <section className="py-8 md:py-14 bg-gradient-to-br from-rose-900 via-rose-800 to-orange-900 text-rose-50">
         <div className="container-wide max-w-3xl text-center space-y-6">
           <h2 className="text-3xl md:text-4xl font-bold leading-tight">
-            Help your child make sense of the feeling, not just the behavior.
+            Practice understanding your mind — one moment at a time.
           </h2>
           <div className="flex flex-wrap justify-center gap-3 pt-2">
             <Button
