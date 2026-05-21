@@ -125,14 +125,6 @@ export default function CoreFeel() {
         </div>
       </section>
 
-      {/* ValorWell mission strip */}
-      <section className="bg-[hsl(var(--patriot-red))] text-white">
-        <div className="container-wide py-5">
-          <p className="text-center text-base md:text-lg font-semibold">
-            100% of all CoreFeel revenue funds mental health treatment for veterans through ValorWell.
-          </p>
-        </div>
-      </section>
 
       {/* The problem */}
       <section className="py-8 md:py-14">
