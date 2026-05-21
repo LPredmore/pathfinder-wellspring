@@ -6,6 +6,7 @@ const footerLinks = {
     { name: "Veterans Crisis Line", href: "/urgent-help" },
     { name: "How It Works", href: "/how-it-works" },
     { name: "FAQ", href: "/faq" },
+    { name: "CoreFeel", href: "/corefeel" },
   ],
   about: [
     { name: "Our Mission", href: "/about" },
