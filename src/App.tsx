@@ -30,6 +30,8 @@ import InfluencerPortal from "./pages/InfluencerPortal";
 import AdminDashboard from "./pages/AdminDashboard";
 import CreatorApply from "./pages/CreatorApply";
 import VibeTales from "./pages/VibeTales";
+import NinjaDo from "./pages/NinjaDo";
+import SkillsQuest from "./pages/SkillsQuest";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -67,6 +69,9 @@ const App = () => (
               <Route path="/influencer" element={<InfluencerPortal />} />
               <Route path="/admin" element={<AdminDashboard />} />
               <Route path="/vibetales" element={<VibeTales />} />
+              <Route path="/ninjado" element={<NinjaDo />} />
+              <Route path="/skillsquest" element={<SkillsQuest />} />
+              <Route path="/SkillsQuest" element={<SkillsQuest />} />
               <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
