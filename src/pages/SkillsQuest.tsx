@@ -75,7 +75,7 @@ export default function SkillsQuest() {
     <Layout>
       <SEO
         title="SkillsQuest — Life Skills & Privileges Tracker for Kids | ValorWell"
-        description="Help kids unlock privileges through age-appropriate life skills, responsibility, accountability, and independence. 100% of revenue funds veteran mental health care through ValorWell."
+        description="Help kids unlock privileges through age-appropriate life skills, responsibility, accountability, and independence. Free from ValorWell."
       />
 
       {/* Hero */}
@@ -183,14 +183,6 @@ export default function SkillsQuest() {
         </div>
       </section>
 
-      {/* ValorWell mission strip */}
-      <section className="bg-[hsl(var(--patriot-red))] text-white">
-        <div className="container-wide py-5">
-          <p className="text-center text-base md:text-lg font-semibold">
-            100% of all SkillsQuest revenue funds mental health treatment for veterans through ValorWell.
-          </p>
-        </div>
-      </section>
 
       {/* The everyday problem */}
       <section className="py-8 md:py-14">
