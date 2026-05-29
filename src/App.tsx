@@ -34,6 +34,7 @@ import NinjaDo from "./pages/NinjaDo";
 import SkillsQuest from "./pages/SkillsQuest";
 import CoreFeel from "./pages/CoreFeel";
 import BrightDeed from "./pages/BrightDeed";
+import Pendulo from "./pages/Pendulo";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -76,6 +77,7 @@ const App = () => (
               <Route path="/SkillsQuest" element={<Navigate to="/skillsquest" replace />} />
               <Route path="/corefeel" element={<CoreFeel />} />
               <Route path="/brightdeed" element={<BrightDeed />} />
+              <Route path="/pendulo" element={<Pendulo />} />
               <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
