@@ -1,43 +1,80 @@
-## Plan: Adjust CoreFeel positioning + add footer link
+## Plan: /pendulo landing page
 
-### 1. Add CoreFeel to footer Resources
-In `src/components/layout/Footer.tsx`, append to the `resources` array:
-```ts
-{ name: "CoreFeel", href: "/corefeel" },
-```
-No links added for NinjaDo, SkillsQuest, BrightDeed, or VibeTales — their pages remain direct-URL only.
+A standalone landing page for the Pendulo AI Hypnosis app, framed as a separate partner company offering an exclusive 50%-off-first-year deal to ValorWell clients with code **VALORWELL**.
 
-### 2. Reframe CoreFeel page copy (`src/pages/CoreFeel.tsx`)
-Shift the messaging from "for kids" to "for everyone — kids and adults," with the angle: building mental habits is a practice; most adults were never taught to work *with* their Worry Voice rather than suppress it.
+### 1. Route + file
+- Add `src/pages/Pendulo.tsx`.
+- Register `<Route path="/pendulo" element={<Pendulo />} />` in `src/App.tsx`.
+- No footer/header link added — direct URL only, same treatment as NinjaDo/BrightDeed/SkillsQuest.
 
-Changes:
+### 2. Page structure (uses existing `<Layout>` + `<SEO>` + shadcn primitives)
 
-- **SEO title/description**: 
-  - Title: `CoreFeel — Understand Your Mind, Emotions & Worry Voice | ValorWell`
-  - Description: `CoreFeel is a guided practice for understanding how your mind, feelings, and needs connect — built for kids, teens, and adults. Free from ValorWell.`
+**SEO**
+- Title: `Pendulo — AI Hypnosis for Real Change | Partner Offer for ValorWell Clients`
+- Description: `Pendulo is a personalized AI hypnosis app. ValorWell clients get 50% off the first year with code VALORWELL.`
 
-- **Hero**:
-  - H1: `Build a healthier relationship with your mind.`
-  - Subhead: rewrite to emphasize that thoughts → feelings → needs → responses is a cycle everyone (kids and adults) benefits from understanding; CoreFeel is the guided practice for it.
+**Hero**
+- Small "Partner offer" eyebrow + Pendulo wordmark/name.
+- H1: *"Rewire the part of you that talks back."*
+- Sub: Pendulo is a separate company building personalized AI hypnosis sessions — and they've opened an exclusive door for the ValorWell community.
+- Prominent code badge: `Use code VALORWELL — 50% off your first year`.
+- Primary CTA button: **Try Pendulo (50% off)** → `https://pendulo-hypno.com/` (new tab, tracked via `trackAppOutboundClick`).
+- Fine print: *7-day free trial. Cancel any time. Code applied at checkout.*
 
-- **"The problem" section**: replace the kids-only framing with copy explaining that most people — including adults — were taught to *suppress or control* the Worry Voice rather than work alongside it. Practicing with the right tool builds the habit.
+**Partner disclosure strip**
+- One-liner box: *Pendulo is an independent company. ValorWell does not own, operate, or clinically supervise Pendulo. We're sharing this because clients have asked for tools that complement the work they're already doing in therapy.*
 
-- **How it works**: keep the 5 steps; rephrase the descriptions in second person ("you / your") so it reads for any user, with a brief note that the same flow works when a parent walks through it with a child.
+**Why hypnosis (emotional, pro-hypnosis, never anti-therapy)**
+- Lead-in: *Therapy is where the real work happens. Hypnosis is one of the most underrated tools you can bring with you between sessions.*
+- 3–4 emotional benefit cards (icons from lucide-react): 
+  - *Speaks the language your subconscious actually listens to* — talking gets you insight; hypnosis helps the insight stick.
+  - *Quiet for the loudest part of your mind* — for the loop that won't shut off at 2am.
+  - *Practice on your own time* — 10–30 min sessions, headphones, anywhere.
+  - *Built for the goals therapy uncovers* — sleep, focus, cravings, anxious patterns, confidence.
+- One supporting line citing the research framing from Pendulo's own site (meta-analysis, Ericksonian foundation) — no comparative slam against therapy.
 
-- **"Not just a mood tracker"**: keep, but generalize wording away from "kids."
+**How Pendulo works** (4 steps, mirrors steps grid pattern used on other app pages)
+- Tell it your goal → AI hypnotist writes your script → Listen 10–30 min → Track the shift over weeks.
 
-- **Best for tags**: replace tween/teen-specific tags with universal ones, e.g.: `Worry thoughts`, `Emotional awareness`, `Building mental habits`, `Working with your Worry Voice`, `Big reactions`, `Social stress`, `Shame and embarrassment`, `Frustration tolerance`, `Reflection after conflict`, `Parent-child conversations`, `CBT-informed skill practice`.
+**The ValorWell partner offer (the big sell)**
+- Card with: *Exclusive for ValorWell clients*
+- Big number: **50% off your first year**
+- Code chip with copy-to-clipboard button: `VALORWELL`
+- Bullet list: 7-day free trial, cancel anytime, code applied at checkout on Pendulo's site, paid directly to Pendulo (not ValorWell).
+- CTA: **Claim your 50% off** → pendulo URL (tracked).
 
-- **"Parent benefits" section**: rename to **"What CoreFeel gives you"** and rewrite the four cards to address any user (less guessing about your own reactions, better conversations with people in your life, more emotional vocabulary, more self-awareness over time). Add one short line noting it's also great to use with a child.
+**Good fits for Pendulo** (tag chips)
+- Sleep, focus, cravings, performance anxiety, stuck thought loops, public speaking, motivation, habit change, calming the inner critic.
 
-- **FAQ**: update questions/answers to cover both adults and kids:
-  - "Who is CoreFeel for?" → everyone; especially useful for anyone who was never taught to work with their inner Worry Voice.
-  - Keep the "Is it therapy?" and "What is a Worry Voice?" items.
-  - Replace the parent-specific Q with one about building a daily/weekly habit of reflection.
-  - Keep one Q about using it with a child.
+**Not a replacement section** (one short, warm block)
+- *Pendulo is a wellness tool — it isn't therapy, it doesn't diagnose, and it doesn't replace clinical care. If you're a ValorWell client, keep your sessions. Pendulo is for the in-between.*
 
-- **Final CTA**: H2 → `Practice understanding your mind — one moment at a time.` Keep the Open CoreFeel button + web app link.
+**FAQ** (Accordion)
+- Is Pendulo part of ValorWell? → No, separate company; partnership only.
+- How do I get the discount? → Enter `VALORWELL` at checkout on Pendulo's site; 50% off the first year applied automatically.
+- Is this therapy? → No, wellness tool; doesn't replace clinical care.
+- What if I'm already in therapy with ValorWell? → Great — Pendulo is designed to complement, not replace, the work you're doing.
+- Who do I contact for billing/support? → Pendulo directly; ValorWell can't manage your Pendulo account.
+- Is my data shared with ValorWell? → No, Pendulo handles all account/audio data per their own privacy policy.
 
-### 3. Out of scope
-- No changes to NinjaDo, SkillsQuest, BrightDeed, VibeTales pages or their discoverability.
-- No visual redesign of CoreFeel — same warm rose/amber palette, same section structure, same spacing.
+**Final CTA**
+- H2: *Bring something powerful home from your next session.*
+- Repeat code chip + **Try Pendulo with VALORWELL** button.
+
+### 3. Visual treatment
+- Use site's standard `Layout`, semantic tokens, `bg-flag-sky` + `bg-white/70` overlay pattern consistent with other app pages.
+- Accent color leans into a calm indigo/violet feel (Pendulo's `#6B9DFF` theme) via Tailwind's existing semantic tokens (e.g. `bg-primary` + tinted card backgrounds) — no new HSL tokens added.
+- Hero spacing follows the site standard `py-10 md:py-14`.
+- One primary CTA color throughout (per CTA placement memory).
+
+### 4. Out of scope
+- No header nav entry, no footer entry.
+- No Pendulo logo asset import (none available in Pendulo project). Page uses wordmark text "Pendulo" with serif styling instead.
+- No analytics changes beyond reusing `trackAppOutboundClick` for outbound clicks.
+- No changes to NinjaDo, SkillsQuest, BrightDeed, CoreFeel, VibeTales pages.
+
+### Technical notes
+- New file: `src/pages/Pendulo.tsx` (~250 lines, structure mirrors `CoreFeel.tsx`).
+- One small inline `CopyCodeButton` helper inside the file using `navigator.clipboard.writeText("VALORWELL")` + a sonner toast.
+- Outbound URL constant: `const pendulioUrl = "https://pendulo-hypno.com/";`
+- `useEffect` page_view ping mirroring other app pages.
