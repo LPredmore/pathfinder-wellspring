@@ -70,4 +70,26 @@
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
+  <url><loc>https://www.valorwell.org/get-care</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.valorwell.org/fund-access-to-care</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.valorwell.org/bestselfs</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.valorwell.org/impact</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.valorwell.org/media</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.valorwell.org/media/youtube-podcast</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.valorwell.org/media/cognitive-consistency</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.valorwell.org/media/collaborate</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.valorwell.org/media/community</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.valorwell.org/veteran-mental-health-care</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.valorwell.org/champva-mental-health</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.valorwell.org/va-community-care-mental-health</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.valorwell.org/documentation-support</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.valorwell.org/military-family-therapy</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.valorwell.org/family-systems</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.valorwell.org/resources</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.valorwell.org/resources/champva</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.valorwell.org/resources/va-community-care</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.valorwell.org/resources/documentation</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.valorwell.org/resources/veteran-mental-health</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.valorwell.org/resources/family-systems</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.valorwell.org/resources/cognitive-consistency</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
 </urlset>

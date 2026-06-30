@@ -45,6 +45,19 @@ import SkillsQuest from "./pages/SkillsQuest";
 import CoreFeel from "./pages/CoreFeel";
 import BrightDeed from "./pages/BrightDeed";
 import Pendulo from "./pages/Pendulo";
+import VeteranMentalHealthCare from "./pages/authority/VeteranMentalHealthCare";
+import ChampvaMentalHealth from "./pages/authority/ChampvaMentalHealth";
+import VACommunityCareMentalHealth from "./pages/authority/VACommunityCareMentalHealth";
+import DocumentationSupport from "./pages/authority/DocumentationSupport";
+import MilitaryFamilyTherapy from "./pages/authority/MilitaryFamilyTherapy";
+import FamilySystems from "./pages/authority/FamilySystems";
+import Resources from "./pages/authority/Resources";
+import ResourcesChampva from "./pages/authority/ResourcesChampva";
+import ResourcesVACommunityCare from "./pages/authority/ResourcesVACommunityCare";
+import ResourcesDocumentation from "./pages/authority/ResourcesDocumentation";
+import ResourcesVeteranMentalHealth from "./pages/authority/ResourcesVeteranMentalHealth";
+import ResourcesFamilySystems from "./pages/authority/ResourcesFamilySystems";
+import ResourcesCognitiveConsistency from "./pages/authority/ResourcesCognitiveConsistency";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -100,6 +113,22 @@ const App = () => (
               <Route path="/corefeel" element={<CoreFeel />} />
               <Route path="/brightdeed" element={<BrightDeed />} />
               <Route path="/pendulo" element={<Pendulo />} />
+
+              {/* Phase 3: SEO Authority */}
+              <Route path="/veteran-mental-health-care" element={<VeteranMentalHealthCare />} />
+              <Route path="/champva-mental-health" element={<ChampvaMentalHealth />} />
+              <Route path="/va-community-care-mental-health" element={<VACommunityCareMentalHealth />} />
+              <Route path="/documentation-support" element={<DocumentationSupport />} />
+              <Route path="/military-family-therapy" element={<MilitaryFamilyTherapy />} />
+              <Route path="/family-systems" element={<FamilySystems />} />
+              <Route path="/resources" element={<Resources />} />
+              <Route path="/resources/champva" element={<ResourcesChampva />} />
+              <Route path="/resources/va-community-care" element={<ResourcesVACommunityCare />} />
+              <Route path="/resources/documentation" element={<ResourcesDocumentation />} />
+              <Route path="/resources/veteran-mental-health" element={<ResourcesVeteranMentalHealth />} />
+              <Route path="/resources/family-systems" element={<ResourcesFamilySystems />} />
+              <Route path="/resources/cognitive-consistency" element={<ResourcesCognitiveConsistency />} />
+
               <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
