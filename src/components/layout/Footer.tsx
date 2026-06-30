@@ -108,6 +108,16 @@ export function Footer() {
                 ))}
               </nav>
             </div>
+            <div className="col-span-2 sm:col-span-3 lg:col-span-1">
+              <h3 className="font-heading font-semibold text-base mb-4">Learn</h3>
+              <nav className="space-y-2.5">
+                {learnLinks.map((l) => (
+                  <Link key={l.name} to={l.href} className="block text-sm text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                    {l.name}
+                  </Link>
+                ))}
+              </nav>
+            </div>
           </div>
         </div>
 
