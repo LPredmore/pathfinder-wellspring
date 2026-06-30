@@ -1,90 +1,61 @@
-# Phase 1: Conversion Foundation
+# Phase 2: Media + Trust
 
-Restructure ValorWell around the mission and 5 conversion paths. Scope is strictly Phase 1 — pages listed below plus nav and footer. No Media page build, no Phase 2+ work.
+Build the public media/trust layer on top of the Phase 1 conversion funnel. No Phase 3 SEO authority pages, no Phase 4 partner/funder infrastructure.
 
 ## Pages
 
-### 1. Homepage `/` — rewrite `src/pages/Index.tsx`
-Replace existing hero/services/CTA structure with 9 sections from the brief:
-1. Hero — "Veterans and families deserve better than waiting months for help." + dual CTA (Get Care, Fund Access to Care) + tagline "ValorWell is the mission. BestSelfs helps power it."
-2. The Broken System
-3. What ValorWell Is Building (6 cards)
-4. Two Main Paths (Need Care / Want to Help)
-5. BestSelfs Helps Power the Mission → `/bestselfs`
-6. Media / Education / Community → external YouTube (Media page deferred to Phase 2)
-7. Supporter Section → `/fund-access-to-care`
-8. Impact Preview — metric cards with "Impact tracking coming soon" placeholders
-9. Final CTA (Get Care, Fund Access to Care, Explore BestSelfs)
+### 1. `/media` — new `src/pages/media/MediaOverview.tsx`
+Sections from brief:
+1. Hero — "Better systems for harder conversations." + CTAs: Watch the Mission, Subscribe on YouTube, Be a Guest
+2. Why Media Exists
+3. Content Pillars (5 cards: Cognitive Consistency, Veteran Mental Health, Family Systems, Podcast Conversations, BestSelfs Tools)
+4. Shorts vs Long-Form (two side-by-side cards)
+5. Mission Connection → `/fund-access-to-care`
+6. Final CTA (Subscribe / Fund Access / Be a Guest)
 
-Reuse existing imagery (`hero-family.jpg`, `flag-sky-background.png`) — no new image generation. Tone shifts away from heavy flag/patriot motifs toward serious, mission-driven typography.
+### 2. `/media/youtube-podcast` — new `src/pages/media/YouTubePodcast.tsx`
+Hero, Featured Mission Video placeholder embed (`<div>` with editable placeholder block), 5 Conversation Category cards, Guest Format section → `/media/collaborate`, Subscribe CTA. Placeholder YouTube URL constant at top of file for easy swap.
 
-### 2. `/get-care` — new `src/pages/GetCare.tsx`
-Sections: Hero, Who We Help, What We Provide, Documentation Support Note (ethical wording verbatim from brief), What to Expect (5 steps), CTA. Single CTA "Start Care" routes to existing `/get-started` (preserves intake form).
+### 3. `/media/cognitive-consistency` — new `src/pages/media/CognitiveConsistency.tsx`
+Hero, What It Is, Why It Matters, The Consistency Test (6 numbered steps), Topic Areas (5 cards), Tone and Boundaries with bullet list, Connection to ValorWell → `/fund-access-to-care`, Watch/Follow (placeholder playlist embed + YouTube/TikTok/Instagram/Discussion buttons with placeholder hrefs).
 
-### 3. `/fund-access-to-care` — new `src/pages/FundAccessToCare.tsx`
-Sections: Hero, Problem, What Your Support Helps Build (5 cards), $75 Session Cost Explanation (uses exact brief wording with "direct therapist cost" framing), Giving Tiers ($25/$75/$150/$300/Custom), Monthly Supporter, Sponsor (contact link), Trust/Impact placeholders. Donate buttons route to existing Givebutter redirect (`/donate`) to preserve current donation flow.
+### 4. `/media/collaborate` — new `src/pages/media/Collaborate.tsx`
+Hero, Who We Want to Hear From (6 cards), Collaboration Types list, Good Fit Topics list, **Collaboration Form** (React + shadcn `Form`, fields per brief, submits via `mailto:info@valorwell.org` with structured body for Phase 2 — flagged for future Supabase backend), Final CTA.
 
-### 4. `/bestselfs` — new `src/pages/BestSelfs.tsx`
-Sections: Hero, Product Cards (CoreFeel → `/corefeel`, VibeTales → `/vibetales`, NinjaDo → `/ninjado`, Future Tools), Mission Connection. "ValorWell is the mission. BestSelfs helps power it."
+### 5. `/media/community` — new `src/pages/media/Community.tsx` (included, scope is small)
+Hero, Reddit placeholder link, discussion guidelines, story prompts, Cognitive Consistency prompts, veteran/family prompts, "not therapy / not crisis support" disclaimer with `/get-care` and `/urgent-help` CTAs, Support the Mission CTA.
 
-### 5. `/about` — rewrite `src/pages/About.tsx`
-Sections: Hero, Origin/Why This Exists, What Makes ValorWell Different (6 cards), CTA (Get Care, Support the Mission).
+All pages use existing `Layout` + `SEO` + shadcn `Card`/`Button`. SEO titles/descriptions verbatim from brief, canonical self-references each route.
 
-### 6. `/impact` — new `src/pages/Impact.tsx`
-Sections: Hero, Current Impact Metrics (placeholders clearly editable, $75/session line), What We Track, Transparency Note.
-
-## Routing
-
-`src/App.tsx`:
-- Add routes: `/get-care` → GetCare, `/fund-access-to-care` → FundAccessToCare, `/bestselfs` → BestSelfs, `/impact` → Impact
-- Keep `/therapy`, `/get-started`, `/support`, `/donate`, `/corefeel`, `/vibetales`, `/ninjado`, `/foundation`, all admin/portal/competition routes — untouched.
-- Add legacy redirects: `/therapy` → `/get-care`, `/support` → `/fund-access-to-care` via `<Navigate replace>` so old links and ads keep working.
+## Routing — `src/App.tsx`
+- Add: `/media`, `/media/youtube-podcast`, `/media/cognitive-consistency`, `/media/collaborate`, `/media/community`
+- Existing `/videos` route kept; add lightweight link from `/media` → `/videos` ("Browse all videos") so the existing gallery stays discoverable.
 
 ## Navigation — `src/components/layout/Header.tsx`
-
-Desktop nav links: Get Care · Support the Mission · BestSelfs · Media · Impact · About
-- "Support the Mission" → `/fund-access-to-care`
-- "Media" → external link to ValorWell YouTube (until Phase 2 page exists)
-- Primary CTA buttons: **Get Care** (`/get-care`) and **Fund Access to Care** (`/fund-access-to-care`)
-- Login dropdown + Mission Partner flow preserved unchanged
-- Mobile menu mirrors desktop order; condensed CTA priority if cramped: Get Care, Support the Mission, BestSelfs, Impact, About
-
-Remove the current "BTY" ribbon link from primary nav (moved to footer only — Beyond the Yellow stays reachable, just deprioritized in Phase 1 hierarchy).
+- "Media" link target changes from `/videos` → `/media`.
+- Add hover/click dropdown on Media (desktop): Overview, YouTube & Podcast, Cognitive Consistency, Collaborate, Community. Use existing shadcn `DropdownMenu` (already imported in Header).
+- Mobile menu: expand "Media" inline with the 5 sub-links indented.
+- Primary CTA buttons (Get Care, Fund Access) unchanged.
 
 ## Footer — `src/components/layout/Footer.tsx`
+- Add a "Media" column (or extend existing one): Overview, YouTube & Podcast, Cognitive Consistency, Collaborate, Community.
+- Keep all Phase 1 links intact.
 
-Replace current 4-column layout with mission tagline block + link columns:
-- Mission paragraph (verbatim from brief)
-- Columns: Get Care · Fund Access to Care · BestSelfs · Media · Impact · About · Contact · Privacy Policy · Terms · Urgent Help
-- Preserve Beyond the Yellow, Heroes for Heroes, Join Our Team, Foundation under a secondary "Programs" group so existing pages stay discoverable
-- Keep `info@valorwell.org` contact
-
-## SEO
-
-Each new/rewritten page uses `<SEO>` with the exact titles + descriptions from the brief and `canonical` set to its own path. Homepage canonical stays `/`.
+## Internal linking
+Added per brief: Homepage→Media (already present via nav, also add a contextual link in the existing Media/Education section block); Media→sub-pages; sub-pages→Fund Access / Collaborate / Support the Mission as specified.
 
 ## Design direction
-
-- Typography-led, serious, mission-driven. Existing semantic tokens (`navy`, `patriot-red`, `gold-accent`, `flag-sky`) reused; no new tokens, no hardcoded hex.
-- High-contrast CTAs (existing `bg-patriot-red` for primary, outline for secondary).
-- Mobile-first single-column → 2/3-up on `md`.
-- No new generated imagery in Phase 1; reuse `src/assets/*` already in the repo.
-
-## Preserved functionality
-
-- Intake form at `/get-started` and `TherapistApplicationForm` flow
-- Givebutter donate redirect at `/donate`
-- Auth, admin dashboard, influencer portal, competitions, challenge, advocates, foundation
-- All `trackAppOutboundClick` analytics, gtag.js, sitemap, robots
-- Pendulo, CoreFeel, VibeTales, NinjaDo, SkillsQuest, BrightDeed product pages
-
-## Out of scope (later phases)
-
-- Media page build, Contact page rewrite, real impact numbers, new imagery, Phase 2 conversion experiments, Cognitive Consistency content hub.
+Reuse Phase 1 semantic tokens (`navy`, `patriot-red`, `gold-accent`, `flag-sky`). Typography-led, serious tone. No new imagery generated. Embed/placeholder blocks use a bordered `aspect-video` container with a "Coming soon — editable placeholder" label so they're visually obvious but not jarring.
 
 ## Placeholders flagged for human review
+- YouTube channel URL, mission video URL, playlist URLs
+- TikTok / Instagram / Reddit URLs
+- Podcast platform links (Spotify/Apple) — not in brief but stubbed in YouTube/Podcast page if room
+- Collaboration form delivery (mailto for now; Supabase table + edge function later)
+- Final copy review for Cognitive Consistency tone
 
-- Impact metrics on `/` and `/impact` (sessions delivered, families served, supporter-funded care, BestSelfs revenue) — shown as "Coming soon"
-- ValorWell YouTube channel URL for Media nav link — needs confirmation
-- Sponsorship contact destination on `/fund-access-to-care` (defaults to `mailto:info@valorwell.org` unless told otherwise)
-- "Ask About Sponsorship" form — Phase 1 uses mailto; dedicated form later
+## Out of scope
+- Phase 3 SEO authority pages
+- Phase 4 partner/funder infrastructure
+- Real podcast RSS, real video embeds, real impact metrics
+- Replacing `/videos` gallery (kept as-is, linked from `/media`)
