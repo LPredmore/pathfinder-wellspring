@@ -50,16 +50,38 @@ export function Header() {
           {/* Desktop Navigation */}
           <div className="hidden lg:flex lg:items-center lg:gap-5 xl:gap-6">
             {navigation.map((item) => (
-              <Link
-                key={item.name}
-                to={item.href}
-                className={cn(
-                  "text-sm font-medium transition-colors hover:text-primary whitespace-nowrap",
-                  isActive(item.href) ? "text-primary" : "text-muted-foreground"
+              <span key={item.name} className="contents">
+                <Link
+                  to={item.href}
+                  className={cn(
+                    "text-sm font-medium transition-colors hover:text-primary whitespace-nowrap",
+                    isActive(item.href) ? "text-primary" : "text-muted-foreground"
+                  )}
+                >
+                  {item.name}
+                </Link>
+                {item.name === "BestSelfs" && (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <button
+                        className={cn(
+                          "text-sm font-medium transition-colors hover:text-primary whitespace-nowrap",
+                          location.pathname.startsWith("/media") ? "text-primary" : "text-muted-foreground"
+                        )}
+                      >
+                        Media
+                      </button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="start">
+                      {mediaLinks.map((m) => (
+                        <DropdownMenuItem key={m.href} asChild>
+                          <Link to={m.href} className="w-full cursor-pointer">{m.name}</Link>
+                        </DropdownMenuItem>
+                      ))}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 )}
-              >
-                {item.name}
-              </Link>
+              </span>
             ))}
 
             <Button asChild className="bg-patriot-red hover:bg-patriot-red-dark text-white">
