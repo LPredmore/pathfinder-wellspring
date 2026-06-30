@@ -10,6 +10,19 @@ const primaryLinks = [
   { name: "About", href: "/about" },
 ];
 
+const supportLinks = [
+  { name: "Fund Access to Care", href: "/fund-access-to-care" },
+  { name: "Monthly Supporters", href: "/monthly-supporters" },
+  { name: "Sponsor Care", href: "/sponsor-care" },
+  { name: "Sponsors", href: "/sponsors" },
+  { name: "Partners", href: "/partners" },
+  { name: "Referral Partners", href: "/referral-partners" },
+  { name: "Funders", href: "/funders" },
+  { name: "Mission One-Pager", href: "/mission-one-pager" },
+  { name: "Impact", href: "/impact" },
+  { name: "Contact", href: "/contact" },
+];
+
 const programLinks = [
   { name: "Beyond the Yellow", href: "/beyondtheyellow" },
   { name: "Heroes for Heroes", href: "/advocates" },
