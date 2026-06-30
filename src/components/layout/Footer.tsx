@@ -17,6 +17,14 @@ const programLinks = [
   { name: "Join Our Team", href: "/therapists" },
 ];
 
+const mediaLinks = [
+  { name: "Media Overview", href: "/media" },
+  { name: "YouTube & Podcast", href: "/media/youtube-podcast" },
+  { name: "Cognitive Consistency", href: "/media/cognitive-consistency" },
+  { name: "Collaborate", href: "/media/collaborate" },
+  { name: "Community", href: "/media/community" },
+];
+
 const aboutLinks = [
   { name: "Contact", href: "/contact" },
   { name: "Urgent Help", href: "/urgent-help" },
@@ -49,11 +57,21 @@ export function Footer() {
             </a>
           </div>
 
-          <div className="md:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-8">
+          <div className="md:col-span-7 grid grid-cols-2 sm:grid-cols-4 gap-8">
             <div>
               <h3 className="font-heading font-semibold text-base mb-4">Mission</h3>
               <nav className="space-y-2.5">
                 {primaryLinks.map((l) => (
+                  <Link key={l.name} to={l.href} className="block text-sm text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                    {l.name}
+                  </Link>
+                ))}
+              </nav>
+            </div>
+            <div>
+              <h3 className="font-heading font-semibold text-base mb-4">Media</h3>
+              <nav className="space-y-2.5">
+                {mediaLinks.map((l) => (
                   <Link key={l.name} to={l.href} className="block text-sm text-primary-foreground/80 hover:text-primary-foreground transition-colors">
                     {l.name}
                   </Link>
