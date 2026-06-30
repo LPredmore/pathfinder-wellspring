@@ -91,7 +91,7 @@ export default function VACommunityCareMentalHealth() {
       ]}
       finalCTAs={[
         { label: "Contact ValorWell About Care Options", to: "/get-care" },
-        { label: "Support the Mission", to: "/fund-access-to-care", variant: "secondary" },
+        { label: "Support the Mission", to: "/beyondtheyellow", variant: "secondary" },
       ]}
       finalNote="VA processes, eligibility, and authorization rules change. Confirm specifics with the VA for your situation."
     />

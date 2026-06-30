@@ -14,7 +14,7 @@ export default function SponsorCare() {
       h1="Sponsor care for veterans and families who should not have to wait months for help."
       subhead="Your support helps cover direct therapist costs and expand access to mental health support for veterans and military-connected families."
       heroCTAs={[
-        { label: "Sponsor Care", to: "/fund-access-to-care" },
+        { label: "Sponsor Care", to: "/beyondtheyellow" },
         { label: "Become a Monthly Supporter", to: "/monthly-supporters", variant: "secondary" },
       ]}
       sections={[
@@ -42,13 +42,13 @@ export default function SponsorCare() {
         },
       ]}
       related={[
-        { name: "Fund Access to Care", href: "/fund-access-to-care" },
+        { name: "Go Beyond the Yellow", href: "/beyondtheyellow" },
         { name: "Monthly Supporters", href: "/monthly-supporters" },
         { name: "Sponsors", href: "/sponsors" },
       ]}
       finalCTAs={[
-        { label: "Sponsor Care", to: "/fund-access-to-care" },
-        { label: "Fund Access to Care", to: "/fund-access-to-care", variant: "secondary" },
+        { label: "Sponsor Care", to: "/beyondtheyellow" },
+        { label: "Go Beyond the Yellow", to: "/beyondtheyellow", variant: "secondary" },
         { label: "Become a Monthly Supporter", to: "/monthly-supporters", variant: "secondary" },
       ]}
       finalNote={CRISIS_NOTE}

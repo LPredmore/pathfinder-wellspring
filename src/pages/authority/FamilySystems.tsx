@@ -44,8 +44,8 @@ export default function FamilySystems() {
           ],
         },
         {
-          heading: "Connection to Cognitive Consistency",
-          body: "The same consistency framework used in public conversations can help families reduce double standards, contempt, and emotional reactivity at home. If a rule only applies when it benefits one person, it isn't really a rule.",
+          heading: "Consistency at home",
+          body: "Families build trust when expectations are fair, repeatable, and not rewritten in the heat of the moment. If a rule only applies when it benefits one person, it is not really a rule.",
         },
         {
           heading: "BestSelfs supports family growth",
@@ -87,7 +87,7 @@ export default function FamilySystems() {
       related={[
         { name: "Military Family Therapy", href: "/military-family-therapy" },
         { name: "BestSelfs", href: "/bestselfs" },
-        { name: "Cognitive Consistency", href: "/media/cognitive-consistency" },
+        { name: "Resources", href: "/resources" },
       ]}
       finalCTAs={[
         { label: "Get Family Support", to: "/get-care" },

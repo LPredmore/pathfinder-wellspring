@@ -189,7 +189,7 @@ export default function Competitions() {
     <Layout>
       <SEO
         title="The $75 Mission | Beyond the Yellow"
-        description="Join The $75 Mission as a ValorWell Mission Partner. Help secure real therapy hours for veterans and military families — $75 at a time."
+        description="Beyond the Yellow is ValorWell's action campaign for donors, sponsors, creators, businesses, and funders who want to help secure therapy hours for veterans and military families."
         canonical="/beyondtheyellow" />
 
       <BreadcrumbSchema
@@ -241,6 +241,39 @@ export default function Competitions() {
               <button type="submit" tabIndex={-1}>Apply</button>
             </form>
 
+          </div>
+        </section>
+
+        {/* Participation Paths */}
+        <section className="relative z-10 py-12 md:py-16 bg-background/90">
+          <div className="container-wide">
+            <div className="max-w-3xl mx-auto text-center mb-10">
+              <p className="text-sm font-semibold uppercase tracking-widest text-patriot-red mb-3">The Action Umbrella</p>
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Beyond the Yellow is how supporters put action behind the mission.</h2>
+              <p className="text-muted-foreground text-lg leading-relaxed">
+                This campaign brings together one-time donors, monthly supporters, sponsors, creators, businesses, civic groups, and funders under one clear idea: go beyond awareness and help fund real support.
+              </p>
+            </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {[
+                { title: "Give once", body: "$75 funds one therapy hour for a veteran or military family member.", cta: "Fund a Session", href: "https://valorwell.org/donate" },
+                { title: "Support monthly", body: "Help build a sustainable pathway instead of a one-time awareness push.", cta: "Become a Supporter", href: "https://valorwell.org/donate" },
+                { title: "Sponsor care", body: "Businesses, churches, civic groups, and families can sponsor sessions or campaigns.", cta: "Start a Conversation", href: "mailto:info@valorwell.org?subject=Beyond%20the%20Yellow%20Sponsorship" },
+                { title: "Become a Mission Partner", body: "Creators and advocates can use tracked links to turn attention into funded therapy hours.", cta: "Apply as a Partner", href: "#how-it-works" },
+                { title: "Fund the model", body: "Foundations and major donors can support care access, education, tools, and infrastructure.", cta: "Contact ValorWell", href: "/contact" },
+                { title: "Share the mission", body: "Help more people understand what it means to go beyond the yellow ribbon.", cta: "View One-Pager", href: "/mission-one-pager" },
+              ].map((path) => (
+                <Card key={path.title} className="border-border/60 bg-card/95">
+                  <CardContent className="p-6 flex flex-col h-full">
+                    <h3 className="text-xl font-bold text-foreground mb-2">{path.title}</h3>
+                    <p className="text-muted-foreground leading-relaxed mb-5 flex-1">{path.body}</p>
+                    <Button asChild variant="outline" className="border-navy text-navy hover:bg-navy hover:text-white self-start">
+                      <a href={path.href}>{path.cta}</a>
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </div>
         </section>
 

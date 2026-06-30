@@ -102,7 +102,7 @@ export default function ChampvaMentalHealth() {
       ]}
       finalCTAs={[
         { label: "Ask About CHAMPVA Care", to: "/get-care" },
-        { label: "Fund Access to Care", to: "/fund-access-to-care", variant: "secondary" },
+        { label: "Go Beyond the Yellow", to: "/beyondtheyellow", variant: "secondary" },
       ]}
       finalNote="Coverage and eligibility details depend on CHAMPVA and the VA and may change. Confirm specifics for your situation before starting care."
     />

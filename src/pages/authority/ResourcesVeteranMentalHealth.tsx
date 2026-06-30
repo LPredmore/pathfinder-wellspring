@@ -43,7 +43,7 @@ export default function ResourcesVeteranMentalHealth() {
       ]}
       finalCTAs={[
         { label: "Get Care", to: "/get-care" },
-        { label: "Support the Mission", to: "/fund-access-to-care", variant: "secondary" },
+        { label: "Support the Mission", to: "/beyondtheyellow", variant: "secondary" },
       ]}
       finalNote={CRISIS_NOTE}
     />

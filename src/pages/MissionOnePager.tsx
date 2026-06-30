@@ -81,7 +81,7 @@ export default function MissionOnePager() {
 
             <Block title="Ways to Help">
               <ul className="list-disc pl-5 space-y-1">
-                <li><Link className="text-patriot-red underline" to="/fund-access-to-care">Fund Access to Care</Link></li>
+                <li><Link className="text-patriot-red underline" to="/beyondtheyellow">Go Beyond the Yellow</Link></li>
                 <li><Link className="text-patriot-red underline" to="/monthly-supporters">Become a Monthly Supporter</Link></li>
                 <li><Link className="text-patriot-red underline" to="/sponsor-care">Sponsor Care</Link></li>
                 <li><Link className="text-patriot-red underline" to="/partners">Partner with ValorWell</Link></li>

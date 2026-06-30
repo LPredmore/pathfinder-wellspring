@@ -8,15 +8,11 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import Index from "./pages/Index";
 import Therapy from "./pages/Therapy";
 import GetCare from "./pages/GetCare";
-import FundAccessToCare from "./pages/FundAccessToCare";
 import BestSelfs from "./pages/BestSelfs";
-import Impact from "./pages/Impact";
+import OurModel from "./pages/OurModel";
 import Videos from "./pages/Videos";
 import MediaOverview from "./pages/media/MediaOverview";
 import YouTubePodcast from "./pages/media/YouTubePodcast";
-import CognitiveConsistency from "./pages/media/CognitiveConsistency";
-import Collaborate from "./pages/media/Collaborate";
-import Community from "./pages/media/Community";
 
 
 import HowItWorks from "./pages/HowItWorks";
@@ -57,13 +53,7 @@ import ResourcesVACommunityCare from "./pages/authority/ResourcesVACommunityCare
 import ResourcesDocumentation from "./pages/authority/ResourcesDocumentation";
 import ResourcesVeteranMentalHealth from "./pages/authority/ResourcesVeteranMentalHealth";
 import ResourcesFamilySystems from "./pages/authority/ResourcesFamilySystems";
-import ResourcesCognitiveConsistency from "./pages/authority/ResourcesCognitiveConsistency";
 import Partners from "./pages/Partners";
-import Sponsors from "./pages/Sponsors";
-import MonthlySupporters from "./pages/MonthlySupporters";
-import SponsorCare from "./pages/SponsorCare";
-import Funders from "./pages/Funders";
-import ReferralPartners from "./pages/ReferralPartners";
 import MissionOnePager from "./pages/MissionOnePager";
 import NotFound from "./pages/NotFound";
 
@@ -80,17 +70,18 @@ const App = () => (
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/get-care" element={<GetCare />} />
-              <Route path="/fund-access-to-care" element={<FundAccessToCare />} />
+              <Route path="/fund-access-to-care" element={<Navigate to="/beyondtheyellow" replace />} />
               <Route path="/bestselfs" element={<BestSelfs />} />
-              <Route path="/impact" element={<Impact />} />
+              <Route path="/impact" element={<Navigate to="/our-model" replace />} />
+              <Route path="/our-model" element={<OurModel />} />
               <Route path="/videos" element={<Videos />} />
               <Route path="/media" element={<MediaOverview />} />
               <Route path="/media/youtube-podcast" element={<YouTubePodcast />} />
-              <Route path="/media/cognitive-consistency" element={<CognitiveConsistency />} />
-              <Route path="/media/collaborate" element={<Collaborate />} />
-              <Route path="/media/community" element={<Community />} />
+              <Route path="/media/cognitive-consistency" element={<Navigate to="/media/youtube-podcast" replace />} />
+              <Route path="/media/collaborate" element={<Navigate to="/partners" replace />} />
+              <Route path="/media/community" element={<Navigate to="/media/youtube-podcast" replace />} />
               <Route path="/therapy" element={<Therapy />} />
-              <Route path="/support" element={<Navigate to="/fund-access-to-care" replace />} />
+              <Route path="/support" element={<Navigate to="/beyondtheyellow" replace />} />
               
               
               <Route path="/how-it-works" element={<HowItWorks />} />
@@ -134,15 +125,15 @@ const App = () => (
               <Route path="/resources/documentation" element={<ResourcesDocumentation />} />
               <Route path="/resources/veteran-mental-health" element={<ResourcesVeteranMentalHealth />} />
               <Route path="/resources/family-systems" element={<ResourcesFamilySystems />} />
-              <Route path="/resources/cognitive-consistency" element={<ResourcesCognitiveConsistency />} />
+              <Route path="/resources/cognitive-consistency" element={<Navigate to="/resources" replace />} />
 
               {/* Phase 4: Partner / Funder Infrastructure */}
               <Route path="/partners" element={<Partners />} />
-              <Route path="/sponsors" element={<Sponsors />} />
-              <Route path="/monthly-supporters" element={<MonthlySupporters />} />
-              <Route path="/sponsor-care" element={<SponsorCare />} />
-              <Route path="/funders" element={<Funders />} />
-              <Route path="/referral-partners" element={<ReferralPartners />} />
+              <Route path="/sponsors" element={<Navigate to="/beyondtheyellow" replace />} />
+              <Route path="/monthly-supporters" element={<Navigate to="/beyondtheyellow" replace />} />
+              <Route path="/sponsor-care" element={<Navigate to="/beyondtheyellow" replace />} />
+              <Route path="/funders" element={<Navigate to="/beyondtheyellow" replace />} />
+              <Route path="/referral-partners" element={<Navigate to="/contact" replace />} />
               <Route path="/mission-one-pager" element={<MissionOnePager />} />
 
               <Route path="*" element={<NotFound />} />
