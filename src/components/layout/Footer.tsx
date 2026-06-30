@@ -10,6 +10,19 @@ const primaryLinks = [
   { name: "About", href: "/about" },
 ];
 
+const supportLinks = [
+  { name: "Fund Access to Care", href: "/fund-access-to-care" },
+  { name: "Monthly Supporters", href: "/monthly-supporters" },
+  { name: "Sponsor Care", href: "/sponsor-care" },
+  { name: "Sponsors", href: "/sponsors" },
+  { name: "Partners", href: "/partners" },
+  { name: "Referral Partners", href: "/referral-partners" },
+  { name: "Funders", href: "/funders" },
+  { name: "Mission One-Pager", href: "/mission-one-pager" },
+  { name: "Impact", href: "/impact" },
+  { name: "Contact", href: "/contact" },
+];
+
 const programLinks = [
   { name: "Beyond the Yellow", href: "/beyondtheyellow" },
   { name: "Heroes for Heroes", href: "/advocates" },
@@ -67,11 +80,21 @@ export function Footer() {
             </a>
           </div>
 
-          <div className="md:col-span-7 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8">
+          <div className="md:col-span-7 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-8">
             <div>
               <h3 className="font-heading font-semibold text-base mb-4">Mission</h3>
               <nav className="space-y-2.5">
                 {primaryLinks.map((l) => (
+                  <Link key={l.name} to={l.href} className="block text-sm text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                    {l.name}
+                  </Link>
+                ))}
+              </nav>
+            </div>
+            <div>
+              <h3 className="font-heading font-semibold text-base mb-4">Support</h3>
+              <nav className="space-y-2.5">
+                {supportLinks.map((l) => (
                   <Link key={l.name} to={l.href} className="block text-sm text-primary-foreground/80 hover:text-primary-foreground transition-colors">
                     {l.name}
                   </Link>

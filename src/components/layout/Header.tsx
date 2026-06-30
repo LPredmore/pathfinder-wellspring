@@ -21,6 +21,15 @@ const navigation: { name: string; href: string }[] = [
   { name: "About", href: "/about" },
 ];
 
+const supportLinks = [
+  { name: "Fund Access to Care", href: "/fund-access-to-care" },
+  { name: "Monthly Supporters", href: "/monthly-supporters" },
+  { name: "Sponsor Care", href: "/sponsor-care" },
+  { name: "Sponsors", href: "/sponsors" },
+  { name: "Partners", href: "/partners" },
+  { name: "Funders", href: "/funders" },
+];
+
 const mediaLinks = [
   { name: "Overview", href: "/media" },
   { name: "YouTube & Podcast", href: "/media/youtube-podcast" },
@@ -51,15 +60,37 @@ export function Header() {
           <div className="hidden lg:flex lg:items-center lg:gap-5 xl:gap-6">
             {navigation.map((item) => (
               <span key={item.name} className="contents">
-                <Link
-                  to={item.href}
-                  className={cn(
-                    "text-sm font-medium transition-colors hover:text-primary whitespace-nowrap",
-                    isActive(item.href) ? "text-primary" : "text-muted-foreground"
-                  )}
-                >
-                  {item.name}
-                </Link>
+                {item.name === "Support the Mission" ? (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <button
+                        className={cn(
+                          "text-sm font-medium transition-colors hover:text-primary whitespace-nowrap",
+                          supportLinks.some((s) => isActive(s.href)) ? "text-primary" : "text-muted-foreground"
+                        )}
+                      >
+                        Support the Mission
+                      </button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="start">
+                      {supportLinks.map((s) => (
+                        <DropdownMenuItem key={s.href} asChild>
+                          <Link to={s.href} className="w-full cursor-pointer">{s.name}</Link>
+                        </DropdownMenuItem>
+                      ))}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                ) : (
+                  <Link
+                    to={item.href}
+                    className={cn(
+                      "text-sm font-medium transition-colors hover:text-primary whitespace-nowrap",
+                      isActive(item.href) ? "text-primary" : "text-muted-foreground"
+                    )}
+                  >
+                    {item.name}
+                  </Link>
+                )}
                 {item.name === "BestSelfs" && (
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -154,6 +185,23 @@ export function Header() {
                   >
                     {item.name}
                   </Link>
+                  {item.name === "Support the Mission" && (
+                    <div className="pl-3 space-y-1.5 border-l border-border ml-1">
+                      {supportLinks.map((s) => (
+                        <Link
+                          key={s.href}
+                          to={s.href}
+                          className={cn(
+                            "block py-1 text-sm transition-colors hover:text-primary",
+                            isActive(s.href) ? "text-primary" : "text-muted-foreground"
+                          )}
+                          onClick={() => setMobileMenuOpen(false)}
+                        >
+                          {s.name}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
                   {item.name === "BestSelfs" && (
                     <div className="pl-1">
                       <div className="py-2 text-sm font-medium text-muted-foreground">Media</div>

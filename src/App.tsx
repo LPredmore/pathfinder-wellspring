@@ -58,6 +58,13 @@ import ResourcesDocumentation from "./pages/authority/ResourcesDocumentation";
 import ResourcesVeteranMentalHealth from "./pages/authority/ResourcesVeteranMentalHealth";
 import ResourcesFamilySystems from "./pages/authority/ResourcesFamilySystems";
 import ResourcesCognitiveConsistency from "./pages/authority/ResourcesCognitiveConsistency";
+import Partners from "./pages/Partners";
+import Sponsors from "./pages/Sponsors";
+import MonthlySupporters from "./pages/MonthlySupporters";
+import SponsorCare from "./pages/SponsorCare";
+import Funders from "./pages/Funders";
+import ReferralPartners from "./pages/ReferralPartners";
+import MissionOnePager from "./pages/MissionOnePager";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -128,6 +135,15 @@ const App = () => (
               <Route path="/resources/veteran-mental-health" element={<ResourcesVeteranMentalHealth />} />
               <Route path="/resources/family-systems" element={<ResourcesFamilySystems />} />
               <Route path="/resources/cognitive-consistency" element={<ResourcesCognitiveConsistency />} />
+
+              {/* Phase 4: Partner / Funder Infrastructure */}
+              <Route path="/partners" element={<Partners />} />
+              <Route path="/sponsors" element={<Sponsors />} />
+              <Route path="/monthly-supporters" element={<MonthlySupporters />} />
+              <Route path="/sponsor-care" element={<SponsorCare />} />
+              <Route path="/funders" element={<Funders />} />
+              <Route path="/referral-partners" element={<ReferralPartners />} />
+              <Route path="/mission-one-pager" element={<MissionOnePager />} />
 
               <Route path="*" element={<NotFound />} />
           </Routes>
