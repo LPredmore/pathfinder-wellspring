@@ -13,13 +13,20 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { InfluencerLoginDialog } from "@/components/InfluencerLoginDialog";
 
-const navigation = [
+const navigation: { name: string; href: string }[] = [
   { name: "Get Care", href: "/get-care" },
   { name: "Support the Mission", href: "/fund-access-to-care" },
   { name: "BestSelfs", href: "/bestselfs" },
-  { name: "Media", href: "/videos" },
   { name: "Impact", href: "/impact" },
   { name: "About", href: "/about" },
+];
+
+const mediaLinks = [
+  { name: "Overview", href: "/media" },
+  { name: "YouTube & Podcast", href: "/media/youtube-podcast" },
+  { name: "Cognitive Consistency", href: "/media/cognitive-consistency" },
+  { name: "Collaborate", href: "/media/collaborate" },
+  { name: "Community", href: "/media/community" },
 ];
 
 export function Header() {
