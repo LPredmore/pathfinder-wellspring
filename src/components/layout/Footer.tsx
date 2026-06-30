@@ -5,7 +5,7 @@ const primaryLinks = [
   { name: "Get Care", href: "/get-care" },
   { name: "Fund Access to Care", href: "/fund-access-to-care" },
   { name: "BestSelfs", href: "/bestselfs" },
-  { name: "Media", href: "/videos" },
+  { name: "Media", href: "/media" },
   { name: "Impact", href: "/impact" },
   { name: "About", href: "/about" },
 ];

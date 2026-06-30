@@ -12,6 +12,11 @@ import FundAccessToCare from "./pages/FundAccessToCare";
 import BestSelfs from "./pages/BestSelfs";
 import Impact from "./pages/Impact";
 import Videos from "./pages/Videos";
+import MediaOverview from "./pages/media/MediaOverview";
+import YouTubePodcast from "./pages/media/YouTubePodcast";
+import CognitiveConsistency from "./pages/media/CognitiveConsistency";
+import Collaborate from "./pages/media/Collaborate";
+import Community from "./pages/media/Community";
 
 
 import HowItWorks from "./pages/HowItWorks";
@@ -59,6 +64,11 @@ const App = () => (
               <Route path="/bestselfs" element={<BestSelfs />} />
               <Route path="/impact" element={<Impact />} />
               <Route path="/videos" element={<Videos />} />
+              <Route path="/media" element={<MediaOverview />} />
+              <Route path="/media/youtube-podcast" element={<YouTubePodcast />} />
+              <Route path="/media/cognitive-consistency" element={<CognitiveConsistency />} />
+              <Route path="/media/collaborate" element={<Collaborate />} />
+              <Route path="/media/community" element={<Community />} />
               <Route path="/therapy" element={<Therapy />} />
               <Route path="/support" element={<Navigate to="/fund-access-to-care" replace />} />
               
