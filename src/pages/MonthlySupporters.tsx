@@ -14,8 +14,8 @@ export default function MonthlySupporters() {
       h1="Become a monthly supporter of the mission."
       subhead="Monthly supporters help ValorWell build something sustainable: a long-term support system for veterans and families, not just a one-time campaign."
       heroCTAs={[
-        { label: "Become a Monthly Supporter", to: "/fund-access-to-care" },
-        { label: "Fund Access to Care", to: "/fund-access-to-care", variant: "secondary" },
+        { label: "Become a Monthly Supporter", to: "/beyondtheyellow" },
+        { label: "Go Beyond the Yellow", to: "/beyondtheyellow", variant: "secondary" },
       ]}
       sections={[
         {
@@ -51,13 +51,13 @@ export default function MonthlySupporters() {
         },
       ]}
       related={[
-        { name: "Fund Access to Care", href: "/fund-access-to-care" },
+        { name: "Go Beyond the Yellow", href: "/beyondtheyellow" },
         { name: "Sponsor Care", href: "/sponsor-care" },
         { name: "Impact", href: "/impact" },
       ]}
       finalCTAs={[
-        { label: "Become a Monthly Supporter", to: "/fund-access-to-care" },
-        { label: "Fund Access to Care", to: "/fund-access-to-care", variant: "secondary" },
+        { label: "Become a Monthly Supporter", to: "/beyondtheyellow" },
+        { label: "Go Beyond the Yellow", to: "/beyondtheyellow", variant: "secondary" },
         { label: "Share the Mission", to: "/mission-one-pager", variant: "secondary" },
       ]}
       finalNote={<>

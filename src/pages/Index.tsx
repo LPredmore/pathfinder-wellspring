@@ -4,75 +4,61 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
-  Stethoscope,
+  ArrowRight,
+  BookOpen,
   ClipboardCheck,
+  Compass,
+  HeartHandshake,
+  PlayCircle,
   ShieldCheck,
   Wrench,
-  BookOpen,
-  HeartHandshake,
-  ArrowRight,
-  PlayCircle,
 } from "lucide-react";
 import heroFamily from "@/assets/hero-family.jpg";
 
-const MISSION_TAGLINE =
-  "ValorWell is the mission. BestSelfs helps power it.";
-
-const buildingBlocks = [
+const systemCards = [
   {
-    icon: Stethoscope,
-    title: "Mental health care",
-    body: "Therapy for veterans, military families, and caregivers.",
+    icon: Compass,
+    title: "VA-system navigation",
+    body: "Clearer next steps for families trying to understand care access, Community Care, CHAMPVA, and system delays.",
   },
   {
     icon: ShieldCheck,
-    title: "VA Community Care & CHAMPVA support",
-    body: "Help navigating the access barriers that keep people from getting in.",
+    title: "Bridge support",
+    body: "Support pathways for veterans and families who should not be left alone while the larger system catches up.",
   },
   {
     icon: ClipboardCheck,
-    title: "Ethical clinical documentation",
-    body: "Appropriate documentation when it is based on a real clinical relationship.",
+    title: "Ethical documentation awareness",
+    body: "Education and clinical support that respects real care relationships, accurate records, and professional judgment.",
   },
   {
     icon: Wrench,
-    title: "Practical tools",
-    body: "Emotional skills, parenting, communication, and family systems.",
+    title: "Practical family tools",
+    body: "BestSelfs tools and resources that help families build skills outside formal systems.",
   },
   {
     icon: BookOpen,
-    title: "Education that helps people think clearly",
-    body: "Better systems for harder conversations, instead of reactive noise.",
+    title: "Public education",
+    body: "Resources, videos, and conversations that explain the ecosystem people are forced to navigate.",
   },
   {
     icon: HeartHandshake,
-    title: "Funding pathways for access to care",
-    body: "Supporter-funded sessions that expand who can be seen.",
+    title: "Funded action",
+    body: "Beyond the Yellow turns support into therapy hours, sponsorships, partnerships, and practical help.",
   },
-];
-
-const supporterBullets = [
-  "Fund access to care",
-  "Subscribe to BestSelfs tools",
-  "Become a monthly supporter",
-  "Subscribe to our YouTube channel",
-  "Share the mission",
-  "Partner with ValorWell",
-  "Help us reach veterans and families who need support",
 ];
 
 const Index = () => {
   return (
     <Layout>
       <SEO
-        title="Mental Health Care, Documentation & Support for Veterans and Families"
-        description="ValorWell is building a better support system so veterans and their families can access mental health care, clinical documentation, and practical tools without waiting months or relying on predatory systems."
+        title="Changing the Support Ecosystem for Veterans and Families"
+        description="ValorWell is building a better pathway for veterans and families navigating VA systems, care access, documentation challenges, support gaps, and practical family needs."
         canonical="/"
       />
       <OrganizationSchema />
       <MedicalOrganizationSchema />
 
-      {/* Section 1: Hero */}
       <section className="relative">
         <div className="flex justify-center bg-background">
           <div
@@ -86,58 +72,49 @@ const Index = () => {
                   The ValorWell Mission
                 </p>
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-navy leading-[1.1] mb-6">
-                  Veterans and families deserve better than waiting months for help.
+                  Veterans and families need a better path through the systems meant to support them.
                 </h1>
                 <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-xl leading-relaxed">
-                  ValorWell is building a better support system so veterans and their families can get mental health care, accurate clinical documentation, and practical tools — without waiting months, going untreated, or relying on predatory systems.
+                  ValorWell is building better systems for veterans and families navigating VA access, care delays, documentation challenges, family support needs, and the gaps where predatory alternatives too often step in.
                 </p>
                 <div className="flex flex-wrap gap-3">
                   <Button asChild size="lg" className="bg-patriot-red hover:bg-patriot-red-dark text-white">
-                    <Link to="/get-care">Get Care</Link>
+                    <Link to="/get-care">Get Support</Link>
                   </Button>
                   <Button asChild size="lg" variant="outline" className="border-navy text-navy hover:bg-navy hover:text-white">
-                    <Link to="/fund-access-to-care">Fund Access to Care</Link>
+                    <Link to="/beyondtheyellow">Go Beyond the Yellow</Link>
                   </Button>
                 </div>
-                <p className="mt-6 text-sm text-muted-foreground italic">
-                  {MISSION_TAGLINE}
-                </p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Section 2: The Broken System */}
       <section className="py-14 md:py-20 bg-background">
         <div className="container-narrow">
           <h2 className="text-3xl md:text-4xl font-bold text-navy mb-6">
-            The system is too slow, too fragmented, and too hard to navigate.
+            The problem is bigger than one appointment.
           </h2>
           <div className="space-y-4 text-lg text-muted-foreground leading-relaxed">
-            <p>
-              Veterans and military families often face long waits, limited provider access, confusing insurance barriers, and a lack of practical guidance when they need help.
-            </p>
-            <p>
-              Some need therapy. Some need family support. Some need documentation from a mental health professional to help them navigate the disability system. Many need all of it.
-            </p>
-            <p>
-              But instead of finding a clear path, they are often left to wait, search, repeat their story, pay out of pocket, or turn to organizations that charge far too much because veterans feel like they have no other option.
-            </p>
+            <p>Veterans and families are often left waiting, repeating their story, navigating confusing systems, paying out of pocket, or turning to expensive services because they do not know where else to go.</p>
+            <p>ValorWell exists to build a better path through that ecosystem: care access, VA navigation, documentation awareness, family tools, public education, and mission-backed funding.</p>
           </div>
         </div>
       </section>
 
-      {/* Section 3: What ValorWell Is Building */}
       <section className="py-14 md:py-20 section-alt">
         <div className="container-wide">
           <div className="max-w-3xl mb-10">
             <h2 className="text-3xl md:text-4xl font-bold text-navy mb-3">
-              ValorWell is building a better path.
+              What ValorWell is building.
             </h2>
+            <p className="text-muted-foreground text-lg leading-relaxed">
+              This is not just a clinic. It is a mission to change how veterans and families move through the systems that shape their care, support, documentation, and options.
+            </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {buildingBlocks.map((b) => (
+            {systemCards.map((b) => (
               <Card key={b.title} className="border-border/60">
                 <CardContent className="p-6">
                   <div className="w-11 h-11 rounded-md bg-primary/10 flex items-center justify-center mb-4">
@@ -149,35 +126,31 @@ const Index = () => {
               </Card>
             ))}
           </div>
-          <p className="mt-10 text-lg text-muted-foreground italic max-w-3xl">
-            This is not just a clinic. It is an effort to build infrastructure around the people who are too often left navigating the system alone.
-          </p>
         </div>
       </section>
 
-      {/* Section 4: Two Main Paths */}
       <section className="py-14 md:py-20 bg-background">
         <div className="container-wide">
           <div className="grid md:grid-cols-2 gap-6">
             <Card className="border-2 border-navy/10 hover:border-navy/30 transition-colors">
               <CardContent className="p-8 md:p-10">
-                <h3 className="text-2xl md:text-3xl font-bold text-navy mb-3">Need Care?</h3>
+                <h3 className="text-2xl md:text-3xl font-bold text-navy mb-3">Need support?</h3>
                 <p className="text-muted-foreground mb-6 leading-relaxed">
-                  Start here if you are a veteran, family member, or caregiver looking for mental health support or practical guidance.
+                  Start here if you are a veteran, family member, or caregiver trying to understand care options, mental health support, documentation, or next steps.
                 </p>
                 <Button asChild size="lg" className="bg-patriot-red hover:bg-patriot-red-dark text-white">
-                  <Link to="/get-care">Get Care <ArrowRight className="ml-2 h-4 w-4" /></Link>
+                  <Link to="/get-care">Get Support <ArrowRight className="ml-2 h-4 w-4" /></Link>
                 </Button>
               </CardContent>
             </Card>
             <Card className="border-2 border-navy/10 hover:border-navy/30 transition-colors">
               <CardContent className="p-8 md:p-10">
-                <h3 className="text-2xl md:text-3xl font-bold text-navy mb-3">Want to Help?</h3>
+                <h3 className="text-2xl md:text-3xl font-bold text-navy mb-3">Want to help?</h3>
                 <p className="text-muted-foreground mb-6 leading-relaxed">
-                  Support the mission by helping fund access to care, tools, education, and practical support for veterans and families.
+                  Beyond the Yellow is the action campaign for supporters, sponsors, creators, and funders who want to put real backing behind veterans and families.
                 </p>
                 <Button asChild size="lg" variant="outline" className="border-navy text-navy hover:bg-navy hover:text-white">
-                  <Link to="/fund-access-to-care">Fund Access to Care <ArrowRight className="ml-2 h-4 w-4" /></Link>
+                  <Link to="/beyondtheyellow">Go Beyond the Yellow <ArrowRight className="ml-2 h-4 w-4" /></Link>
                 </Button>
               </CardContent>
             </Card>
@@ -185,128 +158,56 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Section 5: BestSelfs */}
       <section className="py-14 md:py-20 section-alt">
         <div className="container-narrow">
-          <h2 className="text-3xl md:text-4xl font-bold text-navy mb-4">
-            BestSelfs helps power the mission.
-          </h2>
-          <div className="space-y-4 text-lg text-muted-foreground leading-relaxed mb-8">
-            <p>
-              BestSelfs creates practical tools that help individuals and families build emotional skills, better communication, stronger routines, and healthier systems.
-            </p>
-            <p>
-              Products like CoreFeel, VibeTales, NinjaDo, and future BestSelfs tools are designed to help families grow stronger while also supporting the larger ValorWell mission.
-            </p>
-          </div>
+          <h2 className="text-3xl md:text-4xl font-bold text-navy mb-4">The ValorWell model.</h2>
+          <p className="text-lg text-muted-foreground leading-relaxed mb-8">
+            We are entering a new phase focused on clearer pathways, funded action, public education, family tools, and measurable support as the model grows.
+          </p>
           <Button asChild size="lg" className="bg-navy hover:bg-navy/90 text-white">
+            <Link to="/our-model">Explore Our Model</Link>
+          </Button>
+        </div>
+      </section>
+
+      <section className="py-14 md:py-20 bg-background">
+        <div className="container-narrow">
+          <h2 className="text-3xl md:text-4xl font-bold text-navy mb-4">Tools that help fund the mission.</h2>
+          <p className="text-lg text-muted-foreground leading-relaxed mb-8">
+            BestSelfs builds practical family tools and apps. Revenue from BestSelfs products helps support the ValorWell mission while giving families resources they can use outside formal systems.
+          </p>
+          <Button asChild size="lg" variant="outline" className="border-navy text-navy hover:bg-navy hover:text-white">
             <Link to="/bestselfs">Explore BestSelfs</Link>
           </Button>
         </div>
       </section>
 
-      {/* Section 6: Media */}
-      <section className="py-14 md:py-20 bg-background">
-        <div className="container-narrow">
-          <h2 className="text-3xl md:text-4xl font-bold text-navy mb-4">
-            We teach better systems for harder conversations.
-          </h2>
-          <div className="space-y-4 text-lg text-muted-foreground leading-relaxed mb-8">
-            <p>
-              ValorWell Media helps people slow down, think clearly, and approach difficult issues with more consistency, empathy, and structure.
-            </p>
-            <p>
-              Through short-form videos, long-form discussions, podcasts, Reddit conversations, and educational content, we explore the thinking patterns that affect families, communities, veterans, and public life.
-            </p>
-            <p>
-              The goal is not to tell people what to think. The goal is to help people build better systems for how they think, communicate, and respond.
-            </p>
-          </div>
-          <Button asChild size="lg" variant="outline" className="border-navy text-navy hover:bg-navy hover:text-white">
-            <Link to="/videos">
-              <PlayCircle className="mr-2 h-5 w-5" /> Watch the Mission
-            </Link>
-          </Button>
-        </div>
-      </section>
-
-      {/* Section 7: Supporter */}
       <section className="py-14 md:py-20 bg-navy text-white">
         <div className="container-wide">
           <div className="grid md:grid-cols-2 gap-10 items-center">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                Support is not just a donation. It is how this gets built.
-              </h2>
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">Education helps people find the path sooner.</h2>
               <p className="text-white/80 text-lg leading-relaxed mb-6">
-                Every supporter helps us move closer to a system where veterans and families can access care, documentation, tools, and guidance before they are left waiting too long or pushed toward predatory alternatives.
+                Our videos, podcast conversations, and resources explain the systems veterans and families are forced to navigate — and help supporters understand what real action looks like.
               </p>
-              <Button asChild size="lg" className="bg-patriot-red hover:bg-patriot-red-dark text-white">
-                <Link to="/fund-access-to-care">Help Fund Access to Care</Link>
-              </Button>
+              <div className="flex flex-wrap gap-3">
+                <Button asChild size="lg" className="bg-patriot-red hover:bg-patriot-red-dark text-white">
+                  <Link to="/media/youtube-podcast"><PlayCircle className="mr-2 h-5 w-5" /> Watch Videos</Link>
+                </Button>
+                <Button asChild size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-navy">
+                  <Link to="/resources">Explore Resources</Link>
+                </Button>
+              </div>
             </div>
-            <ul className="space-y-3">
-              {supporterBullets.map((b) => (
-                <li key={b} className="flex items-start gap-3">
-                  <span className="text-gold-accent mt-1">★</span>
-                  <span className="text-white/90">{b}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      {/* Section 8: Impact Preview */}
-      <section className="py-14 md:py-20 bg-background">
-        <div className="container-wide">
-          <div className="max-w-3xl mb-10">
-            <h2 className="text-3xl md:text-4xl font-bold text-navy mb-3">
-              Built around real care and measurable impact.
-            </h2>
-            <p className="text-muted-foreground">
-              Public impact dashboard in development. Below is what we are tracking and reporting on as the mission scales.
-            </p>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              { stat: "$75", label: "Direct therapist cost per session" },
-              { stat: "Tracking", label: "Sessions delivered" },
-              { stat: "Tracking", label: "Veterans & families served" },
-              { stat: "Tracking", label: "Supporter-funded care" },
-            ].map((m) => (
-              <Card key={m.label} className="border-border/60">
-                <CardContent className="p-6 text-center">
-                  <div className="text-2xl md:text-3xl font-bold text-navy mb-1">{m.stat}</div>
-                  <div className="text-sm text-muted-foreground">{m.label}</div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-          <div className="mt-6 text-center">
-            <Link to="/impact" className="text-sm font-medium text-navy underline underline-offset-4 hover:text-patriot-red">
-              See the full impact page →
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Section 9: Final CTA */}
-      <section className="py-14 md:py-20 section-alt">
-        <div className="container-narrow text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-navy mb-8 max-w-3xl mx-auto">
-            Help us build the support system veterans and families should have had all along.
-          </h2>
-          <div className="flex flex-wrap justify-center gap-3">
-            <Button asChild size="lg" className="bg-patriot-red hover:bg-patriot-red-dark text-white">
-              <Link to="/get-care">Get Care</Link>
-            </Button>
-            <Button asChild size="lg" variant="outline" className="border-navy text-navy hover:bg-navy hover:text-white">
-              <Link to="/fund-access-to-care">Fund Access to Care</Link>
-            </Button>
-            <Button asChild size="lg" variant="ghost" className="text-navy hover:bg-navy/5">
-              <Link to="/bestselfs">Explore BestSelfs</Link>
-            </Button>
+            <div className="rounded-2xl border border-white/20 bg-white/10 p-8">
+              <h3 className="text-2xl font-bold mb-3">Beyond the Yellow</h3>
+              <p className="text-white/85 leading-relaxed mb-5">
+                We do not stop at awareness. Beyond the Yellow is how the mission turns words into funded therapy hours, sponsorships, partnerships, and real support.
+              </p>
+              <Link to="/beyondtheyellow" className="font-semibold underline underline-offset-4 hover:text-gold-accent">
+                See the campaign →
+              </Link>
+            </div>
           </div>
         </div>
       </section>

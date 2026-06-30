@@ -76,7 +76,7 @@ const About = () => {
               <Link to="/get-care">Get Care</Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-navy">
-              <Link to="/fund-access-to-care">Support the Mission</Link>
+              <Link to="/beyondtheyellow">Support the Mission</Link>
             </Button>
           </div>
         </div>

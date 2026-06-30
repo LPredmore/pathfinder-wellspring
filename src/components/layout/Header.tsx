@@ -14,28 +14,12 @@ import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { InfluencerLoginDialog } from "@/components/InfluencerLoginDialog";
 
 const navigation: { name: string; href: string }[] = [
-  { name: "Get Care", href: "/get-care" },
-  { name: "Support the Mission", href: "/fund-access-to-care" },
-  { name: "BestSelfs", href: "/bestselfs" },
-  { name: "Impact", href: "/impact" },
+  { name: "Get Support", href: "/get-care" },
+  { name: "Beyond the Yellow", href: "/beyondtheyellow" },
+  { name: "Resources", href: "/resources" },
+  { name: "Videos", href: "/media/youtube-podcast" },
+  { name: "Our Model", href: "/our-model" },
   { name: "About", href: "/about" },
-];
-
-const supportLinks = [
-  { name: "Fund Access to Care", href: "/fund-access-to-care" },
-  { name: "Monthly Supporters", href: "/monthly-supporters" },
-  { name: "Sponsor Care", href: "/sponsor-care" },
-  { name: "Sponsors", href: "/sponsors" },
-  { name: "Partners", href: "/partners" },
-  { name: "Funders", href: "/funders" },
-];
-
-const mediaLinks = [
-  { name: "Overview", href: "/media" },
-  { name: "YouTube & Podcast", href: "/media/youtube-podcast" },
-  { name: "Cognitive Consistency", href: "/media/cognitive-consistency" },
-  { name: "Collaborate", href: "/media/collaborate" },
-  { name: "Community", href: "/media/community" },
 ];
 
 export function Header() {
@@ -45,7 +29,11 @@ export function Header() {
   const { user, signOut } = useAuth();
   const { isAdmin } = useIsAdmin();
 
-  const isActive = (href: string) => location.pathname === href;
+  const isActive = (href: string) =>
+    location.pathname === href ||
+    (href === "/resources" && location.pathname.startsWith("/resources")) ||
+    (href === "/media/youtube-podcast" && (location.pathname === "/videos" || location.pathname.startsWith("/media"))) ||
+    (href === "/beyondtheyellow" && ["/fund-access-to-care", "/monthly-supporters", "/sponsor-care", "/sponsors", "/funders"].includes(location.pathname));
 
   return (
     <>
@@ -56,70 +44,25 @@ export function Header() {
             <span className="text-xl font-semibold text-primary">ValorWell</span>
           </Link>
 
-          {/* Desktop Navigation */}
           <div className="hidden lg:flex lg:items-center lg:gap-5 xl:gap-6">
             {navigation.map((item) => (
-              <span key={item.name} className="contents">
-                {item.name === "Support the Mission" ? (
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <button
-                        className={cn(
-                          "text-sm font-medium transition-colors hover:text-primary whitespace-nowrap",
-                          supportLinks.some((s) => isActive(s.href)) ? "text-primary" : "text-muted-foreground"
-                        )}
-                      >
-                        Support the Mission
-                      </button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start">
-                      {supportLinks.map((s) => (
-                        <DropdownMenuItem key={s.href} asChild>
-                          <Link to={s.href} className="w-full cursor-pointer">{s.name}</Link>
-                        </DropdownMenuItem>
-                      ))}
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                ) : (
-                  <Link
-                    to={item.href}
-                    className={cn(
-                      "text-sm font-medium transition-colors hover:text-primary whitespace-nowrap",
-                      isActive(item.href) ? "text-primary" : "text-muted-foreground"
-                    )}
-                  >
-                    {item.name}
-                  </Link>
+              <Link
+                key={item.href}
+                to={item.href}
+                className={cn(
+                  "text-sm font-medium transition-colors hover:text-primary whitespace-nowrap",
+                  isActive(item.href) ? "text-primary" : "text-muted-foreground"
                 )}
-                {item.name === "BestSelfs" && (
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <button
-                        className={cn(
-                          "text-sm font-medium transition-colors hover:text-primary whitespace-nowrap",
-                          location.pathname.startsWith("/media") ? "text-primary" : "text-muted-foreground"
-                        )}
-                      >
-                        Media
-                      </button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start">
-                      {mediaLinks.map((m) => (
-                        <DropdownMenuItem key={m.href} asChild>
-                          <Link to={m.href} className="w-full cursor-pointer">{m.name}</Link>
-                        </DropdownMenuItem>
-                      ))}
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                )}
-              </span>
+              >
+                {item.name}
+              </Link>
             ))}
 
             <Button asChild className="bg-patriot-red hover:bg-patriot-red-dark text-white">
-              <Link to="/get-care">Get Care</Link>
+              <Link to="/get-care">Get Support</Link>
             </Button>
             <Button asChild variant="outline" className="border-navy text-navy hover:bg-navy hover:text-white">
-              <Link to="/fund-access-to-care">Fund Access</Link>
+              <Link to="/beyondtheyellow">Go Beyond the Yellow</Link>
             </Button>
 
             {user ? (
@@ -143,17 +86,17 @@ export function Header() {
             ) : (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm">Login</Button>
+                  <Button variant="ghost" size="sm">Portal Login</Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                   <DropdownMenuItem asChild>
-                    <a href="https://client.valorwell.org" target="_blank" rel="noopener noreferrer">Login as Client</a>
+                    <a href="https://client.valorwell.org" target="_blank" rel="noopener noreferrer">Client Portal</a>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <a href="https://emr.valorwell.org" target="_blank" rel="noopener noreferrer">Login as Clinician</a>
+                    <a href="https://emr.valorwell.org" target="_blank" rel="noopener noreferrer">Clinician Portal</a>
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => setLoginDialogOpen(true)} className="cursor-pointer">
-                    Login as Mission Partner
+                    Mission Partner Portal
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -174,63 +117,25 @@ export function Header() {
           <div className="lg:hidden border-t bg-background">
             <div className="container-wide py-4 space-y-3">
               {navigation.map((item) => (
-                <div key={item.name}>
-                  <Link
-                    to={item.href}
-                    className={cn(
-                      "block py-2 text-sm font-medium transition-colors hover:text-primary",
-                      isActive(item.href) ? "text-primary" : "text-muted-foreground"
-                    )}
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    {item.name}
-                  </Link>
-                  {item.name === "Support the Mission" && (
-                    <div className="pl-3 space-y-1.5 border-l border-border ml-1">
-                      {supportLinks.map((s) => (
-                        <Link
-                          key={s.href}
-                          to={s.href}
-                          className={cn(
-                            "block py-1 text-sm transition-colors hover:text-primary",
-                            isActive(s.href) ? "text-primary" : "text-muted-foreground"
-                          )}
-                          onClick={() => setMobileMenuOpen(false)}
-                        >
-                          {s.name}
-                        </Link>
-                      ))}
-                    </div>
+                <Link
+                  key={item.href}
+                  to={item.href}
+                  className={cn(
+                    "block py-2 text-sm font-medium transition-colors hover:text-primary",
+                    isActive(item.href) ? "text-primary" : "text-muted-foreground"
                   )}
-                  {item.name === "BestSelfs" && (
-                    <div className="pl-1">
-                      <div className="py-2 text-sm font-medium text-muted-foreground">Media</div>
-                      <div className="pl-3 space-y-1.5 border-l border-border">
-                        {mediaLinks.map((m) => (
-                          <Link
-                            key={m.href}
-                            to={m.href}
-                            className={cn(
-                              "block py-1 text-sm transition-colors hover:text-primary",
-                              isActive(m.href) ? "text-primary" : "text-muted-foreground"
-                            )}
-                            onClick={() => setMobileMenuOpen(false)}
-                          >
-                            {m.name}
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {item.name}
+                </Link>
               ))}
 
               <div className="flex flex-col gap-2 pt-2">
                 <Button asChild className="w-full bg-patriot-red hover:bg-patriot-red-dark text-white">
-                  <Link to="/get-care" onClick={() => setMobileMenuOpen(false)}>Get Care</Link>
+                  <Link to="/get-care" onClick={() => setMobileMenuOpen(false)}>Get Support</Link>
                 </Button>
                 <Button asChild variant="outline" className="w-full border-navy text-navy">
-                  <Link to="/fund-access-to-care" onClick={() => setMobileMenuOpen(false)}>Fund Access to Care</Link>
+                  <Link to="/beyondtheyellow" onClick={() => setMobileMenuOpen(false)}>Go Beyond the Yellow</Link>
                 </Button>
               </div>
 
@@ -248,17 +153,17 @@ export function Header() {
               ) : (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="w-full">Login</Button>
+                    <Button variant="ghost" className="w-full">Portal Login</Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="center" className="w-[calc(100vw-2rem)]">
                     <DropdownMenuItem asChild>
-                      <a href="https://client.valorwell.org" target="_blank" rel="noopener noreferrer" className="w-full">Login as Client</a>
+                      <a href="https://client.valorwell.org" target="_blank" rel="noopener noreferrer">Client Portal</a>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
-                      <a href="https://emr.valorwell.org" target="_blank" rel="noopener noreferrer" className="w-full">Login as Clinician</a>
+                      <a href="https://emr.valorwell.org" target="_blank" rel="noopener noreferrer">Clinician Portal</a>
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => { setLoginDialogOpen(true); setMobileMenuOpen(false); }} className="w-full cursor-pointer">
-                      Login as Mission Partner
+                    <DropdownMenuItem onClick={() => setLoginDialogOpen(true)} className="cursor-pointer">
+                      Mission Partner Portal
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -267,7 +172,6 @@ export function Header() {
           </div>
         )}
       </header>
-
       <InfluencerLoginDialog open={loginDialogOpen} onOpenChange={setLoginDialogOpen} />
     </>
   );

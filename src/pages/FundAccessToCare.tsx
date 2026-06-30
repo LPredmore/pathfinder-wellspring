@@ -26,11 +26,11 @@ const FundAccessToCare = () => {
   return (
     <Layout>
       <SEO
-        title="Fund Access to Care"
+        title="Go Beyond the Yellow"
         description="Help fund access to mental health care, practical tools, and support systems for veterans and families."
         canonical="/fund-access-to-care"
       />
-      <BreadcrumbSchema items={[{ name: "Home", url: "/" }, { name: "Fund Access to Care", url: "/fund-access-to-care" }]} />
+      <BreadcrumbSchema items={[{ name: "Home", url: "/" }, { name: "Go Beyond the Yellow", url: "/fund-access-to-care" }]} />
 
       <section className="py-14 md:py-20 bg-background">
         <div className="container-narrow">
@@ -42,7 +42,7 @@ const FundAccessToCare = () => {
             Veterans should not have to wait months for mental health care, go untreated, or rely on predatory systems just to get support.
           </p>
           <Button asChild size="lg" className="bg-patriot-red hover:bg-patriot-red-dark text-white">
-            <Link to="/donate">Fund Access to Care</Link>
+            <Link to="/donate">Go Beyond the Yellow</Link>
           </Button>
         </div>
       </section>

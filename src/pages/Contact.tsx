@@ -12,9 +12,9 @@ import { CRISIS_NOTE } from "@/components/authority/AuthorityPage";
 
 const routes = [
   { title: "Need Care", body: "Start here if you are a veteran, family member, or caregiver looking for support.", cta: "Get Care", to: "/get-care" },
-  { title: "Fund or Sponsor Care", body: "Support the mission through donations, monthly support, or sponsorship.", cta: "Fund Access to Care", to: "/fund-access-to-care" },
-  { title: "Partner or Refer", body: "Connect with ValorWell as an organization, provider, veteran group, or referral partner.", cta: "Partner With ValorWell", to: "/partners" },
-  { title: "Media or Collaboration", body: "Apply to be a guest, share your story, or collaborate on mission-aligned content.", cta: "Collaborate", to: "/media/collaborate" },
+  { title: "Support the Mission", body: "Support the mission through Beyond the Yellow donations, sponsorship, or partnership.", cta: "Go Beyond the Yellow", to: "/beyondtheyellow" },
+  { title: "Partner With Us", body: "Connect with ValorWell as an organization, provider, veteran group, sponsor, or creator.", cta: "Partner With ValorWell", to: "/partners" },
+  { title: "Partnerships and Media", body: "Partner on education, sponsorships, organizational support, or mission-aligned media.", cta: "Partner With Us", to: "/partners" },
   { title: "General Contact", body: "Use this for general questions or non-urgent messages.", cta: "Send a Message", to: "#general-form" },
 ];
 
@@ -32,7 +32,7 @@ export default function Contact() {
     <Layout>
       <SEO
         title="Contact ValorWell | Care, Partnerships, Sponsorships and Support"
-        description="Contact ValorWell for care inquiries, partnerships, sponsorships, referrals, media collaboration, or general mission questions."
+        description="Contact ValorWell for care inquiries, partnerships, sponsorships, partnerships, sponsorships, media collaboration, or general mission questions."
         canonical="/contact"
       />
       <BreadcrumbSchema items={[{ name: "Home", url: "/" }, { name: "Contact", url: "/contact" }]} />
@@ -42,7 +42,7 @@ export default function Contact() {
           <p className="text-sm font-semibold uppercase tracking-widest text-patriot-red mb-3">Contact</p>
           <h1 className="text-4xl md:text-5xl font-bold text-navy mb-4">Contact ValorWell.</h1>
           <p className="text-lg md:text-xl text-muted-foreground max-w-3xl">
-            Whether you need care, want to support the mission, want to partner, or have a media/collaboration idea, start here.
+            Whether you need care, want to support the mission, want to support the mission, want to partner, or have a media idea, start here.
           </p>
         </div>
       </section>

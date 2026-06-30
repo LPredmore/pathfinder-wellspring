@@ -26,8 +26,8 @@ const categories = [
     topics: ["Clinicians", "Veteran organizations", "Nonprofit leaders", "Community partners", "Advocates"],
   },
   {
-    name: "Cognitive Consistency Deep Dives",
-    topics: ["Public controversies", "Double standards", "Emotional reasoning", "Principle-based thinking", "Empathy across disagreement"],
+    name: "Beyond the Yellow",
+    topics: ["Funded therapy hours", "Creator campaigns", "Sponsors", "Mission partners", "Turning awareness into action"],
   },
 ];
 
@@ -46,8 +46,8 @@ const YouTubePodcast = () => {
   return (
     <Layout>
       <SEO
-        title="ValorWell YouTube and Podcast — Veteran Mental Health, Family Systems and Mission Conversations"
-        description="Watch long-form ValorWell conversations about veteran care access, family systems, mental health, documentation, and the mission to build better support."
+        title="ValorWell YouTube and Podcast — VA Access, Family Support and Mission Conversations"
+        description="Watch long-form ValorWell conversations about VA access, family support, documentation, Beyond the Yellow, and the mission to build better systems."
         canonical="/media/youtube-podcast"
       />
       <BreadcrumbSchema
@@ -76,7 +76,7 @@ const YouTubePodcast = () => {
               <a href="#mission-video">Watch the Mission Video</a>
             </Button>
             <Button asChild size="lg" variant="ghost" className="text-navy hover:bg-navy/5">
-              <Link to="/media/collaborate">Be a Guest</Link>
+              <Link to="/partners">Partner With Us</Link>
             </Button>
           </div>
         </div>
@@ -144,7 +144,7 @@ const YouTubePodcast = () => {
             ))}
           </ul>
           <Button asChild size="lg" className="bg-patriot-red hover:bg-patriot-red-dark text-white">
-            <Link to="/media/collaborate">Apply to Be a Guest</Link>
+            <Link to="/partners">Apply to Partner With Us</Link>
           </Button>
         </div>
       </section>
@@ -161,7 +161,7 @@ const YouTubePodcast = () => {
               <a href={YOUTUBE_URL} target="_blank" rel="noopener noreferrer">Subscribe on YouTube</a>
             </Button>
             <Button asChild size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-navy">
-              <Link to="/fund-access-to-care">Support the Mission</Link>
+              <Link to="/beyondtheyellow">Support the Mission</Link>
             </Button>
           </div>
         </div>

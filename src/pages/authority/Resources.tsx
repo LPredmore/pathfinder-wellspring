@@ -29,18 +29,12 @@ const categories = [
     href: "/resources/family-systems",
     body: "Communication, parenting systems, emotional regulation, and conflict repair.",
   },
-  {
-    name: "Cognitive Consistency Resources",
-    href: "/resources/cognitive-consistency",
-    body: "Role reversal, double standards, principle-first thinking, and empathy.",
-  },
 ];
 
 const featured = [
   { title: "How to think about CHAMPVA mental health access", note: "Coming soon." },
   { title: "What ethical clinical documentation means", note: "Coming soon." },
   { title: "Why families need systems, not just reactions", note: "Coming soon." },
-  { title: "How Cognitive Consistency helps with hard conversations", note: "Coming soon." },
 ];
 
 export default function Resources() {
@@ -48,7 +42,7 @@ export default function Resources() {
     <Layout>
       <SEO
         title="Veteran and Family Mental Health Resources"
-        description="Explore ValorWell resources on veteran mental health care, CHAMPVA, VA Community Care, clinical documentation, family systems, and Cognitive Consistency."
+        description="Explore ValorWell resources on veteran mental health care, CHAMPVA, VA Community Care, clinical documentation, family systems, and practical support."
         canonical="/resources"
       />
       <BreadcrumbSchema
@@ -64,11 +58,11 @@ export default function Resources() {
             Resource Hub
           </p>
           <h1 className="text-4xl md:text-5xl font-bold text-navy leading-tight mb-5">
-            Resources for veterans, families, and people building better support systems.
+            Resources for veterans and families navigating care, documentation, and VA-related systems.
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-3xl">
-            Explore guides and educational resources on mental health access, CHAMPVA, VA Community
-            Care, documentation, family systems, and Cognitive Consistency.
+            Explore guides and educational resources on VA access, CHAMPVA, Community
+            Care, documentation, family systems, and practical support.
           </p>
         </div>
       </section>
@@ -111,15 +105,15 @@ export default function Resources() {
       <section className="py-12 md:py-16 bg-muted/40">
         <div className="container-narrow flex flex-col md:flex-row gap-4 md:items-center md:justify-between">
           <div>
-            <h2 className="text-2xl font-bold text-navy mb-1">Need care now?</h2>
-            <p className="text-muted-foreground">Reach out and we'll talk through options.</p>
+            <h2 className="text-2xl font-bold text-navy mb-1">Need support?</h2>
+            <p className="text-muted-foreground">Reach out and we'll talk through care, navigation, and support options.</p>
           </div>
           <div className="flex flex-wrap gap-3">
             <Button asChild size="lg" className="bg-patriot-red hover:bg-patriot-red-dark text-white">
               <Link to="/get-care">Get Care</Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="border-navy text-navy hover:bg-navy hover:text-white">
-              <Link to="/fund-access-to-care">Fund Access to Care</Link>
+              <Link to="/beyondtheyellow">Go Beyond the Yellow</Link>
             </Button>
           </div>
         </div>

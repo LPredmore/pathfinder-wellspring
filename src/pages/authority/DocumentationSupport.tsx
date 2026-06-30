@@ -15,7 +15,7 @@ export default function DocumentationSupport() {
       subhead="ValorWell believes veterans should not have to rely on predatory organizations just to get support and documentation from mental health professionals."
       heroCTAs={[
         { label: "Get Care", to: "/get-care" },
-        { label: "Support the Mission", to: "/fund-access-to-care", variant: "secondary" },
+        { label: "Support the Mission", to: "/beyondtheyellow", variant: "secondary" },
       ]}
       sections={[
         {
@@ -117,7 +117,7 @@ export default function DocumentationSupport() {
       ]}
       finalCTAs={[
         { label: "Start Real Care", to: "/get-care" },
-        { label: "Fund Access to Care", to: "/fund-access-to-care", variant: "secondary" },
+        { label: "Go Beyond the Yellow", to: "/beyondtheyellow", variant: "secondary" },
       ]}
       finalNote="Documentation should be based on real clinical care, accurate records, and ethical professional judgment."
     />

@@ -15,7 +15,7 @@ export default function VeteranMentalHealthCare() {
       subhead="ValorWell helps veterans access practical mental health support through a system built around care, documentation, family strain, and real-world barriers."
       heroCTAs={[
         { label: "Get Care", to: "/get-care" },
-        { label: "Support the Mission", to: "/fund-access-to-care", variant: "secondary" },
+        { label: "Support the Mission", to: "/beyondtheyellow", variant: "secondary" },
       ]}
       sections={[
         {
@@ -87,7 +87,7 @@ export default function VeteranMentalHealthCare() {
       ]}
       finalCTAs={[
         { label: "Start Care with ValorWell", to: "/get-care" },
-        { label: "Fund Access to Care", to: "/fund-access-to-care", variant: "secondary" },
+        { label: "Go Beyond the Yellow", to: "/beyondtheyellow", variant: "secondary" },
       ]}
       finalNote={CRISIS_NOTE}
     />

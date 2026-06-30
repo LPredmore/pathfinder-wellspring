@@ -38,11 +38,11 @@ export default function ResourcesChampva() {
       related={[
         { name: "CHAMPVA Mental Health (authority)", href: "/champva-mental-health" },
         { name: "Get Care", href: "/get-care" },
-        { name: "Fund Access to Care", href: "/fund-access-to-care" },
+        { name: "Go Beyond the Yellow", href: "/beyondtheyellow" },
       ]}
       finalCTAs={[
         { label: "Get Care", to: "/get-care" },
-        { label: "Support the Mission", to: "/fund-access-to-care", variant: "secondary" },
+        { label: "Support the Mission", to: "/beyondtheyellow", variant: "secondary" },
       ]}
     />
   );
