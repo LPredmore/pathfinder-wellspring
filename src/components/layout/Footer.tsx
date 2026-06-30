@@ -25,6 +25,16 @@ const mediaLinks = [
   { name: "Community", href: "/media/community" },
 ];
 
+const learnLinks = [
+  { name: "Veteran Mental Health Care", href: "/veteran-mental-health-care" },
+  { name: "CHAMPVA Mental Health", href: "/champva-mental-health" },
+  { name: "VA Community Care Mental Health", href: "/va-community-care-mental-health" },
+  { name: "Documentation Support", href: "/documentation-support" },
+  { name: "Military Family Therapy", href: "/military-family-therapy" },
+  { name: "Family Systems", href: "/family-systems" },
+  { name: "Resource Hub", href: "/resources" },
+];
+
 const aboutLinks = [
   { name: "Contact", href: "/contact" },
   { name: "Urgent Help", href: "/urgent-help" },
@@ -57,7 +67,7 @@ export function Footer() {
             </a>
           </div>
 
-          <div className="md:col-span-7 grid grid-cols-2 sm:grid-cols-4 gap-8">
+          <div className="md:col-span-7 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8">
             <div>
               <h3 className="font-heading font-semibold text-base mb-4">Mission</h3>
               <nav className="space-y-2.5">
