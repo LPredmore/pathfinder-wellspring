@@ -60,15 +60,37 @@ export function Header() {
           <div className="hidden lg:flex lg:items-center lg:gap-5 xl:gap-6">
             {navigation.map((item) => (
               <span key={item.name} className="contents">
-                <Link
-                  to={item.href}
-                  className={cn(
-                    "text-sm font-medium transition-colors hover:text-primary whitespace-nowrap",
-                    isActive(item.href) ? "text-primary" : "text-muted-foreground"
-                  )}
-                >
-                  {item.name}
-                </Link>
+                {item.name === "Support the Mission" ? (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <button
+                        className={cn(
+                          "text-sm font-medium transition-colors hover:text-primary whitespace-nowrap",
+                          supportLinks.some((s) => isActive(s.href)) ? "text-primary" : "text-muted-foreground"
+                        )}
+                      >
+                        Support the Mission
+                      </button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="start">
+                      {supportLinks.map((s) => (
+                        <DropdownMenuItem key={s.href} asChild>
+                          <Link to={s.href} className="w-full cursor-pointer">{s.name}</Link>
+                        </DropdownMenuItem>
+                      ))}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                ) : (
+                  <Link
+                    to={item.href}
+                    className={cn(
+                      "text-sm font-medium transition-colors hover:text-primary whitespace-nowrap",
+                      isActive(item.href) ? "text-primary" : "text-muted-foreground"
+                    )}
+                  >
+                    {item.name}
+                  </Link>
+                )}
                 {item.name === "BestSelfs" && (
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
