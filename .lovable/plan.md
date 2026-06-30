@@ -1,69 +1,90 @@
-# /pendulo restructure
+# Phase 1: Conversion Foundation
 
-Rebuild `src/pages/Pendulo.tsx` so it reads as Pendulo's primary promo page (Google Ads Grant landing), with ValorWell as the partner host. The offer moves to the bottom; the science of hypnosis becomes the main story.
+Restructure ValorWell around the mission and 5 conversion paths. Scope is strictly Phase 1 — pages listed below plus nav and footer. No Media page build, no Phase 2+ work.
 
-## New page order (top → bottom)
+## Pages
 
-1. **ValorWell partner banner** (slim, top of page, above hero)
-   - Small ValorWell wordmark + "Proud partner" label.
-   - Copy (paraphrased from user's brief):
-     > ValorWell is all about bridging the gap between need and availability in mental health care. Pendulo built an incredible solution that brings the proven benefits of hypnosis into your home — the right blend of accessibility and professional quality. We may not be the best fit for everyone, and we'd rather point you toward something that works than block you from it. The results of hypnosis are undeniable. See for yourself.
-   - Subtle styling so it reads as a sponsorship note, not the hero.
+### 1. Homepage `/` — rewrite `src/pages/Index.tsx`
+Replace existing hero/services/CTA structure with 9 sections from the brief:
+1. Hero — "Veterans and families deserve better than waiting months for help." + dual CTA (Get Care, Fund Access to Care) + tagline "ValorWell is the mission. BestSelfs helps power it."
+2. The Broken System
+3. What ValorWell Is Building (6 cards)
+4. Two Main Paths (Need Care / Want to Help)
+5. BestSelfs Helps Power the Mission → `/bestselfs`
+6. Media / Education / Community → external YouTube (Media page deferred to Phase 2)
+7. Supporter Section → `/fund-access-to-care`
+8. Impact Preview — metric cards with "Impact tracking coming soon" placeholders
+9. Final CTA (Get Care, Fund Access to Care, Explore BestSelfs)
 
-2. **Hero — Pendulo first**
-   - Pendulo wordmark + tagline: *"Hypnosis isn't a trick. It's the most effective therapy most people have never tried."*
-   - Sub: personalized AI hypnosis you can do from your headphones, anywhere.
-   - Primary CTA: **Try Pendulo Free** → `https://pendulo-hypno.com/` (tracked).
-   - Secondary: "See the research" anchor to stats section.
-   - No promo code here.
+Reuse existing imagery (`hero-family.jpg`, `flag-sky-background.png`) — no new image generation. Tone shifts away from heavy flag/patriot motifs toward serious, mission-driven typography.
 
-3. **"Three approaches. One clear winner." stats section** (ported from Pendulo's Science page)
-   - 3 cards: Psychoanalysis 38% / 600 sessions, Behavior Therapy 72% / 22 sessions, Hypnosis 93% / 6 sessions (highlighted).
-   - Framed as facts/data, not anti-therapy: intro line — *"Researchers compared the three most-studied therapy approaches across 1,018 outcome studies. Here's what they found."*
-   - Citation: Barrios, A.A. meta-analysis.
+### 2. `/get-care` — new `src/pages/GetCare.tsx`
+Sections: Hero, Who We Help, What We Provide, Documentation Support Note (ethical wording verbatim from brief), What to Expect (5 steps), CTA. Single CTA "Start Care" routes to existing `/get-started` (preserves intake form).
 
-4. **"In plain English" — Faster / Deeper / Stickier** (3 cards, from Pendulo Science page).
+### 3. `/fund-access-to-care` — new `src/pages/FundAccessToCare.tsx`
+Sections: Hero, Problem, What Your Support Helps Build (5 cards), $75 Session Cost Explanation (uses exact brief wording with "direct therapist cost" framing), Giving Tiers ($25/$75/$150/$300/Custom), Monthly Supporter, Sponsor (contact link), Trust/Impact placeholders. Donate buttons route to existing Givebutter redirect (`/donate`) to preserve current donation flow.
 
-5. **What hypnosis has been shown to help with** — tag cloud: anxiety, sleep, pain, smoking, weight, confidence, focus, phobias, stress, public speaking, habits, self-talk.
+### 4. `/bestselfs` — new `src/pages/BestSelfs.tsx`
+Sections: Hero, Product Cards (CoreFeel → `/corefeel`, VibeTales → `/vibetales`, NinjaDo → `/ninjado`, Future Tools), Mission Connection. "ValorWell is the mission. BestSelfs helps power it."
 
-6. **How Pendulo works** — 4-step grid (goal → AI script → 10–30 min session → track shift).
+### 5. `/about` — rewrite `src/pages/About.tsx`
+Sections: Hero, Origin/Why This Exists, What Makes ValorWell Different (6 cards), CTA (Get Care, Support the Mission).
 
-7. **Myth-busters FAQ** — 4 items from Pendulo's Science page (control, hypnotizability, safety, "why haven't I heard about this").
+### 6. `/impact` — new `src/pages/Impact.tsx`
+Sections: Hero, Current Impact Metrics (placeholders clearly editable, $75/session line), What We Track, Transparency Note.
 
-8. **Sources** — 3 external links (Sharon Dyke, Doc Hypnosis, Kate Semeniuk) + Barrios footnote, matches Pendulo's own sourcing.
+## Routing
 
-9. **ValorWell partner offer (moved to bottom)**
-   - Card: *"A small thank-you from ValorWell"*
-   - Brief recap: ValorWell partnered with Pendulo to unlock an exclusive discount.
-   - Big number: **50% off your first year**, copy-to-clipboard code chip `VALORWELL`.
-   - Bullets: 7-day free trial, cancel anytime, billed by Pendulo, code entered at checkout.
-   - CTA: **Claim 50% off** → pendulo URL (tracked).
+`src/App.tsx`:
+- Add routes: `/get-care` → GetCare, `/fund-access-to-care` → FundAccessToCare, `/bestselfs` → BestSelfs, `/impact` → Impact
+- Keep `/therapy`, `/get-started`, `/support`, `/donate`, `/corefeel`, `/vibetales`, `/ninjado`, `/foundation`, all admin/portal/competition routes — untouched.
+- Add legacy redirects: `/therapy` → `/get-care`, `/support` → `/fund-access-to-care` via `<Navigate replace>` so old links and ads keep working.
 
-10. **Final CTA + disclosure footnote**
-    - One-line *"Pendulo is an independent company. ValorWell does not own, operate, or clinically supervise Pendulo."*
-    - Final button to Pendulo.
+## Navigation — `src/components/layout/Header.tsx`
 
-## Tone rules
-- Lead with hypnosis benefits and data; never disparage therapy. Use lines like *"Modern behavior therapy is a huge step up from older approaches — and hypnosis goes one step further on speed and durability."*
-- Drop earlier "Therapy is where the real work happens / Pendulo is for the in-between" framing — that subordinated Pendulo. Replace with neutral *"Pendulo is a wellness tool, not a diagnosis or treatment. If you're in crisis, contact emergency services."* in the footnote area only.
+Desktop nav links: Get Care · Support the Mission · BestSelfs · Media · Impact · About
+- "Support the Mission" → `/fund-access-to-care`
+- "Media" → external link to ValorWell YouTube (until Phase 2 page exists)
+- Primary CTA buttons: **Get Care** (`/get-care`) and **Fund Access to Care** (`/fund-access-to-care`)
+- Login dropdown + Mission Partner flow preserved unchanged
+- Mobile menu mirrors desktop order; condensed CTA priority if cramped: Get Care, Support the Mission, BestSelfs, Impact, About
+
+Remove the current "BTY" ribbon link from primary nav (moved to footer only — Beyond the Yellow stays reachable, just deprioritized in Phase 1 hierarchy).
+
+## Footer — `src/components/layout/Footer.tsx`
+
+Replace current 4-column layout with mission tagline block + link columns:
+- Mission paragraph (verbatim from brief)
+- Columns: Get Care · Fund Access to Care · BestSelfs · Media · Impact · About · Contact · Privacy Policy · Terms · Urgent Help
+- Preserve Beyond the Yellow, Heroes for Heroes, Join Our Team, Foundation under a secondary "Programs" group so existing pages stay discoverable
+- Keep `info@valorwell.org` contact
 
 ## SEO
-- Title: `Pendulo — AI Hypnosis That Works Faster and Lasts Longer`
-- Description: `Personalized AI hypnosis sessions backed by decades of clinical research. Try Pendulo free — ValorWell members get 50% off the first year.`
 
-## Visual
-- Keep the existing indigo/violet palette, semantic tokens, `Layout` + `SEO` wrappers.
-- Stats cards mirror Pendulo's gradient + "The winner" badge on the hypnosis card.
-- ValorWell banner uses a muted `bg-flag-sky/40` strip so it reads as partner chrome, not Pendulo brand.
+Each new/rewritten page uses `<SEO>` with the exact titles + descriptions from the brief and `canonical` set to its own path. Homepage canonical stays `/`.
 
-## Out of scope
-- No footer/header link changes (still direct URL only).
-- No new images imported from the Pendulo project (only PWA icons exist there; we'll stick to wordmarks + lucide icons).
-- No analytics changes beyond reusing `trackAppOutboundClick`.
-- No edits to other pages.
+## Design direction
 
-## Technical notes
-- Single-file rewrite of `src/pages/Pendulo.tsx` (~300 lines).
-- Keep `CodeChip` helper, used only in the bottom offer + final CTA.
-- Constants: `pendulioUrl = "https://pendulo-hypno.com/"`, `PROMO_CODE = "VALORWELL"`.
-- Stats + myths content copied from Pendulo's `Science.jsx` and lightly reworded to fit ValorWell's tone (drop "Big Pharma" line; keep the "quietly outperforming for decades" framing softened).
+- Typography-led, serious, mission-driven. Existing semantic tokens (`navy`, `patriot-red`, `gold-accent`, `flag-sky`) reused; no new tokens, no hardcoded hex.
+- High-contrast CTAs (existing `bg-patriot-red` for primary, outline for secondary).
+- Mobile-first single-column → 2/3-up on `md`.
+- No new generated imagery in Phase 1; reuse `src/assets/*` already in the repo.
+
+## Preserved functionality
+
+- Intake form at `/get-started` and `TherapistApplicationForm` flow
+- Givebutter donate redirect at `/donate`
+- Auth, admin dashboard, influencer portal, competitions, challenge, advocates, foundation
+- All `trackAppOutboundClick` analytics, gtag.js, sitemap, robots
+- Pendulo, CoreFeel, VibeTales, NinjaDo, SkillsQuest, BrightDeed product pages
+
+## Out of scope (later phases)
+
+- Media page build, Contact page rewrite, real impact numbers, new imagery, Phase 2 conversion experiments, Cognitive Consistency content hub.
+
+## Placeholders flagged for human review
+
+- Impact metrics on `/` and `/impact` (sessions delivered, families served, supporter-funded care, BestSelfs revenue) — shown as "Coming soon"
+- ValorWell YouTube channel URL for Media nav link — needs confirmation
+- Sponsorship contact destination on `/fund-access-to-care` (defaults to `mailto:info@valorwell.org` unless told otherwise)
+- "Ask About Sponsorship" form — Phase 1 uses mailto; dedicated form later
