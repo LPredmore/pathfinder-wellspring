@@ -21,6 +21,15 @@ const navigation: { name: string; href: string }[] = [
   { name: "About", href: "/about" },
 ];
 
+const supportLinks = [
+  { name: "Fund Access to Care", href: "/fund-access-to-care" },
+  { name: "Monthly Supporters", href: "/monthly-supporters" },
+  { name: "Sponsor Care", href: "/sponsor-care" },
+  { name: "Sponsors", href: "/sponsors" },
+  { name: "Partners", href: "/partners" },
+  { name: "Funders", href: "/funders" },
+];
+
 const mediaLinks = [
   { name: "Overview", href: "/media" },
   { name: "YouTube & Podcast", href: "/media/youtube-podcast" },
