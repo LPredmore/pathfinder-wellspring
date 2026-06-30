@@ -7,6 +7,11 @@ import { HelmetProvider } from "react-helmet-async";
 import { AuthProvider } from "@/contexts/AuthContext";
 import Index from "./pages/Index";
 import Therapy from "./pages/Therapy";
+import GetCare from "./pages/GetCare";
+import FundAccessToCare from "./pages/FundAccessToCare";
+import BestSelfs from "./pages/BestSelfs";
+import Impact from "./pages/Impact";
+import Videos from "./pages/Videos";
 
 
 import HowItWorks from "./pages/HowItWorks";
@@ -49,7 +54,14 @@ const App = () => (
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Index />} />
+              <Route path="/get-care" element={<GetCare />} />
+              <Route path="/fund-access-to-care" element={<FundAccessToCare />} />
+              <Route path="/bestselfs" element={<BestSelfs />} />
+              <Route path="/impact" element={<Impact />} />
+              <Route path="/videos" element={<Videos />} />
               <Route path="/therapy" element={<Therapy />} />
+              <Route path="/support" element={<Navigate to="/fund-access-to-care" replace />} />
+              
               
               <Route path="/how-it-works" element={<HowItWorks />} />
               <Route path="/therapists" element={<Therapists />} />
