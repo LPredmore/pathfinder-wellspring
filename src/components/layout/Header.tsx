@@ -143,17 +143,38 @@ export function Header() {
           <div className="lg:hidden border-t bg-background">
             <div className="container-wide py-4 space-y-3">
               {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className={cn(
-                    "block py-2 text-sm font-medium transition-colors hover:text-primary",
-                    isActive(item.href) ? "text-primary" : "text-muted-foreground"
+                <div key={item.name}>
+                  <Link
+                    to={item.href}
+                    className={cn(
+                      "block py-2 text-sm font-medium transition-colors hover:text-primary",
+                      isActive(item.href) ? "text-primary" : "text-muted-foreground"
+                    )}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {item.name}
+                  </Link>
+                  {item.name === "BestSelfs" && (
+                    <div className="pl-1">
+                      <div className="py-2 text-sm font-medium text-muted-foreground">Media</div>
+                      <div className="pl-3 space-y-1.5 border-l border-border">
+                        {mediaLinks.map((m) => (
+                          <Link
+                            key={m.href}
+                            to={m.href}
+                            className={cn(
+                              "block py-1 text-sm transition-colors hover:text-primary",
+                              isActive(m.href) ? "text-primary" : "text-muted-foreground"
+                            )}
+                            onClick={() => setMobileMenuOpen(false)}
+                          >
+                            {m.name}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
                   )}
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {item.name}
-                </Link>
+                </div>
               ))}
 
               <div className="flex flex-col gap-2 pt-2">
