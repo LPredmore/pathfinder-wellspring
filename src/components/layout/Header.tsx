@@ -13,13 +13,20 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { InfluencerLoginDialog } from "@/components/InfluencerLoginDialog";
 
-const navigation = [
+const navigation: { name: string; href: string }[] = [
   { name: "Get Care", href: "/get-care" },
   { name: "Support the Mission", href: "/fund-access-to-care" },
   { name: "BestSelfs", href: "/bestselfs" },
-  { name: "Media", href: "/videos" },
   { name: "Impact", href: "/impact" },
   { name: "About", href: "/about" },
+];
+
+const mediaLinks = [
+  { name: "Overview", href: "/media" },
+  { name: "YouTube & Podcast", href: "/media/youtube-podcast" },
+  { name: "Cognitive Consistency", href: "/media/cognitive-consistency" },
+  { name: "Collaborate", href: "/media/collaborate" },
+  { name: "Community", href: "/media/community" },
 ];
 
 export function Header() {
@@ -43,16 +50,38 @@ export function Header() {
           {/* Desktop Navigation */}
           <div className="hidden lg:flex lg:items-center lg:gap-5 xl:gap-6">
             {navigation.map((item) => (
-              <Link
-                key={item.name}
-                to={item.href}
-                className={cn(
-                  "text-sm font-medium transition-colors hover:text-primary whitespace-nowrap",
-                  isActive(item.href) ? "text-primary" : "text-muted-foreground"
+              <span key={item.name} className="contents">
+                <Link
+                  to={item.href}
+                  className={cn(
+                    "text-sm font-medium transition-colors hover:text-primary whitespace-nowrap",
+                    isActive(item.href) ? "text-primary" : "text-muted-foreground"
+                  )}
+                >
+                  {item.name}
+                </Link>
+                {item.name === "BestSelfs" && (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <button
+                        className={cn(
+                          "text-sm font-medium transition-colors hover:text-primary whitespace-nowrap",
+                          location.pathname.startsWith("/media") ? "text-primary" : "text-muted-foreground"
+                        )}
+                      >
+                        Media
+                      </button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="start">
+                      {mediaLinks.map((m) => (
+                        <DropdownMenuItem key={m.href} asChild>
+                          <Link to={m.href} className="w-full cursor-pointer">{m.name}</Link>
+                        </DropdownMenuItem>
+                      ))}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 )}
-              >
-                {item.name}
-              </Link>
+              </span>
             ))}
 
             <Button asChild className="bg-patriot-red hover:bg-patriot-red-dark text-white">
@@ -114,17 +143,38 @@ export function Header() {
           <div className="lg:hidden border-t bg-background">
             <div className="container-wide py-4 space-y-3">
               {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className={cn(
-                    "block py-2 text-sm font-medium transition-colors hover:text-primary",
-                    isActive(item.href) ? "text-primary" : "text-muted-foreground"
+                <div key={item.name}>
+                  <Link
+                    to={item.href}
+                    className={cn(
+                      "block py-2 text-sm font-medium transition-colors hover:text-primary",
+                      isActive(item.href) ? "text-primary" : "text-muted-foreground"
+                    )}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {item.name}
+                  </Link>
+                  {item.name === "BestSelfs" && (
+                    <div className="pl-1">
+                      <div className="py-2 text-sm font-medium text-muted-foreground">Media</div>
+                      <div className="pl-3 space-y-1.5 border-l border-border">
+                        {mediaLinks.map((m) => (
+                          <Link
+                            key={m.href}
+                            to={m.href}
+                            className={cn(
+                              "block py-1 text-sm transition-colors hover:text-primary",
+                              isActive(m.href) ? "text-primary" : "text-muted-foreground"
+                            )}
+                            onClick={() => setMobileMenuOpen(false)}
+                          >
+                            {m.name}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
                   )}
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {item.name}
-                </Link>
+                </div>
               ))}
 
               <div className="flex flex-col gap-2 pt-2">
