@@ -92,4 +92,11 @@
   <url><loc>https://www.valorwell.org/resources/veteran-mental-health</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.valorwell.org/resources/family-systems</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://www.valorwell.org/resources/cognitive-consistency</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.valorwell.org/partners</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.valorwell.org/sponsors</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.valorwell.org/monthly-supporters</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.valorwell.org/sponsor-care</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.valorwell.org/funders</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.valorwell.org/referral-partners</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.valorwell.org/mission-one-pager</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
 </urlset>
