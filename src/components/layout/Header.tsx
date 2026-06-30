@@ -185,6 +185,23 @@ export function Header() {
                   >
                     {item.name}
                   </Link>
+                  {item.name === "Support the Mission" && (
+                    <div className="pl-3 space-y-1.5 border-l border-border ml-1">
+                      {supportLinks.map((s) => (
+                        <Link
+                          key={s.href}
+                          to={s.href}
+                          className={cn(
+                            "block py-1 text-sm transition-colors hover:text-primary",
+                            isActive(s.href) ? "text-primary" : "text-muted-foreground"
+                          )}
+                          onClick={() => setMobileMenuOpen(false)}
+                        >
+                          {s.name}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
                   {item.name === "BestSelfs" && (
                     <div className="pl-1">
                       <div className="py-2 text-sm font-medium text-muted-foreground">Media</div>
