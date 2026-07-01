@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, LogOut, User } from "lucide-react";
+import { Menu, X, LogOut, User, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -13,13 +13,13 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { InfluencerLoginDialog } from "@/components/InfluencerLoginDialog";
 
-const navigation: { name: string; href: string }[] = [
-  { name: "Get Support", href: "/get-care" },
-  { name: "Beyond the Yellow", href: "/beyondtheyellow" },
-  { name: "Resources", href: "/resources" },
-  { name: "Videos", href: "/media/youtube-podcast" },
-  { name: "Our Model", href: "/our-model" },
-  { name: "About", href: "/about" },
+const navigation: { name: string; href: string; eyebrow?: string }[] = [
+  { name: "Start Here", href: "/get-care", eyebrow: "Veterans & families" },
+  { name: "VA Navigation", href: "/resources/va-community-care", eyebrow: "Care access" },
+  { name: "Disability & Docs", href: "/documentation-support", eyebrow: "Claims support" },
+  { name: "Resources", href: "/resources", eyebrow: "Self-education" },
+  { name: "Videos", href: "/media/youtube-podcast", eyebrow: "Field briefings" },
+  { name: "Partners", href: "/partners", eyebrow: "Build with us" },
 ];
 
 export function Header() {
@@ -32,43 +32,56 @@ export function Header() {
   const isActive = (href: string) =>
     location.pathname === href ||
     (href === "/resources" && location.pathname.startsWith("/resources")) ||
+    (href === "/resources/va-community-care" && location.pathname.includes("va-community-care")) ||
+    (href === "/documentation-support" && location.pathname.includes("documentation")) ||
     (href === "/media/youtube-podcast" && (location.pathname === "/videos" || location.pathname.startsWith("/media"))) ||
-    (href === "/beyondtheyellow" && ["/fund-access-to-care", "/monthly-supporters", "/sponsor-care", "/sponsors", "/funders"].includes(location.pathname));
+    (href === "/partners" && location.pathname.startsWith("/partners"));
 
   return (
     <>
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <nav className="container-wide flex h-16 items-center justify-between gap-4">
-          <Link to="/" className="flex items-center gap-2 flex-shrink-0">
-            <img src="/brand/valorwell-logo.png" alt="ValorWell" className="h-8 w-8" />
-            <span className="text-xl font-semibold text-primary">ValorWell</span>
+      <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-navy text-white shadow-lg">
+        <div className="hidden border-b border-white/10 bg-white/10 px-4 py-2 text-center text-xs font-semibold uppercase tracking-[0.24em] text-white/80 md:block">
+          ValorWell is bigger than therapy: VA navigation, disability clarity, documentation awareness, family support, and care access.
+        </div>
+        <nav className="container-wide flex min-h-20 items-center justify-between gap-4 py-3">
+          <Link to="/" className="flex items-center gap-3 flex-shrink-0" onClick={() => setMobileMenuOpen(false)}>
+            <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white shadow-sm">
+              <img src="/brand/valorwell-logo.png" alt="ValorWell" className="h-8 w-8" />
+            </span>
+            <span>
+              <span className="block text-xl font-bold leading-none">ValorWell</span>
+              <span className="mt-1 block text-[10px] font-semibold uppercase tracking-[0.24em] text-gold-accent">VA system support</span>
+            </span>
           </Link>
 
-          <div className="hidden lg:flex lg:items-center lg:gap-5 xl:gap-6">
+          <div className="hidden xl:flex xl:items-center xl:gap-1">
             {navigation.map((item) => (
               <Link
                 key={item.href}
                 to={item.href}
                 className={cn(
-                  "text-sm font-medium transition-colors hover:text-primary whitespace-nowrap",
-                  isActive(item.href) ? "text-primary" : "text-muted-foreground"
+                  "group rounded-2xl px-3 py-2 transition-colors hover:bg-white/10",
+                  isActive(item.href) ? "bg-white/15 text-white" : "text-white/78"
                 )}
               >
-                {item.name}
+                <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-gold-accent/80">{item.eyebrow}</span>
+                <span className="block whitespace-nowrap text-sm font-semibold">{item.name}</span>
               </Link>
             ))}
+          </div>
 
-            <Button asChild className="bg-patriot-red hover:bg-patriot-red-dark text-white">
-              <Link to="/get-care">Get Support</Link>
+          <div className="hidden lg:flex lg:items-center lg:gap-2">
+            <Button asChild className="bg-patriot-red text-white hover:bg-patriot-red-dark">
+              <Link to="/get-care">Start Here</Link>
             </Button>
-            <Button asChild variant="outline" className="border-navy text-navy hover:bg-navy hover:text-white">
-              <Link to="/beyondtheyellow">Go Beyond the Yellow</Link>
+            <Button asChild variant="outline" className="border-white/60 bg-transparent text-white hover:bg-white hover:text-navy">
+              <Link to="/beyondtheyellow">Fund the Fight</Link>
             </Button>
 
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm" className="gap-2">
+                  <Button variant="ghost" size="sm" className="gap-2 text-white hover:bg-white/10 hover:text-white">
                     <User className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
@@ -86,7 +99,9 @@ export function Header() {
             ) : (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm">Portal Login</Button>
+                  <Button variant="ghost" size="sm" className="text-white hover:bg-white/10 hover:text-white">
+                    Portals <ChevronDown className="ml-1 h-4 w-4" />
+                  </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                   <DropdownMenuItem asChild>
@@ -105,7 +120,7 @@ export function Header() {
 
           <button
             type="button"
-            className="lg:hidden p-2 -m-2"
+            className="lg:hidden rounded-xl border border-white/20 p-2 text-white"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -114,46 +129,49 @@ export function Header() {
         </nav>
 
         {mobileMenuOpen && (
-          <div className="lg:hidden border-t bg-background">
-            <div className="container-wide py-4 space-y-3">
-              {navigation.map((item) => (
-                <Link
-                  key={item.href}
-                  to={item.href}
-                  className={cn(
-                    "block py-2 text-sm font-medium transition-colors hover:text-primary",
-                    isActive(item.href) ? "text-primary" : "text-muted-foreground"
-                  )}
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {item.name}
-                </Link>
-              ))}
+          <div className="lg:hidden border-t border-white/10 bg-navy">
+            <div className="container-wide py-4">
+              <div className="grid gap-2">
+                {navigation.map((item) => (
+                  <Link
+                    key={item.href}
+                    to={item.href}
+                    className={cn(
+                      "rounded-2xl px-4 py-3 transition-colors hover:bg-white/10",
+                      isActive(item.href) ? "bg-white/15 text-white" : "text-white/80"
+                    )}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <span className="block text-[10px] font-semibold uppercase tracking-[0.2em] text-gold-accent/80">{item.eyebrow}</span>
+                    <span className="block text-base font-semibold">{item.name}</span>
+                  </Link>
+                ))}
+              </div>
 
-              <div className="flex flex-col gap-2 pt-2">
-                <Button asChild className="w-full bg-patriot-red hover:bg-patriot-red-dark text-white">
-                  <Link to="/get-care" onClick={() => setMobileMenuOpen(false)}>Get Support</Link>
+              <div className="mt-4 grid gap-2">
+                <Button asChild className="w-full bg-patriot-red text-white hover:bg-patriot-red-dark">
+                  <Link to="/get-care" onClick={() => setMobileMenuOpen(false)}>Start Here</Link>
                 </Button>
-                <Button asChild variant="outline" className="w-full border-navy text-navy">
-                  <Link to="/beyondtheyellow" onClick={() => setMobileMenuOpen(false)}>Go Beyond the Yellow</Link>
+                <Button asChild variant="outline" className="w-full border-white/60 bg-transparent text-white hover:bg-white hover:text-navy">
+                  <Link to="/beyondtheyellow" onClick={() => setMobileMenuOpen(false)}>Fund the Fight</Link>
                 </Button>
               </div>
 
               {user ? (
-                <div className="space-y-2 pt-2">
-                  <Button variant="outline" className="w-full" asChild>
+                <div className="mt-4 grid gap-2 border-t border-white/10 pt-4">
+                  <Button variant="outline" className="w-full border-white/60 bg-transparent text-white" asChild>
                     <Link to={isAdmin ? "/admin" : "/influencer"} onClick={() => setMobileMenuOpen(false)}>
                       {isAdmin ? "Admin Dashboard" : "View Profile"}
                     </Link>
                   </Button>
-                  <Button variant="ghost" className="w-full gap-2" onClick={() => { signOut(); setMobileMenuOpen(false); }}>
+                  <Button variant="ghost" className="w-full gap-2 text-white hover:bg-white/10 hover:text-white" onClick={() => { signOut(); setMobileMenuOpen(false); }}>
                     <LogOut className="h-4 w-4" /> Sign Out
                   </Button>
                 </div>
               ) : (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="w-full">Portal Login</Button>
+                    <Button variant="ghost" className="mt-3 w-full text-white hover:bg-white/10 hover:text-white">Portal Login</Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="center" className="w-[calc(100vw-2rem)]">
                     <DropdownMenuItem asChild>
