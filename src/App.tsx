@@ -5,59 +5,77 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { AuthProvider } from "@/contexts/AuthContext";
-import Index from "./pages/Index";
-import Therapy from "./pages/Therapy";
-import GetCare from "./pages/GetCare";
-import BestSelfs from "./pages/BestSelfs";
-import OurModel from "./pages/OurModel";
-import Videos from "./pages/Videos";
-import MediaOverview from "./pages/media/MediaOverview";
-import YouTubePodcast from "./pages/media/YouTubePodcast";
+import { PageShell } from "@/components/layout";
 
-
-import HowItWorks from "./pages/HowItWorks";
-import Therapists from "./pages/Therapists";
-import About from "./pages/About";
-import FAQ from "./pages/FAQ";
-import GetStarted from "./pages/GetStarted";
-import Contact from "./pages/Contact";
-import Privacy from "./pages/Privacy";
-import Terms from "./pages/Terms";
-import UrgentHelp from "./pages/UrgentHelp";
-import Foundation from "./pages/Foundation";
+// Preserved functional (non-shell) routes
 import Donate from "./pages/Donate";
-
-import Competitions from "./pages/Competitions";
-import Challenge from "./pages/Challenge";
-import OperationClaimsSuccess from "./pages/OperationClaimsSuccess";
-import Advocates from "./pages/Advocates";
-
+import CreatorApply from "./pages/CreatorApply";
 import InfluencerPortal from "./pages/InfluencerPortal";
 import AdminDashboard from "./pages/AdminDashboard";
-import CreatorApply from "./pages/CreatorApply";
-import VibeTales from "./pages/VibeTales";
-import NinjaDo from "./pages/NinjaDo";
-import SkillsQuest from "./pages/SkillsQuest";
-import CoreFeel from "./pages/CoreFeel";
-import BrightDeed from "./pages/BrightDeed";
-import Pendulo from "./pages/Pendulo";
-import VeteranMentalHealthCare from "./pages/authority/VeteranMentalHealthCare";
-import ChampvaMentalHealth from "./pages/authority/ChampvaMentalHealth";
-import VACommunityCareMentalHealth from "./pages/authority/VACommunityCareMentalHealth";
-import DocumentationSupport from "./pages/authority/DocumentationSupport";
-import MilitaryFamilyTherapy from "./pages/authority/MilitaryFamilyTherapy";
-import FamilySystems from "./pages/authority/FamilySystems";
-import Resources from "./pages/authority/Resources";
-import ResourcesChampva from "./pages/authority/ResourcesChampva";
-import ResourcesVACommunityCare from "./pages/authority/ResourcesVACommunityCare";
-import ResourcesDocumentation from "./pages/authority/ResourcesDocumentation";
-import ResourcesVeteranMentalHealth from "./pages/authority/ResourcesVeteranMentalHealth";
-import ResourcesFamilySystems from "./pages/authority/ResourcesFamilySystems";
-import Partners from "./pages/Partners";
-import MissionOnePager from "./pages/MissionOnePager";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
+
+// Approved sitemap — every public page is a labeled shell.
+const publicPages: { path: string; name: string }[] = [
+  { path: "/", name: "Home" },
+  { path: "/get-care", name: "Find Care" },
+  { path: "/veterans", name: "Veterans" },
+  { path: "/families", name: "Families" },
+  { path: "/individuals", name: "Individuals" },
+  { path: "/clinicians", name: "Clinicians / Join the Mission" },
+  { path: "/beyondtheyellow", name: "Beyond The Yellow" },
+  { path: "/operation-claims-success", name: "Operation Claims Success" },
+  { path: "/watch", name: "Watch / Media Hub" },
+  { path: "/partner", name: "Partner / Support" },
+  { path: "/about", name: "About ValorWell" },
+  { path: "/contact", name: "Contact" },
+  { path: "/privacy", name: "Privacy Policy" },
+  { path: "/terms", name: "Terms of Service" },
+];
+
+// Legacy path aliases → new approved paths.
+const legacyRedirects: { from: string; to: string }[] = [
+  { from: "/therapy", to: "/get-care" },
+  { from: "/get-started", to: "/get-care" },
+  { from: "/how-it-works", to: "/get-care" },
+  { from: "/therapists", to: "/clinicians" },
+  { from: "/media", to: "/watch" },
+  { from: "/media/youtube-podcast", to: "/watch" },
+  { from: "/videos", to: "/watch" },
+  { from: "/support", to: "/partner" },
+  { from: "/partners", to: "/partner" },
+  { from: "/fund-access-to-care", to: "/partner" },
+  { from: "/sponsors", to: "/partner" },
+  { from: "/sponsor-care", to: "/partner" },
+  { from: "/monthly-supporters", to: "/partner" },
+  { from: "/funders", to: "/partner" },
+  { from: "/referral-partners", to: "/partner" },
+  { from: "/mission-one-pager", to: "/partner" },
+  { from: "/our-model", to: "/about" },
+  { from: "/foundation", to: "/about" },
+  { from: "/impact", to: "/about" },
+  { from: "/advocates", to: "/partner" },
+  { from: "/faq", to: "/contact" },
+  { from: "/urgent-help", to: "/get-care" },
+  // Media / authority / product routes that will be rebuilt intentionally later
+  { from: "/resources", to: "/" },
+  { from: "/veteran-mental-health-care", to: "/veterans" },
+  { from: "/champva-mental-health", to: "/veterans" },
+  { from: "/va-community-care-mental-health", to: "/veterans" },
+  { from: "/documentation-support", to: "/veterans" },
+  { from: "/military-family-therapy", to: "/families" },
+  { from: "/family-systems", to: "/families" },
+  { from: "/bestselfs", to: "/" },
+  { from: "/corefeel", to: "/" },
+  { from: "/vibetales", to: "/" },
+  { from: "/ninjado", to: "/" },
+  { from: "/skillsquest", to: "/" },
+  { from: "/brightdeed", to: "/" },
+  { from: "/pendulo", to: "/" },
+  { from: "/challenge", to: "/beyondtheyellow" },
+  { from: "/competitions", to: "/beyondtheyellow" },
+];
 
 const App = () => (
   <HelmetProvider>
@@ -68,80 +86,26 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/get-care" element={<GetCare />} />
-              <Route path="/fund-access-to-care" element={<Navigate to="/beyondtheyellow" replace />} />
-              <Route path="/bestselfs" element={<BestSelfs />} />
-              <Route path="/impact" element={<Navigate to="/our-model" replace />} />
-              <Route path="/our-model" element={<OurModel />} />
-              <Route path="/videos" element={<Videos />} />
-              <Route path="/media" element={<MediaOverview />} />
-              <Route path="/media/youtube-podcast" element={<YouTubePodcast />} />
-              <Route path="/media/cognitive-consistency" element={<Navigate to="/media/youtube-podcast" replace />} />
-              <Route path="/media/collaborate" element={<Navigate to="/partners" replace />} />
-              <Route path="/media/community" element={<Navigate to="/media/youtube-podcast" replace />} />
-              <Route path="/therapy" element={<Therapy />} />
-              <Route path="/support" element={<Navigate to="/beyondtheyellow" replace />} />
-              
-              
-              <Route path="/how-it-works" element={<HowItWorks />} />
-              <Route path="/therapists" element={<Therapists />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/faq" element={<FAQ />} />
-              <Route path="/get-started" element={<GetStarted />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/privacy" element={<Privacy />} />
-              <Route path="/terms" element={<Terms />} />
-              <Route path="/urgent-help" element={<UrgentHelp />} />
-              <Route path="/foundation" element={<Foundation />} />
+              {publicPages.map((p) => (
+                <Route key={p.path} path={p.path} element={<PageShell name={p.name} path={p.path} />} />
+              ))}
+
+              {legacyRedirects.map((r) => (
+                <Route key={r.from} path={r.from} element={<Navigate to={r.to} replace />} />
+              ))}
+
+              {/* Preserved functional routes (not in public nav) */}
               <Route path="/donate" element={<Donate />} />
-              
-              <Route path="/beyondtheyellow" element={<Competitions />} />
-              <Route path="/challenge" element={<Challenge />} />
-              <Route path="/operation-claims-success" element={<OperationClaimsSuccess />} />
-              <Route path="/advocates" element={<Advocates />} />
-              
               <Route path="/beyondtheyellow/apply" element={<CreatorApply />} />
               <Route path="/influencer" element={<InfluencerPortal />} />
               <Route path="/admin" element={<AdminDashboard />} />
-              <Route path="/vibetales" element={<VibeTales />} />
-              <Route path="/ninjado" element={<NinjaDo />} />
-              <Route path="/skillsquest" element={<SkillsQuest />} />
-              <Route path="/SkillsQuest" element={<Navigate to="/skillsquest" replace />} />
-              <Route path="/corefeel" element={<CoreFeel />} />
-              <Route path="/brightdeed" element={<BrightDeed />} />
-              <Route path="/pendulo" element={<Pendulo />} />
-
-              {/* Phase 3: SEO Authority */}
-              <Route path="/veteran-mental-health-care" element={<VeteranMentalHealthCare />} />
-              <Route path="/champva-mental-health" element={<ChampvaMentalHealth />} />
-              <Route path="/va-community-care-mental-health" element={<VACommunityCareMentalHealth />} />
-              <Route path="/documentation-support" element={<DocumentationSupport />} />
-              <Route path="/military-family-therapy" element={<MilitaryFamilyTherapy />} />
-              <Route path="/family-systems" element={<FamilySystems />} />
-              <Route path="/resources" element={<Resources />} />
-              <Route path="/resources/champva" element={<ResourcesChampva />} />
-              <Route path="/resources/va-community-care" element={<ResourcesVACommunityCare />} />
-              <Route path="/resources/documentation" element={<ResourcesDocumentation />} />
-              <Route path="/resources/veteran-mental-health" element={<ResourcesVeteranMentalHealth />} />
-              <Route path="/resources/family-systems" element={<ResourcesFamilySystems />} />
-              <Route path="/resources/cognitive-consistency" element={<Navigate to="/resources" replace />} />
-
-              {/* Phase 4: Partner / Funder Infrastructure */}
-              <Route path="/partners" element={<Partners />} />
-              <Route path="/sponsors" element={<Navigate to="/beyondtheyellow" replace />} />
-              <Route path="/monthly-supporters" element={<Navigate to="/beyondtheyellow" replace />} />
-              <Route path="/sponsor-care" element={<Navigate to="/beyondtheyellow" replace />} />
-              <Route path="/funders" element={<Navigate to="/beyondtheyellow" replace />} />
-              <Route path="/referral-partners" element={<Navigate to="/contact" replace />} />
-              <Route path="/mission-one-pager" element={<MissionOnePager />} />
 
               <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </QueryClientProvider>
-  </AuthProvider>
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </QueryClientProvider>
+    </AuthProvider>
   </HelmetProvider>
 );
 
