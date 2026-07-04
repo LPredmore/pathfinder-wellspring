@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { PageShell } from "@/components/layout";
+import Home from "./pages/Home";
 
 // Preserved functional (non-shell) routes
 import Donate from "./pages/Donate";
@@ -18,7 +19,6 @@ const queryClient = new QueryClient();
 
 // Approved sitemap — every public page is a labeled shell.
 const publicPages: { path: string; name: string }[] = [
-  { path: "/", name: "Home" },
   { path: "/get-care", name: "Find Care" },
   { path: "/veterans", name: "Veterans" },
   { path: "/families", name: "Families" },
@@ -86,6 +86,7 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <Routes>
+              <Route path="/" element={<Home />} />
               {publicPages.map((p) => (
                 <Route key={p.path} path={p.path} element={<PageShell name={p.name} path={p.path} />} />
               ))}
