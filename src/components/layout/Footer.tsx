@@ -1,36 +1,76 @@
 import { Link } from "react-router-dom";
 
-const links = [
-  { name: "Home", href: "/" },
-  { name: "Find Care", href: "/get-care" },
-  { name: "Veterans", href: "/veterans" },
-  { name: "Families", href: "/families" },
-  { name: "Individuals", href: "/individuals" },
-  { name: "Clinicians", href: "/clinicians" },
-  { name: "Beyond The Yellow", href: "/beyondtheyellow" },
-  { name: "Operation Claims Success", href: "/operation-claims-success" },
-  { name: "Watch", href: "/watch" },
-  { name: "Partner", href: "/partner" },
-  { name: "About", href: "/about" },
-  { name: "Contact", href: "/contact" },
-  { name: "Privacy", href: "/privacy" },
-  { name: "Terms", href: "/terms" },
+const groups: { title: string; links: { name: string; href: string }[] }[] = [
+  {
+    title: "Mission",
+    links: [
+      { name: "Operation Claims Success", href: "/operation-claims-success" },
+      { name: "Beyond The Yellow", href: "/beyondtheyellow" },
+      { name: "Watch ValorWell", href: "/watch" },
+      { name: "About ValorWell", href: "/about" },
+    ],
+  },
+  {
+    title: "Find Your Path",
+    links: [
+      { name: "Veterans", href: "/veterans" },
+      { name: "Families", href: "/families" },
+      { name: "Find Care", href: "/get-care" },
+      { name: "Clinicians", href: "/clinicians" },
+    ],
+  },
+  {
+    title: "Get Involved",
+    links: [
+      { name: "Partner / Support", href: "/partner" },
+      { name: "Share a Beyond The Yellow Story", href: "/beyondtheyellow" },
+      { name: "Contact", href: "/contact" },
+    ],
+  },
+  {
+    title: "Legal",
+    links: [
+      { name: "Privacy", href: "/privacy" },
+      { name: "Terms", href: "/terms" },
+    ],
+  },
 ];
 
 export function Footer() {
   return (
-    <footer className="border-t bg-background">
-      <div className="container-wide py-8">
-        <nav className="flex flex-wrap gap-x-5 gap-y-2">
-          {links.map((l) => (
-            <Link key={l.href} to={l.href} className="text-sm text-muted-foreground hover:text-foreground">
-              {l.name}
+    <footer className="border-t border-border/60 bg-[hsl(var(--section-alt))]">
+      <div className="container-wide py-14">
+        <div className="grid gap-10 md:grid-cols-4">
+          <div className="md:col-span-4 lg:col-span-1">
+            <Link to="/" className="flex items-center gap-2 text-lg font-bold tracking-tight text-foreground">
+              <span className="inline-block h-2.5 w-2.5 rounded-full bg-accent" aria-hidden />
+              ValorWell
             </Link>
+            <p className="mt-3 max-w-xs text-sm text-muted-foreground">
+              Building better systems around veteran and family support, mental well-being, ethical care, and real community action.
+            </p>
+          </div>
+          {groups.map((g) => (
+            <div key={g.title}>
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-foreground">{g.title}</h3>
+              <ul className="mt-4 space-y-2">
+                {g.links.map((l) => (
+                  <li key={l.name}>
+                    <Link to={l.href} className="text-sm text-muted-foreground hover:text-foreground">
+                      {l.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
           ))}
-        </nav>
-        <p className="mt-6 text-xs text-muted-foreground">
-          © {new Date().getFullYear()} ValorWell.
-        </p>
+        </div>
+        <div className="mt-10 flex flex-col gap-3 border-t border-border/60 pt-6 text-xs text-muted-foreground md:flex-row md:items-center md:justify-between">
+          <p>© {new Date().getFullYear()} ValorWell. All rights reserved.</p>
+          <p className="max-w-3xl">
+            ValorWell does not guarantee VA Community Care authorization, referrals, Nexus Letters, disability ratings, service connection, claim approval, or any VA outcome.
+          </p>
+        </div>
       </div>
     </footer>
   );
