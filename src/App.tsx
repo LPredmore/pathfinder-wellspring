@@ -13,12 +13,12 @@ import CreatorApply from "./pages/CreatorApply";
 import InfluencerPortal from "./pages/InfluencerPortal";
 import AdminDashboard from "./pages/AdminDashboard";
 import NotFound from "./pages/NotFound";
+import HomePage from "./pages/HomePage";
 
 const queryClient = new QueryClient();
 
 // Approved sitemap — every public page is a labeled shell.
 const publicPages: { path: string; name: string }[] = [
-  { path: "/", name: "Home" },
   { path: "/get-care", name: "Find Care" },
   { path: "/veterans", name: "Veterans" },
   { path: "/families", name: "Families" },
