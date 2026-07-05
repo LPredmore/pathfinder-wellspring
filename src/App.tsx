@@ -16,6 +16,7 @@ import NotFound from "./pages/NotFound";
 import HomePage from "./pages/HomePage";
 import WatchPage from "./pages/WatchPage";
 import MissionPage from "./pages/MissionPage";
+import OperationClaimsSuccessPage from "./pages/OperationClaimsSuccessPage";
 
 const queryClient = new QueryClient();
 
@@ -27,7 +28,7 @@ const publicPages: { path: string; name: string }[] = [
   { path: "/individuals", name: "Individuals" },
   { path: "/clinicians", name: "Clinicians / Join the Mission" },
   { path: "/beyondtheyellow", name: "Beyond The Yellow" },
-  { path: "/operation-claims-success", name: "Operation Claims Success" },
+  
   
   { path: "/partner", name: "Partner / Support" },
   { path: "/about", name: "About ValorWell" },
@@ -91,6 +92,8 @@ const App = () => (
               <Route path="/" element={<HomePage />} />
               <Route path="/watch" element={<WatchPage />} />
               <Route path="/mission" element={<MissionPage />} />
+              <Route path="/operation-claims-success" element={<OperationClaimsSuccessPage />} />
+
               {publicPages.map((p) => (
                 <Route key={p.path} path={p.path} element={<PageShell name={p.name} path={p.path} />} />
               ))}
