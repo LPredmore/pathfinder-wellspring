@@ -4,6 +4,7 @@ const groups: { title: string; links: { name: string; href: string }[] }[] = [
   {
     title: "Mission",
     links: [
+      { name: "Mission", href: "/mission" },
       { name: "Operation Claims Success", href: "/operation-claims-success" },
       { name: "Beyond The Yellow", href: "/beyondtheyellow" },
       { name: "Watch ValorWell", href: "/watch" },
