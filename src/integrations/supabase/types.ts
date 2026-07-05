@@ -889,6 +889,60 @@ export type Database = {
         }
         Relationships: []
       }
+      ocs_inquiries: {
+        Row: {
+          created_at: string
+          email: string
+          first_name: string
+          id: string
+          lane: string
+          last_name: string
+          organization: string | null
+          phone: string | null
+          responses: Json
+          role_title: string | null
+          social_link: string | null
+          source_page: string
+          tags: string[]
+          user_agent: string | null
+          website: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          first_name: string
+          id?: string
+          lane: string
+          last_name: string
+          organization?: string | null
+          phone?: string | null
+          responses?: Json
+          role_title?: string | null
+          social_link?: string | null
+          source_page?: string
+          tags?: string[]
+          user_agent?: string | null
+          website?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          first_name?: string
+          id?: string
+          lane?: string
+          last_name?: string
+          organization?: string | null
+          phone?: string | null
+          responses?: Json
+          role_title?: string | null
+          social_link?: string | null
+          source_page?: string
+          tags?: string[]
+          user_agent?: string | null
+          website?: string | null
+        }
+        Relationships: []
+      }
       platform_instructions: {
         Row: {
           component: string
