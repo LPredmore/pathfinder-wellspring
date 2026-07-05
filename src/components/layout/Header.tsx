@@ -4,7 +4,7 @@ import { Menu, X, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const primary = [
-  { name: "Mission", href: "/operation-claims-success" },
+  { name: "Mission", href: "/mission" },
   { name: "Operation Claims Success", href: "/operation-claims-success" },
   { name: "Beyond The Yellow", href: "/beyondtheyellow" },
   { name: "Watch", href: "/watch" },

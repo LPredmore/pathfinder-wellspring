@@ -15,6 +15,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import NotFound from "./pages/NotFound";
 import HomePage from "./pages/HomePage";
 import WatchPage from "./pages/WatchPage";
+import MissionPage from "./pages/MissionPage";
 
 const queryClient = new QueryClient();
 
@@ -89,6 +90,7 @@ const App = () => (
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/watch" element={<WatchPage />} />
+              <Route path="/mission" element={<MissionPage />} />
               {publicPages.map((p) => (
                 <Route key={p.path} path={p.path} element={<PageShell name={p.name} path={p.path} />} />
               ))}
