@@ -248,63 +248,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 4. Build in Public */}
-      <section className="border-b border-border/60 bg-[hsl(var(--section-alt))]">
-        <div className="container-wide py-20 md:py-28">
-          <div className="max-w-3xl">
-            <Eyebrow>Building in Public</Eyebrow>
-            <h2 className="mt-5 text-3xl font-bold tracking-tight text-foreground md:text-4xl lg:text-5xl">
-              We're showing the work while we build the better path.
-            </h2>
-            <p className="mt-6 text-lg text-muted-foreground">
-              ValorWell is documenting what is broken, what we are learning, what we are building, and what we refuse to promise before the infrastructure is ready. The mission is public because better systems need clinicians, veteran organizations, supporters, creators, partners, and people willing to help move the work forward.
-            </p>
-          </div>
-
-          <div className="mt-12 grid gap-5 md:grid-cols-2">
-            {[
-              {
-                icon: Hammer,
-                title: "Provider Pathway Buildout",
-                body: "Mapping registration steps, regional pathways, blockers, and repeatable processes required to expand legitimate access over time.",
-              },
-              {
-                icon: ShieldCheck,
-                title: "Ethical Clinical Systems",
-                body: "Tightening care-first documentation workflows, clinical guardrails, and the systems clinicians need to work responsibly.",
-              },
-              {
-                icon: Compass,
-                title: "Veteran / Family Education",
-                body: "Explaining confusing pathways honestly without pretending ValorWell controls VA decisions.",
-              },
-              {
-                icon: Radio,
-                title: "Public Mission Content",
-                body: "Using long-form video, short-form content, and founder-led updates to tell the truth louder and attract the right people into the mission.",
-              },
-            ].map((b) => (
-              <div key={b.title} className="group rounded-xl border border-border bg-card p-6 transition-colors hover:border-primary/40">
-                <div className="flex items-start gap-4">
-                  <div className="rounded-md bg-foreground/5 p-2.5 text-foreground/70 transition-colors group-hover:bg-primary/10 group-hover:text-primary">
-                    <b.icon className="h-5 w-5" aria-hidden />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-foreground">{b.title}</h3>
-                    <p className="mt-1.5 text-muted-foreground">{b.body}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-10 flex flex-wrap gap-4">
-            <BtnPrimary to="/watch" onClick={() => trackHomeEvent("homepage_build_watch")}>
-              Watch the Build
-            </BtnPrimary>
-          </div>
-        </div>
-      </section>
+      {/* 4. Build in Public — REMOVED */}
 
       {/* 5. Beyond The Yellow */}
       <section className="relative border-b border-border/60 bg-background">
