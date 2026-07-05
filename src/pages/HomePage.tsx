@@ -5,6 +5,49 @@ import { Layout } from "@/components/layout/Layout";
 import { SEO, OrganizationSchema } from "@/components/SEO";
 import { trackHomeEvent } from "@/lib/tracking";
 import { cn } from "@/lib/utils";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import soldierPortrait from "@/assets/soldier-portrait.jpg";
+import heroFamily from "@/assets/hero-family.jpg";
+import flagBanner from "@/assets/flag-banner.jpg";
+
+const initiatives = [
+  {
+    key: "ocs",
+    title: "Operation Claims Success",
+    tagline: "Honest access education and ethical documentation.",
+    description:
+      "Our public mission spine: connect veterans with truthful VA-aligned education, real mental health care, and ethical documentation when clinically appropriate — no shortcuts, no exploitation.",
+    href: "/operation-claims-success",
+    cta: "Explore OCS",
+    image: soldierPortrait,
+    mobileBg: "bg-primary text-primary-foreground",
+    mobileBtn: "bg-primary-foreground text-primary hover:bg-primary-foreground/90",
+  },
+  {
+    key: "care",
+    title: "Real Medical Care",
+    tagline: "Clinical services that actually treat, not just certify.",
+    description:
+      "The operating engine underneath the mission. Licensed clinicians providing real mental health treatment for veterans and families — care-first, not letter-first.",
+    href: "/therapy",
+    cta: "Get Care",
+    image: heroFamily,
+    mobileBg: "bg-accent text-accent-foreground",
+    mobileBtn: "bg-accent-foreground text-accent hover:bg-accent-foreground/90",
+  },
+  {
+    key: "bty",
+    title: "Beyond The Yellow",
+    tagline: "The movement that fuels the mission.",
+    description:
+      "Creators, families, and everyday supporters amplifying the work, funding access to care, and turning attention into real change for veterans.",
+    href: "/beyondtheyellow",
+    cta: "Join The Movement",
+    image: flagBanner,
+    mobileBg: "bg-[hsl(45_90%_45%)] text-primary",
+    mobileBtn: "bg-primary text-primary-foreground hover:bg-primary/90",
+  },
+];
 
 /* ---------------- Small building blocks ---------------- */
 
