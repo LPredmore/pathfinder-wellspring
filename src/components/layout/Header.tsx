@@ -1,75 +1,159 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const navigation = [
-  { name: "Home", href: "/" },
-  { name: "Find Care", href: "/get-care" },
-  { name: "Veterans", href: "/veterans" },
-  { name: "Families", href: "/families" },
-  { name: "Individuals", href: "/individuals" },
-  { name: "Clinicians", href: "/clinicians" },
-  { name: "Beyond The Yellow", href: "/beyondtheyellow" },
+const primary = [
+  { name: "Mission", href: "/operation-claims-success" },
   { name: "Operation Claims Success", href: "/operation-claims-success" },
+  { name: "Beyond The Yellow", href: "/beyondtheyellow" },
   { name: "Watch", href: "/watch" },
-  { name: "Partner", href: "/partner" },
-  { name: "About", href: "/about" },
+];
+
+const getInvolved = [
+  { name: "Clinicians", href: "/clinicians" },
+  { name: "Partner / Support", href: "/partner" },
+  { name: "Share a Beyond The Yellow Story", href: "/beyondtheyellow" },
   { name: "Contact", href: "/contact" },
 ];
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [mobileGI, setMobileGI] = useState(false);
   const location = useLocation();
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setOpen(false);
+    setMenuOpen(false);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    function onDown(e: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) setMenuOpen(false);
+    }
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") setMenuOpen(false);
+    }
+    document.addEventListener("mousedown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, []);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background">
-      <nav className="container-wide flex h-16 items-center justify-between gap-4">
-        <Link to="/" className="text-lg font-semibold text-foreground">
+    <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+      <nav className="container-wide flex h-16 items-center justify-between gap-4" aria-label="Primary">
+        <Link to="/" className="flex items-center gap-2 text-lg font-bold tracking-tight text-foreground" aria-label="ValorWell home">
+          <span className="inline-block h-2.5 w-2.5 rounded-full bg-accent" aria-hidden />
           ValorWell
         </Link>
 
-        <div className="hidden lg:flex lg:flex-wrap lg:items-center lg:gap-x-4 lg:gap-y-1">
-          {navigation.map((item) => (
+        <div className="hidden lg:flex lg:items-center lg:gap-6">
+          {primary.map((item) => (
             <Link
-              key={item.href}
+              key={item.name}
               to={item.href}
               className={cn(
-                "text-sm transition-colors hover:text-foreground whitespace-nowrap",
-                location.pathname === item.href ? "text-foreground font-medium" : "text-muted-foreground"
+                "text-sm font-medium transition-colors hover:text-foreground whitespace-nowrap",
+                location.pathname === item.href ? "text-foreground" : "text-muted-foreground",
               )}
             >
               {item.name}
             </Link>
           ))}
+
+          <div className="relative" ref={menuRef}>
+            <button
+              type="button"
+              onClick={() => setMenuOpen((v) => !v)}
+              aria-haspopup="menu"
+              aria-expanded={menuOpen}
+              className="inline-flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground"
+            >
+              Get Involved <ChevronDown className="h-4 w-4" aria-hidden />
+            </button>
+            {menuOpen && (
+              <div
+                role="menu"
+                className="absolute right-0 top-full mt-2 w-64 rounded-md border border-border bg-popover p-1 shadow-lg"
+              >
+                {getInvolved.map((i) => (
+                  <Link
+                    key={i.name}
+                    to={i.href}
+                    role="menuitem"
+                    className="block rounded px-3 py-2 text-sm text-foreground hover:bg-muted focus:bg-muted focus:outline-none"
+                  >
+                    {i.name}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <Link
+            to="/get-care"
+            className="ml-2 inline-flex items-center rounded-md border border-primary/30 bg-transparent px-4 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
+          >
+            Find Care
+          </Link>
         </div>
 
         <button
           type="button"
-          className="lg:hidden p-2 -m-2"
-          onClick={() => setOpen(!open)}
-          aria-label="Toggle menu"
+          className="lg:hidden -m-2 rounded-md p-2 text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          onClick={() => setOpen((v) => !v)}
+          aria-label={open ? "Close menu" : "Open menu"}
+          aria-expanded={open}
+          aria-controls="mobile-menu"
         >
           {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </button>
       </nav>
 
       {open && (
-        <div className="lg:hidden border-t bg-background">
-          <div className="container-wide py-4 space-y-2">
-            {navigation.map((item) => (
+        <div id="mobile-menu" className="lg:hidden border-t border-border bg-background">
+          <div className="container-wide py-4 space-y-1">
+            {primary.map((item) => (
               <Link
-                key={item.href}
+                key={item.name}
                 to={item.href}
-                onClick={() => setOpen(false)}
-                className={cn(
-                  "block py-2 text-sm",
-                  location.pathname === item.href ? "text-foreground font-medium" : "text-muted-foreground"
-                )}
+                className="block rounded-md px-3 py-3 text-base font-medium text-foreground hover:bg-muted"
               >
                 {item.name}
               </Link>
             ))}
+            <button
+              type="button"
+              onClick={() => setMobileGI((v) => !v)}
+              aria-expanded={mobileGI}
+              className="flex w-full items-center justify-between rounded-md px-3 py-3 text-base font-medium text-foreground hover:bg-muted"
+            >
+              Get Involved <ChevronDown className={cn("h-4 w-4 transition-transform", mobileGI && "rotate-180")} aria-hidden />
+            </button>
+            {mobileGI && (
+              <div className="pl-3">
+                {getInvolved.map((i) => (
+                  <Link
+                    key={i.name}
+                    to={i.href}
+                    className="block rounded-md px-3 py-2.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
+                  >
+                    {i.name}
+                  </Link>
+                ))}
+              </div>
+            )}
+            <Link
+              to="/get-care"
+              className="mt-3 block rounded-md border border-primary/30 px-3 py-3 text-center text-base font-semibold text-primary hover:bg-primary hover:text-primary-foreground"
+            >
+              Find Care
+            </Link>
           </div>
         </div>
       )}
