@@ -115,3 +115,18 @@ export function trackPageAndRedirect(destinationUrl: string) {
     },
   });
 }
+
+/**
+ * Generic homepage event tracker. Safely no-ops when gtag is unavailable.
+ * Uses GA4 custom-event shape via gtag.
+ */
+export function trackHomeEvent(name: string, params: Record<string, unknown> = {}) {
+  if (typeof window === "undefined") return;
+  const gtagFn = window.gtag;
+  if (typeof gtagFn !== "function") return;
+  try {
+    gtagFn("event", name, { event_category: "homepage", ...params });
+  } catch {
+    /* no-op */
+  }
+}
