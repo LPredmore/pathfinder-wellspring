@@ -92,6 +92,8 @@ const App = () => (
               <Route path="/" element={<HomePage />} />
               <Route path="/watch" element={<WatchPage />} />
               <Route path="/mission" element={<MissionPage />} />
+              <Route path="/operation-claims-success" element={<OperationClaimsSuccessPage />} />
+
               {publicPages.map((p) => (
                 <Route key={p.path} path={p.path} element={<PageShell name={p.name} path={p.path} />} />
               ))}
