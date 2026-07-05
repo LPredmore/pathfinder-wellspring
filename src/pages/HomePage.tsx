@@ -217,6 +217,86 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* 2.5 Current Initiatives */}
+      <section className="border-b border-border/60 bg-background">
+        <div className="container-wide py-16 md:py-24">
+          <div className="max-w-3xl">
+            <Eyebrow tone="red">Our Current Initiatives</Eyebrow>
+            <h2 className="mt-5 text-3xl font-bold leading-tight tracking-tight text-foreground md:text-4xl lg:text-5xl">
+              Three fronts. One mission.
+            </h2>
+            <p className="mt-4 text-lg text-muted-foreground">
+              Explore how ValorWell is building the better path — from public advocacy to real clinical care to a movement of supporters.
+            </p>
+          </div>
+
+          {/* Desktop: 3 hover-reveal squares */}
+          <div className="mt-12 hidden gap-6 md:grid md:grid-cols-3">
+            {initiatives.map((it) => (
+              <Link
+                key={it.key}
+                to={it.href}
+                onClick={() => trackHomeEvent(`homepage_initiative_${it.key}` as never)}
+                className="group relative block aspect-square overflow-hidden rounded-lg border border-border/60 bg-foreground/5 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              >
+                <img
+                  src={it.image}
+                  alt={it.title}
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                {/* base title overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-opacity duration-300 group-hover:opacity-0" />
+                <div className="absolute inset-x-0 bottom-0 p-6 transition-opacity duration-300 group-hover:opacity-0">
+                  <h3 className="text-2xl font-bold text-white drop-shadow">{it.title}</h3>
+                </div>
+                {/* hover reveal */}
+                <div className="absolute inset-0 flex flex-col justify-end bg-primary/95 p-6 text-primary-foreground opacity-0 transition-opacity duration-300 group-hover:opacity-100 focus-visible:opacity-100">
+                  <h3 className="text-2xl font-bold">{it.title}</h3>
+                  <p className="mt-2 text-sm font-medium text-primary-foreground/90">{it.tagline}</p>
+                  <p className="mt-3 text-sm leading-relaxed text-primary-foreground/85">{it.description}</p>
+                  <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold">
+                    {it.cta}
+                    <ArrowRight className="h-4 w-4" aria-hidden />
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          {/* Mobile/Tablet: single-open colored accordion */}
+          <div className="mt-10 md:hidden">
+            <Accordion type="single" collapsible className="space-y-3">
+              {initiatives.map((it) => (
+                <AccordionItem
+                  key={it.key}
+                  value={it.key}
+                  className={cn("overflow-hidden rounded-lg border-0", it.mobileBg)}
+                >
+                  <AccordionTrigger className="px-5 py-4 text-left text-lg font-bold hover:no-underline">
+                    {it.title}
+                  </AccordionTrigger>
+                  <AccordionContent className="px-5 pb-5">
+                    <p className="text-sm font-semibold opacity-90">{it.tagline}</p>
+                    <p className="mt-3 text-sm leading-relaxed opacity-90">{it.description}</p>
+                    <Link
+                      to={it.href}
+                      onClick={() => trackHomeEvent(`homepage_initiative_${it.key}_mobile` as never)}
+                      className={cn(
+                        "mt-5 inline-flex items-center gap-2 rounded-md px-4 py-2.5 text-sm font-semibold shadow-sm transition-colors",
+                        it.mobileBtn
+                      )}
+                    >
+                      {it.cta}
+                      <ArrowRight className="h-4 w-4" aria-hidden />
+                    </Link>
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
+        </div>
+      </section>
+
       {/* 3. Current mission / Operation Claims Success */}
       <section id="mission" className="border-b border-border/60 bg-background">
         <div className="container-wide py-20 md:py-28">
