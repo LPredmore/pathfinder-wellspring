@@ -14,6 +14,7 @@ import InfluencerPortal from "./pages/InfluencerPortal";
 import AdminDashboard from "./pages/AdminDashboard";
 import NotFound from "./pages/NotFound";
 import HomePage from "./pages/HomePage";
+import WatchPage from "./pages/WatchPage";
 
 const queryClient = new QueryClient();
 
@@ -26,7 +27,7 @@ const publicPages: { path: string; name: string }[] = [
   { path: "/clinicians", name: "Clinicians / Join the Mission" },
   { path: "/beyondtheyellow", name: "Beyond The Yellow" },
   { path: "/operation-claims-success", name: "Operation Claims Success" },
-  { path: "/watch", name: "Watch / Media Hub" },
+  
   { path: "/partner", name: "Partner / Support" },
   { path: "/about", name: "About ValorWell" },
   { path: "/contact", name: "Contact" },
@@ -87,6 +88,7 @@ const App = () => (
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<HomePage />} />
+              <Route path="/watch" element={<WatchPage />} />
               {publicPages.map((p) => (
                 <Route key={p.path} path={p.path} element={<PageShell name={p.name} path={p.path} />} />
               ))}
