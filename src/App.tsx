@@ -16,6 +16,7 @@ import NotFound from "./pages/NotFound";
 import HomePage from "./pages/HomePage";
 import WatchPage from "./pages/WatchPage";
 import MissionPage from "./pages/MissionPage";
+import OperationClaimsSuccessPage from "./pages/OperationClaimsSuccessPage";
 
 const queryClient = new QueryClient();
 
