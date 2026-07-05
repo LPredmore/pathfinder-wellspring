@@ -86,6 +86,7 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <Routes>
+              <Route path="/" element={<HomePage />} />
               {publicPages.map((p) => (
                 <Route key={p.path} path={p.path} element={<PageShell name={p.name} path={p.path} />} />
               ))}
