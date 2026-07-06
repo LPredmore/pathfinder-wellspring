@@ -225,9 +225,9 @@ export default function Clinicians() {
                 </div>
                 <ul className="mt-6 space-y-4 text-lg font-medium">
                   {[
-                    "Set honest availability.",
+                    "You set your availability. No questions",
                     "Care for the person in front of you.",
-                    "Use clinical judgment within ethical standards.",
+                    "Use clinical judgment without being second guessed",
                     "Let systems remove friction.",
                     "Start small if small is sustainable.",
                     "Build capacity without burning through clinicians.",
@@ -305,7 +305,7 @@ export default function Clinicians() {
             <div className="mt-8 space-y-5 max-w-3xl text-lg leading-relaxed text-[color:var(--cl-canvas)]/85">
               <p>ValorWell is building the clinician network before pretending demand is perfectly matched in every state.</p>
               <p>Some clinicians may begin with only a few sessions per month.</p>
-              <p>If you need someone to promise a full caseload next month, this is probably not the right opportunity.</p>
+              <p>If you need someone to promise a full caseload next month, this is probably not the right opportunity. We are looking for people invested in the long-term mission.</p>
             </div>
 
             <div className="mt-14 grid md:grid-cols-2 gap-10">
@@ -338,8 +338,8 @@ export default function Clinicians() {
                     "Weekly pay.",
                     "Availability you set.",
                     "Billing workflows handled by ValorWell.",
-                    "Honest low-volume starting expectations.",
-                    "A veteran/family mission.",
+                    "You decide which patients you see. No push-back",
+                    "Complete support by a team of clinicians, not admins",
                     "Clinical judgment respected within ethical standards.",
                   ].map((l, i) => (
                     <li key={i} className="pb-4 border-b border-[color:var(--cl-canvas)]/20">
@@ -366,10 +366,10 @@ export default function Clinicians() {
 
             <div className="mt-14 grid md:grid-cols-2 gap-0 border-t border-[color:var(--cl-evergreen)]/25">
               {[
-                { n: "01", t: "Your availability is yours", d: "Set realistic availability. Start small." },
-                { n: "02", t: "Your license still means something", d: "Clinical judgment matters within ethical and professional standards." },
-                { n: "03", t: "Billing should not become your second job", d: "ValorWell handles billing workflows." },
-                { n: "04", t: "Systems should give time back", d: "Documentation and operating systems should reduce friction." },
+                { n: "", t: "Your availability is yours", d: "You decide how many patients you want to see, and when. Set an age limit that determines who can see you as an option. I don't want you to be in a position to have to say no to people, if you are " },
+                { n: "", t: "Your license still means something", d: "State and National Credentialing boards have determined that you are qualified to make clinical decisions. I trust their judgement more than my own. If they decided you are qualified, then I have no reason to question that." },
+                { n: "", t: "Billing should not become your second job", d: "ValorWell handles billing workflows. You see your patient, document in our custom built EHR that does most the work for you. Then move on." },
+                { n: "", t: "Systems should give time back", d: "You treat the patient and provide the outstanding care. Then we handle the rest. " },
               ].map((m, i) => (
                 <div
                   key={m.n}
