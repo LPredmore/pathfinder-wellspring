@@ -18,9 +18,9 @@ const initiatives = [
   {
     key: "ocs",
     title: "Operation Claims Success",
-    tagline: "Honest access education and ethical documentation.",
+    tagline: "Care First, stopping predatory systems",
     description:
-      "Our public mission spine: connect veterans with truthful VA-aligned education, real mental health care, and ethical documentation when clinically appropriate — no shortcuts, no exploitation.",
+      "Veterans should not have to choose between a confusing system and an expensive shortcut. Operation Claims Success is the better care-first path we're building.",
     href: "/operation-claims-success",
     cta: "Explore OCS",
     image: soldierPortrait,
@@ -30,23 +30,23 @@ const initiatives = [
   {
     key: "bty",
     title: "Beyond The Yellow",
-    tagline: "The movement that fuels the mission.",
+    tagline: "Real support should be felt.",
     description:
-      "Creators, families, and everyday supporters amplifying the work, funding access to care, and turning attention into real change for veterans.",
+      "Beyond The Yellow spotlights people and organizations doing more than talking about a cause. We show the action, share the story, and make doing something contagious.",
     href: "/beyondtheyellow",
-    cta: "Join The Movement",
+    cta: "Go Beyond The Yellow",
     image: flagBanner,
     mobileBg: "bg-[hsl(42_71%_51%)] text-primary",
     mobileBtn: "bg-primary text-primary-foreground hover:bg-primary/90",
   },
   {
     key: "care",
-    title: "Real Medical Care",
-    tagline: "Clinical services that actually treat, not just certify.",
+    title: "Real Mental Health Care",
+    tagline: "Care first only works if real care exists.",
     description:
-      "The operating engine underneath the mission. Licensed clinicians providing real mental health treatment for veterans and families — care-first, not letter-first.",
+      "Licensed clinicians. Real clinical relationships. Mental health care grounded in the person—not a transaction around paperwork. This is the operating engine underneath the mission.",
     href: "/therapy",
-    cta: "Get Care",
+    cta: "Find Care",
     image: heroFamily,
     mobileBg: "bg-accent text-accent-foreground",
     mobileBtn: "bg-accent-foreground text-accent hover:bg-accent-foreground/90",
@@ -235,7 +235,7 @@ export default function HomePage() {
               Three fronts. One mission.
             </h2>
             <p className="mt-4 text-lg text-muted-foreground">
-              Explore how ValorWell is building the better path — from public advocacy to real clinical care to a movement of supporters.
+              Operation Claims Success is the path we're building for veterans and families. Beyond The Yellow makes real action visible and contagious. Real clinical care is the engine underneath the work.
             </p>
           </div>
 
