@@ -432,6 +432,83 @@ export default function Clinicians() {
           </div>
         </section>
 
+        {/* EHR SHOWCASE */}
+        <section className="border-b border-[color:var(--cl-evergreen)]/20 bg-[color:var(--cl-ink)] text-[color:var(--cl-canvas)]">
+          <div className="max-w-6xl mx-auto px-6 md:px-10 py-20 md:py-28">
+            <div className="text-[11px] md:text-xs font-bold tracking-[0.22em] uppercase text-[color:var(--cl-ember)]">
+              The EHR We Actually Built For Ourselves
+            </div>
+            <h2 className="mt-6 text-3xl md:text-5xl font-bold leading-tight max-w-4xl">
+              We didn't buy an EHR. We built the one clinicians kept describing in exit interviews.
+            </h2>
+            <p className="mt-6 text-lg md:text-xl leading-relaxed text-[color:var(--cl-canvas)]/85 max-w-3xl">
+              Every feature in here exists because a clinician said "why does this take forty minutes?" — and we agreed with them. This is not a rebranded template. It's custom infrastructure that keeps getting better because the clinicians using it are in the room while we build it.
+            </p>
+
+            <div className="mt-14 grid md:grid-cols-2 lg:grid-cols-3 gap-0 border-t border-l border-[color:var(--cl-canvas)]/20">
+              {[
+                {
+                  t: "AI notes that speak human first",
+                  d: "Type in plain language after session — \"client came in dysregulated, we worked on grounding, homework was...\" — and the system converts it into a fully compliant, clinically appropriate note. You edit. You don't author from scratch.",
+                },
+                {
+                  t: "Notes that already know the plan",
+                  d: "Every daily note surfaces the treatment goals and interventions inline. No second tab. No hunting through the chart mid-session to remember what you're working on.",
+                },
+                {
+                  t: "Two-way secure calendar sync",
+                  d: "Your real calendar and ValorWell stay in lockstep — both directions, always current, PHI protected. Block personal time once and your availability updates without you touching it.",
+                },
+                {
+                  t: "Auto-scheduling inside your guardrails",
+                  d: "Set the rules once — ages, presenting concerns, hours, weekly cap. Patients self-book within them. You stop being your own receptionist.",
+                },
+                {
+                  t: "Telehealth built in, not bolted on",
+                  d: "Video, waiting room, session, and chart on one screen. No third-party link. No \"can you see my screen?\" No context switching mid-session.",
+                },
+                {
+                  t: "Availability you actually control",
+                  d: "Turn the tap up or down any week. No begging. No guilt calls from a scheduler asking if you can squeeze in three more.",
+                },
+              ].map((f, i) => (
+                <div
+                  key={i}
+                  className="p-8 md:p-10 border-b border-r border-[color:var(--cl-canvas)]/20"
+                >
+                  <h3 className="text-xl md:text-2xl font-bold leading-tight text-[color:var(--cl-canvas)]">
+                    {f.t}
+                  </h3>
+                  <p className="mt-3 text-base md:text-lg leading-relaxed text-[color:var(--cl-canvas)]/80">
+                    {f.d}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-14 grid md:grid-cols-12 gap-8 items-start">
+              <div className="md:col-span-5">
+                <div className="text-xs font-bold tracking-[0.22em] uppercase text-[color:var(--cl-ember)]">
+                  Shipping Next
+                </div>
+                <p className="mt-3 text-sm text-[color:var(--cl-canvas)]/60">
+                  Founding clinicians see the roadmap first — and get a real say in what jumps the line.
+                </p>
+              </div>
+              <ul className="md:col-span-7 space-y-3 text-lg font-semibold text-[color:var(--cl-canvas)]/90">
+                {/* TODO: replace with a real roadmap teaser you're comfortable committing to */}
+                <li className="pb-3 border-b border-[color:var(--cl-canvas)]/15">Roadmap teaser 1 — editable</li>
+                {/* TODO: replace with a real roadmap teaser you're comfortable committing to */}
+                <li className="pb-3 border-b border-[color:var(--cl-canvas)]/15">Roadmap teaser 2 — editable</li>
+              </ul>
+            </div>
+
+            <p className="mt-14 text-2xl md:text-3xl font-bold leading-snug max-w-4xl text-[color:var(--cl-canvas)]">
+              This is what "dedicated to our clinicians" looks like when it's not just a slide in a pitch deck.
+            </p>
+          </div>
+        </section>
+
         {/* FIT */}
         <section className="border-b border-[color:var(--cl-evergreen)]/20">
           <div className="max-w-6xl mx-auto px-6 md:px-10 py-20 md:py-28">
