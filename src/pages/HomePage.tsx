@@ -315,11 +315,13 @@ export default function HomePage() {
               <h2 className="mt-5 text-3xl font-bold leading-tight tracking-tight text-foreground md:text-4xl lg:text-5xl">
                 Care first. Not letter first.
               </h2>
-              <p className="mt-6 text-lg text-muted-foreground">
-                Too many veterans and families are forced to navigate confusing care pathways, unclear VA systems, long delays, and an expensive documentation market built around desperation. ValorWell is building a care-first alternative.
+              <p className="mt-6 text-lg text-muted-foreground whitespace-pre-line">
+                When real care is hard to reach and the system is hard to understand, desperation grows. And when people get desperate, expensive shortcuts start looking like the only option.
+
+                Veterans and families deserve better than that.
               </p>
               <p className="mt-4 text-lg text-muted-foreground">
-                Operation Claims Success is our work to connect honest VA-aligned access education, real mental health care, provider pathway infrastructure, and ethical documentation when clinically appropriate.
+                Operation Claims Success is ValorWell's work to build the better path: clearer access education, real mental health care, better provider infrastructure, and ethical documentation when clinically appropriate.
               </p>
               <blockquote className="mt-8 border-l-4 border-accent pl-5 text-xl font-semibold leading-snug text-foreground md:text-2xl">
                 We are not selling the shortcut. We are building the better path.
@@ -345,18 +347,18 @@ export default function HomePage() {
                 {[
                   {
                     icon: Compass,
-                    title: "Access Pathways",
-                    body: "Building and documenting legitimate provider and VA Community Care pathways so access can become more repeatable over time.",
+                    title: "A Clearer Way Through",
+                    body: "We're documenting legitimate provider and VA Community Care pathways so veterans, families, and clinicians can better understand where the real path starts.",
                   },
                   {
                     icon: ShieldCheck,
-                    title: "Real Care",
-                    body: "Operating actual mental health care infrastructure instead of separating documentation from the person.",
+                    title: "The Person Before the Paperwork",
+                    body: "Real clinical relationships come first. Documentation should never become more important than the person it is supposed to support.",
                   },
                   {
                     icon: Sparkles,
                     title: "Ethical Documentation",
-                    body: "Supporting documentation only when clinically appropriate, grounded in clinical judgment, with no promised VA outcomes.",
+                    body: "When documentation is clinically appropriate, it should be grounded in real care and clinician judgment—not sold with a false promise.",
                   },
                 ].map((p) => (
                   <div key={p.title} className="rounded-xl border border-border bg-card p-6">
