@@ -1,14 +1,18 @@
 import { useCallback, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Play, Radio, Wrench, Users, Hammer, Compass, ShieldCheck, Sparkles, Megaphone, Handshake } from "lucide-react";
+import { ArrowRight, Play, Users, Compass, ShieldCheck, Sparkles, Megaphone, Handshake } from "lucide-react";
 import { Layout } from "@/components/layout/Layout";
 import { SEO, OrganizationSchema } from "@/components/SEO";
 import { trackHomeEvent } from "@/lib/tracking";
 import { cn } from "@/lib/utils";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { ClickToLoadYouTubeShort } from "@/components/ClickToLoadYouTubeShort";
 import soldierPortrait from "@/assets/soldier-portrait.jpg";
 import heroFamily from "@/assets/hero-family.jpg";
 import flagBanner from "@/assets/flag-banner.jpg";
+
+// Drop a YouTube Short video ID here (the part after /shorts/ or ?v=) to swap the hero placeholder.
+const HERO_SHORT_VIDEO_ID = "";
 
 const initiatives = [
   {
@@ -24,18 +28,6 @@ const initiatives = [
     mobileBtn: "bg-primary-foreground text-primary hover:bg-primary-foreground/90",
   },
   {
-    key: "care",
-    title: "Real Medical Care",
-    tagline: "Clinical services that actually treat, not just certify.",
-    description:
-      "The operating engine underneath the mission. Licensed clinicians providing real mental health treatment for veterans and families — care-first, not letter-first.",
-    href: "/therapy",
-    cta: "Get Care",
-    image: heroFamily,
-    mobileBg: "bg-accent text-accent-foreground",
-    mobileBtn: "bg-accent-foreground text-accent hover:bg-accent-foreground/90",
-  },
-  {
     key: "bty",
     title: "Beyond The Yellow",
     tagline: "The movement that fuels the mission.",
@@ -47,7 +39,20 @@ const initiatives = [
     mobileBg: "bg-[hsl(45_90%_45%)] text-primary",
     mobileBtn: "bg-primary text-primary-foreground hover:bg-primary/90",
   },
+  {
+    key: "care",
+    title: "Real Medical Care",
+    tagline: "Clinical services that actually treat, not just certify.",
+    description:
+      "The operating engine underneath the mission. Licensed clinicians providing real mental health treatment for veterans and families — care-first, not letter-first.",
+    href: "/therapy",
+    cta: "Get Care",
+    image: heroFamily,
+    mobileBg: "bg-accent text-accent-foreground",
+    mobileBtn: "bg-accent-foreground text-accent hover:bg-accent-foreground/90",
+  },
 ];
+
 
 /* ---------------- Small building blocks ---------------- */
 
