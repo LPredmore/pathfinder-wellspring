@@ -157,33 +157,6 @@ export default function HomePage() {
               A mission with real care, real infrastructure, and a public movement underneath it.
             </p>
 
-            <div className="mt-10 flex flex-wrap items-center gap-4">
-              <button
-                type="button"
-                onClick={scrollToMission}
-                className="group inline-flex items-center gap-2 rounded-md bg-primary px-6 py-3.5 text-base font-semibold text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-              >
-                See What We're Building
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
-              </button>
-              <Link
-                to="/watch"
-                onClick={() => trackHomeEvent("homepage_hero_watch")}
-                className="inline-flex items-center gap-2 rounded-md border border-foreground/20 px-6 py-3.5 text-base font-semibold text-foreground hover:bg-foreground/5"
-              >
-                <Play className="h-4 w-4" aria-hidden /> Watch ValorWell
-              </Link>
-            </div>
-            <p className="mt-6 text-sm text-muted-foreground">
-              Need mental health care?{" "}
-              <Link
-                to="/get-care"
-                onClick={() => trackHomeEvent("homepage_hero_care")}
-                className="font-medium text-foreground underline underline-offset-4 hover:text-primary"
-              >
-                Find care.
-              </Link>
-            </p>
           </div>
 
           <aside className="lg:col-span-4">
