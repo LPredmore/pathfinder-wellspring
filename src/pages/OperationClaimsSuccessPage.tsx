@@ -1277,7 +1277,7 @@ export default function OperationClaimsSuccessPage() {
 
             {/* Ask 1: Clinicians */}
             <div className="mt-12 rounded-2xl border border-[#3B5147]/20 bg-white p-6 md:p-8">
-              <Eyebrow>Ask 1 &mdash; Clinicians</Eyebrow>
+              <Eyebrow>Clinicians</Eyebrow>
               <h3 className="mt-3 text-2xl font-bold text-[#111814] md:text-3xl">
                 Every state we staff is another state where veterans stop getting turned away.
               </h3>
@@ -1314,7 +1314,7 @@ export default function OperationClaimsSuccessPage() {
 
             {/* Ask 2: Supporters & Amplifiers */}
             <div className="mt-8 rounded-2xl border border-[#3B5147]/20 bg-white p-6 md:p-8">
-              <Eyebrow tone="ember">Ask 2 &mdash; Supporters &amp; amplifiers</Eyebrow>
+              <Eyebrow tone="ember">Supporters &amp; Amplifiers</Eyebrow>
               <h3 className="mt-3 text-2xl font-bold text-[#111814] md:text-3xl">
                 Help us reach veterans before the predators do.
               </h3>
