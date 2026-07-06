@@ -17,6 +17,7 @@ import HomePage from "./pages/HomePage";
 import WatchPage from "./pages/WatchPage";
 import MissionPage from "./pages/MissionPage";
 import OperationClaimsSuccessPage from "./pages/OperationClaimsSuccessPage";
+import BeyondTheYellowPage from "./pages/BeyondTheYellowPage";
 
 const queryClient = new QueryClient();
 
@@ -27,7 +28,7 @@ const publicPages: { path: string; name: string }[] = [
   { path: "/families", name: "Families" },
   { path: "/individuals", name: "Individuals" },
   { path: "/clinicians", name: "Clinicians / Join the Mission" },
-  { path: "/beyondtheyellow", name: "Beyond The Yellow" },
+  
   
   
   { path: "/partner", name: "Partner / Support" },
@@ -93,6 +94,8 @@ const App = () => (
               <Route path="/watch" element={<WatchPage />} />
               <Route path="/mission" element={<MissionPage />} />
               <Route path="/operation-claims-success" element={<OperationClaimsSuccessPage />} />
+              <Route path="/beyondtheyellow" element={<BeyondTheYellowPage />} />
+
 
               {publicPages.map((p) => (
                 <Route key={p.path} path={p.path} element={<PageShell name={p.name} path={p.path} />} />

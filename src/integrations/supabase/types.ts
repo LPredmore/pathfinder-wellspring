@@ -556,6 +556,66 @@ export type Database = {
         }
         Relationships: []
       }
+      bty_submissions: {
+        Row: {
+          consent: boolean
+          created_at: string
+          email: string | null
+          first_name: string | null
+          id: string
+          lane: string
+          last_name: string | null
+          organization: string | null
+          phone: string | null
+          responses: Json
+          role_title: string | null
+          social_link: string | null
+          source_page: string | null
+          subject_name: string | null
+          tags: string[]
+          user_agent: string | null
+          website: string | null
+        }
+        Insert: {
+          consent?: boolean
+          created_at?: string
+          email?: string | null
+          first_name?: string | null
+          id?: string
+          lane: string
+          last_name?: string | null
+          organization?: string | null
+          phone?: string | null
+          responses?: Json
+          role_title?: string | null
+          social_link?: string | null
+          source_page?: string | null
+          subject_name?: string | null
+          tags?: string[]
+          user_agent?: string | null
+          website?: string | null
+        }
+        Update: {
+          consent?: boolean
+          created_at?: string
+          email?: string | null
+          first_name?: string | null
+          id?: string
+          lane?: string
+          last_name?: string | null
+          organization?: string | null
+          phone?: string | null
+          responses?: Json
+          role_title?: string | null
+          social_link?: string | null
+          source_page?: string | null
+          subject_name?: string | null
+          tags?: string[]
+          user_agent?: string | null
+          website?: string | null
+        }
+        Relationships: []
+      }
       content_ideas: {
         Row: {
           avatar: string | null

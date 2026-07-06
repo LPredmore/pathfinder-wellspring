@@ -1,0 +1,1150 @@
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+import {
+  ArrowRight,
+  Check,
+  X,
+  Loader2,
+  Play,
+  Share2,
+  Heart,
+  Users,
+  Megaphone,
+  Handshake,
+  UserPlus,
+  Sparkles,
+  Video,
+  ChevronDown,
+} from "lucide-react";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
+import { trackHomeEvent } from "@/lib/tracking";
+import { supabase } from "@/integrations/supabase/client";
+
+const track = (name: string, params: Record<string, unknown> = {}) =>
+  trackHomeEvent(name, { page: "beyond-the-yellow", ...params });
+
+const FORM_ANCHOR = "bty-story-form";
+const FEATURED_ANCHOR = "bty-featured";
+
+const scrollToId = (id: string, opts: Record<string, unknown> = {}) => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  el.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
+  track("bty_scroll_to", { target: id, ...opts });
+};
+
+/* ---------- Primitives ---------- */
+
+function Eyebrow({ children, tone = "yellow" }: { children: ReactNode; tone?: "yellow" | "navy" | "red" }) {
+  const cls =
+    tone === "red"
+      ? "text-accent"
+      : tone === "navy"
+      ? "text-[hsl(var(--navy))]"
+      : "text-[hsl(var(--gold-accent))]";
+  return <p className={`text-xs font-semibold uppercase tracking-[0.22em] ${cls}`}>{children}</p>;
+}
+
+function SectionHeading({ children, className = "" }: { children: ReactNode; className?: string }) {
+  return (
+    <h2 className={`mt-3 text-3xl font-bold leading-tight text-foreground md:text-4xl lg:text-5xl ${className}`}>
+      {children}
+    </h2>
+  );
+}
+
+/* ---------- Lanes ---------- */
+
+const lanes = [
+  { value: "own-story", label: "Share my own story", tag: "own-story", event: "bty_form_submit" },
+  { value: "organization", label: "Represent an organization", tag: "organization", event: "bty_veteran_org_submit" },
+  { value: "nominate", label: "Nominate someone", tag: "nomination", event: "bty_nomination_submit" },
+  { value: "veteran-org", label: "Veteran-serving organization", tag: "veteran-org", event: "bty_veteran_org_submit" },
+  { value: "clinician", label: "Clinician", tag: "clinician", event: "bty_clinician_submit" },
+  { value: "creator", label: "Creator / media", tag: "creator", event: "bty_creator_submit" },
+  { value: "sponsor", label: "Sponsor / supporter", tag: "sponsor", event: "bty_sponsor_submit" },
+  { value: "partner", label: "Partner", tag: "partner", event: "bty_partner_submit" },
+  { value: "introduction", label: "Make an introduction", tag: "introduction", event: "bty_intro_submit" },
+  { value: "not-sure", label: "Not sure / connect", tag: "not-sure", event: "bty_form_submit" },
+] as const;
+
+type LaneValue = (typeof lanes)[number]["value"];
+
+type FormState = {
+  lane: LaneValue | "";
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone: string;
+  organization: string;
+  role_title: string;
+  website: string;
+  social_link: string;
+  subject_name: string;
+  responses: Record<string, string>;
+  consent: boolean;
+};
+
+const emptyForm: FormState = {
+  lane: "",
+  first_name: "",
+  last_name: "",
+  email: "",
+  phone: "",
+  organization: "",
+  role_title: "",
+  website: "",
+  social_link: "",
+  subject_name: "",
+  responses: {},
+  consent: false,
+};
+
+/* ---------- Story / Nomination Form ---------- */
+
+function StoryForm({ initialLane }: { initialLane?: LaneValue }) {
+  const [form, setForm] = useState<FormState>({ ...emptyForm, lane: initialLane ?? "" });
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [errorMsg, setErrorMsg] = useState("");
+  const startedRef = useRef(false);
+  const laneCompleteFiredRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    if (initialLane && initialLane !== form.lane) {
+      setForm((p) => ({ ...p, lane: initialLane }));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialLane]);
+
+  useEffect(() => {
+    const onLeave = () => {
+      if (startedRef.current && status !== "success" && status !== "loading") {
+        track("bty_form_abandon", { lane: form.lane || "unselected" });
+      }
+    };
+    window.addEventListener("beforeunload", onLeave);
+    return () => window.removeEventListener("beforeunload", onLeave);
+  }, [form.lane, status]);
+
+  const markStart = () => {
+    if (!startedRef.current) {
+      startedRef.current = true;
+      track("bty_story_start");
+    }
+  };
+
+  const setLane = (val: LaneValue) => {
+    markStart();
+    setForm((p) => ({ ...p, lane: val }));
+    track("bty_lane_selected", { lane: val });
+    if (laneCompleteFiredRef.current !== val) {
+      laneCompleteFiredRef.current = val;
+      track("bty_form_step_complete", { step: "lane" });
+    }
+  };
+
+  const update = <K extends keyof FormState>(k: K, v: FormState[K]) => {
+    markStart();
+    setForm((p) => ({ ...p, [k]: v }));
+  };
+
+  const setResponse = (k: string, v: string) => {
+    markStart();
+    setForm((p) => ({ ...p, responses: { ...p.responses, [k]: v } }));
+  };
+
+  const laneMeta = lanes.find((l) => l.value === form.lane);
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.lane || !form.consent) return;
+    setStatus("loading");
+    setErrorMsg("");
+    const tags = ["bty-lead", laneMeta?.tag ?? "bty-lead"].filter(Boolean);
+
+    try {
+      const { error } = await (supabase as any).from("bty_submissions").insert({
+        lane: form.lane,
+        first_name: form.first_name.trim() || null,
+        last_name: form.last_name.trim() || null,
+        email: form.email.trim() || null,
+        phone: form.phone.trim() || null,
+        organization: form.organization.trim() || null,
+        role_title: form.role_title.trim() || null,
+        website: form.website.trim() || null,
+        social_link: form.social_link.trim() || null,
+        subject_name: form.subject_name.trim() || null,
+        responses: form.responses,
+        tags,
+        consent: form.consent,
+        source_page: "/beyondtheyellow",
+        user_agent: typeof navigator !== "undefined" ? navigator.userAgent : null,
+      });
+      if (error) throw error;
+      track("bty_form_submit", { lane: form.lane });
+      if (laneMeta?.event && laneMeta.event !== "bty_form_submit") track(laneMeta.event);
+      setStatus("success");
+    } catch (err: any) {
+      setErrorMsg(err?.message ?? "Something went wrong. Please try again.");
+      setStatus("error");
+    }
+  };
+
+  if (status === "success") {
+    return (
+      <div className="rounded-2xl border border-border bg-card p-8 text-center shadow-sm">
+        <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-[hsl(var(--gold-accent))] text-[hsl(var(--navy))]">
+          <Check className="h-6 w-6" />
+        </div>
+        <h3 className="text-2xl font-bold text-foreground">Thanks for sharing the story.</h3>
+        <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
+          ValorWell will review the submission and follow up if there is a fit. In the meantime, follow ValorWell, watch Beyond
+          The Yellow, and keep doing the work people would actually miss if it stopped.
+        </p>
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+          <Link
+            to="/watch"
+            onClick={() => track("bty_follow_click", { location: "form_success" })}
+            className="inline-flex items-center gap-2 rounded-md bg-[hsl(var(--navy))] px-5 py-3 text-sm font-semibold text-white hover:bg-[hsl(var(--navy-light))]"
+          >
+            Watch Beyond The Yellow <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  const needsContact = form.lane && form.lane !== "not-sure";
+  const isNomination = form.lane === "nominate" || form.lane === "introduction";
+  const isOrgLane =
+    form.lane === "organization" ||
+    form.lane === "veteran-org" ||
+    form.lane === "sponsor" ||
+    form.lane === "partner";
+  const isCreator = form.lane === "creator";
+  const isClinician = form.lane === "clinician";
+
+  return (
+    <form onSubmit={submit} className="rounded-2xl border border-border bg-card p-6 shadow-sm md:p-8" noValidate>
+      <fieldset>
+        <legend className="text-lg font-semibold text-foreground">What brings you here?</legend>
+        <p className="mt-1 text-sm text-muted-foreground">Pick the lane that fits best. Fields adjust after you choose.</p>
+        <div className="mt-4 grid gap-2 sm:grid-cols-2">
+          {lanes.map((l) => {
+            const active = form.lane === l.value;
+            return (
+              <button
+                key={l.value}
+                type="button"
+                onClick={() => setLane(l.value)}
+                aria-pressed={active}
+                className={`rounded-lg border px-4 py-3 text-left text-sm font-medium transition-colors ${
+                  active
+                    ? "border-[hsl(var(--gold-accent))] bg-[hsl(var(--gold-accent))]/15 text-foreground"
+                    : "border-border bg-background text-foreground hover:border-[hsl(var(--navy))] hover:bg-muted"
+                }`}
+              >
+                {l.label}
+              </button>
+            );
+          })}
+        </div>
+      </fieldset>
+
+      {form.lane && (
+        <div className="mt-8 space-y-6">
+          {isNomination && (
+            <div>
+              <label htmlFor="subject_name" className="block text-sm font-medium text-foreground">
+                Who are you nominating / introducing?
+              </label>
+              <input
+                id="subject_name"
+                type="text"
+                required
+                value={form.subject_name}
+                onChange={(e) => update("subject_name", e.target.value)}
+                className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus:border-[hsl(var(--navy))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--navy))]/30"
+                placeholder="Person or organization name"
+              />
+            </div>
+          )}
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label htmlFor="first_name" className="block text-sm font-medium text-foreground">
+                First name
+              </label>
+              <input
+                id="first_name"
+                type="text"
+                required
+                value={form.first_name}
+                onChange={(e) => update("first_name", e.target.value)}
+                className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus:border-[hsl(var(--navy))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--navy))]/30"
+              />
+            </div>
+            <div>
+              <label htmlFor="last_name" className="block text-sm font-medium text-foreground">
+                Last name
+              </label>
+              <input
+                id="last_name"
+                type="text"
+                required
+                value={form.last_name}
+                onChange={(e) => update("last_name", e.target.value)}
+                className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus:border-[hsl(var(--navy))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--navy))]/30"
+              />
+            </div>
+          </div>
+
+          {needsContact && (
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-foreground">
+                  Email
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  required
+                  value={form.email}
+                  onChange={(e) => update("email", e.target.value)}
+                  className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus:border-[hsl(var(--navy))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--navy))]/30"
+                />
+              </div>
+              <div>
+                <label htmlFor="phone" className="block text-sm font-medium text-foreground">
+                  Phone <span className="text-muted-foreground">(optional)</span>
+                </label>
+                <input
+                  id="phone"
+                  type="tel"
+                  value={form.phone}
+                  onChange={(e) => update("phone", e.target.value)}
+                  className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus:border-[hsl(var(--navy))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--navy))]/30"
+                />
+              </div>
+            </div>
+          )}
+
+          {(isOrgLane || isCreator || isClinician) && (
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label htmlFor="organization" className="block text-sm font-medium text-foreground">
+                  {isCreator ? "Channel / platform" : isClinician ? "Practice / employer" : "Organization"}
+                </label>
+                <input
+                  id="organization"
+                  type="text"
+                  value={form.organization}
+                  onChange={(e) => update("organization", e.target.value)}
+                  className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus:border-[hsl(var(--navy))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--navy))]/30"
+                />
+              </div>
+              <div>
+                <label htmlFor="role_title" className="block text-sm font-medium text-foreground">
+                  Role / title
+                </label>
+                <input
+                  id="role_title"
+                  type="text"
+                  value={form.role_title}
+                  onChange={(e) => update("role_title", e.target.value)}
+                  className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus:border-[hsl(var(--navy))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--navy))]/30"
+                />
+              </div>
+            </div>
+          )}
+
+          {(isOrgLane || isCreator) && (
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label htmlFor="website" className="block text-sm font-medium text-foreground">
+                  Website
+                </label>
+                <input
+                  id="website"
+                  type="url"
+                  value={form.website}
+                  onChange={(e) => update("website", e.target.value)}
+                  placeholder="https://"
+                  className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus:border-[hsl(var(--navy))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--navy))]/30"
+                />
+              </div>
+              <div>
+                <label htmlFor="social_link" className="block text-sm font-medium text-foreground">
+                  Best social / video link
+                </label>
+                <input
+                  id="social_link"
+                  type="url"
+                  value={form.social_link}
+                  onChange={(e) => update("social_link", e.target.value)}
+                  placeholder="https://"
+                  className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus:border-[hsl(var(--navy))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--navy))]/30"
+                />
+              </div>
+            </div>
+          )}
+
+          <div>
+            <label htmlFor="action" className="block text-sm font-medium text-foreground">
+              {isNomination
+                ? "What real action are they doing? Who is measurably better off?"
+                : isCreator
+                ? "What are you building or amplifying, and who is it helping?"
+                : isClinician
+                ? "How are you serving veterans, families, or underserved communities?"
+                : isOrgLane
+                ? "What real action is your organization doing? Who is measurably better off?"
+                : form.lane === "not-sure"
+                ? "Tell us what you're thinking. We'll route it."
+                : "What real action are you doing? Who is measurably better off?"}
+            </label>
+            <textarea
+              id="action"
+              required
+              rows={5}
+              value={form.responses.action ?? ""}
+              onChange={(e) => setResponse("action", e.target.value)}
+              className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus:border-[hsl(var(--navy))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--navy))]/30"
+              placeholder="Be specific. What happens, who benefits, and what would break if it stopped."
+            />
+            <p className="mt-1 text-xs text-muted-foreground">
+              Please do not include medical records, SSNs, VA file numbers, or clinical/claim evidence.
+            </p>
+          </div>
+
+          {(form.lane === "sponsor" || form.lane === "partner") && (
+            <div>
+              <label htmlFor="support" className="block text-sm font-medium text-foreground">
+                How do you want to help the movement travel farther?
+              </label>
+              <textarea
+                id="support"
+                rows={3}
+                value={form.responses.support ?? ""}
+                onChange={(e) => setResponse("support", e.target.value)}
+                className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus:border-[hsl(var(--navy))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--navy))]/30"
+              />
+            </div>
+          )}
+
+          <div className="flex items-start gap-3 rounded-lg border border-border bg-muted/40 p-4">
+            <input
+              id="consent"
+              type="checkbox"
+              checked={form.consent}
+              onChange={(e) => update("consent", e.target.checked)}
+              className="mt-1 h-4 w-4 rounded border-input"
+              required
+            />
+            <label htmlFor="consent" className="text-sm text-foreground">
+              I understand submitting this form does not guarantee being featured, partnership, sponsorship, clinical care,
+              documentation, funding, endorsement, or any outcome.
+            </label>
+          </div>
+
+          {status === "error" && (
+            <div className="flex items-start gap-2 rounded-md border border-accent/30 bg-accent/5 p-3 text-sm text-accent">
+              <X className="mt-0.5 h-4 w-4 shrink-0" />
+              <p>{errorMsg || "Submission failed. Please try again."}</p>
+            </div>
+          )}
+
+          <div className="flex flex-wrap items-center gap-3">
+            <button
+              type="submit"
+              disabled={status === "loading" || !form.consent || !form.lane}
+              className="inline-flex items-center gap-2 rounded-md bg-[hsl(var(--gold-accent))] px-6 py-3 text-sm font-semibold text-[hsl(var(--navy))] transition-opacity hover:opacity-90 disabled:opacity-50"
+            >
+              {status === "loading" ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" /> Sending…
+                </>
+              ) : (
+                <>
+                  Send it to ValorWell <ArrowRight className="h-4 w-4" />
+                </>
+              )}
+            </button>
+            <span className="text-xs text-muted-foreground">We reply if there's a fit.</span>
+          </div>
+        </div>
+      )}
+    </form>
+  );
+}
+
+/* ---------- FAQ ---------- */
+
+const faqs = [
+  {
+    q: "Who can be featured on Beyond The Yellow?",
+    a: "People, organizations, creators, clinicians, businesses, and communities taking real action instead of stopping at symbolic support. The category does not decide whether you belong. The action does. Veteran-serving and military-family work is prioritized, but real action from any community may belong.",
+  },
+  {
+    q: "How is this different from an awareness campaign?",
+    a: "Awareness ends at the symbol. Beyond The Yellow starts where awareness stops — with people doing work someone would actually miss if it stopped tomorrow.",
+  },
+  {
+    q: "Is Beyond The Yellow the same as Operation Claims Success?",
+    a: "No. Operation Claims Success is ValorWell's care-first veteran documentation initiative and one of the clearest examples of ValorWell going Beyond The Yellow. BTY is the broader movement spotlighting real action across many categories.",
+  },
+  {
+    q: "Can I pay to be featured?",
+    a: "No. Sponsorship helps ValorWell produce and distribute Beyond The Yellow stories, but it cannot buy credibility, a feature, recognition, endorsement, clinical influence, documentation influence, or VA outcomes.",
+  },
+  {
+    q: "Does submitting a story guarantee I'll be featured?",
+    a: "No. Submissions are reviewed. ValorWell follows up if there is a fit.",
+  },
+  {
+    q: "Does BTY promise VA outcomes?",
+    a: "No. Beyond The Yellow does not guarantee VA Community Care, referrals, Nexus Letters, ratings, service connection, claim approval, documentation, or any VA outcome.",
+  },
+];
+
+function Faq() {
+  const [open, setOpen] = useState<number | null>(0);
+  return (
+    <div className="divide-y divide-border rounded-2xl border border-border bg-card">
+      {faqs.map((f, i) => {
+        const isOpen = open === i;
+        return (
+          <div key={i}>
+            <button
+              type="button"
+              onClick={() => {
+                const next = isOpen ? null : i;
+                setOpen(next);
+                if (next !== null) track("bty_faq_expand", { index: i });
+              }}
+              aria-expanded={isOpen}
+              className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left"
+            >
+              <span className="text-base font-semibold text-foreground md:text-lg">{f.q}</span>
+              <ChevronDown
+                className={`h-5 w-5 shrink-0 text-muted-foreground transition-transform ${isOpen ? "rotate-180" : ""}`}
+              />
+            </button>
+            {isOpen && <div className="px-5 pb-5 text-sm leading-relaxed text-muted-foreground md:text-base">{f.a}</div>}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+/* ---------- Page ---------- */
+
+export default function BeyondTheYellowPage() {
+  const [initialLane, setInitialLane] = useState<LaneValue | undefined>(undefined);
+  const [showSticky, setShowSticky] = useState(false);
+
+  useEffect(() => {
+    track("bty_page_view");
+    let observer: IntersectionObserver | null = null;
+    const heroEl = document.getElementById("bty-hero");
+    if (heroEl && "IntersectionObserver" in window) {
+      observer = new IntersectionObserver(
+        ([entry]) => setShowSticky(!entry.isIntersecting),
+        { threshold: 0 }
+      );
+      observer.observe(heroEl);
+    }
+    return () => observer?.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const el = document.getElementById("bty-real-support-test");
+    if (!el || !("IntersectionObserver" in window)) return;
+    let fired = false;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting && !fired) {
+          fired = true;
+          track("bty_real_support_test_view");
+        }
+      },
+      { threshold: 0.5 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  const goToFormWithLane = (lane: LaneValue, event: string) => {
+    setInitialLane(lane);
+    track(event);
+    setTimeout(() => scrollToId(FORM_ANCHOR), 30);
+  };
+
+  const partnerPaths = useMemo(
+    () => [
+      { title: "Partner With ValorWell", lane: "partner" as LaneValue, event: "bty_partner_click" },
+      { title: "Sponsor the Movement", lane: "sponsor" as LaneValue, event: "bty_sponsor_click" },
+      { title: "Bring BTY to Your Organization", lane: "organization" as LaneValue, event: "bty_partner_click" },
+      { title: "Make an Introduction", lane: "introduction" as LaneValue, event: "bty_partner_click" },
+    ],
+    []
+  );
+
+  return (
+    <>
+      <Helmet>
+        <title>Beyond The Yellow — Support is not a symbol. Support is behavior.</title>
+        <meta
+          name="description"
+          content="Beyond The Yellow is a ValorWell-powered movement and spotlight series featuring people, organizations, creators, clinicians, and communities taking real action instead of stopping at symbolic support."
+        />
+        <meta property="og:title" content="Beyond The Yellow — Support is behavior." />
+        <meta
+          property="og:description"
+          content="A ValorWell-powered movement spotlighting real action over symbolic support. Share your story or nominate someone doing the work."
+        />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <link rel="canonical" href="/beyondtheyellow" />
+      </Helmet>
+
+      <Header />
+      <main id="main" className="bg-background">
+        {/* 1. HERO */}
+        <section
+          id="bty-hero"
+          className="relative overflow-hidden border-b border-border bg-[hsl(var(--navy))] text-white"
+        >
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-[hsl(var(--gold-accent))]/25 blur-3xl"
+          />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -left-24 bottom-0 h-72 w-72 rounded-full bg-[hsl(var(--gold-accent))]/10 blur-3xl"
+          />
+          <div className="relative mx-auto max-w-6xl px-4 py-20 md:py-28">
+            <Eyebrow>A ValorWell-powered movement</Eyebrow>
+            <h1 className="mt-4 text-4xl font-extrabold leading-[1.05] tracking-tight md:text-6xl lg:text-7xl">
+              Support is not a symbol.{" "}
+              <span className="text-[hsl(var(--gold-accent))]">Support is behavior.</span>
+            </h1>
+            <p className="mt-6 max-w-3xl text-lg text-white/85 md:text-xl">
+              Beyond The Yellow is a ValorWell-powered movement and spotlight series featuring people, organizations,
+              creators, clinicians, businesses, and communities taking real action instead of stopping at symbolic
+              support.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <button
+                onClick={() => {
+                  track("bty_hero_story");
+                  scrollToId(FORM_ANCHOR);
+                }}
+                className="inline-flex items-center gap-2 rounded-md bg-[hsl(var(--gold-accent))] px-6 py-3 text-sm font-semibold text-[hsl(var(--navy))] hover:opacity-90"
+              >
+                Share Your Beyond The Yellow Story <ArrowRight className="h-4 w-4" />
+              </button>
+              <button
+                onClick={() => {
+                  track("bty_hero_watch");
+                  scrollToId(FEATURED_ANCHOR);
+                }}
+                className="inline-flex items-center gap-2 rounded-md border border-white/30 bg-white/10 px-6 py-3 text-sm font-semibold text-white hover:bg-white/20"
+              >
+                <Play className="h-4 w-4" /> Watch the Latest Spotlight
+              </button>
+              <button
+                onClick={() => goToFormWithLane("nominate", "bty_hero_nominate")}
+                className="inline-flex items-center gap-2 rounded-md border border-white/30 bg-transparent px-6 py-3 text-sm font-semibold text-white hover:bg-white/10"
+              >
+                Know someone doing the work? Nominate them.
+              </button>
+            </div>
+            <p className="mt-10 max-w-2xl border-l-4 border-[hsl(var(--gold-accent))] pl-4 text-base italic text-white/85 md:text-lg">
+              Am I someone who only posts the ribbon, or am I someone who goes beyond it?
+            </p>
+          </div>
+        </section>
+
+        {/* 2. MOVEMENT */}
+        <section className="border-b border-border py-20 md:py-24">
+          <div className="mx-auto max-w-4xl px-4">
+            <Eyebrow tone="navy">The movement</Eyebrow>
+            <SectionHeading>Beyond The Yellow is where real support gets seen.</SectionHeading>
+            <div className="mt-6 space-y-5 text-lg leading-relaxed text-muted-foreground">
+              <p>
+                The yellow ribbon represents awareness. Beyond The Yellow asks a harder question: what happens after the
+                symbol? What actually gets done for the people the ribbon is supposed to honor?
+              </p>
+              <p className="rounded-xl bg-[hsl(var(--section-alt))] p-5 text-foreground">
+                <strong>The category does not decide whether you belong. The action does.</strong>
+              </p>
+              <p>
+                Veteran-serving and military-family work is especially important to ValorWell, but BTY may spotlight real
+                action from any community — anyone building something people would actually miss if it stopped.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* 3. THE GAP */}
+        <section className="border-b border-border bg-[hsl(var(--section-alt))] py-20 md:py-24">
+          <div className="mx-auto max-w-5xl px-4">
+            <Eyebrow tone="red">The gap</Eyebrow>
+            <SectionHeading>
+              The problem is not that people care. The problem is when caring stops at the symbol.
+            </SectionHeading>
+            <p className="mt-6 max-w-3xl text-lg text-muted-foreground">
+              There is a real distance between saying you support something and doing something a real person can feel.
+              Beyond The Yellow exists to close that distance.
+            </p>
+            <div className="mt-10 grid gap-4 md:grid-cols-2">
+              {[
+                "Awareness with no follow-through",
+                "Complaining without helping",
+                "Symbols without action",
+                "Outrage without solutions",
+                "Cause-washing",
+                "Political fighting disguised as service",
+                "Fundraising with no visible benefit",
+                "Brand-image management without substance",
+              ].map((item) => (
+                <div
+                  key={item}
+                  className="flex items-start gap-3 rounded-lg border border-border bg-card p-4 text-foreground"
+                >
+                  <X className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
+                  <span className="text-base">{item}</span>
+                </div>
+              ))}
+            </div>
+            <p className="mt-8 text-sm text-muted-foreground">
+              This is not a shame wall. It's a mirror. Most of us have been on both sides of it.
+            </p>
+          </div>
+        </section>
+
+        {/* 4. REAL-SUPPORT TEST */}
+        <section id="bty-real-support-test" className="relative border-b border-border py-24 md:py-32">
+          <div className="mx-auto max-w-4xl px-4 text-center">
+            <Eyebrow>The real-support test</Eyebrow>
+            <p className="mt-6 text-3xl font-bold leading-tight text-foreground md:text-5xl lg:text-6xl">
+              If your support stopped tomorrow, would anyone be{" "}
+              <span className="text-accent">worse off</span>?{" "}
+              <span className="block md:inline">Would they even know?</span>
+            </p>
+            <div className="mx-auto mt-10 max-w-xl rounded-xl border border-border bg-card p-6 text-left">
+              <p className="text-lg font-semibold text-foreground">It does not have to be huge.</p>
+              <p className="mt-1 text-lg font-semibold text-[hsl(var(--gold-accent))]">It does have to be real.</p>
+            </div>
+          </div>
+        </section>
+
+        {/* 5. FEATURED SPOTLIGHT */}
+        <section id={FEATURED_ANCHOR} className="border-b border-border bg-[hsl(var(--section-alt))] py-20 md:py-24">
+          <div className="mx-auto max-w-6xl px-4">
+            <Eyebrow tone="navy">Featured spotlight</Eyebrow>
+            <SectionHeading>Watch people going Beyond The Yellow.</SectionHeading>
+            <div className="mt-10 grid gap-8 lg:grid-cols-5">
+              <div className="lg:col-span-3">
+                <div className="relative aspect-video overflow-hidden rounded-2xl border border-border bg-[hsl(var(--navy))] text-white">
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 p-8 text-center">
+                    <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[hsl(var(--gold-accent))] text-[hsl(var(--navy))]">
+                      <Video className="h-7 w-7" />
+                    </div>
+                    <p className="max-w-md text-lg font-semibold">
+                      The first Beyond The Yellow spotlights are being built now.
+                    </p>
+                    <p className="max-w-md text-sm text-white/80">
+                      Follow ValorWell, watch the mission being built, and send us the next story worth seeing.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="lg:col-span-2">
+                <div className="flex h-full flex-col justify-between rounded-2xl border border-border bg-card p-6">
+                  <div>
+                    <h3 className="text-xl font-bold text-foreground">Be part of the first spotlights.</h3>
+                    <p className="mt-3 text-muted-foreground">
+                      Beyond The Yellow is a borrowed-audience engine. Guests bring the stories and the work. Their
+                      audiences help the movement travel. We're picking the first features now.
+                    </p>
+                  </div>
+                  <div className="mt-6 flex flex-col gap-3">
+                    <button
+                      onClick={() => {
+                        track("bty_featured_watch");
+                        scrollToId(FORM_ANCHOR);
+                      }}
+                      className="inline-flex items-center justify-center gap-2 rounded-md bg-[hsl(var(--gold-accent))] px-5 py-3 text-sm font-semibold text-[hsl(var(--navy))] hover:opacity-90"
+                    >
+                      Share Your Beyond The Yellow Story <ArrowRight className="h-4 w-4" />
+                    </button>
+                    <Link
+                      to="/watch"
+                      onClick={() => track("bty_follow_click", { location: "featured" })}
+                      className="inline-flex items-center justify-center gap-2 rounded-md border border-border bg-background px-5 py-3 text-sm font-semibold text-foreground hover:bg-muted"
+                    >
+                      <Play className="h-4 w-4" /> Watch ValorWell
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 6. WHO BELONGS HERE */}
+        <section className="border-b border-border py-20 md:py-24">
+          <div className="mx-auto max-w-5xl px-4">
+            <Eyebrow>Who belongs here</Eyebrow>
+            <SectionHeading>The action decides. Not the label.</SectionHeading>
+            <p className="mt-6 max-w-3xl text-lg text-muted-foreground">
+              Veterans, families, clinicians, nonprofits, small businesses, community leaders, teachers, mentors,
+              creators, first responders, faith communities, neighbors — anyone doing work someone would actually miss
+              if it stopped.
+            </p>
+            <div className="mt-10 grid gap-4 md:grid-cols-3">
+              {[
+                { icon: Users, title: "People", body: "Individuals showing up for other individuals, week after week." },
+                { icon: Handshake, title: "Organizations", body: "Groups building services, access, and infrastructure that help." },
+                { icon: Megaphone, title: "Creators", body: "Voices using their platform to move real resources to real people." },
+              ].map((c) => (
+                <div key={c.title} className="rounded-2xl border border-border bg-card p-6">
+                  <c.icon className="h-6 w-6 text-[hsl(var(--gold-accent))]" />
+                  <h3 className="mt-3 text-lg font-bold text-foreground">{c.title}</h3>
+                  <p className="mt-2 text-muted-foreground">{c.body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* 7. WHAT COUNTS AS REAL ACTION */}
+        <section className="border-b border-border bg-[hsl(var(--section-alt))] py-20 md:py-24">
+          <div className="mx-auto max-w-5xl px-4">
+            <Eyebrow tone="navy">Real action</Eyebrow>
+            <SectionHeading>Real action leaves a mark.</SectionHeading>
+            <p className="mt-6 max-w-3xl text-lg text-muted-foreground">
+              This is not a legal qualification checklist. It's the pattern we keep seeing in people going Beyond The
+              Yellow.
+            </p>
+            <div className="mt-8 grid gap-3 md:grid-cols-2">
+              {[
+                "Direct help to someone in front of you",
+                "Services delivered, not just announced",
+                "Meaningful time and resources on the line",
+                "Infrastructure that keeps working after the post",
+                "Access created where there was none",
+                "Mentoring, hiring, and pulling people up",
+                "Connecting people to real care",
+                "Funding tools and access, not vanity",
+                "Consistent, boring, repeatable volunteering",
+                "Useful education, not performance",
+                "Solving one specific problem well",
+                "Systems that keep helping tomorrow",
+              ].map((item) => (
+                <div key={item} className="flex items-start gap-3 rounded-lg border border-border bg-card p-4">
+                  <Check className="mt-0.5 h-5 w-5 shrink-0 text-[hsl(var(--gold-accent))]" />
+                  <span className="text-base text-foreground">{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* 8. WHAT DOES NOT COUNT */}
+        <section className="border-b border-border py-20 md:py-24">
+          <div className="mx-auto max-w-4xl px-4">
+            <Eyebrow tone="red">What Beyond The Yellow is not</Eyebrow>
+            <SectionHeading>Some things wear the color but skip the work.</SectionHeading>
+            <div className="mt-8 grid gap-3">
+              {[
+                "Posting a ribbon and calling it support",
+                "Awareness campaigns with no follow-through",
+                "Pledges without a plan",
+                "Pay-to-play recognition",
+                "Cause-branding with no delivery",
+                "Fundraising with no visible benefit to the people named",
+                "Content about doing good instead of doing good",
+              ].map((item) => (
+                <div key={item} className="flex items-start gap-3 rounded-lg border border-border bg-card p-4">
+                  <X className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
+                  <span className="text-foreground">{item}</span>
+                </div>
+              ))}
+            </div>
+            <p className="mt-6 text-sm text-muted-foreground">
+              None of this is about shaming. It's about clarity. The movement only works if we name the difference.
+            </p>
+          </div>
+        </section>
+
+        {/* 9. POWERED BY VALORWELL */}
+        <section className="border-b border-border bg-[hsl(var(--navy))] py-20 text-white md:py-24">
+          <div className="mx-auto grid max-w-5xl gap-10 px-4 md:grid-cols-5">
+            <div className="md:col-span-2">
+              <Eyebrow>Who powers this</Eyebrow>
+              <h2 className="mt-3 text-3xl font-bold leading-tight md:text-4xl">
+                Powered by <span className="text-[hsl(var(--gold-accent))]">ValorWell</span>. Built for the people doing
+                the work.
+              </h2>
+            </div>
+            <div className="md:col-span-3">
+              <ul className="space-y-4 text-lg text-white/85">
+                <li className="flex gap-3">
+                  <Sparkles className="mt-1 h-5 w-5 shrink-0 text-[hsl(var(--gold-accent))]" />
+                  <span><strong className="text-white">ValorWell powers the movement.</strong> The infrastructure, production, and reach.</span>
+                </li>
+                <li className="flex gap-3">
+                  <Sparkles className="mt-1 h-5 w-5 shrink-0 text-[hsl(var(--gold-accent))]" />
+                  <span><strong className="text-white">Luke hosts the movement.</strong> Founder-led. Direct. Accountable.</span>
+                </li>
+                <li className="flex gap-3">
+                  <Sparkles className="mt-1 h-5 w-5 shrink-0 text-[hsl(var(--gold-accent))]" />
+                  <span><strong className="text-white">Guests bring the stories and the work.</strong> The guest is the spotlight.</span>
+                </li>
+                <li className="flex gap-3">
+                  <Sparkles className="mt-1 h-5 w-5 shrink-0 text-[hsl(var(--gold-accent))]" />
+                  <span><strong className="text-white">Their audiences help the movement travel.</strong> That's how real action spreads.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        {/* 10. OCS INTEGRATION */}
+        <section className="border-b border-border py-20 md:py-24">
+          <div className="mx-auto max-w-5xl px-4">
+            <Eyebrow tone="navy">A live example</Eyebrow>
+            <SectionHeading>Operation Claims Success is ValorWell going Beyond The Yellow.</SectionHeading>
+            <div className="mt-6 grid gap-8 lg:grid-cols-5">
+              <div className="lg:col-span-3 space-y-4 text-lg text-muted-foreground">
+                <p>
+                  OCS is real action: building a care-first alternative to predatory veteran documentation models
+                  through real care, pathway infrastructure, ethical documentation when clinically appropriate, and
+                  honest education.
+                </p>
+                <p>
+                  It's one of the clearest examples of what going Beyond The Yellow looks like when the people running
+                  the movement are also the ones doing the work. OCS is not the definition of the movement — it's
+                  proof it can be done.
+                </p>
+                <p className="rounded-lg border-l-4 border-[hsl(var(--navy))] bg-[hsl(var(--section-alt))] p-4 text-sm text-foreground">
+                  Beyond The Yellow and Operation Claims Success do not guarantee VA Community Care, referrals, Nexus
+                  Letters, ratings, service connection, claim approval, documentation, or any VA outcome.
+                </p>
+              </div>
+              <div className="lg:col-span-2">
+                <div className="flex h-full flex-col justify-between rounded-2xl border border-border bg-card p-6">
+                  <div>
+                    <h3 className="text-xl font-bold text-foreground">Explore the work</h3>
+                    <p className="mt-2 text-muted-foreground">
+                      See what a care-first alternative to predatory documentation actually looks like.
+                    </p>
+                  </div>
+                  <Link
+                    to="/operation-claims-success"
+                    onClick={() => track("bty_ocs_click")}
+                    className="mt-6 inline-flex items-center justify-center gap-2 rounded-md bg-[hsl(var(--navy))] px-5 py-3 text-sm font-semibold text-white hover:bg-[hsl(var(--navy-light))]"
+                  >
+                    Explore Operation Claims Success <ArrowRight className="h-4 w-4" />
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 11. GUEST VALUE */}
+        <section className="border-b border-border bg-[hsl(var(--section-alt))] py-20 md:py-24">
+          <div className="mx-auto max-w-5xl px-4">
+            <Eyebrow>For guests</Eyebrow>
+            <SectionHeading>Why share your story?</SectionHeading>
+            <div className="mt-10 grid gap-4 md:grid-cols-2">
+              {[
+                { icon: Heart, title: "Tell the real story", body: "The version behind the highlight reel — why the work exists and who it's for." },
+                { icon: Megaphone, title: "Reach new people", body: "ValorWell's audience meets yours. Both go home with something worth carrying." },
+                { icon: Sparkles, title: "Promote the work", body: "Fundraiser, product, service, organization, or initiative — bring it. The action stays primary." },
+                { icon: Share2, title: "Create shareable assets", body: "Long-form, clips, and quote graphics you can keep using long after the episode." },
+              ].map((c) => (
+                <div key={c.title} className="rounded-2xl border border-border bg-card p-6">
+                  <c.icon className="h-6 w-6 text-[hsl(var(--gold-accent))]" />
+                  <h3 className="mt-3 text-lg font-bold text-foreground">{c.title}</h3>
+                  <p className="mt-2 text-muted-foreground">{c.body}</p>
+                </div>
+              ))}
+            </div>
+            <p className="mt-6 text-sm text-muted-foreground">
+              We don't promise views, growth, funding, or sponsorship. We promise a real conversation about real work.
+            </p>
+          </div>
+        </section>
+
+        {/* 12. STORY / NOMINATION FORM */}
+        <section id={FORM_ANCHOR} className="border-b border-border py-20 md:py-24">
+          <div className="mx-auto max-w-3xl px-4">
+            <Eyebrow tone="navy">Send it in</Eyebrow>
+            <SectionHeading>If you are doing more than talking, share the story.</SectionHeading>
+            <p className="mt-4 text-lg text-muted-foreground">
+              This is not a generic contact form. Pick the lane that fits and the fields will follow.
+            </p>
+            <div className="mt-8">
+              <StoryForm initialLane={initialLane} />
+            </div>
+          </div>
+        </section>
+
+        {/* 13. PARTNER / SPONSOR PATHS */}
+        <section className="border-b border-border bg-[hsl(var(--section-alt))] py-20 md:py-24">
+          <div className="mx-auto max-w-5xl px-4">
+            <Eyebrow>Partner &amp; sponsor</Eyebrow>
+            <SectionHeading>Help real action travel farther.</SectionHeading>
+            <p className="mt-6 max-w-3xl text-lg text-muted-foreground">
+              Sponsorship helps ValorWell produce and distribute Beyond The Yellow stories spotlighting people and
+              organizations taking real action. Sponsorship cannot buy credibility, a feature, recognition, endorsement,
+              clinical influence, documentation influence, or VA outcomes.
+            </p>
+            <div className="mt-10 grid gap-4 sm:grid-cols-2">
+              {partnerPaths.map((p) => (
+                <button
+                  key={p.title}
+                  onClick={() => goToFormWithLane(p.lane, p.event)}
+                  className="group flex items-center justify-between gap-4 rounded-2xl border border-border bg-card p-6 text-left transition-colors hover:border-[hsl(var(--gold-accent))]"
+                >
+                  <span className="text-lg font-semibold text-foreground">{p.title}</span>
+                  <ArrowRight className="h-5 w-5 text-muted-foreground transition-transform group-hover:translate-x-1" />
+                </button>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* 14. WATCH / FOLLOW / SHARE LOOP */}
+        <section className="border-b border-border py-20 md:py-24">
+          <div className="mx-auto max-w-5xl px-4">
+            <Eyebrow tone="navy">Keep the movement moving</Eyebrow>
+            <SectionHeading>Watch. Follow. Share. Nominate.</SectionHeading>
+            <div className="mt-10 grid gap-4 md:grid-cols-3">
+              <Link
+                to="/watch"
+                onClick={() => track("bty_follow_click", { location: "loop" })}
+                className="group rounded-2xl border border-border bg-card p-6"
+              >
+                <Play className="h-6 w-6 text-[hsl(var(--gold-accent))]" />
+                <h3 className="mt-3 text-lg font-bold text-foreground">Watch Beyond The Yellow</h3>
+                <p className="mt-2 text-muted-foreground">Long-form conversations and short clips as they release.</p>
+                <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-[hsl(var(--navy))] group-hover:underline">
+                  Go to the Watch hub <ArrowRight className="h-4 w-4" />
+                </span>
+              </Link>
+              <button
+                onClick={() => {
+                  track("bty_share_click", { location: "loop" });
+                  const url = typeof window !== "undefined" ? window.location.href : "";
+                  if (typeof navigator !== "undefined" && (navigator as any).share) {
+                    (navigator as any)
+                      .share({ title: "Beyond The Yellow", text: "Support is not a symbol. Support is behavior.", url })
+                      .catch(() => {});
+                  } else if (typeof navigator !== "undefined" && navigator.clipboard) {
+                    navigator.clipboard.writeText(url).catch(() => {});
+                  }
+                }}
+                className="group rounded-2xl border border-border bg-card p-6 text-left"
+              >
+                <Share2 className="h-6 w-6 text-[hsl(var(--gold-accent))]" />
+                <h3 className="mt-3 text-lg font-bold text-foreground">Share the movement</h3>
+                <p className="mt-2 text-muted-foreground">Send Beyond The Yellow to someone doing the work — or someone who should be.</p>
+                <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-[hsl(var(--navy))] group-hover:underline">
+                  Copy or share this page <ArrowRight className="h-4 w-4" />
+                </span>
+              </button>
+              <button
+                onClick={() => goToFormWithLane("nominate", "bty_final_nominate")}
+                className="group rounded-2xl border border-border bg-card p-6 text-left"
+              >
+                <UserPlus className="h-6 w-6 text-[hsl(var(--gold-accent))]" />
+                <h3 className="mt-3 text-lg font-bold text-foreground">Nominate someone</h3>
+                <p className="mt-2 text-muted-foreground">Point us at people whose work would leave a hole if it stopped.</p>
+                <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-[hsl(var(--navy))] group-hover:underline">
+                  Send a nomination <ArrowRight className="h-4 w-4" />
+                </span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        {/* 15. FAQ */}
+        <section className="border-b border-border bg-[hsl(var(--section-alt))] py-20 md:py-24">
+          <div className="mx-auto max-w-3xl px-4">
+            <Eyebrow>FAQ</Eyebrow>
+            <SectionHeading>Straight answers.</SectionHeading>
+            <div className="mt-8">
+              <Faq />
+            </div>
+          </div>
+        </section>
+
+        {/* 16. FINAL CTA */}
+        <section className="relative overflow-hidden bg-[hsl(var(--navy))] py-24 text-white md:py-32">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-[hsl(var(--gold-accent))]"
+          />
+          <div className="mx-auto max-w-4xl px-4 text-center">
+            <h2 className="text-4xl font-extrabold leading-tight md:text-5xl lg:text-6xl">
+              If you are doing more than talking, share the story.
+            </h2>
+            <div className="mt-10 flex flex-wrap justify-center gap-3">
+              <button
+                onClick={() => {
+                  track("bty_final_story");
+                  scrollToId(FORM_ANCHOR);
+                }}
+                className="inline-flex items-center gap-2 rounded-md bg-[hsl(var(--gold-accent))] px-6 py-3 text-sm font-semibold text-[hsl(var(--navy))] hover:opacity-90"
+              >
+                Share Your Beyond The Yellow Story <ArrowRight className="h-4 w-4" />
+              </button>
+              <button
+                onClick={() => goToFormWithLane("nominate", "bty_final_nominate")}
+                className="inline-flex items-center gap-2 rounded-md border border-white/30 bg-white/10 px-6 py-3 text-sm font-semibold text-white hover:bg-white/20"
+              >
+                Nominate Someone Doing Real Work
+              </button>
+              <Link
+                to="/watch"
+                onClick={() => track("bty_final_watch")}
+                className="inline-flex items-center gap-2 rounded-md border border-white/30 bg-transparent px-6 py-3 text-sm font-semibold text-white hover:bg-white/10"
+              >
+                <Play className="h-4 w-4" /> Watch Beyond The Yellow
+              </Link>
+            </div>
+            <p className="mt-10 text-xl font-semibold md:text-2xl">
+              Support is not a symbol. <span className="text-[hsl(var(--gold-accent))]">Support is behavior.</span>
+            </p>
+          </div>
+        </section>
+      </main>
+      <Footer />
+
+      {/* Sticky mobile CTA */}
+      {showSticky && (
+        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 p-3 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] backdrop-blur md:hidden">
+          <button
+            onClick={() => {
+              track("bty_sticky_story");
+              scrollToId(FORM_ANCHOR);
+            }}
+            className="flex w-full items-center justify-center gap-2 rounded-md bg-[hsl(var(--gold-accent))] px-5 py-3 text-sm font-semibold text-[hsl(var(--navy))]"
+          >
+            Share Your Story <ArrowRight className="h-4 w-4" />
+          </button>
+        </div>
+      )}
+    </>
+  );
+}
