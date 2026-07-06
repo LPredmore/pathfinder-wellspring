@@ -14,7 +14,7 @@ import {
   Handshake,
   UserPlus,
   Sparkles,
-  Video,
+  
   ChevronDown,
 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
@@ -26,7 +26,7 @@ const track = (name: string, params: Record<string, unknown> = {}) =>
   trackHomeEvent(name, { page: "beyond-the-yellow", ...params });
 
 const FORM_ANCHOR = "bty-story-form";
-const FEATURED_ANCHOR = "bty-featured";
+
 
 const scrollToId = (id: string, opts: Record<string, unknown> = {}) => {
   const el = document.getElementById(id);
@@ -584,15 +584,6 @@ export default function BeyondTheYellowPage() {
     setTimeout(() => scrollToId(FORM_ANCHOR), 30);
   };
 
-  const partnerPaths = useMemo(
-    () => [
-      { title: "Partner With ValorWell", lane: "partner" as LaneValue, event: "bty_partner_click" },
-      { title: "Sponsor the Movement", lane: "sponsor" as LaneValue, event: "bty_sponsor_click" },
-      { title: "Bring BTY to Your Organization", lane: "organization" as LaneValue, event: "bty_partner_click" },
-      { title: "Make an Introduction", lane: "introduction" as LaneValue, event: "bty_partner_click" },
-    ],
-    []
-  );
 
   return (
     <>
@@ -698,59 +689,6 @@ export default function BeyondTheYellowPage() {
           </div>
         </section>
 
-        {/* 5. FEATURED SPOTLIGHT */}
-        <section id={FEATURED_ANCHOR} className="border-b border-border bg-[hsl(var(--section-alt))] py-20 md:py-24">
-          <div className="mx-auto max-w-6xl px-4">
-            <Eyebrow tone="navy">Featured spotlight</Eyebrow>
-            <SectionHeading>Watch people going Beyond The Yellow.</SectionHeading>
-            <div className="mt-10 grid gap-8 lg:grid-cols-5">
-              <div className="lg:col-span-3">
-                <div className="relative aspect-video overflow-hidden rounded-2xl border border-border bg-[hsl(var(--navy))] text-white">
-                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 p-8 text-center">
-                    <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[hsl(var(--gold-accent))] text-[hsl(var(--navy))]">
-                      <Video className="h-7 w-7" />
-                    </div>
-                    <p className="max-w-md text-lg font-semibold">
-                      The first Beyond The Yellow spotlights are being built now.
-                    </p>
-                    <p className="max-w-md text-sm text-white/80">
-                      Follow ValorWell, watch the mission being built, and send us the next story worth seeing.
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="lg:col-span-2">
-                <div className="flex h-full flex-col justify-between rounded-2xl border border-border bg-card p-6">
-                  <div>
-                    <h3 className="text-xl font-bold text-foreground">Be part of the first spotlights.</h3>
-                    <p className="mt-3 text-muted-foreground">
-                      Beyond The Yellow is a borrowed-audience engine. Guests bring the stories and the work. Their
-                      audiences help the movement travel. We're picking the first features now.
-                    </p>
-                  </div>
-                  <div className="mt-6 flex flex-col gap-3">
-                    <button
-                      onClick={() => {
-                        track("bty_featured_watch");
-                        scrollToId(FORM_ANCHOR);
-                      }}
-                      className="inline-flex items-center justify-center gap-2 rounded-md bg-[hsl(var(--gold-accent))] px-5 py-3 text-sm font-semibold text-[hsl(var(--navy))] hover:opacity-90"
-                    >
-                      Share Your Beyond The Yellow Story <ArrowRight className="h-4 w-4" />
-                    </button>
-                    <Link
-                      to="/watch"
-                      onClick={() => track("bty_follow_click", { location: "featured" })}
-                      className="inline-flex items-center justify-center gap-2 rounded-md border border-border bg-background px-5 py-3 text-sm font-semibold text-foreground hover:bg-muted"
-                    >
-                      <Play className="h-4 w-4" /> Watch ValorWell
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
 
         {/* 6. WHO BELONGS HERE */}
         <section className="border-b border-border py-20 md:py-24">
@@ -811,105 +749,33 @@ export default function BeyondTheYellowPage() {
           </div>
         </section>
 
-        {/* 8. WHAT DOES NOT COUNT */}
-        <section className="border-b border-border py-20 md:py-24">
-          <div className="mx-auto max-w-4xl px-4">
-            <Eyebrow tone="red">What Beyond The Yellow is not</Eyebrow>
-            <SectionHeading>Some things wear the color but skip the work.</SectionHeading>
-            <div className="mt-8 grid gap-3">
-              {[
-                "Posting a ribbon and calling it support",
-                "Awareness campaigns with no follow-through",
-                "Pledges without a plan",
-                "Pay-to-play recognition",
-                "Cause-branding with no delivery",
-                "Fundraising with no visible benefit to the people named",
-                "Content about doing good instead of doing good",
-              ].map((item) => (
-                <div key={item} className="flex items-start gap-3 rounded-lg border border-border bg-card p-4">
-                  <X className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
-                  <span className="text-foreground">{item}</span>
-                </div>
-              ))}
-            </div>
-            <p className="mt-6 text-sm text-muted-foreground">
-              None of this is about shaming. It's about clarity. The movement only works if we name the difference.
-            </p>
-          </div>
-        </section>
 
-        {/* 9. POWERED BY VALORWELL */}
-        <section className="border-b border-border bg-[hsl(var(--navy))] py-20 text-white md:py-24">
-          <div className="mx-auto grid max-w-5xl gap-10 px-4 md:grid-cols-5">
-            <div className="md:col-span-2">
-              <Eyebrow>Who powers this</Eyebrow>
-              <h2 className="mt-3 text-3xl font-bold leading-tight md:text-4xl">
-                Powered by <span className="text-[hsl(var(--gold-accent))]">ValorWell</span>. Built for the people doing
-                the work.
-              </h2>
-            </div>
-            <div className="md:col-span-3">
-              <ul className="space-y-4 text-lg text-white/85">
-                <li className="flex gap-3">
-                  <Sparkles className="mt-1 h-5 w-5 shrink-0 text-[hsl(var(--gold-accent))]" />
-                  <span><strong className="text-white">ValorWell powers the movement.</strong> The infrastructure, production, and reach.</span>
-                </li>
-                <li className="flex gap-3">
-                  <Sparkles className="mt-1 h-5 w-5 shrink-0 text-[hsl(var(--gold-accent))]" />
-                  <span><strong className="text-white">Luke hosts the movement.</strong> Founder-led. Direct. Accountable.</span>
-                </li>
-                <li className="flex gap-3">
-                  <Sparkles className="mt-1 h-5 w-5 shrink-0 text-[hsl(var(--gold-accent))]" />
-                  <span><strong className="text-white">Guests bring the stories and the work.</strong> The guest is the spotlight.</span>
-                </li>
-                <li className="flex gap-3">
-                  <Sparkles className="mt-1 h-5 w-5 shrink-0 text-[hsl(var(--gold-accent))]" />
-                  <span><strong className="text-white">Their audiences help the movement travel.</strong> That's how real action spreads.</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </section>
 
         {/* 10. OCS INTEGRATION */}
         <section className="border-b border-border py-20 md:py-24">
           <div className="mx-auto max-w-5xl px-4">
             <Eyebrow tone="navy">A live example</Eyebrow>
             <SectionHeading>Operation Claims Success is ValorWell going Beyond The Yellow.</SectionHeading>
-            <div className="mt-6 grid gap-8 lg:grid-cols-5">
-              <div className="lg:col-span-3 space-y-4 text-lg text-muted-foreground">
-                <p>
-                  OCS is real action: building a care-first alternative to predatory veteran documentation models
-                  through real care, pathway infrastructure, ethical documentation when clinically appropriate, and
-                  honest education.
-                </p>
-                <p>
-                  It's one of the clearest examples of what going Beyond The Yellow looks like when the people running
-                  the movement are also the ones doing the work. OCS is not the definition of the movement — it's
-                  proof it can be done.
-                </p>
-                <p className="rounded-lg border-l-4 border-[hsl(var(--navy))] bg-[hsl(var(--section-alt))] p-4 text-sm text-foreground">
-                  Beyond The Yellow and Operation Claims Success do not guarantee VA Community Care, referrals, Nexus
-                  Letters, ratings, service connection, claim approval, documentation, or any VA outcome.
-                </p>
-              </div>
-              <div className="lg:col-span-2">
-                <div className="flex h-full flex-col justify-between rounded-2xl border border-border bg-card p-6">
-                  <div>
-                    <h3 className="text-xl font-bold text-foreground">Explore the work</h3>
-                    <p className="mt-2 text-muted-foreground">
-                      See what a care-first alternative to predatory documentation actually looks like.
-                    </p>
-                  </div>
-                  <Link
-                    to="/operation-claims-success"
-                    onClick={() => track("bty_ocs_click")}
-                    className="mt-6 inline-flex items-center justify-center gap-2 rounded-md bg-[hsl(var(--navy))] px-5 py-3 text-sm font-semibold text-white hover:bg-[hsl(var(--navy-light))]"
-                  >
-                    Explore Operation Claims Success <ArrowRight className="h-4 w-4" />
-                  </Link>
-                </div>
-              </div>
+            <div className="mt-6 max-w-3xl space-y-4 text-lg text-muted-foreground">
+              <p>
+                OCS is real action: building a care-first alternative to predatory veteran documentation models
+                through real care, pathway infrastructure, ethical documentation when clinically appropriate, and
+                honest education.
+              </p>
+              <p>
+                It's one of the clearest examples of what going Beyond The Yellow looks like when the people running
+                the movement are also the ones doing the work. OCS is not the definition of the movement — it's
+                proof it can be done.
+              </p>
+            </div>
+            <div className="mt-8">
+              <Link
+                to="/operation-claims-success"
+                onClick={() => track("bty_ocs_click")}
+                className="inline-flex items-center gap-2 rounded-md bg-[hsl(var(--navy))] px-5 py-3 text-sm font-semibold text-white hover:bg-[hsl(var(--navy-light))]"
+              >
+                Explore Operation Claims Success <ArrowRight className="h-4 w-4" />
+              </Link>
             </div>
           </div>
         </section>
@@ -953,30 +819,6 @@ export default function BeyondTheYellowPage() {
           </div>
         </section>
 
-        {/* 13. PARTNER / SPONSOR PATHS */}
-        <section className="border-b border-border bg-[hsl(var(--section-alt))] py-20 md:py-24">
-          <div className="mx-auto max-w-5xl px-4">
-            <Eyebrow>Partner &amp; sponsor</Eyebrow>
-            <SectionHeading>Help real action travel farther.</SectionHeading>
-            <p className="mt-6 max-w-3xl text-lg text-muted-foreground">
-              Sponsorship helps ValorWell produce and distribute Beyond The Yellow stories spotlighting people and
-              organizations taking real action. Sponsorship cannot buy credibility, a feature, recognition, endorsement,
-              clinical influence, documentation influence, or VA outcomes.
-            </p>
-            <div className="mt-10 grid gap-4 sm:grid-cols-2">
-              {partnerPaths.map((p) => (
-                <button
-                  key={p.title}
-                  onClick={() => goToFormWithLane(p.lane, p.event)}
-                  className="group flex items-center justify-between gap-4 rounded-2xl border border-border bg-card p-6 text-left transition-colors hover:border-[hsl(var(--gold-accent))]"
-                >
-                  <span className="text-lg font-semibold text-foreground">{p.title}</span>
-                  <ArrowRight className="h-5 w-5 text-muted-foreground transition-transform group-hover:translate-x-1" />
-                </button>
-              ))}
-            </div>
-          </div>
-        </section>
 
         {/* 14. WATCH / FOLLOW / SHARE LOOP */}
         <section className="border-b border-border py-20 md:py-24">
