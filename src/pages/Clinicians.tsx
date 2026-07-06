@@ -1,6 +1,7 @@
 import { Layout } from "@/components/layout";
 import { SEO, JobPostingSchema, BreadcrumbSchema } from "@/components/SEO";
 import { Link } from "react-router-dom";
+import { TherapistApplicationForm } from "@/components/forms/TherapistApplicationForm";
 import {
   Accordion,
   AccordionContent,
@@ -524,8 +525,10 @@ export default function Clinicians() {
             <div
               id="clinician-application-slot"
               aria-label="Clinician application"
-              className="mt-14 min-h-[220px] border border-[color:var(--cl-canvas)]/25 bg-[color:var(--cl-canvas)]/[0.03]"
-            />
+              className="mt-14 bg-[color:var(--cl-canvas)] text-[color:var(--cl-ink)] p-6 md:p-10 rounded-sm"
+            >
+              <TherapistApplicationForm />
+            </div>
           </div>
         </section>
 
