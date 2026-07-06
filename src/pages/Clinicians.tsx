@@ -119,14 +119,11 @@ export default function Clinicians() {
               <p className="md:col-span-8 text-lg md:text-xl leading-relaxed text-[color:var(--cl-ink)]/85">
                 If you're still reading, you already know the feeling. You're not burned out on the work — you're burned out on everything wrapped around it. ValorWell is being built for the clinician version of you that still exists underneath all of that.
                 <br /><br />
-                We're pulling together a founding group of clinicians who want their judgment back, their evenings back, and a mission worth attaching their license to. That group is being assembled right now.
+                We're pulling together a group of clinicians who want their judgment back, their evenings back, and a mission worth attaching their license to. That group is being assembled right now.
               </p>
               <div className="md:col-span-4 flex flex-col gap-3 md:pt-2">
                 <PrimaryCTA>Raise Your Hand</PrimaryCTA>
                 <SecondaryCTA to="/mission">See the Mission for Veterans &amp; Families</SecondaryCTA>
-                <p className="text-xs font-bold uppercase tracking-[0.18em] text-[color:var(--cl-ember)] mt-2">
-                  Founding clinician cohort · onboarding now
-                </p>
               </div>
             </div>
             <div className="mt-14">
@@ -156,7 +153,7 @@ export default function Clinicians() {
                 <div className="text-xs font-bold tracking-[0.22em] uppercase">Now</div>
                 <h3 className="mt-4 text-2xl md:text-3xl font-bold leading-tight">You help shape it.</h3>
                 <p className="mt-3 text-base md:text-lg leading-relaxed">
-                  Shape the EHR. Shape the culture. Shape who gets hired next. Your voice is in the room while the room is still being built.
+                  Shape the EHR. Shape the culture. Shape how the system is built. Your voice is in the room while the room is still being built.
                 </p>
               </div>
               <div className="p-8 md:p-10 border-b md:border-b-0 md:border-r border-[color:var(--cl-canvas)]/20">
@@ -302,7 +299,7 @@ export default function Clinicians() {
                 Operation Claims Success connects honest access education, real mental health care, stronger provider pathways, and ethical documentation when clinically appropriate.
               </p>
               <p className="font-semibold text-[color:var(--cl-ink)]">
-                Care first. Not letter first. Clinician judgment still matters.
+                Care first. Clinician judgment still matters.
               </p>
             </div>
 
@@ -439,7 +436,7 @@ export default function Clinicians() {
               The EHR We Actually Built For Ourselves
             </div>
             <h2 className="mt-6 text-3xl md:text-5xl font-bold leading-tight max-w-4xl">
-              We didn't buy an EHR. We built the one clinicians kept describing in exit interviews.
+              We didn't buy an EHR. We built the one clinicians kept describing in interviews.
             </h2>
             <p className="mt-6 text-lg md:text-xl leading-relaxed text-[color:var(--cl-canvas)]/85 max-w-3xl">
               Every feature in here exists because a clinician said "why does this take forty minutes?" — and we agreed with them. This is not a rebranded template. It's custom infrastructure that keeps getting better because the clinicians using it are in the room while we build it.
@@ -486,22 +483,6 @@ export default function Clinicians() {
               ))}
             </div>
 
-            <div className="mt-14 grid md:grid-cols-12 gap-8 items-start">
-              <div className="md:col-span-5">
-                <div className="text-xs font-bold tracking-[0.22em] uppercase text-[color:var(--cl-ember)]">
-                  Shipping Next
-                </div>
-                <p className="mt-3 text-sm text-[color:var(--cl-canvas)]/60">
-                  Founding clinicians see the roadmap first — and get a real say in what jumps the line.
-                </p>
-              </div>
-              <ul className="md:col-span-7 space-y-3 text-lg font-semibold text-[color:var(--cl-canvas)]/90">
-                {/* TODO: replace with a real roadmap teaser you're comfortable committing to */}
-                <li className="pb-3 border-b border-[color:var(--cl-canvas)]/15">Roadmap teaser 1 — editable</li>
-                {/* TODO: replace with a real roadmap teaser you're comfortable committing to */}
-                <li className="pb-3 border-b border-[color:var(--cl-canvas)]/15">Roadmap teaser 2 — editable</li>
-              </ul>
-            </div>
 
             <p className="mt-14 text-2xl md:text-3xl font-bold leading-snug max-w-4xl text-[color:var(--cl-canvas)]">
               This is what "dedicated to our clinicians" looks like when it's not just a slide in a pitch deck.
