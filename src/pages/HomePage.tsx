@@ -331,9 +331,6 @@ export default function HomePage() {
                 <BtnPrimary to="/operation-claims-success" onClick={() => trackHomeEvent("homepage_ocs_explore")}>
                   Explore Operation Claims Success
                 </BtnPrimary>
-                <BtnSecondary to="/watch" onClick={() => trackHomeEvent("homepage_ocs_follow_build")}>
-                  Follow the Build
-                </BtnSecondary>
               </div>
               <div className="mt-4">
                 <BtnGhost to="/partner" onClick={() => trackHomeEvent("homepage_ocs_org")}>
@@ -418,14 +415,6 @@ export default function HomePage() {
                 <BtnPrimary to="/watch" onClick={() => trackHomeEvent("homepage_bty_watch")}>
                   Watch Beyond The Yellow
                 </BtnPrimary>
-                <BtnSecondary to="/beyondtheyellow" onClick={() => trackHomeEvent("homepage_bty_story")}>
-                  Share Your Story
-                </BtnSecondary>
-              </div>
-              <div className="mt-4">
-                <BtnGhost to="/beyondtheyellow" onClick={() => trackHomeEvent("homepage_bty_go")}>
-                  Go Beyond The Yellow →
-                </BtnGhost>
               </div>
             </div>
 
@@ -535,9 +524,6 @@ export default function HomePage() {
                 <BtnPrimary to="/get-care" onClick={() => trackHomeEvent("homepage_care_click")}>
                   Find Mental Health Care
                 </BtnPrimary>
-                <BtnSecondary to="/about" onClick={() => trackHomeEvent("homepage_about_click")}>
-                  Learn About ValorWell
-                </BtnSecondary>
               </div>
             </div>
 
@@ -723,60 +709,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 12. Final mission CTA */}
-      <section className="relative overflow-hidden bg-primary text-primary-foreground">
-        <div
-          className="absolute inset-0 opacity-[0.08]"
-          style={{
-            backgroundImage:
-              "linear-gradient(hsl(var(--primary-foreground)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--primary-foreground)) 1px, transparent 1px)",
-            backgroundSize: "56px 56px",
-          }}
-          aria-hidden
-        />
-        <div className="container-wide relative py-20 md:py-28">
-          <div className="max-w-3xl">
-            <h2 className="text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
-              Watch the work. Join the mission. Find your place in it.
-            </h2>
-            <p className="mt-5 text-lg text-primary-foreground/80">
-              ValorWell is building the better path in public. Start with the part that matters to you.
-            </p>
-          </div>
-
-          {(() => {
-            const finals: { label: string; to: string; event: string }[] = [
-              { label: "Explore Operation Claims Success", to: "/operation-claims-success", event: "homepage_final_ocs" },
-              { label: "Watch ValorWell", to: "/watch", event: "homepage_final_watch" },
-              { label: "Share a Beyond The Yellow Story", to: "/beyondtheyellow", event: "homepage_final_bty" },
-              { label: "Veteran & Family Support", to: "/veterans", event: "homepage_final_veteran" },
-              { label: "Find Care", to: "/get-care", event: "homepage_final_care" },
-              { label: "Join the Clinician Mission", to: "/clinicians", event: "homepage_final_clinician" },
-              { label: "Partner With ValorWell", to: "/partner", event: "homepage_final_partner" },
-              { label: "Bring an Introduction", to: "/partner", event: "homepage_final_intro" },
-            ];
-            return (
-              <div className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                {finals.map((f) => (
-                  <Link
-                    key={f.label}
-                    to={f.to}
-                    onClick={() => trackHomeEvent(f.event)}
-                    className="group flex items-center justify-between rounded-md border border-primary-foreground/20 bg-primary-foreground/5 px-4 py-4 text-sm font-semibold text-primary-foreground transition-colors hover:border-primary-foreground/50 hover:bg-primary-foreground/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-foreground/60"
-                  >
-                    <span>{f.label}</span>
-                    <ArrowRight className="h-4 w-4 shrink-0 opacity-70 transition-transform group-hover:translate-x-0.5" aria-hidden />
-                  </Link>
-                ))}
-              </div>
-            );
-          })()}
-
-          <p className="mt-12 max-w-3xl border-t border-primary-foreground/20 pt-6 text-base text-primary-foreground/85">
-            Real care is the operating engine. Better systems are the mission. Real action is the standard.
-          </p>
-        </div>
-      </section>
       </div>
     </Layout>
   );
