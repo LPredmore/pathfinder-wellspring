@@ -54,16 +54,9 @@ function SectionHeading({ children, className = "" }: { children: ReactNode; cla
 /* ---------- Lanes ---------- */
 
 const lanes = [
-  { value: "own-story", label: "Share my own story", tag: "own-story", event: "bty_form_submit" },
-  { value: "organization", label: "Represent an organization", tag: "organization", event: "bty_veteran_org_submit" },
-  { value: "nominate", label: "Nominate someone", tag: "nomination", event: "bty_nomination_submit" },
-  { value: "veteran-org", label: "Veteran-serving organization", tag: "veteran-org", event: "bty_veteran_org_submit" },
-  { value: "clinician", label: "Clinician", tag: "clinician", event: "bty_clinician_submit" },
-  { value: "creator", label: "Creator / media", tag: "creator", event: "bty_creator_submit" },
-  { value: "sponsor", label: "Sponsor / supporter", tag: "sponsor", event: "bty_sponsor_submit" },
-  { value: "partner", label: "Partner", tag: "partner", event: "bty_partner_submit" },
-  { value: "introduction", label: "Make an introduction", tag: "introduction", event: "bty_intro_submit" },
-  { value: "not-sure", label: "Not sure / connect", tag: "not-sure", event: "bty_form_submit" },
+  { value: "share-story", label: "Share My BTY Story", tag: "share-story", event: "bty_share_story_submit" },
+  { value: "nominate", label: "Nominate Someone Else to BTY", tag: "nomination", event: "bty_nomination_submit" },
+  { value: "promote-valorwell", label: "Promote ValorWell", tag: "promote-valorwell", event: "bty_promote_valorwell_submit" },
 ] as const;
 
 type LaneValue = (typeof lanes)[number]["value"];
