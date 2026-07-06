@@ -1,6 +1,7 @@
 import { Layout } from "@/components/layout";
 import { SEO, JobPostingSchema, BreadcrumbSchema } from "@/components/SEO";
 import { Link } from "react-router-dom";
+import { TherapistApplicationForm } from "@/components/forms/TherapistApplicationForm";
 import {
   Accordion,
   AccordionContent,
