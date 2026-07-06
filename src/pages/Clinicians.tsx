@@ -567,20 +567,21 @@ export default function Clinicians() {
               You are not joining ValorWell to fill slots. You are strengthening the clinical engine underneath the mission.
             </h2>
 
-            <div className="mt-14 space-y-4 text-xl md:text-2xl font-semibold text-center">
+            <div className="mt-14 grid md:grid-cols-4 gap-0 border-t border-[color:var(--cl-canvas)]/25">
               {[
-                "Clinicians join with realistic availability",
-                "Capacity grows state by state",
-                "More veterans and families can access real care",
-                "Real care creates clinical context",
-                "Lessons improve systems and provider pathways",
-                "Stronger infrastructure attracts more mission-aligned capacity",
+                "Clinicians join with real availability.",
+                "Capacity grows, state by state.",
+                "More veterans and families get real care.",
+                "Better care rebuilds the whole system.",
               ].map((line, i, arr) => (
-                <div key={i}>
-                  <p>{line}</p>
-                  {i < arr.length - 1 && (
-                    <div className="text-2xl text-[color:var(--cl-canvas)]/50 mt-4" aria-hidden>↓</div>
-                  )}
+                <div
+                  key={i}
+                  className={`p-6 md:p-8 border-b border-[color:var(--cl-canvas)]/25 ${i < arr.length - 1 ? "md:border-r" : ""}`}
+                >
+                  <div className="text-2xl md:text-3xl font-bold text-[color:var(--cl-ember)] tabular-nums">
+                    {String(i + 1).padStart(2, "0")}
+                  </div>
+                  <p className="mt-3 text-lg md:text-xl font-semibold leading-snug">{line}</p>
                 </div>
               ))}
             </div>
