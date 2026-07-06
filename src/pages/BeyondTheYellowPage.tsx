@@ -649,13 +649,13 @@ export default function BeyondTheYellowPage() {
             <div className="mt-10 grid gap-4 md:grid-cols-2">
               {[
                 "Slapping a yellow ribbon magnet on the back of your truck — and never calling the veteran you served with.",
-                "Adding the flag overlay to your profile picture every Memorial Day — while your buddy's texts sit unread.",
+                "Adding the support overlay to your profile picture — then doing nothing to actually impact the community you claim to care about.",
                 "Sharing the '22 a day' post — then scrolling past the friend who just said he isn't doing okay.",
-                "Wearing the t-shirt from the 5K — and skipping the follow-up when someone actually asks for help.",
-                "Ranting at the TV about how the VA failed veterans — without ever driving one to an appointment.",
-                "Saying 'thank you for your service' at the airport — then ghosting the vet in your group chat for months.",
-                "Reposting the awareness graphic in September — and doing nothing in October.",
-                "Telling everyone you 'support the troops' — while the neighbor two doors down hasn't had a real conversation in weeks.",
+                "Wearing the cause t-shirt to the event — and vanishing when someone actually asks for help.",
+                "Ranting about the issue on social media — but never lifting a finger for a real person affected by it.",
+                "Saying all the right words in public — then ghosting the person who needed you in private.",
+                "Reposting the awareness graphic when it trends — and going silent when the moment passes and real work begins.",
+                "Telling everyone how much you care — while the person two doors down hasn't had a real conversation in weeks.",
               ].map((item) => (
                 <div
                   key={item}
