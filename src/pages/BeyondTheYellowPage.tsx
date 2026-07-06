@@ -56,7 +56,7 @@ function SectionHeading({ children, className = "" }: { children: ReactNode; cla
 const lanes = [
   { value: "share-story", label: "Share My BTY Story", tag: "share-story", event: "bty_share_story_submit" },
   { value: "nominate", label: "Nominate Someone Else to BTY", tag: "nomination", event: "bty_nomination_submit" },
-  { value: "promote-valorwell", label: "Promote ValorWell", tag: "promote-valorwell", event: "bty_promote_valorwell_submit" },
+  { value: "promote-valorwell", label: "Join ValorWell's BTY", tag: "promote-valorwell", event: "bty_promote_valorwell_submit" },
 ] as const;
 
 type LaneValue = (typeof lanes)[number]["value"];
