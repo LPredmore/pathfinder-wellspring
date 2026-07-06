@@ -994,7 +994,7 @@ export default function OperationClaimsSuccessPage() {
             {/* Cycle visualization */}
             <div className="relative mt-14">
               <img
-                src="/__l5e/assets-v1/1025e0b0-4023-43ca-ab1d-4bbfa9e590fc/cycle-diagram.png"
+                src="/cycle-diagram.png"
                 alt="The Cycle: Every shortcut teaches the system to build another wall."
                 className="mx-auto w-full max-w-5xl rounded-2xl border border-[#3B5147]/10 shadow-sm"
               />
