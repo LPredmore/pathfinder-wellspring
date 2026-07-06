@@ -16,7 +16,6 @@ import {
   X,
   ChevronDown,
   Loader2,
-  RefreshCw,
   Scale,
   DollarSign,
   ClipboardList,
