@@ -552,14 +552,14 @@ export default function Clinicians() {
 
             <dl className="mt-12 border-t border-[color:var(--cl-evergreen)]/25">
               {[
-                ["Pay per session", "$75 per completed session"],
+                ["Pay per session", "$75 per completed session. The goal is $100/session as we scale"],
                 ["Pay cadence", "Paid weekly"],
-                ["Schedule", "You set realistic availability"],
-                ["Caseload", "No guaranteed caseload"],
+                ["Schedule", "You set availability"],
+                ["Caseload", "No guaranteed caseload yet. But ready to grow with you"],
                 ["Format", "Telehealth-first"],
                 ["Classification", "1099 contractor"],
                 ["Billing", "Billing workflows handled by ValorWell"],
-                ["Scope", "Your scope and comfort matter"],
+                ["Scope", "You decide what you are comfortable with"],
               ].map(([k, v]) => (
                 <div key={k} className="grid grid-cols-12 gap-6 py-5 border-b border-[color:var(--cl-evergreen)]/25">
                   <dt className="col-span-5 md:col-span-4 text-sm md:text-base uppercase tracking-wider font-bold text-[color:var(--cl-evergreen)]">
@@ -573,7 +573,7 @@ export default function Clinicians() {
             </dl>
 
             <p className="mt-10 text-lg md:text-xl text-[color:var(--cl-ink)]/80 max-w-3xl">
-              Do not join because you were promised volume. Join because the current structure works for you and the mission is worth helping build.
+              {"\n"}
             </p>
           </div>
         </section>
