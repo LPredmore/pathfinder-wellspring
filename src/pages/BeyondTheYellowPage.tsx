@@ -173,7 +173,7 @@ function StoryForm({ initialLane }: { initialLane?: LaneValue }) {
       });
       if (error) throw error;
       track("bty_form_submit", { lane: form.lane });
-      if (laneMeta?.event && laneMeta.event !== "bty_form_submit") track(laneMeta.event);
+      if (laneMeta?.event) track(laneMeta.event);
       setStatus("success");
     } catch (err: any) {
       setErrorMsg(err?.message ?? "Something went wrong. Please try again.");
