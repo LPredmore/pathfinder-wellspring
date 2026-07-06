@@ -36,7 +36,7 @@ const initiatives = [
     href: "/beyondtheyellow",
     cta: "Join The Movement",
     image: flagBanner,
-    mobileBg: "bg-[hsl(45_90%_45%)] text-primary",
+    mobileBg: "bg-[hsl(42_71%_51%)] text-primary",
     mobileBtn: "bg-primary text-primary-foreground hover:bg-primary/90",
   },
   {
@@ -61,11 +61,11 @@ function Eyebrow({ children, tone = "navy" }: { children: React.ReactNode; tone?
     tone === "red"
       ? "text-accent"
       : tone === "yellow"
-      ? "text-[hsl(45_90%_35%)]"
+      ? "text-[hsl(42_71%_35%)]"
       : "text-primary";
   return (
     <div className={cn("flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.18em]", toneCls)}>
-      <span className={cn("h-px w-8", tone === "red" ? "bg-accent" : tone === "yellow" ? "bg-[hsl(45_90%_45%)]" : "bg-primary/60")} aria-hidden />
+      <span className={cn("h-px w-8", tone === "red" ? "bg-accent" : tone === "yellow" ? "bg-[hsl(42_71%_51%)]" : "bg-primary/60")} aria-hidden />
       {children}
     </div>
   );
@@ -388,7 +388,7 @@ export default function HomePage() {
           className="absolute inset-0 -z-10 opacity-40"
           style={{
             background:
-              "radial-gradient(ellipse at 85% 20%, hsl(45 90% 55% / 0.18), transparent 55%), radial-gradient(ellipse at 10% 90%, hsl(45 90% 55% / 0.10), transparent 50%)",
+              "radial-gradient(ellipse at 85% 20%, hsl(42 71% 51% / 0.18), transparent 55%), radial-gradient(ellipse at 10% 90%, hsl(42 71% 51% / 0.10), transparent 50%)",
           }}
           aria-hidden
         />
@@ -397,7 +397,7 @@ export default function HomePage() {
             <div className="lg:col-span-6">
               <Eyebrow tone="yellow">The Movement</Eyebrow>
               <h2 className="mt-5 text-3xl font-bold tracking-tight text-foreground md:text-4xl lg:text-5xl">
-                Support is not a symbol. <span className="text-[hsl(45_90%_40%)]">Support is behavior.</span>
+                Support is not a symbol. <span className="text-[hsl(42_71%_40%)]">Support is behavior.</span>
               </h2>
               <p className="mt-6 text-lg text-muted-foreground">
                 Beyond The Yellow is a ValorWell-powered movement spotlighting people and organizations taking real action for their communities instead of stopping at symbolic support.
@@ -405,7 +405,7 @@ export default function HomePage() {
               <p className="mt-4 text-lg text-muted-foreground">
                 The test is simple: if the support stopped tomorrow, would anyone be worse off? Would they even know?
               </p>
-              <p className="mt-8 border-l-4 border-[hsl(45_90%_45%)] pl-5 text-xl font-semibold leading-snug text-foreground md:text-2xl">
+              <p className="mt-8 border-l-4 border-[hsl(42_71%_51%)] pl-5 text-xl font-semibold leading-snug text-foreground md:text-2xl">
                 People are out there actually doing something. Are you?
               </p>
               <p className="mt-8 text-base text-muted-foreground">
@@ -431,7 +431,7 @@ export default function HomePage() {
               <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-border bg-gradient-to-br from-foreground/90 via-foreground/70 to-primary/60">
                 <div className="absolute inset-0 flex flex-col justify-between p-8 text-background">
                   <div className="flex items-center gap-2">
-                    <span className="rounded-full bg-[hsl(45_90%_55%)] px-3 py-1 text-xs font-bold uppercase tracking-wider text-foreground">
+                    <span className="rounded-full bg-[hsl(42_71%_51%)] px-3 py-1 text-xs font-bold uppercase tracking-wider text-foreground">
                       Beyond The Yellow
                     </span>
                     <span className="text-xs uppercase tracking-wider opacity-80">A ValorWell movement</span>
