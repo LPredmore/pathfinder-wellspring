@@ -18,6 +18,7 @@ import WatchPage from "./pages/WatchPage";
 import MissionPage from "./pages/MissionPage";
 import OperationClaimsSuccessPage from "./pages/OperationClaimsSuccessPage";
 import BeyondTheYellowPage from "./pages/BeyondTheYellowPage";
+import Clinicians from "./pages/Clinicians";
 
 const queryClient = new QueryClient();
 
@@ -27,7 +28,7 @@ const publicPages: { path: string; name: string }[] = [
   { path: "/veterans", name: "Veterans" },
   { path: "/families", name: "Families" },
   { path: "/individuals", name: "Individuals" },
-  { path: "/clinicians", name: "Clinicians / Join the Mission" },
+  
   
   
   
@@ -43,7 +44,7 @@ const legacyRedirects: { from: string; to: string }[] = [
   { from: "/therapy", to: "/get-care" },
   { from: "/get-started", to: "/get-care" },
   { from: "/how-it-works", to: "/get-care" },
-  { from: "/therapists", to: "/clinicians" },
+  
   { from: "/media", to: "/watch" },
   { from: "/media/youtube-podcast", to: "/watch" },
   { from: "/videos", to: "/watch" },
@@ -95,6 +96,8 @@ const App = () => (
               <Route path="/mission" element={<MissionPage />} />
               <Route path="/operation-claims-success" element={<OperationClaimsSuccessPage />} />
               <Route path="/beyondtheyellow" element={<BeyondTheYellowPage />} />
+              <Route path="/clinicians" element={<Clinicians />} />
+              <Route path="/therapists" element={<Navigate to="/clinicians" replace />} />
 
 
               {publicPages.map((p) => (
