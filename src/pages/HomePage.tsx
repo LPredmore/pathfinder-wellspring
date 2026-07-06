@@ -186,16 +186,16 @@ export default function HomePage() {
 
         <div className="container-wide grid gap-12 py-20 md:py-28 lg:grid-cols-12">
           <div className="lg:col-span-8">
-            <Eyebrow tone="red">A mission, not a clinic</Eyebrow>
+            <Eyebrow tone="red">A MISSION, NOT JUST A CLINIC</Eyebrow>
             <h1 className="mt-6 text-4xl font-bold leading-[1.05] tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-7xl">
               Broken systems don't need more awareness.{" "}
               <span className="text-primary">They need people willing to build better ones.</span>
             </h1>
             <p className="mt-8 max-w-2xl text-lg text-muted-foreground md:text-xl">
-              ValorWell is building better pathways around mental well-being, veteran care, ethical clinical support, and real community action. Our biggest mission right now is transforming the way veterans and families navigate care, VA-aligned access, and predatory documentation systems.
+              Veterans and families are being forced to navigate confusing care systems, unclear pathways, and expensive shortcuts. ValorWell is building the care-first alternative—and we're showing the work as we build it.
             </p>
             <p className="mt-4 max-w-2xl text-base font-medium text-foreground/80">
-              A mission with real care, real infrastructure, and a public movement underneath it.
+              Real care underneath the mission. Real action around it. Better systems as the goal.
             </p>
 
           </div>
@@ -230,7 +230,7 @@ export default function HomePage() {
       <section className="border-b border-border/60 bg-background">
         <div className="container-wide py-16 md:py-24">
           <div className="max-w-3xl">
-            <Eyebrow tone="red">Our Current Initiatives</Eyebrow>
+            <Eyebrow tone="red">WHAT WE'RE BUILDING RIGHT NOW</Eyebrow>
             <h2 className="mt-5 text-3xl font-bold leading-tight tracking-tight text-foreground md:text-4xl lg:text-5xl">
               Three fronts. One mission.
             </h2>
