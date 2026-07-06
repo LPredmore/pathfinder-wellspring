@@ -978,16 +978,6 @@ export default function OperationClaimsSuccessPage() {
         <section id={CYCLE_ANCHOR} className="border-t border-[#3B5147]/10 bg-[#F4F1E8]">
           <div className="mx-auto max-w-6xl px-4 py-16 md:py-24">
             <Eyebrow tone="ember">The Cycle</Eyebrow>
-            <SectionHeading>Every shortcut teaches the system to build another wall.</SectionHeading>
-
-            <div className="mt-6 max-w-3xl space-y-4 text-lg text-[#111814]/80">
-              <p>The system is confusing. Access can be slow. Veterans and families get frustrated, scared, and desperate for somebody who can simply tell them what to do.</p>
-              <p>Then someone finds a workaround.</p>
-              <p>The workaround gets packaged. Marketed. Sold. Repeated.</p>
-              <p>The system notices the pattern and responds with more scrutiny, more controls, and more friction.</p>
-              <p>The veteran trying to navigate the legitimate path inherits the mess.</p>
-              <p className="font-semibold text-[#B24A3A]">Then somebody sells the next workaround.</p>
-            </div>
 
             {/* Cycle visualization */}
             <div className="relative mt-14">
