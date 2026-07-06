@@ -1191,12 +1191,12 @@ export default function OperationClaimsSuccessPage() {
         {/* ================= BEAT 3: CARE FIRST, APPEALS WE WIN ================= */}
         <section id={BETTER_PATH_ANCHOR} className="border-t border-[#3B5147]/10 bg-white">
           <div className="mx-auto max-w-6xl px-4 py-16 md:py-24">
-            <Eyebrow>Step 3 &mdash; Care first. Documentation second. Appeals we win.</Eyebrow>
+            <Eyebrow>STEP 3 — CARE FIRST. DOCUMENTATION SECOND. OUR WINNING SYSTEM.</Eyebrow>
             <SectionHeading>Care comes first. The paperwork follows the care.</SectionHeading>
 
             <div className="mt-6 max-w-3xl space-y-4 text-lg text-[#111814]/80">
               <p>
-                Our clinicians get elite training and the tools to produce the clinical documentation a veteran actually needs to get the rating they deserve.
+                Our clinicians get training and the tools to produce the clinical documentation a veteran actually needs to get the rating they deserve.
               </p>
               <p>
                 <span className="font-semibold text-[#111814]">We do not charge extra for the Nexus letter.</span> And we do not hand one out because a veteran asks for one.
