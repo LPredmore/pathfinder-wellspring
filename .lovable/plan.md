@@ -1,29 +1,40 @@
-## Goal
-Clean up the bottom of the Operation Claims Success page so the asks feel tighter and the redundant "What Happens Next" section is removed.
+## Plan: Rewrite the "For Guests" Section on /beyondtheyellow
 
-## Changes
+### Goal
+Replace the current card-based "For guests" section with an emotionally-driven, paragraph-forward layout that makes smaller creators and community organizations feel seen, valued, and eager to share their story — while clearly signaling that BTY is open to any community, not just veterans.
 
-### 1. Clinicians ask — drop the "Ask 1" prefix
-- Change eyebrow from `Ask 1 — Clinicians` to `Clinicians`.
-- Leave the heading, body, 4-card `clinicianValues` grid, and both CTAs untouched.
+### What to Change
+**File:** `src/pages/BeyondTheYellowPage.tsx` (lines 783–806)
 
-### 2. Supporters & Amplifiers — rebrand and restyle
-- Change eyebrow from `Ask 2 — Supporters & amplifiers` to `Supporters & Amplifiers`.
-- Remove the "Clinical & Provider Groups" card from `leveragePaths` (it is implicit in the Clinicians ask above).
-- Restyle the remaining 3 cards to match the Homepage **"What we're building right now"** hover-reveal square pattern:
-  - Desktop: 3 equal `aspect-square` cards in a row. Each card shows a placeholder image with a dark gradient overlay, title visible by default, and description + CTA revealed on hover.
-  - Mobile: single-open Accordion (imported from `@/components/ui/accordion`) with colored backgrounds, matching the Homepage mobile treatment.
-- Generate 3 placeholder images (veteran/community theme, media/creator theme, supporter/connector theme) and wire them into the cards via `.asset.json` pointers.
-- Preserve existing `track()` events and `goToForm()` calls on every CTA.
+**Remove:**
+- The 4-card grid (Heart, Megaphone, Sparkles, Share2 cards)
+- The "Why share your story?" heading
+- All language about "creating shareable assets," "promote the work," and "reach new people" that reads like a feature list
 
-### 3. Remove "What Happens Next" section
-- Delete the entire section block (eyebrow, heading, 5-step numbered cards, guardrail paragraph, and the surrounding `<section>` markup).
-- Leave the Routing Form, FAQ, Final CTA, and Sticky CTA untouched.
+**Replace with:**
+A single centered text block using the existing `Eyebrow` + `SectionHeading` pattern, followed by 2–3 short, emotionally-charged paragraphs. No cards. No icons. No grid.
 
-### 4. Verify
-- Run `npx tsc --noEmit` to confirm no type errors after the markup and data changes.
+### Proposed Copy Direction
+- **Eyebrow:** `For guests` (keep)
+- **Headline:** Something like *"Your story deserves to be seen by people who get it."* — direct, personal, opportunity-framed.
+- **Body paragraphs:**
+  1. Open with the feeling of being a small creator or local organization doing real work that mostly goes unnoticed — the 3,000-follower founder, the neighborhood mutual aid group, the podcaster who just started. Validate that their work matters even if the audience is small.
+  2. Frame BTY as the platform that notices them. Not a marketing channel. A place where someone who understands their mission shines a light on it. The visibility is the point.
+  3. Explicitly broaden the scope: veteran communities are one place this happens, but "Beyond The Yellow" is anyone, in any community, who moves past symbols into real action. Make this unmistakable.
 
-## Out of scope
-- No changes above the "What We Need From You" section.
-- No routing, tracking event name, or CTA destination changes.
-- No new dependencies beyond the existing `@/components/ui/accordion` import.
+### Layout
+- Centered text block, `max-w-3xl` or `max-w-4xl`
+- Existing `Eyebrow` component + `SectionHeading` component
+- 2–3 paragraphs below, `text-lg` or `text-xl`, generous line-height
+- No cards, no icons, no grid, no CTA button in this section (the form section follows immediately below)
+- Keep the existing section wrapper (`border-b`, `bg-[hsl(var(--section-alt))]`, `py-20 md:py-24`)
+
+### Cleanup
+- Remove unused imports (`Heart`, `Sparkles`, `Share2`) if they are no longer used elsewhere on the page after this change.
+
+### Acceptance Criteria
+- [ ] Section reads like an invitation to be recognized, not a pitch deck
+- [ ] No card layout, no icons, no grid
+- [ ] No language about "shareable assets," "promote," or marketing-tool framing
+- [ ] Scope explicitly includes non-veteran communities
+- [ ] Typechecker passes (`npx tsc --noEmit`)
