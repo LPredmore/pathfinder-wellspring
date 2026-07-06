@@ -782,22 +782,19 @@ export default function BeyondTheYellowPage() {
         {/* 11. GUEST VALUE */}
         <section className="border-b border-border bg-[hsl(var(--section-alt))] py-20 md:py-24">
           <div className="mx-auto max-w-3xl px-4">
-            <Eyebrow>For guests</Eyebrow>
-            <SectionHeading>You don't need a massive audience to deserve a spotlight.</SectionHeading>
+            <Eyebrow>DO YOU GO BEYOND THE YELLOW?</Eyebrow>
+            <SectionHeading>ValorWell Wants to Showcase your BTY story</SectionHeading>
             <div className="mt-8 space-y-5 text-lg text-muted-foreground">
               <p>
-                If you're out here doing the work — running the mutual aid group, building the community page, hosting the small podcast, showing up for people who need it — you already know how invisible that work can feel. A few thousand followers. A handful of regulars. No PR team. Just conviction and consistency.
+                If you're out here doing the work — running the mutual aid group, building the community page, hosting the small podcast, showing up for people who need it — you already know how invisible that work can feel. Regardless of what community you are serving, we want to show the world what you are doing with your conviction and consistency.
               </p>
               <p>
-                Beyond The Yellow exists because we believe that work matters, and we believe the people doing it deserve to be seen by someone who actually gets it. This is not a marketing play. It's a chance to tell your story to people who will understand why you do what you do — and walk away carrying it forward.
+                Beyond The Yellow exists because we believe that work matters, and we believe the people doing it deserve to be seen by someone who actually gets it. The veteran and healthcare space is what we know. So that's our BTY space. But we don't want to stop there. Beyond The Yellow is bigger than ValorWell. It's a chance to bring back the importance of personal action to the world.
               </p>
               <p>
-                This is not only for veteran communities. If you're moving past symbols into real action — in any neighborhood, for any cause, with any community — you belong here. We want to hear from the founders, organizers, creators, and connectors who are going Beyond The Yellow wherever they are.
+                If you're moving past symbols into real action — in any neighborhood, for any cause, with any community — you belong here. We want to hear from the founders, organizers, creators, and connectors who are going Beyond The Yellow wherever they are.
               </p>
             </div>
-            <p className="mt-8 text-sm text-muted-foreground">
-              We don't promise views, growth, funding, or sponsorship. We promise a real conversation about real work.
-            </p>
           </div>
         </section>
 
