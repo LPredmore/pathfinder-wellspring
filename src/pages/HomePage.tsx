@@ -1,14 +1,18 @@
 import { useCallback, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Play, Radio, Wrench, Users, Hammer, Compass, ShieldCheck, Sparkles, Megaphone, Handshake } from "lucide-react";
+import { ArrowRight, Play, Users, Compass, ShieldCheck, Sparkles, Megaphone, Handshake } from "lucide-react";
 import { Layout } from "@/components/layout/Layout";
 import { SEO, OrganizationSchema } from "@/components/SEO";
 import { trackHomeEvent } from "@/lib/tracking";
 import { cn } from "@/lib/utils";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { ClickToLoadYouTubeShort } from "@/components/ClickToLoadYouTubeShort";
 import soldierPortrait from "@/assets/soldier-portrait.jpg";
 import heroFamily from "@/assets/hero-family.jpg";
 import flagBanner from "@/assets/flag-banner.jpg";
+
+// Drop a YouTube Short video ID here (the part after /shorts/ or ?v=) to swap the hero placeholder.
+const HERO_SHORT_VIDEO_ID = "";
 
 const initiatives = [
   {
@@ -24,18 +28,6 @@ const initiatives = [
     mobileBtn: "bg-primary-foreground text-primary hover:bg-primary-foreground/90",
   },
   {
-    key: "care",
-    title: "Real Medical Care",
-    tagline: "Clinical services that actually treat, not just certify.",
-    description:
-      "The operating engine underneath the mission. Licensed clinicians providing real mental health treatment for veterans and families — care-first, not letter-first.",
-    href: "/therapy",
-    cta: "Get Care",
-    image: heroFamily,
-    mobileBg: "bg-accent text-accent-foreground",
-    mobileBtn: "bg-accent-foreground text-accent hover:bg-accent-foreground/90",
-  },
-  {
     key: "bty",
     title: "Beyond The Yellow",
     tagline: "The movement that fuels the mission.",
@@ -47,7 +39,20 @@ const initiatives = [
     mobileBg: "bg-[hsl(45_90%_45%)] text-primary",
     mobileBtn: "bg-primary text-primary-foreground hover:bg-primary/90",
   },
+  {
+    key: "care",
+    title: "Real Medical Care",
+    tagline: "Clinical services that actually treat, not just certify.",
+    description:
+      "The operating engine underneath the mission. Licensed clinicians providing real mental health treatment for veterans and families — care-first, not letter-first.",
+    href: "/therapy",
+    cta: "Get Care",
+    image: heroFamily,
+    mobileBg: "bg-accent text-accent-foreground",
+    mobileBtn: "bg-accent-foreground text-accent hover:bg-accent-foreground/90",
+  },
 ];
+
 
 /* ---------------- Small building blocks ---------------- */
 
@@ -160,33 +165,28 @@ export default function HomePage() {
           </div>
 
           <aside className="lg:col-span-4">
-            <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
-              <Eyebrow tone="navy">Currently building</Eyebrow>
-              <ul className="mt-5 space-y-4 text-sm">
-                <li className="flex gap-3">
-                  <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden />
-                  <div>
-                    <p className="font-semibold text-foreground">Operation Claims Success</p>
-                    <p className="text-muted-foreground">Care-first alternative to the predatory documentation market.</p>
+            {HERO_SHORT_VIDEO_ID ? (
+              <ClickToLoadYouTubeShort
+                videoId={HERO_SHORT_VIDEO_ID}
+                title="ValorWell founder short"
+              />
+            ) : (
+              <div
+                className="relative mx-auto flex max-w-sm items-center justify-center overflow-hidden rounded-xl border border-dashed border-border bg-card shadow-sm"
+                style={{ aspectRatio: "9 / 16" }}
+                aria-label="Founder short video placeholder"
+              >
+                <div className="flex flex-col items-center gap-3 px-6 text-center">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 text-primary">
+                    <Play className="h-6 w-6" aria-hidden />
                   </div>
-                </li>
-                <li className="flex gap-3">
-                  <Megaphone className="mt-0.5 h-5 w-5 shrink-0 text-[hsl(45_90%_40%)]" aria-hidden />
-                  <div>
-                    <p className="font-semibold text-foreground">Beyond The Yellow</p>
-                    <p className="text-muted-foreground">A movement spotlighting people taking real action.</p>
-                  </div>
-                </li>
-                <li className="flex gap-3">
-                  <Wrench className="mt-0.5 h-5 w-5 shrink-0 text-accent" aria-hidden />
-                  <div>
-                    <p className="font-semibold text-foreground">A real operating engine</p>
-                    <p className="text-muted-foreground">Actual clinical infrastructure underneath the mission.</p>
-                  </div>
-                </li>
-              </ul>
-            </div>
+                  <p className="text-sm font-semibold text-foreground">Founder short coming soon</p>
+                  <p className="text-xs text-muted-foreground">A vertical YouTube Short will live here.</p>
+                </div>
+              </div>
+            )}
           </aside>
+
         </div>
       </section>
 
@@ -415,80 +415,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 6. Watch / content growth engine */}
-      <section className="border-b border-border/60 bg-foreground text-background">
-        <div className="container-wide py-20 md:py-28">
-          <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
-            <div className="lg:col-span-8">
-              <Eyebrow tone="yellow">Watch ValorWell</Eyebrow>
-              <h2 className="mt-5 text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
-                The mission is being built in public. Watch it happen.
-              </h2>
-              <p className="mt-6 max-w-3xl text-lg text-background/70">
-                Beyond The Yellow interviews borrow audience. Founder and mission videos build trust and positioning. Practical veteran and family content earns attention by helping people now. Short-form content carries the work farther.
-              </p>
-            </div>
-            <div className="flex flex-wrap gap-3 lg:col-span-4 lg:justify-end">
-              <Link
-                to="/watch"
-                onClick={() => trackHomeEvent("homepage_watch_featured")}
-                className="inline-flex items-center gap-2 rounded-md bg-background px-5 py-3 text-sm font-semibold text-foreground hover:bg-background/90"
-              >
-                <Play className="h-4 w-4" aria-hidden /> Watch ValorWell
-              </Link>
-            </div>
-          </div>
-
-          <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-            {[
-              {
-                key: "bty",
-                label: "Beyond The Yellow",
-                body: "Guest conversations spotlighting people and organizations taking real action.",
-                event: "homepage_watch_lane_bty",
-              },
-              {
-                key: "ocs",
-                label: "Operation Claims Success",
-                body: "Care-first, anti-predatory, veteran-system, and build-in-public content.",
-                event: "homepage_watch_lane_ocs",
-              },
-              {
-                key: "help",
-                label: "Practical Help",
-                body: "Useful veteran, family, emotional well-being, communication, and support tools.",
-                event: "homepage_watch_lane_help",
-              },
-              {
-                key: "build",
-                label: "Building ValorWell",
-                body: "Luke explains what is being built, what changed, what is blocked, and why the work matters.",
-                event: "homepage_watch_lane_build",
-              },
-            ].map((c) => (
-              <Link
-                key={c.key}
-                to="/watch"
-                onClick={() => trackHomeEvent(c.event)}
-                className="group rounded-xl border border-background/15 bg-background/5 p-5 transition-colors hover:border-background/40 hover:bg-background/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-background/60"
-              >
-                <div className="aspect-video w-full overflow-hidden rounded-md bg-background/10 ring-1 ring-inset ring-background/10">
-                  <div className="flex h-full items-center justify-center">
-                    <Play className="h-8 w-8 text-background/60 transition-colors group-hover:text-background" aria-hidden />
-                  </div>
-                </div>
-                <h3 className="mt-4 text-sm font-semibold uppercase tracking-wider text-background">{c.label}</h3>
-                <p className="mt-2 text-sm text-background/70">{c.body}</p>
-              </Link>
-            ))}
-          </div>
-
-          <p className="mt-10 max-w-2xl text-sm text-background/60">
-            The ValorWell content engine is being built now. Follow the mission, watch the work, and see what comes next.
-          </p>
-        </div>
-      </section>
-
       {/* 7. Choose Your Lane */}
       <section className="border-b border-border/60 bg-background">
         <div className="container-wide py-20 md:py-28">
@@ -502,50 +428,37 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
             {[
               {
                 title: "I'm a Veteran or Family Member",
-                body: "Understand the mission, explore the care-first path, follow the build, and find the right next place to start.",
-                cta: "Explore Veteran Support",
+                body: "Understand the care-first mission and find the right place to start.",
+                cta: "Explore Veteran & Family Support",
                 to: "/veterans",
-                event: "homepage_route_veteran",
-              },
-              {
-                title: "I Want to Watch or Follow the Mission",
-                body: "See Beyond The Yellow, Operation Claims Success, practical tools, and founder build updates.",
-                cta: "Watch ValorWell",
-                to: "/watch",
-                event: "homepage_route_watch",
+                event: "homepage_lane_veteran_family",
               },
               {
                 title: "I Need Mental Health Care",
                 body: "Looking for actual mental health support or a clearer care starting point?",
                 cta: "Find Care",
                 to: "/get-care",
-                event: "homepage_route_care",
+                event: "homepage_lane_care",
               },
               {
                 title: "I'm a Clinician",
-                body: "Join a mission that is building systems, standards, and better access—not just filling appointment slots.",
+                body: "Help build ethical, care-first systems—not just fill appointment slots.",
                 cta: "Join the Clinician Mission",
                 to: "/clinicians",
-                event: "homepage_route_clinician",
+                event: "homepage_lane_clinician",
               },
               {
-                title: "I Represent an Organization",
-                body: "Veteran organizations, community groups, employers, creators, and aligned organizations can build with ValorWell.",
-                cta: "Partner With ValorWell",
+                title: "I Want to Join the Mission",
+                body: "Bring relationships, reach, resources, ideas, infrastructure, support, or the ability to help move the work.",
+                cta: "Join the Mission",
                 to: "/partner",
-                event: "homepage_route_partner",
+                event: "homepage_lane_join",
               },
-              {
-                title: "I Can Bring Leverage",
-                body: "Support, sponsor, distribute, create, introduce, or connect ValorWell to people who can move the mission farther.",
-                cta: "Get Involved",
-                to: "/partner",
-                event: "homepage_route_leverage",
-              },
+
             ].map((c) => (
               <Link
                 key={c.title}

@@ -1,166 +1,48 @@
 
-# Mission Page — Full Gary Vee Rebuild
+# HomePage targeted edits
 
-## The strategic bet
+Scope: `src/pages/HomePage.tsx` only. No other files touched. No new deps.
 
-The current `/mission` page is thorough but not magnetic. It convinces with structure; it should move people with **feeling in 3 seconds** and one clear next step. This rebuild treats the page as an attention → belief → action machine:
+## 1. Hero aside → YouTube Short placeholder
 
-- **Attention** = Luke on camera, immediately
-- **Belief** = the enemy named, the work shown
-- **Action** = one drumbeat CTA — **Follow the Build** — echoed across the page
+Replace the "Currently Building" card (lines ~162–189) with a 9:16 vertical YouTube Short placeholder that matches the existing `ClickToLoadYouTubeShort` component pattern already in the codebase.
 
-Strategic hierarchy preserved: ValorWell = master brand, OCS = public mission spine, BTY = amplifier, clinic = engine underneath. Care stays easy to find without turning the Mission page into a therapy landing page.
+- Add a `HERO_SHORT_VIDEO_ID` constant at the top of the file (empty string for now — user drops in a YouTube video ID later).
+- Reuse `ClickToLoadYouTubeShort` from `@/components/ClickToLoadYouTubeShort` when the ID is set.
+- When the ID is empty, render a bordered 9:16 placeholder box with a Play icon and "Founder short coming soon" caption so the layout doesn't collapse.
+- Keeps the `lg:col-span-4` aside slot intact so the hero grid still balances at 8/4.
 
----
+## 2. Reorder Current Initiatives
 
-## Design system (locked)
+Reorder the `initiatives` array (lines 13–50) to: **Operation Claims Success → Beyond The Yellow → Real Medical Care**. No copy or styling changes, just array order (both desktop grid and mobile accordion pick this up automatically).
 
-**Palette — "Field Dispatch" (custom)**
-```
---mission-ink:      #1F2A24   (deep forest ink, primary text)
---mission-paper:    #F4F1E8   (warm cream, page background)
---mission-paper-2:  #EAE5D6   (alt band, slightly deeper cream)
---mission-forest:   #3B5147   (brand green, primary surfaces & CTAs)
---mission-gold:     #D7A92E   (accent — eyebrows, underlines, highlights)
---mission-rust:     #B24A3A   (single hot CTA / urgency accent, used sparingly)
-```
-Scoped under a `.mission-theme` wrapper so it never leaks into other pages. No changes to global tokens.
+## 3. Choose Your Lane → 4 paths
 
-**Typography**
-- Headings & body: **Trebuchet MS** (user pick), loaded via system stack `"Trebuchet MS", "Lucida Sans", sans-serif`. No @fontsource install needed.
-- Display sizing: tight leading (1.02–1.08), heavy weight (700–800), generous size (up to `clamp(3rem, 7vw, 6rem)`) so Trebuchet reads editorial rather than 2003-corporate.
-- Body: 18–20px, 1.6 leading, max width ~65ch.
+Replace the 6-card array (lines ~506–548) with exactly the 4 lanes the user specified, in this order, keeping the existing card styling and grid:
 
-**Layout — Video-Anchor Single Column, opening into Full-Width Cinematic Bands**
-Single-column vertical read on top so the founder video is the unmistakable center of gravity. Below the hero, sections alternate full-bleed cream / forest / cream / ink bands for scroll rhythm. Chosen because a mission page needs *focus* first, *drama* second — grids and split-screens dilute both.
+1. **I'm a Veteran or Family Member** — "Understand the care-first mission and find the right place to start." → `Explore Veteran & Family Support` → `/veterans` — event `homepage_lane_veteran_family`
+2. **I Need Mental Health Care** — "Looking for actual mental health support or a clearer care starting point?" → `Find Care` → `/get-care` — event `homepage_lane_care`
+3. **I'm a Clinician** — "Help build ethical, care-first systems—not just fill appointment slots." → `Join the Clinician Mission` → `/clinicians` — event `homepage_lane_clinician`
+4. **I Want to Join the Mission** — "Bring relationships, reach, resources, ideas, infrastructure, support, or the ability to help move the work." → `Join the Mission` → `/partner` — event `homepage_lane_join`
 
-**Motion**
-- Hero: subtle grain texture overlay + gold underline draw-in on the H1 (once, on load).
-- Section entry: 200ms fade + 8px rise on scroll into view (Framer Motion, prefers-reduced-motion respected).
-- Nothing bouncy, nothing parallax-heavy. Documentary, not startup.
+Change the grid to `md:grid-cols-2 lg:grid-cols-4` so all four lanes sit on one row on desktop, two-up on tablet, stacked on mobile.
 
----
+## 4. Remove "Watch ValorWell" section entirely
 
-## Page structure — 6 sections, in order
+Delete the whole `{/* 6. Watch / content growth engine */}` `<section>` block (lines ~418–490). Removes the dark full-bleed watch band and its 4 lane cards. No references to it exist elsewhere in the file.
 
-### 1. Hero — "Watch what we're building"
-- Eyebrow: **THE VALORWELL MISSION** (gold, uppercase, tracked)
-- H1: **"Veterans and families are being sold shortcuts. We're building the real path — in public."**
-- Sub (one line): *Care first. Not letter first.*
-- **Founder video embedded directly** (16:9, rounded, gold 1px border, plays inline). YouTube URL provided by user — stored as a constant at top of file for easy swap.
-- Primary CTA: **Follow the Build** → `/watch`
-- Ghost CTA: **Need care now →** `/get-care` (small, under the primary — care stays discoverable without dominating)
-- No side card, no pull-quote box. The video *is* the proof.
+## Technical notes
 
-### 2. What we believe — compressed to 2 lines + one line of teeth
-Full-bleed cream band. Big statement type, no cards, no numbered list.
+- Single file edit: `src/pages/HomePage.tsx`.
+- Imports to add: `ClickToLoadYouTubeShort`. `Play` import stays (still used elsewhere in hero visuals if kept — will drop if it becomes unused after the Watch section is removed, along with any other now-unused lucide icons like `Radio`, `Wrench`, `Users`, `Hammer` if truly orphaned, to keep the file clean).
+- No route, nav, SEO, or schema changes.
+- No global CSS changes.
+- All existing `trackHomeEvent` calls in untouched sections remain as-is; only the Choose Your Lane events are renamed to the 4 new ones above.
 
-> **Support should be felt by the people it's supposed to help.**
-> Awareness is not the finish line. The work has to reach someone.
-> *The question is not whether we care. The question is what changes because we cared.*
+## Acceptance
 
-### 3. The enemy, named — "Here's what's broken"
-Forest band, cream text. Three short punches (not a 2x2 grid — a vertical read):
-- **Care is delayed.** Veterans wait months while their families absorb the stress.
-- **Documentation got sold as a shortcut.** Letter-first models profit from that desperation.
-- **Nobody's building the alternative at scale.** So we are.
-
-Ends with a single rust-colored line: *"We are not selling the shortcut. We are building the better path."*
-
-### 4. What we're actually doing — the three pillars
-Cream band. Three horizontal blocks (desktop) / stacked (mobile). Each is a **link out**, not a mini-essay:
-
-| Pillar | One-line | Links to |
-|---|---|---|
-| **Operation Claims Success** | The public mission spine. Care-first pathway for veterans and families. | `/operation-claims-success` |
-| **Beyond The Yellow** | The movement amplifier. Real people doing real work, on camera. | `/beyondtheyellow` |
-| **The Clinic** | The engine underneath. Real clinical care, ethical documentation when appropriate. | `/get-care` |
-
-Gold underline animates in on hover. No icons — labels do the work.
-
-### 5. Momentum — static "proof of work" (live data later)
-Ink band, cream text. A **static** wall of recent activity, styled like a build log / dispatch feed:
-- "Episode 12 of Beyond The Yellow — [title]"
-- "OCS pathway update — [date]"
-- "New clinician onboarding — [month]"
-- "Supporter count — [static number]"
-
-Copy is hand-authored constants for now. Structured so a future turn can swap in Supabase queries without touching layout. Small note at bottom: *Updated manually. Live counters coming.*
-
-### 6. Pick your lane — 3 paths, not 8
-Cream band. Collapses the current 8 participation paths into three honest lanes:
-
-- **Get Care** → `/get-care` (veterans, families, individuals)
-- **Watch & Share** → `/watch` (viewers, followers, connectors)
-- **Build With Us** → `/partner` (clinicians, partners, supporters, sponsors, creators)
-
-Each is a big clickable card with a one-line description and a single arrow. No icons competing with each other.
-
-### 7. Closing drumbeat
-Forest band, full-bleed, centered.
-> **Care first. Not letter first.**
-> **[ Follow the Build ]** (primary CTA → `/watch`)
-
-Same line, same button, same color as the OCS page closer. One brand, one drumbeat.
-
----
-
-## What gets cut from the current page
-
-- Hero aside card with the pull-quote (replaced by video)
-- 4-item numbered "What We Believe" list (compressed to a statement + one line)
-- 4-card "Current Problem" grid (compressed to 3 vertical punches)
-- Mission formula with "+" signs (removed entirely — reads like a slide)
-- 8 participation paths (collapsed to 3 lanes)
-- Duplicate OCS explainer block (OCS gets one pillar mention + the closing CTA; the OCS *page* does the explaining)
-
-Nothing else on the site changes. No route changes. No nav changes. No other page touched.
-
----
-
-## Technical section
-
-**File**: full rewrite of `src/pages/MissionPage.tsx` (currently 773 lines → target ~350 lines). Route unchanged: `/mission`.
-
-**Theme scoping**: All new colors declared as CSS custom properties inside a `.mission-theme` wrapper at the top of the page component. Tailwind arbitrary values (`bg-[hsl(var(--mission-forest))]`) used inside that scope only. Global `index.css` untouched.
-
-**Video embed**: `<iframe>` YouTube embed with `loading="lazy"`, `title` attribute for a11y, aspect-ratio wrapper. URL as a `FOUNDER_VIDEO_URL` constant at the top of the file — user swaps one line to change it. If URL is empty, hero falls back to a bold typographic block (no broken embed).
-
-**Analytics**: Preserve all existing `trackHomeEvent` calls, rename events to the new section names:
-- `mission_hero_video_play`
-- `mission_hero_follow_build`
-- `mission_hero_get_care`
-- `mission_pillar_ocs` / `mission_pillar_bty` / `mission_pillar_clinic`
-- `mission_lane_get_care` / `mission_lane_watch` / `mission_lane_build`
-- `mission_close_follow_build`
-
-**Accessibility**: Semantic `<main>`, `<section>`, single `<h1>`, `<h2>` per section, video iframe has title + focusable fallback link, `prefers-reduced-motion` disables entry animations, contrast checked (forest #3B5147 on cream #F4F1E8 = 8.4:1, cream on forest = 8.4:1, rust on cream = 4.8:1 — all AA+).
-
-**SEO**: Keep existing `<Helmet>` block; update `<title>` and `<meta description>` to match the new "Care first. Not letter first. Watch us build it." positioning. Canonical unchanged.
-
-**Motion**: Uses existing Framer Motion (already in project — no new deps).
-
-**No new dependencies. No schema changes. No migrations. No other files touched** except a single-line update to internal event names in `src/lib/tracking.ts` if needed for the new event constants (or handled inline).
-
----
-
-## Acceptance checklist (I will verify before completion)
-
-1. Founder video is the visual center of gravity of the hero. ✅ or fail.
-2. Primary CTA everywhere is **Follow the Build** → `/watch`. Consistent verb, consistent destination.
-3. Care remains one click from hero via a secondary link (not buried).
-4. OCS = spine (one pillar + one link), BTY = amplifier (one pillar + one link), Clinic = engine (one pillar + one link). None dominates the Mission page.
-5. Page reads top-to-bottom in under 90 seconds. If it doesn't, cut more.
-6. No invented stats, testimonials, waitlists, partners, or outcome guarantees.
-7. Zero global CSS changes; palette is scoped under `.mission-theme` only.
-8. No other page in the app is touched.
-
-If any of these fail on review, I revise before saying it's done.
-
----
-
-## What I need from you to start building
-
-- The **YouTube (or Vimeo) URL** for Luke's founder video.
-
-Once approved and you drop the URL in chat, I switch to build mode and ship it in one pass.
+- Hero shows the vertical Short placeholder in the right column; "Currently building" list is gone.
+- Initiatives render as OCS → BTY → Real Medical Care on both desktop and mobile.
+- Choose Your Lane shows exactly 4 cards with the exact copy and CTAs above.
+- The dark "Watch ValorWell" section no longer appears between BTY and Choose Your Lane.
+- No TypeScript or unused-import errors.
