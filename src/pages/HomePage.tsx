@@ -34,7 +34,7 @@ const initiatives = [
     description:
       "Beyond The Yellow spotlights people and organizations doing more than talking about a cause. We show the action, share the story, and make doing something contagious.",
     href: "/beyondtheyellow",
-    cta: "Go Beyond The Yellow",
+    cta: "Go Beyond The Yellow\n",
     image: flagBanner,
     mobileBg: "bg-[hsl(42_71%_51%)] text-primary",
     mobileBtn: "bg-primary text-primary-foreground hover:bg-primary/90",
@@ -46,7 +46,7 @@ const initiatives = [
     description:
       "Licensed clinicians. Real clinical relationships. Mental health care grounded in the person—not a transaction around paperwork. This is the operating engine underneath the mission.",
     href: "/therapy",
-    cta: "Find Care",
+    cta: "Find Care\u00a0",
     image: heroFamily,
     mobileBg: "bg-accent text-accent-foreground",
     mobileBtn: "bg-accent-foreground text-accent hover:bg-accent-foreground/90",
