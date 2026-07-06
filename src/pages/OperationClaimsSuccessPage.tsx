@@ -5,7 +5,6 @@ import {
   ArrowRight,
   ShieldCheck,
   Compass,
-  Stethoscope,
   FileText,
   Wrench,
   Users,
@@ -25,6 +24,11 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { trackHomeEvent } from "@/lib/tracking";
 import { supabase } from "@/integrations/supabase/client";
+import { cn } from "@/lib/utils";
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
+import imgVeteranOrg from "@/assets/supporters-veteran-org.jpg";
+import imgCreators from "@/assets/supporters-creators.jpg";
+import imgConnectors from "@/assets/supporters-connectors.jpg";
 
 /* ---------- Brand palette (page-scoped)
    Evergreen  #3B5147   Warm Canvas #F4F1E8
