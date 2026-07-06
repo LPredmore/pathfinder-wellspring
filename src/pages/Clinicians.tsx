@@ -446,12 +446,12 @@ export default function Clinicians() {
                 </div>
                 <ul className="mt-6 space-y-4 text-lg">
                   {[
-                    "You still care about the person in front of you.",
-                    "You want your clinical judgment treated like judgment.",
+                    "You still care about the person.",
+                    "You want your judgment treated as judgment.",
                     "You want to serve veterans and families.",
                     "You can commit something consistently.",
-                    "You are comfortable building while the system grows.",
-                    "You would rather help improve a system than complain about the same one forever.",
+                    "You are comfortable building as we grow.",
+                    "You'd rather fix a system than complain.",
                   ].map((l, i) => (
                     <li key={i} className="pb-4 border-b border-[color:var(--cl-evergreen)]/25">{l}</li>
                   ))}
