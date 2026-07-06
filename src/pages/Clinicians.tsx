@@ -113,19 +113,19 @@ export default function Clinicians() {
           <div className="max-w-6xl mx-auto px-6 md:px-10 pt-16 md:pt-24 pb-16 md:pb-24">
             <Eyebrow>For Clinicians Who Still Give a Damn</Eyebrow>
             <h1 className="mt-6 text-4xl md:text-6xl lg:text-7xl leading-[1.05] font-bold text-[color:var(--cl-ink)] max-w-5xl">
-              You didn't get licensed to have someone who has never met your client dictate what care should look like.
+              You didn't lose the calling. They buried it under paperwork, quotas, and people who never met your client.
             </h1>
             <div className="mt-10 grid md:grid-cols-12 gap-8">
               <p className="md:col-span-8 text-lg md:text-xl leading-relaxed text-[color:var(--cl-ink)]/85">
-                You got into mental health to help real people. Then came the productivity pressure, cookie-cutter treatment expectations, documentation that follows you home, and decisions shaped by people who have never sat across from the person you are trying to help.
+                If you're still reading, you already know the feeling. You're not burned out on the work — you're burned out on everything wrapped around it. ValorWell is being built for the clinician version of you that still exists underneath all of that.
                 <br /><br />
-                If you still care about the work but hate what the system around the work has become, keep reading.
+                We're pulling together a founding group of clinicians who want their judgment back, their evenings back, and a mission worth attaching their license to. That group is being assembled right now.
               </p>
               <div className="md:col-span-4 flex flex-col gap-3 md:pt-2">
-                <PrimaryCTA>See If You Fit ValorWell</PrimaryCTA>
+                <PrimaryCTA>Raise Your Hand</PrimaryCTA>
                 <SecondaryCTA to="/mission">See the Mission for Veterans &amp; Families</SecondaryCTA>
-                <p className="text-xs text-[color:var(--cl-ink)]/60 mt-2">
-                  Start small if you need to. We are not asking you to blow up your life to prove you care.
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-[color:var(--cl-ember)] mt-2">
+                  Founding clinician cohort · onboarding now
                 </p>
               </div>
             </div>
@@ -135,6 +135,49 @@ export default function Clinicians() {
                 $75/session &nbsp;·&nbsp; 1099 &nbsp;·&nbsp; Paid weekly &nbsp;·&nbsp; Telehealth-first &nbsp;·&nbsp; Set your availability
               </p>
             </div>
+          </div>
+        </section>
+
+        {/* MOVEMENT / FOMO */}
+        <section className="border-b border-[color:var(--cl-evergreen)]/20 bg-[color:var(--cl-ink)] text-[color:var(--cl-canvas)]">
+          <div className="max-w-6xl mx-auto px-6 md:px-10 py-20 md:py-28">
+            <div className="text-[11px] md:text-xs font-bold tracking-[0.22em] uppercase text-[color:var(--cl-ember)]">
+              Something Is Being Built. You Can Be Early.
+            </div>
+            <h2 className="mt-6 text-3xl md:text-5xl font-bold leading-tight max-w-4xl">
+              ValorWell is building the greatest space available for clinicians to have the autonomy they've always wanted — with the administrative support they've never had.
+            </h2>
+            <p className="mt-6 text-lg md:text-xl leading-relaxed text-[color:var(--cl-canvas)]/85 max-w-3xl">
+              We're changing how mental healthcare gets delivered. Starting with the veteran community. Then everywhere else. The clinicians who show up early are the ones who get to shape what this becomes.
+            </p>
+
+            <div className="mt-14 grid md:grid-cols-3 gap-0 border border-[color:var(--cl-canvas)]/20">
+              <div className="p-8 md:p-10 border-b md:border-b-0 md:border-r border-[color:var(--cl-canvas)]/20 bg-[color:var(--cl-ember)] text-[color:var(--cl-ink)]">
+                <div className="text-xs font-bold tracking-[0.22em] uppercase">Now</div>
+                <h3 className="mt-4 text-2xl md:text-3xl font-bold leading-tight">You help shape it.</h3>
+                <p className="mt-3 text-base md:text-lg leading-relaxed">
+                  Shape the EHR. Shape the culture. Shape who gets hired next. Your voice is in the room while the room is still being built.
+                </p>
+              </div>
+              <div className="p-8 md:p-10 border-b md:border-b-0 md:border-r border-[color:var(--cl-canvas)]/20">
+                <div className="text-xs font-bold tracking-[0.22em] uppercase text-[color:var(--cl-canvas)]/70">Soon</div>
+                <h3 className="mt-4 text-2xl md:text-3xl font-bold leading-tight text-[color:var(--cl-canvas)]">You join what someone else shaped.</h3>
+                <p className="mt-3 text-base md:text-lg leading-relaxed text-[color:var(--cl-canvas)]/80">
+                  Still meaningful. Still better than what you're leaving. But the walls are already up and the rules are already written.
+                </p>
+              </div>
+              <div className="p-8 md:p-10">
+                <div className="text-xs font-bold tracking-[0.22em] uppercase text-[color:var(--cl-canvas)]/60">Later</div>
+                <h3 className="mt-4 text-2xl md:text-3xl font-bold leading-tight text-[color:var(--cl-canvas)]/85">You watch from the outside.</h3>
+                <p className="mt-3 text-base md:text-lg leading-relaxed text-[color:var(--cl-canvas)]/70">
+                  And you wonder what would've happened if you'd raised your hand back in 2026, when the door was still this wide open.
+                </p>
+              </div>
+            </div>
+
+            <p className="mt-10 text-xl md:text-2xl font-semibold text-[color:var(--cl-canvas)] max-w-3xl">
+              This is not a job listing. It's an invitation to help build the thing you keep telling your colleagues should exist.
+            </p>
           </div>
         </section>
 
@@ -367,10 +410,10 @@ export default function Clinicians() {
 
             <div className="mt-14 grid md:grid-cols-2 gap-0 border-t border-[color:var(--cl-evergreen)]/25">
               {[
-                { n: "", t: "Your availability is yours", d: "You decide how many patients you want to see, and when. Set an age limit that determines who can see you as an option. I don't want you to be in a position to have to say no to people, if you are " },
-                { n: "", t: "Your license still means something", d: "State and National Credentialing boards have determined that you are qualified to make clinical decisions. I trust their judgement more than my own. If they decided you are qualified, then I have no reason to question that." },
-                { n: "", t: "Billing should not become your second job", d: "ValorWell handles billing workflows. You see your patient, document in our custom built EHR that does most the work for you. Then move on." },
-                { n: "", t: "Systems should give time back", d: "You treat the patient and provide the outstanding care. Then we handle the rest. " },
+                { n: "", t: "Your availability is yours", d: "You decide how many patients you see and when. Set the ages, presentations, and hours you'll accept. Nobody guilt-trips you into more." },
+                { n: "", t: "Your license still means something", d: "State and national boards already decided you're qualified. We trust their judgment more than a manager's. Your calls stay your calls." },
+                { n: "", t: "Billing is not your second job", d: "ValorWell handles the billing workflow. You see the patient, document in the EHR we built for you, and move on with your day." },
+                { n: "", t: "Systems should give time back", d: "You provide the care. We handle everything sitting between you and the person in front of you." },
               ].map((m, i) => (
                 <div
                   key={m.n}
@@ -389,6 +432,83 @@ export default function Clinicians() {
           </div>
         </section>
 
+        {/* EHR SHOWCASE */}
+        <section className="border-b border-[color:var(--cl-evergreen)]/20 bg-[color:var(--cl-ink)] text-[color:var(--cl-canvas)]">
+          <div className="max-w-6xl mx-auto px-6 md:px-10 py-20 md:py-28">
+            <div className="text-[11px] md:text-xs font-bold tracking-[0.22em] uppercase text-[color:var(--cl-ember)]">
+              The EHR We Actually Built For Ourselves
+            </div>
+            <h2 className="mt-6 text-3xl md:text-5xl font-bold leading-tight max-w-4xl">
+              We didn't buy an EHR. We built the one clinicians kept describing in exit interviews.
+            </h2>
+            <p className="mt-6 text-lg md:text-xl leading-relaxed text-[color:var(--cl-canvas)]/85 max-w-3xl">
+              Every feature in here exists because a clinician said "why does this take forty minutes?" — and we agreed with them. This is not a rebranded template. It's custom infrastructure that keeps getting better because the clinicians using it are in the room while we build it.
+            </p>
+
+            <div className="mt-14 grid md:grid-cols-2 lg:grid-cols-3 gap-0 border-t border-l border-[color:var(--cl-canvas)]/20">
+              {[
+                {
+                  t: "AI notes that speak human first",
+                  d: "Type in plain language after session — \"client came in dysregulated, we worked on grounding, homework was...\" — and the system converts it into a fully compliant, clinically appropriate note. You edit. You don't author from scratch.",
+                },
+                {
+                  t: "Notes that already know the plan",
+                  d: "Every daily note surfaces the treatment goals and interventions inline. No second tab. No hunting through the chart mid-session to remember what you're working on.",
+                },
+                {
+                  t: "Two-way secure calendar sync",
+                  d: "Your real calendar and ValorWell stay in lockstep — both directions, always current, PHI protected. Block personal time once and your availability updates without you touching it.",
+                },
+                {
+                  t: "Auto-scheduling inside your guardrails",
+                  d: "Set the rules once — ages, presenting concerns, hours, weekly cap. Patients self-book within them. You stop being your own receptionist.",
+                },
+                {
+                  t: "Telehealth built in, not bolted on",
+                  d: "Video, waiting room, session, and chart on one screen. No third-party link. No \"can you see my screen?\" No context switching mid-session.",
+                },
+                {
+                  t: "Availability you actually control",
+                  d: "Turn the tap up or down any week. No begging. No guilt calls from a scheduler asking if you can squeeze in three more.",
+                },
+              ].map((f, i) => (
+                <div
+                  key={i}
+                  className="p-8 md:p-10 border-b border-r border-[color:var(--cl-canvas)]/20"
+                >
+                  <h3 className="text-xl md:text-2xl font-bold leading-tight text-[color:var(--cl-canvas)]">
+                    {f.t}
+                  </h3>
+                  <p className="mt-3 text-base md:text-lg leading-relaxed text-[color:var(--cl-canvas)]/80">
+                    {f.d}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-14 grid md:grid-cols-12 gap-8 items-start">
+              <div className="md:col-span-5">
+                <div className="text-xs font-bold tracking-[0.22em] uppercase text-[color:var(--cl-ember)]">
+                  Shipping Next
+                </div>
+                <p className="mt-3 text-sm text-[color:var(--cl-canvas)]/60">
+                  Founding clinicians see the roadmap first — and get a real say in what jumps the line.
+                </p>
+              </div>
+              <ul className="md:col-span-7 space-y-3 text-lg font-semibold text-[color:var(--cl-canvas)]/90">
+                {/* TODO: replace with a real roadmap teaser you're comfortable committing to */}
+                <li className="pb-3 border-b border-[color:var(--cl-canvas)]/15">Roadmap teaser 1 — editable</li>
+                {/* TODO: replace with a real roadmap teaser you're comfortable committing to */}
+                <li className="pb-3 border-b border-[color:var(--cl-canvas)]/15">Roadmap teaser 2 — editable</li>
+              </ul>
+            </div>
+
+            <p className="mt-14 text-2xl md:text-3xl font-bold leading-snug max-w-4xl text-[color:var(--cl-canvas)]">
+              This is what "dedicated to our clinicians" looks like when it's not just a slide in a pitch deck.
+            </p>
+          </div>
+        </section>
+
         {/* FIT */}
         <section className="border-b border-[color:var(--cl-evergreen)]/20">
           <div className="max-w-6xl mx-auto px-6 md:px-10 py-20 md:py-28">
@@ -403,12 +523,12 @@ export default function Clinicians() {
                 </div>
                 <ul className="mt-6 space-y-4 text-lg">
                   {[
-                    "You still care about the person in front of you.",
-                    "You want your clinical judgment treated like judgment.",
+                    "You still care about the person.",
+                    "You want your judgment treated as judgment.",
                     "You want to serve veterans and families.",
                     "You can commit something consistently.",
-                    "You are comfortable building while the system grows.",
-                    "You would rather help improve a system than complain about the same one forever.",
+                    "You are comfortable building as we grow.",
+                    "You'd rather fix a system than complain.",
                   ].map((l, i) => (
                     <li key={i} className="pb-4 border-b border-[color:var(--cl-evergreen)]/25">{l}</li>
                   ))}
@@ -447,20 +567,21 @@ export default function Clinicians() {
               You are not joining ValorWell to fill slots. You are strengthening the clinical engine underneath the mission.
             </h2>
 
-            <div className="mt-14 space-y-4 text-xl md:text-2xl font-semibold text-center">
+            <div className="mt-14 grid md:grid-cols-4 gap-0 border-t border-[color:var(--cl-canvas)]/25">
               {[
-                "Clinicians join with realistic availability",
-                "Capacity grows state by state",
-                "More veterans and families can access real care",
-                "Real care creates clinical context",
-                "Lessons improve systems and provider pathways",
-                "Stronger infrastructure attracts more mission-aligned capacity",
+                "Clinicians join with real availability.",
+                "Capacity grows, state by state.",
+                "More veterans and families get real care.",
+                "Better care rebuilds the whole system.",
               ].map((line, i, arr) => (
-                <div key={i}>
-                  <p>{line}</p>
-                  {i < arr.length - 1 && (
-                    <div className="text-2xl text-[color:var(--cl-canvas)]/50 mt-4" aria-hidden>↓</div>
-                  )}
+                <div
+                  key={i}
+                  className={`p-6 md:p-8 border-b border-[color:var(--cl-canvas)]/25 ${i < arr.length - 1 ? "md:border-r" : ""}`}
+                >
+                  <div className="text-2xl md:text-3xl font-bold text-[color:var(--cl-ember)] tabular-nums">
+                    {String(i + 1).padStart(2, "0")}
+                  </div>
+                  <p className="mt-3 text-lg md:text-xl font-semibold leading-snug">{line}</p>
                 </div>
               ))}
             </div>
@@ -483,10 +604,10 @@ export default function Clinicians() {
               {[
                 ["Pay per session", "$75 per completed session"],
                 ["Pay cadence", "Paid weekly"],
-                ["Classification", "1099 contractor"],
-                ["Format", "Telehealth-first"],
                 ["Schedule", "You set realistic availability"],
                 ["Caseload", "No guaranteed caseload"],
+                ["Format", "Telehealth-first"],
+                ["Classification", "1099 contractor"],
                 ["Billing", "Billing workflows handled by ValorWell"],
                 ["Scope", "Your scope and comfort matter"],
               ].map(([k, v]) => (
@@ -597,14 +718,14 @@ export default function Clinicians() {
         <section>
           <div className="max-w-5xl mx-auto px-6 md:px-10 py-24 md:py-32">
             <h2 className="text-4xl md:text-6xl font-bold leading-[1.05] max-w-4xl">
-              Maybe you're not done with this work. Maybe you're done doing it their way.
+              Stop reading. Start something.
             </h2>
             <div className="mt-10 space-y-5 max-w-3xl text-lg md:text-xl leading-relaxed text-[color:var(--cl-ink)]/85">
-              <p>You do not have to open a private practice tomorrow. You do not have to promise ValorWell your whole week. You do not have to pretend burnout means you stopped caring.</p>
-              <p>Start with an honest conversation about the clinician you want to be and the mission you want your work attached to.</p>
+              <p>You don't have to open a private practice tomorrow. You don't have to promise ValorWell your whole week. You don't have to pretend burnout means you stopped caring.</p>
+              <p>You just have to raise your hand while the door is still this wide open.</p>
             </div>
             <div className="mt-10 flex flex-col sm:flex-row gap-4">
-              <PrimaryCTA>See If You Fit ValorWell</PrimaryCTA>
+              <PrimaryCTA>Raise Your Hand</PrimaryCTA>
               <SecondaryCTA to="/operation-claims-success">Explore Operation Claims Success</SecondaryCTA>
             </div>
             <p className="mt-16 text-xl md:text-2xl font-bold text-[color:var(--cl-evergreen)] max-w-3xl">
