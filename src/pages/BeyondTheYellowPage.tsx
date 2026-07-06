@@ -828,10 +828,10 @@ export default function BeyondTheYellowPage() {
         {/* 12. STORY / NOMINATION FORM */}
         <section id={FORM_ANCHOR} className="border-b border-border py-20 md:py-24">
           <div className="mx-auto max-w-3xl px-4">
-            <Eyebrow tone="navy">Send it in</Eyebrow>
-            <SectionHeading>If you are doing more than talking, share the story.</SectionHeading>
+            <Eyebrow tone="navy">Keep the movement moving</Eyebrow>
+            <SectionHeading>Keep the Movement Moving</SectionHeading>
             <p className="mt-4 text-lg text-muted-foreground">
-              This is not a generic contact form. Pick the lane that fits and the fields will follow.
+              Pick the lane that fits and the fields will follow.
             </p>
             <div className="mt-8">
               <StoryForm initialLane={initialLane} />
@@ -839,60 +839,6 @@ export default function BeyondTheYellowPage() {
           </div>
         </section>
 
-
-        {/* 14. WATCH / FOLLOW / SHARE LOOP */}
-        <section className="border-b border-border py-20 md:py-24">
-          <div className="mx-auto max-w-5xl px-4">
-            <Eyebrow tone="navy">Keep the movement moving</Eyebrow>
-            <SectionHeading>Watch. Follow. Share. Nominate.</SectionHeading>
-            <div className="mt-10 grid gap-4 md:grid-cols-3">
-              <Link
-                to="/watch"
-                onClick={() => track("bty_follow_click", { location: "loop" })}
-                className="group rounded-2xl border border-border bg-card p-6"
-              >
-                <Play className="h-6 w-6 text-[hsl(var(--gold-accent))]" />
-                <h3 className="mt-3 text-lg font-bold text-foreground">Watch Beyond The Yellow</h3>
-                <p className="mt-2 text-muted-foreground">Long-form conversations and short clips as they release.</p>
-                <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-[hsl(var(--navy))] group-hover:underline">
-                  Go to the Watch hub <ArrowRight className="h-4 w-4" />
-                </span>
-              </Link>
-              <button
-                onClick={() => {
-                  track("bty_share_click", { location: "loop" });
-                  const url = typeof window !== "undefined" ? window.location.href : "";
-                  if (typeof navigator !== "undefined" && (navigator as any).share) {
-                    (navigator as any)
-                      .share({ title: "Beyond The Yellow", text: "Support is not a symbol. Support is behavior.", url })
-                      .catch(() => {});
-                  } else if (typeof navigator !== "undefined" && navigator.clipboard) {
-                    navigator.clipboard.writeText(url).catch(() => {});
-                  }
-                }}
-                className="group rounded-2xl border border-border bg-card p-6 text-left"
-              >
-                <Share2 className="h-6 w-6 text-[hsl(var(--gold-accent))]" />
-                <h3 className="mt-3 text-lg font-bold text-foreground">Share the movement</h3>
-                <p className="mt-2 text-muted-foreground">Send Beyond The Yellow to someone doing the work — or someone who should be.</p>
-                <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-[hsl(var(--navy))] group-hover:underline">
-                  Copy or share this page <ArrowRight className="h-4 w-4" />
-                </span>
-              </button>
-              <button
-                onClick={() => goToFormWithLane("nominate", "bty_final_nominate")}
-                className="group rounded-2xl border border-border bg-card p-6 text-left"
-              >
-                <UserPlus className="h-6 w-6 text-[hsl(var(--gold-accent))]" />
-                <h3 className="mt-3 text-lg font-bold text-foreground">Nominate someone</h3>
-                <p className="mt-2 text-muted-foreground">Point us at people whose work would leave a hole if it stopped.</p>
-                <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-[hsl(var(--navy))] group-hover:underline">
-                  Send a nomination <ArrowRight className="h-4 w-4" />
-                </span>
-              </button>
-            </div>
-          </div>
-        </section>
 
         {/* 15. FAQ */}
         <section className="border-b border-border bg-[hsl(var(--section-alt))] py-20 md:py-24">
