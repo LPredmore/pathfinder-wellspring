@@ -14,7 +14,7 @@ import {
   Handshake,
   UserPlus,
   Sparkles,
-  Video,
+  
   ChevronDown,
 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
@@ -26,7 +26,7 @@ const track = (name: string, params: Record<string, unknown> = {}) =>
   trackHomeEvent(name, { page: "beyond-the-yellow", ...params });
 
 const FORM_ANCHOR = "bty-story-form";
-const FEATURED_ANCHOR = "bty-featured";
+
 
 const scrollToId = (id: string, opts: Record<string, unknown> = {}) => {
   const el = document.getElementById(id);
@@ -584,15 +584,6 @@ export default function BeyondTheYellowPage() {
     setTimeout(() => scrollToId(FORM_ANCHOR), 30);
   };
 
-  const partnerPaths = useMemo(
-    () => [
-      { title: "Partner With ValorWell", lane: "partner" as LaneValue, event: "bty_partner_click" },
-      { title: "Sponsor the Movement", lane: "sponsor" as LaneValue, event: "bty_sponsor_click" },
-      { title: "Bring BTY to Your Organization", lane: "organization" as LaneValue, event: "bty_partner_click" },
-      { title: "Make an Introduction", lane: "introduction" as LaneValue, event: "bty_partner_click" },
-    ],
-    []
-  );
 
   return (
     <>
