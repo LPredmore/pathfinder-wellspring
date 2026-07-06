@@ -200,3 +200,19 @@
     @apply text-patriot-red text-lg;
   }
 }
+/* Clinicians page — scoped editorial theme */
+.clinicians-theme {
+  --cl-evergreen: #3B5147;
+  --cl-canvas: #F4F1E8;
+  --cl-ink: #111814;
+  --cl-ember: #B24A3A;
+  font-family: 'Trebuchet MS', 'Lucida Grande', sans-serif;
+}
+.clinicians-theme h1,
+.clinicians-theme h2,
+.clinicians-theme h3,
+.clinicians-theme h4,
+.clinicians-theme h5,
+.clinicians-theme h6 {
+  font-family: 'Trebuchet MS', 'Lucida Grande', sans-serif;
+}
