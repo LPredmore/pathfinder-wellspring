@@ -114,7 +114,7 @@ const shortcutCategories = [
     eyebrow: "VA ACCREDITED ATTORNEYS",
     title: "When the eventual back pay grows, who benefits?",
     body:
-      "Certain VA representation fee arrangements connect compensation directly to a veteran's past-due benefits after an initial VA decision. The more the VA delays, the larger the eventual back pay — and the larger the attorney's cut. Veterans need diligent, prompt movement and honest communication. This model creates a perverse incentive: resolution is not the goal. Accumulation is.",
+      "Certain VA representation fee arrangements connect compensation directly to a veteran's past-due benefits after an initial VA decision. The more the VA delays, the larger the eventual back pay — and the larger the attorney's cut. Veterans need diligent, prompt movement and honest communication. This model creates a perverse incentive: resolution is not the goal. Accumulation is.\n\n\nThey help veterans, eventually. But many veterans have experienced the years and years it takes. And that's not a mistake. It's part of the process.",
     pull: "Every month the VA stalls, somebody else profits. It is usually not the veteran.",
   },
   {
@@ -122,7 +122,7 @@ const shortcutCategories = [
     eyebrow: "PAID STRATEGISTS",
     title: "Basic confusion has become an expensive product.",
     body:
-      "A veteran who cannot understand the process is a perfect customer for somebody selling the secret. Education becomes a high-ticket program. Rating strategy becomes the product. Confidence becomes the pitch. These programs do not teach veterans how to navigate the system. They teach them how to exploit it — workarounds that trigger the VA to build more walls, which creates demand for the next course. It is a self-fueling cycle, and veterans are the fuel.",
+      "A veteran who cannot understand the process is a perfect customer for somebody selling the secret. Education becomes a high-ticket program. Rating strategy becomes the product. Confidence becomes the pitch. These programs do not teach veterans how to navigate the system. They teach them how to exploit it — workarounds that trigger the VA to build more walls, which creates demand for the next course. It is a self-fueling cycle, and veterans are the fuel.\n\n\nThey usually get results quickly. But they put veterans at high risk of fraud, and overcharge thousands because the system feels more complex than it is.",
     pull: "The business model depends on the system staying broken. That is not a bug. It is the product.",
   },
   {
@@ -1032,7 +1032,7 @@ export default function OperationClaimsSuccessPage() {
                   </div>
                   <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-[#B24A3A]">{eyebrow}</p>
                   <h3 className="mt-2 text-xl font-bold text-[#111814]">{title}</h3>
-                  <p className="mt-3 text-[#111814]/75">{body}</p>
+                  <p className="mt-3 whitespace-pre-line text-[#111814]/75">{body}</p>
                   <p className="mt-5 border-l-2 border-[#B24A3A] pl-4 text-sm font-semibold italic text-[#111814]">
                     {pull}
                   </p>
