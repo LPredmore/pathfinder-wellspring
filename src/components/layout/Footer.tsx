@@ -43,9 +43,9 @@ export function Footer() {
       <div className="container-wide py-14">
         <div className="grid gap-10 md:grid-cols-4">
           <div className="md:col-span-4 lg:col-span-1">
-            <Link to="/" className="flex items-center gap-2 text-lg font-bold tracking-tight text-foreground">
-              <span className="inline-block h-2.5 w-2.5 rounded-full bg-accent" aria-hidden />
-              ValorWell
+            <Link to="/" className="flex items-center gap-2 text-lg font-bold tracking-tight text-foreground" aria-label="ValorWell home">
+              <img src="/brand/valorwell-logo.png" alt="ValorWell" className="h-9 w-auto" />
+              <span className="sr-only">ValorWell</span>
             </Link>
             <p className="mt-3 max-w-xs text-sm text-muted-foreground">
               Building better systems around veteran and family support, mental well-being, ethical care, and real community action.
