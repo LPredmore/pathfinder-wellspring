@@ -698,7 +698,7 @@ export default function HomePage() {
               <h2 className="mt-5 text-3xl font-bold tracking-tight text-foreground md:text-4xl lg:text-5xl">
                 We're not interested in talking around broken systems. We're building through them.
               </h2>
-              <div className=\"mt-8 space-y-5 text-lg text-muted-foreground whitespace-pre-line\">
+              <div className="mt-8 space-y-5 text-lg text-muted-foreground whitespace-pre-line">
                 <p>
                   Too many people need real support. Too many systems make reaching that support harder than it should be.
 
@@ -711,7 +711,7 @@ export default function HomePage() {
                 <p>
                   {"\n"}
                 </p>
-                <p className=\"font-medium text-foreground\">{"\n"}</p>
+                <p className="font-medium text-foreground">{"\n"}</p>
               </div>
               <div className="mt-10">
                 <BtnPrimary to="/about" onClick={() => trackHomeEvent("homepage_about_click", { source: "founder" })}>
