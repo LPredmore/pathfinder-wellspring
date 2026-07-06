@@ -87,7 +87,7 @@ const faqItems: { q: string; a: string }[] = [
   },
   {
     q: "What license types are currently included?",
-    a: "We are currently onboarding common independent clinical licenses across mental health disciplines. Specific eligibility for your state and license is confirmed during the fit conversation.",
+    a: "We are currently onboarding common independent clinical licenses across mental health disciplines. If you are licensed to treat in a way that insurance will accept, we can use you.",
   },
 ];
 
