@@ -462,7 +462,7 @@ export default function HomePage() {
               Where do you fit into what ValorWell is building?
             </h2>
             <p className="mt-5 text-lg text-muted-foreground">
-              You do not need to understand the whole system. Start with why you are here.
+              You don't need to understand the whole organization. Pick the role that sounds most like you—and take the next step.
             </p>
           </div>
 
@@ -470,28 +470,28 @@ export default function HomePage() {
             {[
               {
                 title: "I'm a Veteran or Family Member",
-                body: "Understand the care-first mission and find the right place to start.",
+                body: "You're trying to make sense of care, access, or a system that should not be this hard to navigate. Start with the better path we're building.",
                 cta: "Explore Veteran & Family Support",
                 to: "/veterans",
                 event: "homepage_lane_veteran_family",
               },
               {
                 title: "I Need Mental Health Care",
-                body: "Looking for actual mental health support or a clearer care starting point?",
+                body: "You're looking for real mental health care and a clear place to start. We'll take you to the care path.",
                 cta: "Find Care",
                 to: "/get-care",
                 event: "homepage_lane_care",
               },
               {
                 title: "I'm a Clinician",
-                body: "Help build ethical, care-first systems—not just fill appointment slots.",
+                body: "You want your clinical work to be part of something bigger than a calendar of sessions. Help build ethical, care-first systems for veterans and families.",
                 cta: "Join the Clinician Mission",
                 to: "/clinicians",
                 event: "homepage_lane_clinician",
               },
               {
                 title: "I Want to Join the Mission",
-                body: "Bring relationships, reach, resources, ideas, infrastructure, support, or the ability to help move the work.",
+                body: "You have something that could move this farther—reach, relationships, resources, expertise, or the right introduction. Bring it.",
                 cta: "Join the Mission",
                 to: "/partner",
                 event: "homepage_lane_join",
@@ -521,15 +521,15 @@ export default function HomePage() {
         <div className="container-wide py-20 md:py-28">
           <div className="grid gap-14 lg:grid-cols-12">
             <div className="lg:col-span-5">
-              <Eyebrow>The Operating Engine</Eyebrow>
+              <Eyebrow>REAL CARE UNDERNEATH THE MISSION</Eyebrow>
               <h2 className="mt-5 text-3xl font-bold tracking-tight text-foreground md:text-4xl lg:text-5xl">
-                The mission has real clinical infrastructure underneath it.
+                Care first only means something if real care exists.
               </h2>
               <p className="mt-6 text-lg text-muted-foreground">
-                ValorWell operates real mental health care because care-first cannot be a slogan. The clinical side of ValorWell creates the care relationships, clinician infrastructure, and operational capacity required to do the broader work responsibly.
+                ValorWell operates a real mental health clinic with licensed clinicians and real clinical relationships. The clinic is not the whole mission. It is the engine that keeps the mission grounded in the people and problems we're trying to serve.
               </p>
               <p className="mt-4 text-lg text-muted-foreground">
-                When someone needs mental health care, the clinic matters immediately. When ValorWell challenges a broken system, the clinic proves there is a real care engine behind the mission.
+                When someone needs care, the clinic matters immediately. When we challenge a broken system, the clinic proves we're building from real clinical work—not theory.
               </p>
               <div className="mt-10 flex flex-wrap gap-4">
                 <BtnPrimary to="/get-care" onClick={() => trackHomeEvent("homepage_care_click")}>
@@ -545,8 +545,8 @@ export default function HomePage() {
               <div className="grid gap-4">
                 {[
                   { title: "Real Care", body: "Legitimate mental health care through clinical relationships and mission-aligned professionals." },
-                  { title: "Clinical Judgment", body: "Systems and technology can support care. They do not replace the clinician or the person receiving care." },
-                  { title: "Operating Capacity", body: "Care delivery, clinician infrastructure, and revenue create the ability to keep building the wider mission." },
+                  { title: "Clinical Judgment", body: "Technology can support care. Systems can support care. Neither replaces the clinician or the person receiving it." },
+                  { title: "Infrastructure That Makes the Mission Real", body: "Clinicians, care delivery, and operating systems give ValorWell the capacity to keep building beyond the clinic." },
                 ].map((p, i) => (
                   <div key={p.title} className="flex gap-5 rounded-xl border border-border bg-card p-6">
                     <div className="text-2xl font-bold text-primary/60 tabular-nums">0{i + 1}</div>
@@ -571,19 +571,19 @@ export default function HomePage() {
               This is bigger than filling appointment slots.
             </h2>
             <p className="mt-6 text-lg text-muted-foreground">
-              ValorWell needs clinicians who want to help build ethical, care-first support for veterans and families while strengthening the clinical systems underneath the broader mission.
+              We're looking for clinicians who believe real care, ethical documentation, and better access pathways belong together—and who want to help build the systems that make that possible for veterans and families.
             </p>
-            <p className="mt-4 text-lg font-medium text-foreground/80">
-              We want clinicians who care about the work—not just the calendar.
+            <p className="mt-4 text-lg font-medium text-foreground/80 whitespace-pre-line">
+              Your sessions matter. So does the system around them.{"\n\n\n"}If you want your clinical work to matter beyond the session, we should talk
             </p>
           </div>
 
           <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {[
-              { title: "Mission", body: "Help build better care-first systems around problems too many people are forced to navigate alone." },
-              { title: "Clinical Judgment", body: "Clinical standards, care, and documentation must respect the clinician's professional role." },
+              { title: "Mission", body: "Do clinical work connected to a public mission veterans and families can actually feel." },
+              { title: "Clinical Judgment", body: "Your judgement stays clinical and in your hands. National Boards have said you are qualified to make decisions. Why would we question that?" },
               { title: "Infrastructure", body: "Join an organization building repeatable systems instead of expecting clinicians to solve every operational problem alone." },
-              { title: "Veteran and Family Impact", body: "Help strengthen real mental health support and better pathways for veterans and the people who support them." },
+              { title: "Veteran and Family Impact", body: "Help build a better care-first path through systems too many veterans and families are forced to figure out alone." },
             ].map((v) => (
               <div key={v.title} className="border-t-2 border-primary/60 pt-5">
                 <h3 className="text-base font-semibold uppercase tracking-wider text-foreground">{v.title}</h3>
@@ -616,7 +616,7 @@ export default function HomePage() {
               We do not need more logos around the mission. We need more people who can move the work.
             </h2>
             <p className="mt-6 text-lg text-muted-foreground">
-              ValorWell is interested in veteran organizations, community groups, creators, media, clinicians, employers, supporters, sponsors, funders, and connectors who can help real action travel farther or help the infrastructure become stronger.
+              Maybe you don't provide clinical care. That's fine. This mission also needs reach, relationships, resources, expertise, distribution, and the right introductions.
             </p>
           </div>
 
@@ -625,29 +625,29 @@ export default function HomePage() {
               {
                 icon: Users,
                 title: "Veteran and Community Organizations",
-                body: "Education, collaboration, shared resources, introductions, Beyond The Yellow stories, and mission-aligned relationships.",
+                body: "You already serve people we're trying to reach. Let's share what we know, build better connections, surface real stories, and make useful work travel farther.",
                 cta: "Partner With ValorWell",
                 event: "homepage_partner_click",
               },
               {
                 icon: Megaphone,
                 title: "Creators and Media",
-                body: "Interviews, guest introductions, distribution, education, and stories worth amplifying.",
+                body: "You know how to earn attention. Help important work reach people who can actually do something with it.",
                 cta: "Collaborate With ValorWell",
                 event: "homepage_creator_click",
               },
               {
                 icon: Sparkles,
                 title: "Supporters and Sponsors",
-                body: "Help expand content, education, infrastructure, reach, and the work required to build better systems.",
+                body: "Help expand the education, content, reach, and infrastructure required to build better systems.",
                 cta: "Explore Support Opportunities",
                 event: "homepage_support_click",
               },
               {
                 icon: Handshake,
                 title: "Connectors",
-                body: "Introduce ValorWell to clinicians, veteran organizations, funders, creators, sponsors, and people who should know each other.",
-                cta: "Make an Introduction",
+                body: "You may not be the person we need. You may know them. Make the introduction.",
+                cta: "Make the Introduction",
                 event: "homepage_intro_click",
               },
             ].map((l) => (
@@ -698,18 +698,24 @@ export default function HomePage() {
               <h2 className="mt-5 text-3xl font-bold tracking-tight text-foreground md:text-4xl lg:text-5xl">
                 We're not interested in talking around broken systems. We're building through them.
               </h2>
-              <div className="mt-8 space-y-5 text-lg text-muted-foreground">
+              <div className="mt-8 space-y-5 text-lg text-muted-foreground whitespace-pre-line">
                 <p>
-                  ValorWell started with a simple frustration: too many people need real support, and too many systems make reaching that support harder than it should be.
+                  Too many people need real support. Too many systems make reaching that support harder than it should be.
+
+                  We cannot fix every broken system at once. But we can pick a real problem, tell the truth about it, build a better path, and show the work while we do it.
+
+                  Right now, that work starts with veterans and families. We are building the infrastructure, recruiting the people, and putting real action behind the things we say matter.
+
+                  That's the standard behind ValorWell.
                 </p>
                 <p>
-                  We cannot fix every system overnight. We can build better pathways, recruit the right clinicians, explain what we learn, challenge predatory models, spotlight people taking real action, and put real work behind the causes we say matter.
+                  {"\n"}
                 </p>
-                <p className="font-medium text-foreground">That's the standard behind ValorWell.</p>
+                <p className="font-medium text-foreground">{"\n"}</p>
               </div>
               <div className="mt-10">
                 <BtnPrimary to="/about" onClick={() => trackHomeEvent("homepage_about_click", { source: "founder" })}>
-                  Why ValorWell Exists
+                  Read the Mission
                 </BtnPrimary>
               </div>
             </div>
