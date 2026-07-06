@@ -111,7 +111,7 @@ const cycleStages = [
 const shortcutCategories = [
   {
     icon: Scale,
-    eyebrow: "Category 1",
+    eyebrow: "VA ACCREDITED ATTORNEYS",
     title: "When the eventual back pay grows, who benefits?",
     body:
       "Certain VA representation fee arrangements can connect compensation to a veteran's past-due benefits after an initial VA decision. The legal structure may be permitted. The incentive structure still deserves scrutiny. Veterans need diligent, prompt movement and honest communication. Any model where compensation grows alongside accumulated past-due benefits creates a financial tension worth talking about.",
@@ -119,18 +119,18 @@ const shortcutCategories = [
   },
   {
     icon: DollarSign,
-    eyebrow: "Category 2",
+    eyebrow: "PAID STRATEGISTS",
     title: "Basic confusion has become an expensive product.",
     body:
-      "A veteran who cannot understand the process is a perfect customer for somebody selling the secret. Education becomes a high-ticket program. Rating strategy becomes the product. Confidence becomes the pitch. The problem is not helping veterans understand the system. The problem is when veteran confusion becomes the recurring source of somebody else's margin.",
+      "A veteran who cannot understand the process is a perfect customer for somebody selling the secret. Education becomes a high-ticket program. Rating strategy becomes the product. Confidence becomes the pitch. The problem is not helping veterans understand the system. The problem is educating them with \"creative\" workarounds that cause the VA to respond with new measures. Telling veterans to pursue based on reimbursement, rather than the actual conditions.",
     pull: "The harder the system is to understand, the easier confusion is to monetize.",
   },
   {
     icon: ClipboardList,
-    eyebrow: "Category 3",
+    eyebrow: "NEXUS LETTER FACTORIES",
     title: "A clinical opinion should not feel like a retail product.",
     body:
-      "Veterans may need legitimate clinical documentation. Nexus-related documentation can matter. ValorWell is not pretending otherwise. The problem begins when the person becomes secondary to the paperwork. One encounter. One transaction. One requested document. Then another fee when the process gets harder. That is the opposite of the care relationship ValorWell is trying to build.",
+      "Veterans may need legitimate clinical documentation. Nexus-related documentation can matter. ValorWell is not pretending otherwise. The problem begins when the person becomes secondary to the paperwork. One encounter. One transaction. One document. Then another fee for an appeal when it gets denied. That is the opposite of the care relationship ValorWell is trying to build. And no clinican care throughout the whole process.",
     pull: "Documentation can be part of the answer. Turning it into the entire business model is part of the problem.",
   },
 ];
