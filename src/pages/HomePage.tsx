@@ -132,6 +132,42 @@ export default function HomePage() {
       />
       <OrganizationSchema />
 
+      <div className="home-theme">
+      <style>{`
+        .home-theme {
+          /* Field Dispatch — same palette as /mission, scoped to Home only */
+          --background: 43 40% 93%;        /* #F4F1E8 paper */
+          --foreground: 145 9% 15%;        /* #1F2A24 ink */
+          --card: 43 40% 93%;
+          --card-foreground: 145 9% 15%;
+          --popover: 43 40% 93%;
+          --popover-foreground: 145 9% 15%;
+          --primary: 145 15% 27%;          /* #3B5147 forest */
+          --primary-foreground: 43 40% 93%;
+          --secondary: 44 33% 88%;         /* #EAE5D6 paper-2 */
+          --secondary-foreground: 145 9% 15%;
+          --muted: 44 33% 88%;
+          --muted-foreground: 145 9% 35%;
+          --accent: 9 51% 46%;             /* #B24A3A rust */
+          --accent-foreground: 43 40% 93%;
+          --border: 145 9% 80%;
+          --input: 145 9% 80%;
+          --ring: 145 15% 27%;
+          --section-alt: 44 33% 88%;
+          --hero-gradient-start: 43 40% 93%;
+          --hero-gradient-end: 44 33% 88%;
+
+          font-family: "Trebuchet MS", "Lucida Sans", "Lucida Grande", sans-serif;
+        }
+        .home-theme h1, .home-theme h2, .home-theme h3,
+        .home-theme h4, .home-theme h5, .home-theme h6 {
+          font-family: "Trebuchet MS", "Lucida Sans", "Lucida Grande", sans-serif;
+          letter-spacing: -0.02em;
+        }
+      `}</style>
+
+
+
       {/* 2. Mission-first hero */}
       <section className="relative overflow-hidden border-b border-border/60 bg-background">
         {/* subtle editorial background */}
