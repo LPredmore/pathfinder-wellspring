@@ -410,10 +410,10 @@ export default function Clinicians() {
 
             <div className="mt-14 grid md:grid-cols-2 gap-0 border-t border-[color:var(--cl-evergreen)]/25">
               {[
-                { n: "", t: "Your availability is yours", d: "You decide how many patients you want to see, and when. Set an age limit that determines who can see you as an option. I don't want you to be in a position to have to say no to people, if you are " },
-                { n: "", t: "Your license still means something", d: "State and National Credentialing boards have determined that you are qualified to make clinical decisions. I trust their judgement more than my own. If they decided you are qualified, then I have no reason to question that." },
-                { n: "", t: "Billing should not become your second job", d: "ValorWell handles billing workflows. You see your patient, document in our custom built EHR that does most the work for you. Then move on." },
-                { n: "", t: "Systems should give time back", d: "You treat the patient and provide the outstanding care. Then we handle the rest. " },
+                { n: "", t: "Your availability is yours", d: "You decide how many patients you see and when. Set the ages, presentations, and hours you'll accept. Nobody guilt-trips you into more." },
+                { n: "", t: "Your license still means something", d: "State and national boards already decided you're qualified. We trust their judgment more than a manager's. Your calls stay your calls." },
+                { n: "", t: "Billing is not your second job", d: "ValorWell handles the billing workflow. You see the patient, document in the EHR we built for you, and move on with your day." },
+                { n: "", t: "Systems should give time back", d: "You provide the care. We handle everything sitting between you and the person in front of you." },
               ].map((m, i) => (
                 <div
                   key={m.n}
