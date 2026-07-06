@@ -8,12 +8,11 @@ import {
   Loader2,
   Play,
   Share2,
-  Heart,
   Users,
   Megaphone,
   Handshake,
   UserPlus,
-  Sparkles,
+  
   
   ChevronDown,
 } from "lucide-react";
