@@ -7,13 +7,9 @@ import {
   X,
   Loader2,
   Play,
-  Share2,
   Users,
   Megaphone,
   Handshake,
-  UserPlus,
-  
-  
   ChevronDown,
 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
