@@ -136,10 +136,8 @@ const shortcutCategories = [
 ];
 
 const refusalPoints = [
-  "We will not sell a guaranteed VA outcome.",
   "We will not teach veterans how to game a disability rating.",
   "We will not turn clinical documentation into an on-demand retail product.",
-  "We will not promise access or authorization we do not control.",
   "We will not put paperwork ahead of the person.",
   "We will not build a business that depends on veterans staying confused.",
 ];
