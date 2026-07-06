@@ -165,33 +165,28 @@ export default function HomePage() {
           </div>
 
           <aside className="lg:col-span-4">
-            <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
-              <Eyebrow tone="navy">Currently building</Eyebrow>
-              <ul className="mt-5 space-y-4 text-sm">
-                <li className="flex gap-3">
-                  <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden />
-                  <div>
-                    <p className="font-semibold text-foreground">Operation Claims Success</p>
-                    <p className="text-muted-foreground">Care-first alternative to the predatory documentation market.</p>
+            {HERO_SHORT_VIDEO_ID ? (
+              <ClickToLoadYouTubeShort
+                videoId={HERO_SHORT_VIDEO_ID}
+                title="ValorWell founder short"
+              />
+            ) : (
+              <div
+                className="relative mx-auto flex max-w-sm items-center justify-center overflow-hidden rounded-xl border border-dashed border-border bg-card shadow-sm"
+                style={{ aspectRatio: "9 / 16" }}
+                aria-label="Founder short video placeholder"
+              >
+                <div className="flex flex-col items-center gap-3 px-6 text-center">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 text-primary">
+                    <Play className="h-6 w-6" aria-hidden />
                   </div>
-                </li>
-                <li className="flex gap-3">
-                  <Megaphone className="mt-0.5 h-5 w-5 shrink-0 text-[hsl(45_90%_40%)]" aria-hidden />
-                  <div>
-                    <p className="font-semibold text-foreground">Beyond The Yellow</p>
-                    <p className="text-muted-foreground">A movement spotlighting people taking real action.</p>
-                  </div>
-                </li>
-                <li className="flex gap-3">
-                  <Wrench className="mt-0.5 h-5 w-5 shrink-0 text-accent" aria-hidden />
-                  <div>
-                    <p className="font-semibold text-foreground">A real operating engine</p>
-                    <p className="text-muted-foreground">Actual clinical infrastructure underneath the mission.</p>
-                  </div>
-                </li>
-              </ul>
-            </div>
+                  <p className="text-sm font-semibold text-foreground">Founder short coming soon</p>
+                  <p className="text-xs text-muted-foreground">A vertical YouTube Short will live here.</p>
+                </div>
+              </div>
+            )}
           </aside>
+
         </div>
       </section>
 
