@@ -48,8 +48,8 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
       <nav className="container-wide flex h-16 items-center justify-between gap-4" aria-label="Primary">
         <Link to="/" className="flex items-center gap-2 text-lg font-bold tracking-tight text-foreground" aria-label="ValorWell home">
-          <span className="inline-block h-2.5 w-2.5 rounded-full bg-accent" aria-hidden />
-          ValorWell
+          <img src="/brand/valorwell-logo.png" alt="ValorWell" className="h-8 w-auto" />
+          <span className="sr-only">ValorWell</span>
         </Link>
 
         <div className="hidden lg:flex lg:items-center lg:gap-6">
