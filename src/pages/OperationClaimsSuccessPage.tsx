@@ -5,11 +5,9 @@ import {
   ArrowRight,
   ShieldCheck,
   Compass,
-  Stethoscope,
   FileText,
   Wrench,
   Users,
-  Building2,
   Video,
   Radio,
   Check,
@@ -25,6 +23,11 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { trackHomeEvent } from "@/lib/tracking";
 import { supabase } from "@/integrations/supabase/client";
+import { cn } from "@/lib/utils";
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
+import imgVeteranOrg from "@/assets/supporters-veteran-org.jpg";
+import imgCreators from "@/assets/supporters-creators.jpg";
+import imgConnectors from "@/assets/supporters-connectors.jpg";
 
 /* ---------- Brand palette (page-scoped)
    Evergreen  #3B5147   Warm Canvas #F4F1E8
@@ -219,6 +222,12 @@ const clinicianValues = [
   { title: "Veteran & Family Impact", body: "Help build a legitimate path through systems too many people are forced to figure out alone." },
 ];
 
+const supporterImages: Record<string, string> = {
+  "Veteran & Community Organizations": imgVeteranOrg,
+  "Creators & Media": imgCreators,
+  "Supporters & Connectors": imgConnectors,
+};
+
 const leveragePaths = [
   {
     lane: "veteran_org",
@@ -227,14 +236,6 @@ const leveragePaths = [
     body: "Help improve education, create legitimate connections, surface gaps, and get useful information in front of veterans and families.",
     cta: "Join the Mission",
     event: "ocs_lane_veteran_org",
-  },
-  {
-    lane: "clinician",
-    icon: Stethoscope,
-    title: "Clinical & Provider Groups",
-    body: "Help build clinician capacity, responsible documentation standards, and real access infrastructure.",
-    cta: "Join the Mission",
-    event: "ocs_lane_clinical",
   },
   {
     lane: "creator",
@@ -1275,7 +1276,7 @@ export default function OperationClaimsSuccessPage() {
 
             {/* Ask 1: Clinicians */}
             <div className="mt-12 rounded-2xl border border-[#3B5147]/20 bg-white p-6 md:p-8">
-              <Eyebrow>Ask 1 &mdash; Clinicians</Eyebrow>
+              <Eyebrow>Clinicians</Eyebrow>
               <h3 className="mt-3 text-2xl font-bold text-[#111814] md:text-3xl">
                 Every state we staff is another state where veterans stop getting turned away.
               </h3>
@@ -1310,38 +1311,77 @@ export default function OperationClaimsSuccessPage() {
               </div>
             </div>
 
-            {/* Ask 2: Supporters & Amplifiers */}
-            <div className="mt-8 rounded-2xl border border-[#3B5147]/20 bg-white p-6 md:p-8">
-              <Eyebrow tone="ember">Ask 2 &mdash; Supporters &amp; amplifiers</Eyebrow>
-              <h3 className="mt-3 text-2xl font-bold text-[#111814] md:text-3xl">
+            {/* Supporters & Amplifiers */}
+            <div className="mt-8">
+              <h3 className="text-2xl font-bold text-[#111814] md:text-3xl">
                 Help us reach veterans before the predators do.
               </h3>
               <p className="mt-4 max-w-3xl text-lg text-[#111814]/80">
                 Reach, funding, introductions, infrastructure, media, technical expertise &mdash; bring what you have. Every share, every intro, every dollar closes the gap between a veteran and the help they should have had already.
               </p>
 
-              <div className="mt-8 grid gap-6 md:grid-cols-2">
-                {leveragePaths.map(({ icon: Icon, title, body, cta, lane, event }) => (
-                  <div key={title} className="flex flex-col justify-between rounded-2xl border border-[#3B5147]/15 bg-[#F4F1E8] p-6 md:p-7">
-                    <div>
-                      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#3B5147]/10">
-                        <Icon className="h-5 w-5 text-[#3B5147]" />
-                      </div>
-                      <h4 className="mt-4 text-xl font-semibold text-[#111814]">{title}</h4>
-                      <p className="mt-2 text-[#111814]/75">{body}</p>
+              {/* Desktop: hover-reveal squares */}
+              <div className="mt-12 hidden gap-6 md:grid md:grid-cols-3">
+                {leveragePaths.map(({ title, body, cta, lane, event }) => (
+                  <button
+                    key={title}
+                    type="button"
+                    onClick={() => goToForm(lane as LaneValue, event)}
+                    className="group relative block aspect-square overflow-hidden rounded-lg border border-[#3B5147]/15 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3B5147] focus-visible:ring-offset-2"
+                  >
+                    <img
+                      src={supporterImages[title]}
+                      alt={title}
+                      loading="lazy"
+                      width={1024}
+                      height={1024}
+                      className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    {/* base title overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-opacity duration-300 group-hover:opacity-0" />
+                    <div className="absolute inset-x-0 bottom-0 p-6 transition-opacity duration-300 group-hover:opacity-0">
+                      <h3 className="text-2xl font-bold text-white drop-shadow">{title}</h3>
                     </div>
-                    <button
-                      type="button"
-                      onClick={() => goToForm(lane as LaneValue, event)}
-                      className="mt-5 inline-flex items-center gap-2 self-start rounded-md border border-[#3B5147] bg-white px-4 py-2 text-sm font-semibold text-[#3B5147] hover:bg-[#3B5147]/5"
-                    >
-                      {cta} <ArrowRight className="h-4 w-4" />
-                    </button>
-                  </div>
+                    {/* hover reveal */}
+                    <div className="absolute inset-0 flex flex-col justify-end bg-[#3B5147]/95 p-6 text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100 focus-visible:opacity-100">
+                      <h3 className="text-2xl font-bold">{title}</h3>
+                      <p className="mt-3 text-sm leading-relaxed text-white/85">{body}</p>
+                      <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold">
+                        {cta} <ArrowRight className="h-4 w-4" />
+                      </span>
+                    </div>
+                  </button>
                 ))}
               </div>
 
-              <div className="mt-8 flex flex-wrap gap-3">
+              {/* Mobile: single-open accordion */}
+              <div className="mt-10 md:hidden">
+                <Accordion type="single" collapsible className="space-y-3">
+                  {leveragePaths.map(({ title, body, cta, lane, event }) => (
+                    <AccordionItem
+                      key={title}
+                      value={title}
+                      className="overflow-hidden rounded-lg border-0 bg-[#3B5147] text-white"
+                    >
+                      <AccordionTrigger className="px-5 py-4 text-left text-lg font-bold hover:no-underline">
+                        {title}
+                      </AccordionTrigger>
+                      <AccordionContent className="px-5 pb-5">
+                        <p className="text-sm leading-relaxed opacity-90">{body}</p>
+                        <button
+                          type="button"
+                          onClick={() => goToForm(lane as LaneValue, event)}
+                          className="mt-5 inline-flex items-center gap-2 rounded-md bg-white px-4 py-2.5 text-sm font-semibold text-[#3B5147] shadow-sm transition-colors hover:bg-white/90"
+                        >
+                          {cta} <ArrowRight className="h-4 w-4" />
+                        </button>
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+              </div>
+
+              <div className="mt-10 flex flex-wrap gap-3">
                 <button
                   type="button"
                   onClick={() => goToForm(undefined, "ocs_join_mission_click")}
@@ -1352,7 +1392,7 @@ export default function OperationClaimsSuccessPage() {
                 <button
                   type="button"
                   onClick={() => goToForm("intro", "ocs_intro_click")}
-                  className="inline-flex items-center gap-2 rounded-md border border-[#3B5147] px-6 py-3 text-base font-semibold text-[#3B5147] hover:bg-[#3B5147]/5"
+                  className="inline-flex items-center gap-2 rounded-md border border-[#3B5147] bg-white px-6 py-3 text-base font-semibold text-[#3B5147] hover:bg-[#3B5147]/5"
                 >
                   Make an Introduction
                 </button>
@@ -1396,35 +1436,6 @@ export default function OperationClaimsSuccessPage() {
                 Share Your Beyond The Yellow Story
               </Link>
             </div>
-          </div>
-        </section>
-
-
-        {/* ================= 14. WHAT HAPPENS NEXT ================= */}
-        <section className="border-t border-[#3B5147]/10 bg-white">
-          <div className="mx-auto max-w-6xl px-4 py-16 md:py-24">
-            <Eyebrow>What happens next</Eyebrow>
-            <SectionHeading>You do not have to solve the whole system. Pick the part you can move.</SectionHeading>
-
-            <ol className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-5">
-              {[
-                { t: "Choose your lane.", b: "Veteran, clinician, organization, supporter, creator, or connector." },
-                { t: "Tell ValorWell why you are here.", b: "A few short answers so we can route the inquiry to the right person." },
-                { t: "We review and route.", b: "Real humans read every submission and direct it to the correct next step." },
-                { t: "The next step depends on fit and current capability.", b: "Sometimes that means care, sometimes partnership, sometimes an intro, sometimes staying in the loop." },
-                { t: "The mission keeps moving.", b: "Even when timing is not right today, the work continues in public." },
-              ].map((s, i) => (
-                <li key={s.t} className="rounded-2xl border border-[#3B5147]/15 bg-[#F4F1E8] p-6">
-                  <span className="text-sm font-bold text-[#B24A3A]">{String(i + 1).padStart(2, "0")}</span>
-                  <h3 className="mt-2 text-base font-semibold text-[#111814]">{s.t}</h3>
-                  <p className="mt-2 text-sm text-[#111814]/75">{s.b}</p>
-                </li>
-              ))}
-            </ol>
-
-            <p className="mt-10 max-w-3xl text-sm text-[#111814]/70">
-              Reaching out does not guarantee clinical care, VA Community Care access, documentation, partnership, sponsorship, being featured, or any VA outcome.
-            </p>
           </div>
         </section>
 
