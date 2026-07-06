@@ -1073,141 +1073,35 @@ export default function OperationClaimsSuccessPage() {
           </div>
         </section>
 
-        {/* ================= 6. CARE FIRST. NOT LETTER FIRST. ================= */}
-        <section className="border-t border-[#3B5147]/10 bg-white">
-          <div className="mx-auto max-w-5xl px-4 py-16 md:py-24">
-            <Eyebrow>The clinical standard</Eyebrow>
-            <SectionHeading>Care first. Not letter first.</SectionHeading>
+        {/* ================= BEAT 1: ACCESS ================= */}
+        <section id="buildout" className="border-t border-[#3B5147]/10 bg-white">
+          <div className="mx-auto max-w-6xl px-4 py-16 md:py-24">
+            <Eyebrow>Step 1 — Access</Eyebrow>
+            <SectionHeading>Access. Period. Everything else is downstream.</SectionHeading>
+
             <div className="mt-6 max-w-3xl space-y-4 text-lg text-[#111814]/80">
               <p>
-                This is not the entire Operation Claims Success mission. It is the clinical standard underneath it.
+                Every year, thousands of veterans try to get mental healthcare through the VA. A huge share of them are turned away.
               </p>
               <p>
-                When mental health documentation is appropriate, the person should come before the paperwork. Clinical understanding should come before a requested conclusion. Clinician judgment should come before a promised outcome.
+                The VA does not have enough clinicians. Most of the people inside the VA do not fully understand the Community Care system they are supposed to route veterans through. So the door closes, quietly, on people who came asking for help.
               </p>
               <p className="pt-2 text-[#111814]">
-                <span className="font-semibold">Nexus-related documentation is not the enemy.</span>{" "}
-                A letter-first business model is.
+                <span className="font-semibold">ValorWell is building a nationwide network of quality virtual clinicians</span>{" "}
+                &mdash; a real provider in every state &mdash; ready to absorb the overflow and remove the access barrier entirely.
+              </p>
+              <p>
+                No veteran should be told &ldquo;we&rsquo;re full&rdquo; when help exists in another state and a screen away.
               </p>
             </div>
+
             <p className="mt-10 rounded-2xl bg-[#3B5147] px-6 py-6 text-lg font-semibold text-white md:text-xl">
-              Documentation should reflect clinically supported reality. It should not manufacture the result somebody promised before the appointment started.
-            </p>
-
-            <div className="mt-8">
-              <Guardrail tone="warn">
-                ValorWell does not guarantee Nexus Letters, VA disability ratings, service connection, claim approval, VA Community Care authorization, or any VA outcome. Documentation, when available, depends on clinical appropriateness and proper care context.
-              </Guardrail>
-            </div>
-          </div>
-        </section>
-
-        {/* ================= 7. THE BETTER PATH ================= */}
-        <section id={BETTER_PATH_ANCHOR} className="border-t border-[#3B5147]/10 bg-[#F4F1E8]">
-          <div className="mx-auto max-w-6xl px-4 py-16 md:py-24">
-            <Eyebrow>What we&rsquo;re building instead</Eyebrow>
-            <SectionHeading>Stop looking for the next shortcut. Build a legitimate path.</SectionHeading>
-
-            <ol className="mt-12 space-y-4">
-              {betterPathSteps.map((s) => (
-                <li
-                  key={s.n}
-                  className="flex gap-6 rounded-2xl border border-[#3B5147]/15 bg-white p-6 md:p-7"
-                  onMouseEnter={() => track("ocs_better_path_step_view", { step: s.n })}
-                >
-                  <span className="text-3xl font-bold text-[#3B5147]/40 md:text-4xl">{s.n}</span>
-                  <div>
-                    <h3 className="text-xl font-semibold text-[#111814]">{s.title}</h3>
-                    <p className="mt-2 text-[#111814]/75">{s.body}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
-
-            <p className="mt-10 text-2xl font-bold text-[#3B5147] md:text-3xl">
-              A better path does not require pretending we control the destination.
-            </p>
-          </div>
-        </section>
-
-        {/* ================= 8. WHAT OCS ACTUALLY IS ================= */}
-        <section className="border-t border-[#3B5147]/10 bg-white">
-          <div className="mx-auto max-w-6xl px-4 py-16 md:py-24">
-            <Eyebrow>What Operation Claims Success actually is</Eyebrow>
-            <SectionHeading>Operation Claims Success is a systems mission.</SectionHeading>
-
-            <div className="mt-6 max-w-3xl space-y-4 text-lg text-[#111814]/80">
-              <p>
-                Operation Claims Success is ValorWell&rsquo;s work to break the veteran workaround cycle by building clearer education, legitimate care pathways, provider infrastructure, mission-aligned clinical capacity, and ethical documentation systems.
-              </p>
-              <p>It is bigger than a Nexus Letter.</p>
-              <p>It is bigger than VA Community Care registration.</p>
-              <p>It is bigger than mental health treatment alone.</p>
-              <p>
-                It is ValorWell&rsquo;s attempt to build a veteran support pathway that becomes more legitimate as it grows &mdash; not more dependent on the next loophole.
-              </p>
-            </div>
-
-            <div className="mt-12 grid gap-6 md:grid-cols-2">
-              <div className="rounded-2xl border border-[#3B5147]/20 bg-[#F4F1E8] p-6 md:p-8">
-                <div className="flex items-center gap-2 text-[#3B5147]">
-                  <Check className="h-5 w-5" />
-                  <p className="text-sm font-semibold uppercase tracking-widest">What OCS builds</p>
-                </div>
-                <ul className="mt-4 space-y-3">
-                  {ocsBuilds.map((t) => (
-                    <li key={t} className="flex gap-3 text-[#111814]">
-                      <Check className="mt-1 h-4 w-4 shrink-0 text-[#3B5147]" />
-                      <span>{t}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="rounded-2xl border border-[#B24A3A]/25 bg-white p-6 md:p-8">
-                <div className="flex items-center gap-2 text-[#B24A3A]">
-                  <X className="h-5 w-5" />
-                  <p className="text-sm font-semibold uppercase tracking-widest">What OCS refuses</p>
-                </div>
-                <ul className="mt-4 space-y-3">
-                  {ocsRefuses.map((t) => (
-                    <li key={t} className="flex gap-3 text-[#111814]">
-                      <X className="mt-1 h-4 w-4 shrink-0 text-[#B24A3A]" />
-                      <span>{t}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ================= 9. VA COMMUNITY CARE BUILDOUT ================= */}
-        <section id="buildout" className="border-t border-[#3B5147]/10 bg-[#F4F1E8]">
-          <div className="mx-auto max-w-6xl px-4 py-16 md:py-24">
-            <Eyebrow>Building the infrastructure</Eyebrow>
-            <SectionHeading>A legitimate path has to exist before we can tell veterans to use it.</SectionHeading>
-
-            <div className="mt-6 max-w-3xl space-y-4 text-lg text-[#111814]/80">
-              <p>
-                One of the largest Operation Claims Success workstreams is the provider pathway behind VA Community Care.
-              </p>
-              <p>
-                ValorWell is documenting registration steps, regional requirements, provider-specific blockers, and the pieces controlled by outside systems.
-              </p>
-              <p>This is slow work.</p>
-              <p>
-                It is also exactly the work shortcut businesses avoid because infrastructure is harder to sell than a promise.
-              </p>
-            </div>
-
-            <p className="mt-8 text-xl font-semibold text-[#3B5147] md:text-2xl">
-              We would rather build the boring system correctly than sell the exciting promise early.
+              Step 1 is access. If a veteran cannot get seen, nothing else we do matters.
             </p>
 
             <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
               {buildoutAreas.map(({ icon: Icon, title, body }) => (
-                <div key={title} className="rounded-2xl border border-[#3B5147]/15 bg-white p-6">
+                <div key={title} className="rounded-2xl border border-[#3B5147]/15 bg-[#F4F1E8] p-6">
                   <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#3B5147]/10">
                     <Icon className="h-5 w-5 text-[#3B5147]" />
                   </div>
@@ -1225,32 +1119,123 @@ export default function OperationClaimsSuccessPage() {
           </div>
         </section>
 
-        {/* ================= 10. ETHICAL DOCUMENTATION ================= */}
-        <section id="ethics" className="border-t border-[#3B5147]/10 bg-white">
+        {/* ================= BEAT 2: HONEST RATINGS ================= */}
+        <section className="border-t border-[#3B5147]/10 bg-[#F4F1E8]">
           <div className="mx-auto max-w-6xl px-4 py-16 md:py-24">
-            <Eyebrow>Ethical clinical documentation</Eyebrow>
-            <SectionHeading>Documentation should come from clinical reality &mdash; not a sales promise.</SectionHeading>
+            <Eyebrow>Step 2 — Honest ratings</Eyebrow>
+            <SectionHeading>Start with what&rsquo;s real. Not with a target number.</SectionHeading>
 
             <div className="mt-6 max-w-3xl space-y-4 text-lg text-[#111814]/80">
               <p>
-                ValorWell is building systems that may support Nexus-related and other clinical documentation when the documentation is clinically appropriate and connected to legitimate care and clinician judgment.
+                We&rsquo;re building systems that help veterans manage the disability process efficiently &mdash; knowing what they do and do not qualify for based on the medical conditions they actually have.
               </p>
-              <p>We are not anti-documentation.</p>
               <p>
-                We are anti-transactional documentation that decides what the answer should be before the clinical work begins.
+                This may sound like what other companies do. It is not.
+              </p>
+              <p>
+                Most of the industry starts with the goal &mdash; &ldquo;let&rsquo;s get you to 100%&rdquo; &mdash; and reverse-engineers conditions to hit the number. <span className="font-semibold text-[#111814]">We start with the conditions you have</span>, including the ones you may not be thinking about, and we help you uncover what you legitimately qualify for.
+              </p>
+              <p>
+                Small difference on paper. Huge difference in your life. It&rsquo;s the difference between a rating that holds and a clawback letter three years from now for pay you were never entitled to.
               </p>
             </div>
 
-            <div className="mt-10 grid gap-5 md:grid-cols-2">
-              {ethicalPrinciples.map((p) => (
-                <div key={p.title} className="rounded-xl border border-[#3B5147]/15 bg-[#F4F1E8] p-6">
-                  <h3 className="text-lg font-semibold text-[#3B5147]">{p.title}</h3>
-                  <p className="mt-2 text-[#111814]/80">{p.body}</p>
+            <div className="mt-12 grid gap-6 md:grid-cols-2">
+              <div className="rounded-2xl border border-[#B24A3A]/25 bg-white p-6 md:p-8">
+                <div className="flex items-center gap-2 text-[#B24A3A]">
+                  <X className="h-5 w-5" />
+                  <p className="text-sm font-semibold uppercase tracking-widest">Target-first rating mills</p>
                 </div>
-              ))}
+                <ul className="mt-4 space-y-3">
+                  {[
+                    "Pick a target rating first, work backward.",
+                    "Coach veterans on what to claim to hit the number.",
+                    "Manufacture conditions the veteran wasn't thinking about.",
+                    "Cash the fee. Leave the veteran holding the clawback.",
+                  ].map((t) => (
+                    <li key={t} className="flex gap-3 text-[#111814]">
+                      <X className="mt-1 h-4 w-4 shrink-0 text-[#B24A3A]" />
+                      <span>{t}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="rounded-2xl border border-[#3B5147]/20 bg-[#F4F1E8] p-6 md:p-8">
+                <div className="flex items-center gap-2 text-[#3B5147]">
+                  <Check className="h-5 w-5" />
+                  <p className="text-sm font-semibold uppercase tracking-widest">Condition-first honest assessment</p>
+                </div>
+                <ul className="mt-4 space-y-3">
+                  {[
+                    "Start with the medical conditions the veteran actually has.",
+                    "Surface the ones they may not have connected to service.",
+                    "Educate on what legitimately qualifies &mdash; and what doesn't.",
+                    "Build a rating that holds up. No clawbacks. No surprises.",
+                  ].map((t) => (
+                    <li key={t} className="flex gap-3 text-[#111814]">
+                      <Check className="mt-1 h-4 w-4 shrink-0 text-[#3B5147]" />
+                      <span dangerouslySetInnerHTML={{ __html: t }} />
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
 
-            <div className="mt-10">
+            <p className="mt-10 text-2xl font-bold text-[#3B5147] md:text-3xl">
+              A rating built on reality is a rating that stays yours.
+            </p>
+          </div>
+        </section>
+
+        {/* ================= BEAT 3: CARE FIRST, APPEALS WE WIN ================= */}
+        <section id={BETTER_PATH_ANCHOR} className="border-t border-[#3B5147]/10 bg-white">
+          <div className="mx-auto max-w-6xl px-4 py-16 md:py-24">
+            <Eyebrow>Step 3 &mdash; Care first. Documentation second. Appeals we win.</Eyebrow>
+            <SectionHeading>Care comes first. The paperwork follows the care.</SectionHeading>
+
+            <div className="mt-6 max-w-3xl space-y-4 text-lg text-[#111814]/80">
+              <p>
+                Our clinicians get elite training and the tools to produce the clinical documentation a veteran actually needs to get the rating they deserve.
+              </p>
+              <p>
+                <span className="font-semibold text-[#111814]">We do not charge extra for the Nexus letter.</span> And we do not hand one out because a veteran asks for one.
+              </p>
+              <p>
+                We start with the care. After a few sessions &mdash; if the clinician establishes that the issues are service-connected &mdash; the documentation follows. Grounded in a real clinical relationship. Not manufactured in a one-visit transaction.
+              </p>
+              <p className="pt-2 font-semibold text-[#111814]">
+                Then we keep treating the veteran.
+              </p>
+              <p>
+                If the VA denies the claim based on their one-time C&amp;P eval, we produce follow-up documentation backed by an actual continuum of care. We go to appeal. And we win those appeals nearly every time.
+              </p>
+              <p className="pt-2 text-[#111814]">
+                <span className="font-semibold">The entire process runs on the VA&rsquo;s dime.</span> Zero cost to the veteran.
+              </p>
+            </div>
+
+            <p className="mt-10 rounded-2xl bg-[#3B5147] px-6 py-6 text-lg font-semibold text-white md:text-xl">
+              A one-visit VA evaluator does not get to override months of real clinical care. We bring the receipts every single time.
+            </p>
+
+            <ol className="mt-12 space-y-4">
+              {betterPathSteps.map((s) => (
+                <li
+                  key={s.n}
+                  className="flex gap-6 rounded-2xl border border-[#3B5147]/15 bg-white p-6 md:p-7"
+                  onMouseEnter={() => track("ocs_better_path_step_view", { step: s.n })}
+                >
+                  <span className="text-3xl font-bold text-[#3B5147]/40 md:text-4xl">{s.n}</span>
+                  <div>
+                    <h3 className="text-xl font-semibold text-[#111814]">{s.title}</h3>
+                    <p className="mt-2 text-[#111814]/75">{s.body}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+
+            <div id="ethics" className="mt-10">
               <Guardrail tone="warn">
                 ValorWell does not guarantee Nexus Letters, VA disability ratings, service connection, claim approval, VA Community Care authorization, or any VA outcome. Documentation, when available, depends on clinical appropriateness and proper care context.
               </Guardrail>
@@ -1258,111 +1243,130 @@ export default function OperationClaimsSuccessPage() {
           </div>
         </section>
 
-        {/* ================= 11. CLINICIAN MISSION ================= */}
-        <section className="border-t border-[#3B5147]/10 bg-[#F4F1E8]">
-          <div className="mx-auto max-w-6xl px-4 py-16 md:py-24">
-            <Eyebrow>Clinicians</Eyebrow>
-            <SectionHeading>Clinicians: help us end the workaround cycle.</SectionHeading>
+        {/* ================= BEAT 4: BUILT FOR THE COUNTER-ATTACK ================= */}
+        <section className="border-t border-[#3B5147]/10 bg-[#111814] text-white">
+          <div className="mx-auto max-w-4xl px-4 py-16 md:py-24">
+            <Eyebrow tone="ember">They are going to come for us</Eyebrow>
+            <SectionHeading light>We&rsquo;ve been getting ready for this fight for years.</SectionHeading>
 
-            <div className="mt-6 max-w-3xl space-y-4 text-lg text-[#111814]/80">
-              <p className="font-semibold text-[#111814]">This is bigger than filling appointment slots.</p>
+            <div className="mt-6 space-y-4 text-lg text-white/85">
               <p>
-                Operation Claims Success needs clinicians who believe real care, ethical documentation, and better access pathways belong together.
+                We didn&rsquo;t stumble into this. We&rsquo;ve spent years in the background working inside VA billing, documentation, and Community Care processes &mdash; learning the system well enough to actually go hard when we launched.
               </p>
-              <p>Your sessions matter.</p>
-              <p>So does the system around them.</p>
               <p>
-                If you want your clinical work to matter beyond the session, help us build a model where veterans do not have to choose between confusion and a transactional shortcut.
+                We knew going public would put a target on our back. Entire industries make a lot of money on this system staying confusing.
               </p>
+              <p className="font-semibold text-white">
+                If we succeed, they lose. They are going to come for us.
+              </p>
+              <p>We are ready.</p>
             </div>
 
-            <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-              {clinicianValues.map((v) => (
-                <div key={v.title} className="rounded-xl border border-[#3B5147]/15 bg-white p-5">
-                  <h3 className="text-base font-semibold text-[#3B5147]">{v.title}</h3>
-                  <p className="mt-2 text-sm text-[#111814]/75">{v.body}</p>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-10 flex flex-wrap gap-3">
-              <Link
-                to="/clinicians"
-                onClick={() => track("ocs_clinician_click")}
-                className="inline-flex items-center gap-2 rounded-md bg-[#3B5147] px-6 py-3 text-base font-semibold text-white hover:bg-[#2f4239]"
-              >
-                Join the Clinician Mission <ArrowRight className="h-4 w-4" />
-              </Link>
-              <button
-                type="button"
-                onClick={() => goToForm("clinician", "ocs_clinician_talk")}
-                className="inline-flex items-center gap-2 rounded-md border border-[#3B5147] bg-white px-6 py-3 text-base font-semibold text-[#3B5147] hover:bg-[#3B5147]/5"
-              >
-                Talk to ValorWell
-              </button>
-            </div>
+            <p className="mt-10 text-2xl font-bold text-[#D7A92E] md:text-3xl">
+              The people profiting from confusion do not want this cycle to end. That is exactly why it has to.
+            </p>
           </div>
         </section>
 
-        {/* ================= 12. ORGANIZATIONS / LEVERAGE ================= */}
-        <section id="partners" className="border-t border-[#3B5147]/10 bg-white">
+        {/* ================= BEAT 5: WHAT WE NEED FROM YOU ================= */}
+        <section id="partners" className="border-t border-[#3B5147]/10 bg-[#F4F1E8]">
           <div className="mx-auto max-w-6xl px-4 py-16 md:py-24">
-            <Eyebrow>Help move the work</Eyebrow>
-            <SectionHeading>We do not need more organizations agreeing that the system is broken.</SectionHeading>
-            <p className="mt-4 text-xl font-semibold text-[#B24A3A]">
-              We need people willing to help build what comes next.
+            <Eyebrow>What we need from you</Eyebrow>
+            <SectionHeading>Two asks. Both urgent. Both move the needle immediately.</SectionHeading>
+
+            <p className="mt-6 max-w-3xl text-lg text-[#111814]/80">
+              The faster we get this message out, the more veterans we stop from being preyed on.
             </p>
 
-            <div className="mt-6 max-w-3xl space-y-3 text-lg text-[#111814]/80">
-              <p>Maybe you operate a veteran organization.</p>
-              <p>Maybe you have reach.</p>
-              <p>Maybe you know clinicians.</p>
-              <p>Maybe you understand VA systems.</p>
-              <p>Maybe you have infrastructure, funding, media, technical expertise, or the right introduction.</p>
-              <p className="font-semibold text-[#111814]">Bring what you have.</p>
-            </div>
+            {/* Ask 1: Clinicians */}
+            <div className="mt-12 rounded-2xl border border-[#3B5147]/20 bg-white p-6 md:p-8">
+              <Eyebrow>Ask 1 &mdash; Clinicians</Eyebrow>
+              <h3 className="mt-3 text-2xl font-bold text-[#111814] md:text-3xl">
+                Every state we staff is another state where veterans stop getting turned away.
+              </h3>
+              <p className="mt-4 max-w-3xl text-lg text-[#111814]/80">
+                We need mission-aligned clinicians who believe real care, ethical documentation, and better access belong together. Your sessions matter. So does the system around them.
+              </p>
 
-            <div className="mt-12 grid gap-6 md:grid-cols-2">
-              {leveragePaths.map(({ icon: Icon, title, body, cta, lane, event }) => (
-                <div key={title} className="flex flex-col justify-between rounded-2xl border border-[#3B5147]/15 bg-[#F4F1E8] p-6 md:p-7">
-                  <div>
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#3B5147]/10">
-                      <Icon className="h-5 w-5 text-[#3B5147]" />
-                    </div>
-                    <h3 className="mt-4 text-xl font-semibold text-[#111814]">{title}</h3>
-                    <p className="mt-2 text-[#111814]/75">{body}</p>
+              <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                {clinicianValues.map((v) => (
+                  <div key={v.title} className="rounded-xl border border-[#3B5147]/15 bg-[#F4F1E8] p-5">
+                    <h4 className="text-base font-semibold text-[#3B5147]">{v.title}</h4>
+                    <p className="mt-2 text-sm text-[#111814]/75">{v.body}</p>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => goToForm(lane as LaneValue, event)}
-                    className="mt-5 inline-flex items-center gap-2 self-start rounded-md border border-[#3B5147] bg-white px-4 py-2 text-sm font-semibold text-[#3B5147] hover:bg-[#3B5147]/5"
-                  >
-                    {cta} <ArrowRight className="h-4 w-4" />
-                  </button>
-                </div>
-              ))}
+                ))}
+              </div>
+
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Link
+                  to="/clinicians"
+                  onClick={() => track("ocs_clinician_click")}
+                  className="inline-flex items-center gap-2 rounded-md bg-[#3B5147] px-6 py-3 text-base font-semibold text-white hover:bg-[#2f4239]"
+                >
+                  Join the Clinician Mission <ArrowRight className="h-4 w-4" />
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => goToForm("clinician", "ocs_clinician_talk")}
+                  className="inline-flex items-center gap-2 rounded-md border border-[#3B5147] bg-white px-6 py-3 text-base font-semibold text-[#3B5147] hover:bg-[#3B5147]/5"
+                >
+                  Talk to ValorWell
+                </button>
+              </div>
             </div>
 
-            <div className="mt-8 flex flex-wrap gap-3">
-              <button
-                type="button"
-                onClick={() => goToForm(undefined, "ocs_join_mission_click")}
-                className="inline-flex items-center gap-2 rounded-md bg-[#3B5147] px-6 py-3 text-base font-semibold text-white hover:bg-[#2f4239]"
-              >
-                Join the Mission <ArrowRight className="h-4 w-4" />
-              </button>
-              <button
-                type="button"
-                onClick={() => goToForm("intro", "ocs_intro_click")}
-                className="inline-flex items-center gap-2 rounded-md border border-[#3B5147] px-6 py-3 text-base font-semibold text-[#3B5147] hover:bg-[#3B5147]/5"
-              >
-                Make an Introduction
-              </button>
+            {/* Ask 2: Supporters & Amplifiers */}
+            <div className="mt-8 rounded-2xl border border-[#3B5147]/20 bg-white p-6 md:p-8">
+              <Eyebrow tone="ember">Ask 2 &mdash; Supporters &amp; amplifiers</Eyebrow>
+              <h3 className="mt-3 text-2xl font-bold text-[#111814] md:text-3xl">
+                Help us reach veterans before the predators do.
+              </h3>
+              <p className="mt-4 max-w-3xl text-lg text-[#111814]/80">
+                Reach, funding, introductions, infrastructure, media, technical expertise &mdash; bring what you have. Every share, every intro, every dollar closes the gap between a veteran and the help they should have had already.
+              </p>
+
+              <div className="mt-8 grid gap-6 md:grid-cols-2">
+                {leveragePaths.map(({ icon: Icon, title, body, cta, lane, event }) => (
+                  <div key={title} className="flex flex-col justify-between rounded-2xl border border-[#3B5147]/15 bg-[#F4F1E8] p-6 md:p-7">
+                    <div>
+                      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#3B5147]/10">
+                        <Icon className="h-5 w-5 text-[#3B5147]" />
+                      </div>
+                      <h4 className="mt-4 text-xl font-semibold text-[#111814]">{title}</h4>
+                      <p className="mt-2 text-[#111814]/75">{body}</p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => goToForm(lane as LaneValue, event)}
+                      className="mt-5 inline-flex items-center gap-2 self-start rounded-md border border-[#3B5147] bg-white px-4 py-2 text-sm font-semibold text-[#3B5147] hover:bg-[#3B5147]/5"
+                    >
+                      {cta} <ArrowRight className="h-4 w-4" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-8 flex flex-wrap gap-3">
+                <button
+                  type="button"
+                  onClick={() => goToForm(undefined, "ocs_join_mission_click")}
+                  className="inline-flex items-center gap-2 rounded-md bg-[#3B5147] px-6 py-3 text-base font-semibold text-white hover:bg-[#2f4239]"
+                >
+                  Join the Mission <ArrowRight className="h-4 w-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => goToForm("intro", "ocs_intro_click")}
+                  className="inline-flex items-center gap-2 rounded-md border border-[#3B5147] px-6 py-3 text-base font-semibold text-[#3B5147] hover:bg-[#3B5147]/5"
+                >
+                  Make an Introduction
+                </button>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* ================= 13. BEYOND THE YELLOW ================= */}
+        {/* ================= BEYOND THE YELLOW ================= */}
         <section className="border-t border-[#3B5147]/10 bg-[#3B5147] text-white">
           <div className="mx-auto max-w-6xl px-4 py-16 md:py-24">
             <Eyebrow tone="yellow">Beyond The Yellow</Eyebrow>
@@ -1373,12 +1377,8 @@ export default function OperationClaimsSuccessPage() {
                 Beyond The Yellow asks a simple question: are you actually doing something that helps?
               </p>
               <p>
-                Operation Claims Success is ValorWell&rsquo;s answer to that question in the veteran support ecosystem.
+                Operation Claims Success is ValorWell&rsquo;s answer in the veteran support ecosystem.
               </p>
-              <p>We could post another ribbon.</p>
-              <p>We could say veterans deserve better.</p>
-              <p>We could complain about claims companies, long waits, confusing systems, and predatory models.</p>
-              <p className="text-white">Or we can build.</p>
             </div>
 
             <p className="mt-10 text-2xl font-bold text-[#D7A92E] md:text-3xl">
@@ -1403,6 +1403,7 @@ export default function OperationClaimsSuccessPage() {
             </div>
           </div>
         </section>
+
 
         {/* ================= 14. WHAT HAPPENS NEXT ================= */}
         <section className="border-t border-[#3B5147]/10 bg-white">
