@@ -958,20 +958,6 @@ export default function OperationClaimsSuccessPage() {
               </button>
             </div>
 
-            <p className="mt-5 text-sm text-white/75">
-              Clinician?{" "}
-              <Link
-                to="/clinicians"
-                onClick={() => track("ocs_hero_clinician")}
-                className="font-semibold text-[#D7A92E] underline underline-offset-4 hover:brightness-110"
-              >
-                Help us build it.
-              </Link>
-            </p>
-
-            <p className="mt-10 max-w-2xl border-l-2 border-[#D7A92E] pl-4 text-sm italic text-white/80">
-              We&rsquo;re building this publicly. We will tell the truth about the problem without promising outcomes we do not control.
-            </p>
           </div>
         </section>
 
