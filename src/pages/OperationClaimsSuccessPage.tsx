@@ -114,24 +114,24 @@ const shortcutCategories = [
     eyebrow: "VA ACCREDITED ATTORNEYS",
     title: "When the eventual back pay grows, who benefits?",
     body:
-      "Certain VA representation fee arrangements can connect compensation to a veteran's past-due benefits after an initial VA decision. The legal structure may be permitted. The incentive structure still deserves scrutiny. Veterans need diligent, prompt movement and honest communication. Any model where compensation grows alongside accumulated past-due benefits creates a financial tension worth talking about.",
-    pull: "Legal does not automatically mean well-designed for the person inside the system.",
+      "Certain VA representation fee arrangements connect compensation directly to a veteran's past-due benefits after an initial VA decision. The more the VA delays, the larger the eventual back pay — and the larger the attorney's cut. Veterans need diligent, prompt movement and honest communication. This model creates a perverse incentive: resolution is not the goal. Accumulation is.",
+    pull: "Every month the VA stalls, somebody else profits. It is usually not the veteran.",
   },
   {
     icon: DollarSign,
     eyebrow: "PAID STRATEGISTS",
     title: "Basic confusion has become an expensive product.",
     body:
-      "A veteran who cannot understand the process is a perfect customer for somebody selling the secret. Education becomes a high-ticket program. Rating strategy becomes the product. Confidence becomes the pitch. The problem is not helping veterans understand the system. The problem is educating them with \"creative\" workarounds that cause the VA to respond with new measures. Telling veterans to pursue based on reimbursement, rather than the actual conditions.",
-    pull: "The harder the system is to understand, the easier confusion is to monetize.",
+      "A veteran who cannot understand the process is a perfect customer for somebody selling the secret. Education becomes a high-ticket program. Rating strategy becomes the product. Confidence becomes the pitch. These programs do not teach veterans how to navigate the system. They teach them how to exploit it — workarounds that trigger the VA to build more walls, which creates demand for the next course. It is a self-fueling cycle, and veterans are the fuel.",
+    pull: "The business model depends on the system staying broken. That is not a bug. It is the product.",
   },
   {
     icon: ClipboardList,
     eyebrow: "NEXUS LETTER FACTORIES",
     title: "A clinical opinion should not feel like a retail product.",
     body:
-      "Veterans may need legitimate clinical documentation. Nexus-related documentation can matter. ValorWell is not pretending otherwise. The problem begins when the person becomes secondary to the paperwork. One encounter. One transaction. One document. Then another fee for an appeal when it gets denied. That is the opposite of the care relationship ValorWell is trying to build. And no clinican care throughout the whole process.",
-    pull: "Documentation can be part of the answer. Turning it into the entire business model is part of the problem.",
+      "The problem begins when the person becomes secondary to the paperwork. One encounter. One transaction. One document. Then another fee for an appeal when it gets denied. No follow-up care. No ongoing clinical relationship. No clinician who actually knows the veteran's name. That is not mental health care. It is a retail transaction dressed in clinical language, and veterans are left stranded when the letter does not work.",
+    pull: "A document without a clinician is a receipt. A clinician without ongoing care is a stranger.",
   },
 ];
 
@@ -1016,9 +1016,8 @@ export default function OperationClaimsSuccessPage() {
             <Eyebrow tone="ember">Who benefits from the cycle?</Eyebrow>
             <SectionHeading>An entire economy has grown around veteran confusion.</SectionHeading>
             <div className="mt-6 max-w-3xl space-y-4 text-lg text-[#111814]/80">
-              <p>Not every attorney is predatory. Not every consultant started with bad intentions. Not every clinician providing documentation is acting unethically.</p>
-              <p>But good intentions do not automatically create good incentives.</p>
-              <p>We need to be willing to look directly at the business models the current system has produced.</p>
+              <p>The VA claims ecosystem has spawned an entire industry that monetizes veteran confusion. These are not isolated bad actors. These are business models built on the predictable gaps the system leaves wide open.</p>
+              <p>If you profit from veteran desperation, you are not helping veterans. You are harvesting them.</p>
             </div>
 
             <div className="mt-12 grid gap-6 lg:grid-cols-3">
@@ -1043,7 +1042,7 @@ export default function OperationClaimsSuccessPage() {
 
             <div className="mt-10">
               <Guardrail>
-                ValorWell may support Nexus-related and other clinical documentation when it is clinically appropriate and connected to real care. The enemy is not the document. It is the transaction-first model and the broader workaround cycle.
+                ValorWell supports clinical documentation as part of real care relationships. We do not sell documents. We do not manufacture outcomes. The enemy is the transaction-first model that treats veterans as one-time customers instead of human beings.
               </Guardrail>
             </div>
           </div>
