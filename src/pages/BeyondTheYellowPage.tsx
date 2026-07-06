@@ -638,58 +638,12 @@ export default function BeyondTheYellowPage() {
               creators, clinicians, businesses, and communities taking real action instead of stopping at symbolic
               support.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <button
-                onClick={() => {
-                  track("bty_hero_story");
-                  scrollToId(FORM_ANCHOR);
-                }}
-                className="inline-flex items-center gap-2 rounded-md bg-[hsl(var(--gold-accent))] px-6 py-3 text-sm font-semibold text-[hsl(var(--navy))] hover:opacity-90"
-              >
-                Share Your Beyond The Yellow Story <ArrowRight className="h-4 w-4" />
-              </button>
-              <button
-                onClick={() => {
-                  track("bty_hero_watch");
-                  scrollToId(FEATURED_ANCHOR);
-                }}
-                className="inline-flex items-center gap-2 rounded-md border border-white/30 bg-white/10 px-6 py-3 text-sm font-semibold text-white hover:bg-white/20"
-              >
-                <Play className="h-4 w-4" /> Watch the Latest Spotlight
-              </button>
-              <button
-                onClick={() => goToFormWithLane("nominate", "bty_hero_nominate")}
-                className="inline-flex items-center gap-2 rounded-md border border-white/30 bg-transparent px-6 py-3 text-sm font-semibold text-white hover:bg-white/10"
-              >
-                Know someone doing the work? Nominate them.
-              </button>
-            </div>
             <p className="mt-10 max-w-2xl border-l-4 border-[hsl(var(--gold-accent))] pl-4 text-base italic text-white/85 md:text-lg">
               Am I someone who only posts the ribbon, or am I someone who goes beyond it?
             </p>
           </div>
         </section>
 
-        {/* 2. MOVEMENT */}
-        <section className="border-b border-border py-20 md:py-24">
-          <div className="mx-auto max-w-4xl px-4">
-            <Eyebrow tone="navy">The movement</Eyebrow>
-            <SectionHeading>Beyond The Yellow is where real support gets seen.</SectionHeading>
-            <div className="mt-6 space-y-5 text-lg leading-relaxed text-muted-foreground">
-              <p>
-                The yellow ribbon represents awareness. Beyond The Yellow asks a harder question: what happens after the
-                symbol? What actually gets done for the people the ribbon is supposed to honor?
-              </p>
-              <p className="rounded-xl bg-[hsl(var(--section-alt))] p-5 text-foreground">
-                <strong>The category does not decide whether you belong. The action does.</strong>
-              </p>
-              <p>
-                Veteran-serving and military-family work is especially important to ValorWell, but BTY may spotlight real
-                action from any community — anyone building something people would actually miss if it stopped.
-              </p>
-            </div>
-          </div>
-        </section>
 
         {/* 3. THE GAP */}
         <section className="border-b border-border bg-[hsl(var(--section-alt))] py-20 md:py-24">
@@ -704,14 +658,14 @@ export default function BeyondTheYellowPage() {
             </p>
             <div className="mt-10 grid gap-4 md:grid-cols-2">
               {[
-                "Awareness with no follow-through",
-                "Complaining without helping",
-                "Symbols without action",
-                "Outrage without solutions",
-                "Cause-washing",
-                "Political fighting disguised as service",
-                "Fundraising with no visible benefit",
-                "Brand-image management without substance",
+                "Slapping a yellow ribbon magnet on the back of your truck — and never calling the veteran you served with.",
+                "Adding the flag overlay to your profile picture every Memorial Day — while your buddy's texts sit unread.",
+                "Sharing the '22 a day' post — then scrolling past the friend who just said he isn't doing okay.",
+                "Wearing the t-shirt from the 5K — and skipping the follow-up when someone actually asks for help.",
+                "Ranting at the TV about how the VA failed veterans — without ever driving one to an appointment.",
+                "Saying 'thank you for your service' at the airport — then ghosting the vet in your group chat for months.",
+                "Reposting the awareness graphic in September — and doing nothing in October.",
+                "Telling everyone you 'support the troops' — while the neighbor two doors down hasn't had a real conversation in weeks.",
               ].map((item) => (
                 <div
                   key={item}
