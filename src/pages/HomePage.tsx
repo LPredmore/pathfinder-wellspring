@@ -709,7 +709,7 @@ export default function HomePage() {
               </div>
               <div className="mt-10">
                 <BtnPrimary to="/about" onClick={() => trackHomeEvent("homepage_about_click", { source: "founder" })}>
-                  Why ValorWell Exists
+                  Read the Mission
                 </BtnPrimary>
               </div>
             </div>
