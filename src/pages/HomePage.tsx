@@ -405,13 +405,13 @@ export default function HomePage() {
                 Beyond The Yellow is a ValorWell-powered movement spotlighting people and organizations taking real action for their communities instead of stopping at symbolic support.
               </p>
               <p className="mt-4 text-lg text-muted-foreground">
-                The test is simple: if the support stopped tomorrow, would anyone be worse off? Would they even know?
+                The test is simple: if we stopped showing our support tomorrow, would anyone be worse off? Would they even know?
               </p>
               <p className="mt-8 border-l-4 border-[hsl(42_71%_51%)] pl-5 text-xl font-semibold leading-snug text-foreground md:text-2xl">
                 People are out there actually doing something. Are you?
               </p>
               <p className="mt-8 text-base text-muted-foreground">
-                Beyond The Yellow is how ValorWell puts an action-first worldview into public motion. We spotlight the people doing the work, give their stories a platform, borrow audience through real relationships, and bring more people into a culture where support has to be felt—not merely displayed.
+                Beyond The Yellow puts the spotlight on people who are actually doing the work. We show the action. We share the story. We help more people see what real support looks like.
               </p>
 
               <div className="mt-10 flex flex-wrap gap-4">
