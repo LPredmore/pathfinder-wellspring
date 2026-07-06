@@ -16,7 +16,6 @@ import {
   X,
   ChevronDown,
   Loader2,
-  RefreshCw,
   Scale,
   DollarSign,
   ClipboardList,
@@ -994,35 +993,11 @@ export default function OperationClaimsSuccessPage() {
 
             {/* Cycle visualization */}
             <div className="relative mt-14">
-              <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-6">
-                {cycleStages.map((s, i) => {
-                  const tension = i === 2 || i === 4;
-                  return (
-                    <div
-                      key={s.n}
-                      className={`relative rounded-2xl border p-5 ${
-                        tension
-                          ? "border-[#B24A3A]/40 bg-white"
-                          : "border-[#3B5147]/20 bg-white"
-                      }`}
-                    >
-                      <div
-                        className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold ${
-                          tension ? "bg-[#B24A3A] text-white" : "bg-[#3B5147] text-white"
-                        }`}
-                      >
-                        {s.n}
-                      </div>
-                      <h3 className="mt-3 text-base font-semibold text-[#111814]">{s.title}</h3>
-                      <p className="mt-2 text-sm text-[#111814]/70">{s.body}</p>
-                    </div>
-                  );
-                })}
-              </div>
-              <div className="mt-6 flex items-center justify-center gap-2 text-sm font-semibold text-[#B24A3A]">
-                <RefreshCw className="h-4 w-4" />
-                <span>The cycle loops back to the beginning.</span>
-              </div>
+              <img
+                src="/cycle-diagram.png"
+                alt="The Cycle: Every shortcut teaches the system to build another wall."
+                className="mx-auto w-full max-w-5xl rounded-2xl border border-[#3B5147]/10 shadow-sm"
+              />
             </div>
 
             <p className="mt-10 max-w-3xl text-lg font-semibold text-[#111814]">
