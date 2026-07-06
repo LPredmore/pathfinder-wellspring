@@ -1440,35 +1440,6 @@ export default function OperationClaimsSuccessPage() {
           </div>
         </section>
 
-
-        {/* ================= 14. WHAT HAPPENS NEXT ================= */}
-        <section className="border-t border-[#3B5147]/10 bg-white">
-          <div className="mx-auto max-w-6xl px-4 py-16 md:py-24">
-            <Eyebrow>What happens next</Eyebrow>
-            <SectionHeading>You do not have to solve the whole system. Pick the part you can move.</SectionHeading>
-
-            <ol className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-5">
-              {[
-                { t: "Choose your lane.", b: "Veteran, clinician, organization, supporter, creator, or connector." },
-                { t: "Tell ValorWell why you are here.", b: "A few short answers so we can route the inquiry to the right person." },
-                { t: "We review and route.", b: "Real humans read every submission and direct it to the correct next step." },
-                { t: "The next step depends on fit and current capability.", b: "Sometimes that means care, sometimes partnership, sometimes an intro, sometimes staying in the loop." },
-                { t: "The mission keeps moving.", b: "Even when timing is not right today, the work continues in public." },
-              ].map((s, i) => (
-                <li key={s.t} className="rounded-2xl border border-[#3B5147]/15 bg-[#F4F1E8] p-6">
-                  <span className="text-sm font-bold text-[#B24A3A]">{String(i + 1).padStart(2, "0")}</span>
-                  <h3 className="mt-2 text-base font-semibold text-[#111814]">{s.t}</h3>
-                  <p className="mt-2 text-sm text-[#111814]/75">{s.b}</p>
-                </li>
-              ))}
-            </ol>
-
-            <p className="mt-10 max-w-3xl text-sm text-[#111814]/70">
-              Reaching out does not guarantee clinical care, VA Community Care access, documentation, partnership, sponsorship, being featured, or any VA outcome.
-            </p>
-          </div>
-        </section>
-
         {/* ================= 15. ROUTING FORM ================= */}
         <section id={FORM_ANCHOR} className="border-t border-[#3B5147]/10 bg-[#F4F1E8]">
           <div className="mx-auto max-w-4xl px-4 py-16 md:py-24">
