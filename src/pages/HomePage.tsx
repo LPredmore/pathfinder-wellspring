@@ -662,55 +662,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 11. Founder credibility (text-led — no approved photo asset) */}
-      <section className="border-b border-border/60 bg-background">
-        <div className="container-wide py-20 md:py-28">
-          <div className="grid gap-14 lg:grid-cols-12">
-            <div className="lg:col-span-4">
-              <div className="rounded-2xl border border-border bg-[hsl(var(--section-alt))] p-8">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">Founder</p>
-                <p className="mt-4 text-3xl font-bold tracking-tight text-foreground">Luke</p>
-                <p className="mt-1 text-sm text-muted-foreground">Founder, ValorWell</p>
-                <p className="text-sm text-muted-foreground">Host, Beyond The Yellow</p>
-                <div className="mt-8 border-t border-border pt-6">
-                  <p className="text-sm text-muted-foreground">
-                    Publicly building a care-first alternative to broken systems veterans and families are forced to navigate alone.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="lg:col-span-8">
-              <Eyebrow tone="red">Why ValorWell exists</Eyebrow>
-              <h2 className="mt-5 text-3xl font-bold tracking-tight text-foreground md:text-4xl lg:text-5xl">
-                We're not interested in talking around broken systems. We're building through them.
-              </h2>
-              <div className="mt-8 space-y-5 text-lg text-muted-foreground whitespace-pre-line">
-                <p>
-                  Too many people need real support. Too many systems make reaching that support harder than it should be. 
-
-
-                  We cannot fix every broken system at once. But we can pick a real problem, tell the truth about it, build a better path, and show the work while we do it. 
-
-
-                  Right now, that work starts with veterans and families. We are building the infrastructure, recruiting the people, and putting real action behind the things we say matter. 
-
-
-                  That's the standard behind ValorWell.
-                </p>
-                <p>
-                  {"\n"}
-                </p>
-                <p className="font-medium text-foreground">{"\n"}</p>
-              </div>
-              <div className="mt-10">
-                <BtnPrimary to="/about" onClick={() => trackHomeEvent("homepage_about_click", { source: "founder" })}>
-                  Read the Mission
-                </BtnPrimary>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       </div>
     </Layout>
