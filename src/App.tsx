@@ -17,6 +17,7 @@ import HomePage from "./pages/HomePage";
 import WatchPage from "./pages/WatchPage";
 import MissionPage from "./pages/MissionPage";
 import OperationClaimsSuccessPage from "./pages/OperationClaimsSuccessPage";
+import BeyondTheYellowPage from "./pages/BeyondTheYellowPage";
 
 const queryClient = new QueryClient();
 
