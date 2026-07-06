@@ -413,7 +413,7 @@ export default function HomePage() {
 
               <div className="mt-10 flex flex-wrap gap-4">
                 <BtnPrimary to="/watch" onClick={() => trackHomeEvent("homepage_bty_watch")}>
-                  Watch Beyond The Yellow
+                  Go Beyond The Yellow
                 </BtnPrimary>
               </div>
             </div>
@@ -560,7 +560,7 @@ export default function HomePage() {
               We're looking for clinicians who believe real care, ethical documentation, and better access pathways belong together—and who want to help build the systems that make that possible for veterans and families.
             </p>
             <p className="mt-4 text-lg font-medium text-foreground/80 whitespace-pre-line">
-              Your sessions matter. So does the system around them.{"\n\n\n"}If you want your clinical work to matter beyond the session, we should talk
+              Your sessions matter. So does the system around them.{"\n\n"}If you want your clinical work to matter beyond the session, we should talk
             </p>
           </div>
 
@@ -686,11 +686,14 @@ export default function HomePage() {
               </h2>
               <div className="mt-8 space-y-5 text-lg text-muted-foreground whitespace-pre-line">
                 <p>
-                  Too many people need real support. Too many systems make reaching that support harder than it should be.
+                  Too many people need real support. Too many systems make reaching that support harder than it should be. 
 
-                  We cannot fix every broken system at once. But we can pick a real problem, tell the truth about it, build a better path, and show the work while we do it.
 
-                  Right now, that work starts with veterans and families. We are building the infrastructure, recruiting the people, and putting real action behind the things we say matter.
+                  We cannot fix every broken system at once. But we can pick a real problem, tell the truth about it, build a better path, and show the work while we do it. 
+
+
+                  Right now, that work starts with veterans and families. We are building the infrastructure, recruiting the people, and putting real action behind the things we say matter. 
+
 
                   That's the standard behind ValorWell.
                 </p>
