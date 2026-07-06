@@ -541,37 +541,6 @@ export default function Clinicians() {
           </div>
         </section>
 
-        {/* YOUR ROLE IN THE BUILD */}
-        <section className="border-b border-[color:var(--cl-evergreen)]/20 bg-[color:var(--cl-evergreen)] text-[color:var(--cl-canvas)]">
-          <div className="max-w-5xl mx-auto px-6 md:px-10 py-20 md:py-28">
-            <h2 className="text-3xl md:text-5xl font-bold leading-tight max-w-4xl">
-              You are not joining ValorWell to fill slots. You are strengthening the clinical engine underneath the mission.
-            </h2>
-
-            <div className="mt-14 grid md:grid-cols-4 gap-0 border-t border-[color:var(--cl-canvas)]/25">
-              {[
-                "Clinicians join with real availability.",
-                "Capacity grows, state by state.",
-                "More veterans and families get real care.",
-                "Better care rebuilds the whole system.",
-              ].map((line, i, arr) => (
-                <div
-                  key={i}
-                  className={`p-6 md:p-8 border-b border-[color:var(--cl-canvas)]/25 ${i < arr.length - 1 ? "md:border-r" : ""}`}
-                >
-                  <div className="text-2xl md:text-3xl font-bold text-[color:var(--cl-ember)] tabular-nums">
-                    {String(i + 1).padStart(2, "0")}
-                  </div>
-                  <p className="mt-3 text-lg md:text-xl font-semibold leading-snug">{line}</p>
-                </div>
-              ))}
-            </div>
-
-            <p className="mt-14 text-xl md:text-2xl font-semibold text-[color:var(--cl-canvas)]/90 max-w-3xl">
-              The mission is bigger than your calendar. Your calendar still makes the mission possible.
-            </p>
-          </div>
-        </section>
 
         {/* PRACTICAL TERMS */}
         <section className="border-b border-[color:var(--cl-evergreen)]/20">
