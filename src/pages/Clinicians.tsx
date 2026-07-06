@@ -113,19 +113,19 @@ export default function Clinicians() {
           <div className="max-w-6xl mx-auto px-6 md:px-10 pt-16 md:pt-24 pb-16 md:pb-24">
             <Eyebrow>For Clinicians Who Still Give a Damn</Eyebrow>
             <h1 className="mt-6 text-4xl md:text-6xl lg:text-7xl leading-[1.05] font-bold text-[color:var(--cl-ink)] max-w-5xl">
-              You didn't get licensed to have someone who has never met your client dictate what care should look like.
+              You didn't lose the calling. They buried it under paperwork, quotas, and people who never met your client.
             </h1>
             <div className="mt-10 grid md:grid-cols-12 gap-8">
               <p className="md:col-span-8 text-lg md:text-xl leading-relaxed text-[color:var(--cl-ink)]/85">
-                You got into mental health to help real people. Then came the productivity pressure, cookie-cutter treatment expectations, documentation that follows you home, and decisions shaped by people who have never sat across from the person you are trying to help.
+                If you're still reading, you already know the feeling. You're not burned out on the work — you're burned out on everything wrapped around it. ValorWell is being built for the clinician version of you that still exists underneath all of that.
                 <br /><br />
-                If you still care about the work but hate what the system around the work has become, keep reading.
+                We're pulling together a founding group of clinicians who want their judgment back, their evenings back, and a mission worth attaching their license to. That group is being assembled right now.
               </p>
               <div className="md:col-span-4 flex flex-col gap-3 md:pt-2">
-                <PrimaryCTA>See If You Fit ValorWell</PrimaryCTA>
+                <PrimaryCTA>Raise Your Hand</PrimaryCTA>
                 <SecondaryCTA to="/mission">See the Mission for Veterans &amp; Families</SecondaryCTA>
-                <p className="text-xs text-[color:var(--cl-ink)]/60 mt-2">
-                  Start small if you need to. We are not asking you to blow up your life to prove you care.
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-[color:var(--cl-ember)] mt-2">
+                  Founding clinician cohort · onboarding now
                 </p>
               </div>
             </div>
@@ -135,6 +135,49 @@ export default function Clinicians() {
                 $75/session &nbsp;·&nbsp; 1099 &nbsp;·&nbsp; Paid weekly &nbsp;·&nbsp; Telehealth-first &nbsp;·&nbsp; Set your availability
               </p>
             </div>
+          </div>
+        </section>
+
+        {/* MOVEMENT / FOMO */}
+        <section className="border-b border-[color:var(--cl-evergreen)]/20 bg-[color:var(--cl-ink)] text-[color:var(--cl-canvas)]">
+          <div className="max-w-6xl mx-auto px-6 md:px-10 py-20 md:py-28">
+            <div className="text-[11px] md:text-xs font-bold tracking-[0.22em] uppercase text-[color:var(--cl-ember)]">
+              Something Is Being Built. You Can Be Early.
+            </div>
+            <h2 className="mt-6 text-3xl md:text-5xl font-bold leading-tight max-w-4xl">
+              ValorWell is building the greatest space available for clinicians to have the autonomy they've always wanted — with the administrative support they've never had.
+            </h2>
+            <p className="mt-6 text-lg md:text-xl leading-relaxed text-[color:var(--cl-canvas)]/85 max-w-3xl">
+              We're changing how mental healthcare gets delivered. Starting with the veteran community. Then everywhere else. The clinicians who show up early are the ones who get to shape what this becomes.
+            </p>
+
+            <div className="mt-14 grid md:grid-cols-3 gap-0 border border-[color:var(--cl-canvas)]/20">
+              <div className="p-8 md:p-10 border-b md:border-b-0 md:border-r border-[color:var(--cl-canvas)]/20 bg-[color:var(--cl-ember)] text-[color:var(--cl-ink)]">
+                <div className="text-xs font-bold tracking-[0.22em] uppercase">Now</div>
+                <h3 className="mt-4 text-2xl md:text-3xl font-bold leading-tight">You help shape it.</h3>
+                <p className="mt-3 text-base md:text-lg leading-relaxed">
+                  Shape the EHR. Shape the culture. Shape who gets hired next. Your voice is in the room while the room is still being built.
+                </p>
+              </div>
+              <div className="p-8 md:p-10 border-b md:border-b-0 md:border-r border-[color:var(--cl-canvas)]/20">
+                <div className="text-xs font-bold tracking-[0.22em] uppercase text-[color:var(--cl-canvas)]/70">Soon</div>
+                <h3 className="mt-4 text-2xl md:text-3xl font-bold leading-tight text-[color:var(--cl-canvas)]">You join what someone else shaped.</h3>
+                <p className="mt-3 text-base md:text-lg leading-relaxed text-[color:var(--cl-canvas)]/80">
+                  Still meaningful. Still better than what you're leaving. But the walls are already up and the rules are already written.
+                </p>
+              </div>
+              <div className="p-8 md:p-10">
+                <div className="text-xs font-bold tracking-[0.22em] uppercase text-[color:var(--cl-canvas)]/60">Later</div>
+                <h3 className="mt-4 text-2xl md:text-3xl font-bold leading-tight text-[color:var(--cl-canvas)]/85">You watch from the outside.</h3>
+                <p className="mt-3 text-base md:text-lg leading-relaxed text-[color:var(--cl-canvas)]/70">
+                  And you wonder what would've happened if you'd raised your hand back in 2026, when the door was still this wide open.
+                </p>
+              </div>
+            </div>
+
+            <p className="mt-10 text-xl md:text-2xl font-semibold text-[color:var(--cl-canvas)] max-w-3xl">
+              This is not a job listing. It's an invitation to help build the thing you keep telling your colleagues should exist.
+            </p>
           </div>
         </section>
 
