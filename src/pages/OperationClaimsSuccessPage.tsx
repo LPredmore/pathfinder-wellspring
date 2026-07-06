@@ -8,7 +8,6 @@ import {
   FileText,
   Wrench,
   Users,
-  Building2,
   Video,
   Radio,
   Check,
