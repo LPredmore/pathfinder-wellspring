@@ -223,6 +223,12 @@ const clinicianValues = [
   { title: "Veteran & Family Impact", body: "Help build a legitimate path through systems too many people are forced to figure out alone." },
 ];
 
+const supporterImages: Record<string, string> = {
+  "Veteran & Community Organizations": imgVeteranOrg,
+  "Creators & Media": imgCreators,
+  "Supporters & Connectors": imgConnectors,
+};
+
 const leveragePaths = [
   {
     lane: "veteran_org",
@@ -231,14 +237,6 @@ const leveragePaths = [
     body: "Help improve education, create legitimate connections, surface gaps, and get useful information in front of veterans and families.",
     cta: "Join the Mission",
     event: "ocs_lane_veteran_org",
-  },
-  {
-    lane: "clinician",
-    icon: Stethoscope,
-    title: "Clinical & Provider Groups",
-    body: "Help build clinician capacity, responsible documentation standards, and real access infrastructure.",
-    cta: "Join the Mission",
-    event: "ocs_lane_clinical",
   },
   {
     lane: "creator",
