@@ -782,24 +782,21 @@ export default function BeyondTheYellowPage() {
 
         {/* 11. GUEST VALUE */}
         <section className="border-b border-border bg-[hsl(var(--section-alt))] py-20 md:py-24">
-          <div className="mx-auto max-w-5xl px-4">
+          <div className="mx-auto max-w-3xl px-4">
             <Eyebrow>For guests</Eyebrow>
-            <SectionHeading>Why share your story?</SectionHeading>
-            <div className="mt-10 grid gap-4 md:grid-cols-2">
-              {[
-                { icon: Heart, title: "Tell the real story", body: "The version behind the highlight reel — why the work exists and who it's for." },
-                { icon: Megaphone, title: "Reach new people", body: "ValorWell's audience meets yours. Both go home with something worth carrying." },
-                { icon: Sparkles, title: "Promote the work", body: "Fundraiser, product, service, organization, or initiative — bring it. The action stays primary." },
-                { icon: Share2, title: "Create shareable assets", body: "Long-form, clips, and quote graphics you can keep using long after the episode." },
-              ].map((c) => (
-                <div key={c.title} className="rounded-2xl border border-border bg-card p-6">
-                  <c.icon className="h-6 w-6 text-[hsl(var(--gold-accent))]" />
-                  <h3 className="mt-3 text-lg font-bold text-foreground">{c.title}</h3>
-                  <p className="mt-2 text-muted-foreground">{c.body}</p>
-                </div>
-              ))}
+            <SectionHeading>You don't need a massive audience to deserve a spotlight.</SectionHeading>
+            <div className="mt-8 space-y-5 text-lg text-muted-foreground">
+              <p>
+                If you're out here doing the work — running the mutual aid group, building the community page, hosting the small podcast, showing up for people who need it — you already know how invisible that work can feel. A few thousand followers. A handful of regulars. No PR team. Just conviction and consistency.
+              </p>
+              <p>
+                Beyond The Yellow exists because we believe that work matters, and we believe the people doing it deserve to be seen by someone who actually gets it. This is not a marketing play. It's a chance to tell your story to people who will understand why you do what you do — and walk away carrying it forward.
+              </p>
+              <p>
+                This is not only for veteran communities. If you're moving past symbols into real action — in any neighborhood, for any cause, with any community — you belong here. We want to hear from the founders, organizers, creators, and connectors who are going Beyond The Yellow wherever they are.
+              </p>
             </div>
-            <p className="mt-6 text-sm text-muted-foreground">
+            <p className="mt-8 text-sm text-muted-foreground">
               We don't promise views, growth, funding, or sponsorship. We promise a real conversation about real work.
             </p>
           </div>
