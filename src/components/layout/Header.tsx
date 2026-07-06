@@ -49,7 +49,7 @@ export function Header() {
       <nav className="container-wide flex h-16 items-center justify-between gap-4" aria-label="Primary">
         <Link to="/" className="flex items-center gap-2 text-lg font-bold tracking-tight text-foreground" aria-label="ValorWell home">
           <img src="/brand/valorwell-logo.png" alt="ValorWell" className="h-8 w-auto" />
-          <span className="sr-only">ValorWell</span>
+          <span>VALORWELL</span>
         </Link>
 
         <div className="hidden lg:flex lg:items-center lg:gap-6">
