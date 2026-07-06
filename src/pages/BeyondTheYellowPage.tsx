@@ -7,13 +7,9 @@ import {
   X,
   Loader2,
   Play,
-  Share2,
   Users,
   Megaphone,
   Handshake,
-  UserPlus,
-  
-  
   ChevronDown,
 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
@@ -58,16 +54,9 @@ function SectionHeading({ children, className = "" }: { children: ReactNode; cla
 /* ---------- Lanes ---------- */
 
 const lanes = [
-  { value: "own-story", label: "Share my own story", tag: "own-story", event: "bty_form_submit" },
-  { value: "organization", label: "Represent an organization", tag: "organization", event: "bty_veteran_org_submit" },
-  { value: "nominate", label: "Nominate someone", tag: "nomination", event: "bty_nomination_submit" },
-  { value: "veteran-org", label: "Veteran-serving organization", tag: "veteran-org", event: "bty_veteran_org_submit" },
-  { value: "clinician", label: "Clinician", tag: "clinician", event: "bty_clinician_submit" },
-  { value: "creator", label: "Creator / media", tag: "creator", event: "bty_creator_submit" },
-  { value: "sponsor", label: "Sponsor / supporter", tag: "sponsor", event: "bty_sponsor_submit" },
-  { value: "partner", label: "Partner", tag: "partner", event: "bty_partner_submit" },
-  { value: "introduction", label: "Make an introduction", tag: "introduction", event: "bty_intro_submit" },
-  { value: "not-sure", label: "Not sure / connect", tag: "not-sure", event: "bty_form_submit" },
+  { value: "share-story", label: "Share My BTY Story", tag: "share-story", event: "bty_share_story_submit" },
+  { value: "nominate", label: "Nominate Someone Else to BTY", tag: "nomination", event: "bty_nomination_submit" },
+  { value: "promote-valorwell", label: "Promote ValorWell", tag: "promote-valorwell", event: "bty_promote_valorwell_submit" },
 ] as const;
 
 type LaneValue = (typeof lanes)[number]["value"];
@@ -184,7 +173,7 @@ function StoryForm({ initialLane }: { initialLane?: LaneValue }) {
       });
       if (error) throw error;
       track("bty_form_submit", { lane: form.lane });
-      if (laneMeta?.event && laneMeta.event !== "bty_form_submit") track(laneMeta.event);
+      if (laneMeta?.event) track(laneMeta.event);
       setStatus("success");
     } catch (err: any) {
       setErrorMsg(err?.message ?? "Something went wrong. Please try again.");
@@ -216,22 +205,30 @@ function StoryForm({ initialLane }: { initialLane?: LaneValue }) {
     );
   }
 
-  const needsContact = form.lane && form.lane !== "not-sure";
-  const isNomination = form.lane === "nominate" || form.lane === "introduction";
-  const isOrgLane =
-    form.lane === "organization" ||
-    form.lane === "veteran-org" ||
-    form.lane === "sponsor" ||
-    form.lane === "partner";
-  const isCreator = form.lane === "creator";
-  const isClinician = form.lane === "clinician";
+  const isShare = form.lane === "share-story";
+  const isNominate = form.lane === "nominate";
+  const isPromote = form.lane === "promote-valorwell";
+  const nominationType = form.responses.nomination_type ?? "";
+  const withOrg = form.responses.with_organization === "yes";
+  const showNominateIndividual = isNominate && nominationType === "individual";
+  const showNominateOrganization = isNominate && nominationType === "organization";
+  const showFields = isShare || isPromote || showNominateIndividual || showNominateOrganization;
+
+  const inputCls =
+    "mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus:border-[hsl(var(--navy))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--navy))]/30";
+
+  const canSubmit = (() => {
+    if (!form.consent || !form.lane) return false;
+    if (isNominate && !nominationType) return false;
+    return true;
+  })();
 
   return (
     <form onSubmit={submit} className="rounded-2xl border border-border bg-card p-6 shadow-sm md:p-8" noValidate>
       <fieldset>
         <legend className="text-lg font-semibold text-foreground">What brings you here?</legend>
         <p className="mt-1 text-sm text-muted-foreground">Pick the lane that fits best. Fields adjust after you choose.</p>
-        <div className="mt-4 grid gap-2 sm:grid-cols-2">
+        <div className="mt-4 grid gap-2 sm:grid-cols-3">
           {lanes.map((l) => {
             const active = form.lane === l.value;
             return (
@@ -253,185 +250,216 @@ function StoryForm({ initialLane }: { initialLane?: LaneValue }) {
         </div>
       </fieldset>
 
-      {form.lane && (
+      {isNominate && (
+        <fieldset className="mt-8">
+          <legend className="text-sm font-medium text-foreground">Are you nominating an individual or an organization?</legend>
+          <div className="mt-3 grid gap-2 sm:grid-cols-2">
+            {[
+              { value: "individual", label: "Individual" },
+              { value: "organization", label: "Organization" },
+            ].map((opt) => {
+              const active = nominationType === opt.value;
+              return (
+                <button
+                  key={opt.value}
+                  type="button"
+                  onClick={() => setResponse("nomination_type", opt.value)}
+                  aria-pressed={active}
+                  className={`rounded-lg border px-4 py-3 text-left text-sm font-medium transition-colors ${
+                    active
+                      ? "border-[hsl(var(--gold-accent))] bg-[hsl(var(--gold-accent))]/15 text-foreground"
+                      : "border-border bg-background text-foreground hover:border-[hsl(var(--navy))] hover:bg-muted"
+                  }`}
+                >
+                  {opt.label}
+                </button>
+              );
+            })}
+          </div>
+        </fieldset>
+      )}
+
+      {showFields && (
         <div className="mt-8 space-y-6">
-          {isNomination && (
-            <div>
-              <label htmlFor="subject_name" className="block text-sm font-medium text-foreground">
-                Who are you nominating / introducing?
-              </label>
-              <input
-                id="subject_name"
-                type="text"
-                required
-                value={form.subject_name}
-                onChange={(e) => update("subject_name", e.target.value)}
-                className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus:border-[hsl(var(--navy))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--navy))]/30"
-                placeholder="Person or organization name"
-              />
-            </div>
+          {/* --- SHARE MY BTY STORY --- */}
+          {isShare && (
+            <>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label htmlFor="first_name" className="block text-sm font-medium text-foreground">First name</label>
+                  <input id="first_name" type="text" required value={form.first_name} onChange={(e) => update("first_name", e.target.value)} className={inputCls} />
+                </div>
+                <div>
+                  <label htmlFor="last_name" className="block text-sm font-medium text-foreground">Last name</label>
+                  <input id="last_name" type="text" required value={form.last_name} onChange={(e) => update("last_name", e.target.value)} className={inputCls} />
+                </div>
+              </div>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-foreground">Email</label>
+                  <input id="email" type="email" required value={form.email} onChange={(e) => update("email", e.target.value)} className={inputCls} />
+                </div>
+                <div>
+                  <label htmlFor="phone" className="block text-sm font-medium text-foreground">Phone <span className="text-muted-foreground">(optional)</span></label>
+                  <input id="phone" type="tel" value={form.phone} onChange={(e) => update("phone", e.target.value)} className={inputCls} />
+                </div>
+              </div>
+              <div>
+                <label htmlFor="action" className="block text-sm font-medium text-foreground">What real action are you doing? Who is measurably better off?</label>
+                <textarea id="action" required rows={5} value={form.responses.action ?? ""} onChange={(e) => setResponse("action", e.target.value)} className={inputCls} placeholder="Be specific. What happens, who benefits, and what would break if it stopped." />
+                <p className="mt-1 text-xs text-muted-foreground">Please do not include medical records, SSNs, VA file numbers, or clinical/claim evidence.</p>
+              </div>
+              <div className="flex items-start gap-3 rounded-lg border border-border bg-muted/40 p-4">
+                <input id="with_org" type="checkbox" checked={withOrg} onChange={(e) => setResponse("with_organization", e.target.checked ? "yes" : "no")} className="mt-1 h-4 w-4 rounded border-input" />
+                <label htmlFor="with_org" className="text-sm text-foreground">I am working as part of an organization</label>
+              </div>
+              {withOrg && (
+                <div>
+                  <label htmlFor="organization" className="block text-sm font-medium text-foreground">Name of the organization you're with</label>
+                  <input id="organization" type="text" required value={form.organization} onChange={(e) => update("organization", e.target.value)} className={inputCls} />
+                </div>
+              )}
+            </>
           )}
 
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div>
-              <label htmlFor="first_name" className="block text-sm font-medium text-foreground">
-                First name
-              </label>
-              <input
-                id="first_name"
-                type="text"
-                required
-                value={form.first_name}
-                onChange={(e) => update("first_name", e.target.value)}
-                className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus:border-[hsl(var(--navy))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--navy))]/30"
-              />
-            </div>
-            <div>
-              <label htmlFor="last_name" className="block text-sm font-medium text-foreground">
-                Last name
-              </label>
-              <input
-                id="last_name"
-                type="text"
-                required
-                value={form.last_name}
-                onChange={(e) => update("last_name", e.target.value)}
-                className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus:border-[hsl(var(--navy))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--navy))]/30"
-              />
-            </div>
-          </div>
-
-          {needsContact && (
-            <div className="grid gap-4 sm:grid-cols-2">
+          {/* --- NOMINATE INDIVIDUAL --- */}
+          {showNominateIndividual && (
+            <>
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-foreground">
-                  Email
-                </label>
-                <input
-                  id="email"
-                  type="email"
-                  required
-                  value={form.email}
-                  onChange={(e) => update("email", e.target.value)}
-                  className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus:border-[hsl(var(--navy))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--navy))]/30"
-                />
+                <label htmlFor="subject_name" className="block text-sm font-medium text-foreground">Who are you nominating?</label>
+                <input id="subject_name" type="text" required value={form.subject_name} onChange={(e) => update("subject_name", e.target.value)} className={inputCls} placeholder="Their name" />
               </div>
               <div>
-                <label htmlFor="phone" className="block text-sm font-medium text-foreground">
-                  Phone <span className="text-muted-foreground">(optional)</span>
-                </label>
-                <input
-                  id="phone"
-                  type="tel"
-                  value={form.phone}
-                  onChange={(e) => update("phone", e.target.value)}
-                  className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus:border-[hsl(var(--navy))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--navy))]/30"
-                />
+                <label htmlFor="social_link" className="block text-sm font-medium text-foreground">Their best social / video link</label>
+                <input id="social_link" type="url" value={form.social_link} onChange={(e) => update("social_link", e.target.value)} placeholder="https://" className={inputCls} />
               </div>
-            </div>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label htmlFor="first_name" className="block text-sm font-medium text-foreground">Your first name</label>
+                  <input id="first_name" type="text" required value={form.first_name} onChange={(e) => update("first_name", e.target.value)} className={inputCls} />
+                </div>
+                <div>
+                  <label htmlFor="last_name" className="block text-sm font-medium text-foreground">Your last name</label>
+                  <input id="last_name" type="text" required value={form.last_name} onChange={(e) => update("last_name", e.target.value)} className={inputCls} />
+                </div>
+              </div>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-foreground">Your email</label>
+                  <input id="email" type="email" required value={form.email} onChange={(e) => update("email", e.target.value)} className={inputCls} />
+                </div>
+                <div>
+                  <label htmlFor="phone" className="block text-sm font-medium text-foreground">Your phone <span className="text-muted-foreground">(optional)</span></label>
+                  <input id="phone" type="tel" value={form.phone} onChange={(e) => update("phone", e.target.value)} className={inputCls} />
+                </div>
+              </div>
+              <div>
+                <label htmlFor="action" className="block text-sm font-medium text-foreground">What real action are they doing? Who is measurably better off?</label>
+                <textarea id="action" required rows={5} value={form.responses.action ?? ""} onChange={(e) => setResponse("action", e.target.value)} className={inputCls} placeholder="Be specific. What happens, who benefits, and what would break if it stopped." />
+                <p className="mt-1 text-xs text-muted-foreground">Please do not include medical records, SSNs, VA file numbers, or clinical/claim evidence.</p>
+              </div>
+            </>
           )}
 
-          {(isOrgLane || isCreator || isClinician) && (
-            <div className="grid gap-4 sm:grid-cols-2">
+          {/* --- NOMINATE ORGANIZATION --- */}
+          {showNominateOrganization && (
+            <>
               <div>
-                <label htmlFor="organization" className="block text-sm font-medium text-foreground">
-                  {isCreator ? "Channel / platform" : isClinician ? "Practice / employer" : "Organization"}
-                </label>
-                <input
-                  id="organization"
-                  type="text"
-                  value={form.organization}
-                  onChange={(e) => update("organization", e.target.value)}
-                  className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus:border-[hsl(var(--navy))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--navy))]/30"
-                />
+                <label htmlFor="subject_name" className="block text-sm font-medium text-foreground">Organization</label>
+                <input id="subject_name" type="text" required value={form.subject_name} onChange={(e) => update("subject_name", e.target.value)} className={inputCls} placeholder="Organization name" />
               </div>
               <div>
-                <label htmlFor="role_title" className="block text-sm font-medium text-foreground">
-                  Role / title
-                </label>
-                <input
-                  id="role_title"
-                  type="text"
-                  value={form.role_title}
-                  onChange={(e) => update("role_title", e.target.value)}
-                  className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus:border-[hsl(var(--navy))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--navy))]/30"
-                />
+                <label htmlFor="website" className="block text-sm font-medium text-foreground">Website or social media link</label>
+                <input id="website" type="url" value={form.website} onChange={(e) => update("website", e.target.value)} placeholder="https://" className={inputCls} />
               </div>
-            </div>
+              <div className="rounded-lg border border-border bg-muted/30 p-4 space-y-4">
+                <p className="text-sm font-medium text-foreground">Point of contact information</p>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div>
+                    <label htmlFor="first_name" className="block text-sm font-medium text-foreground">First name</label>
+                    <input id="first_name" type="text" required value={form.first_name} onChange={(e) => update("first_name", e.target.value)} className={inputCls} />
+                  </div>
+                  <div>
+                    <label htmlFor="last_name" className="block text-sm font-medium text-foreground">Last name</label>
+                    <input id="last_name" type="text" required value={form.last_name} onChange={(e) => update("last_name", e.target.value)} className={inputCls} />
+                  </div>
+                </div>
+                <div>
+                  <label htmlFor="role_title" className="block text-sm font-medium text-foreground">Role / title</label>
+                  <input id="role_title" type="text" value={form.role_title} onChange={(e) => update("role_title", e.target.value)} className={inputCls} />
+                </div>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-medium text-foreground">Email</label>
+                    <input id="email" type="email" required value={form.email} onChange={(e) => update("email", e.target.value)} className={inputCls} />
+                  </div>
+                  <div>
+                    <label htmlFor="phone" className="block text-sm font-medium text-foreground">Phone <span className="text-muted-foreground">(optional)</span></label>
+                    <input id="phone" type="tel" value={form.phone} onChange={(e) => update("phone", e.target.value)} className={inputCls} />
+                  </div>
+                </div>
+              </div>
+              <div>
+                <label htmlFor="action" className="block text-sm font-medium text-foreground">What real action are they doing? Who is measurably better off?</label>
+                <textarea id="action" required rows={5} value={form.responses.action ?? ""} onChange={(e) => setResponse("action", e.target.value)} className={inputCls} placeholder="Be specific. What happens, who benefits, and what would break if it stopped." />
+                <p className="mt-1 text-xs text-muted-foreground">Please do not include medical records, SSNs, VA file numbers, or clinical/claim evidence.</p>
+              </div>
+            </>
           )}
 
-          {(isOrgLane || isCreator) && (
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div>
-                <label htmlFor="website" className="block text-sm font-medium text-foreground">
-                  Website
-                </label>
-                <input
-                  id="website"
-                  type="url"
-                  value={form.website}
-                  onChange={(e) => update("website", e.target.value)}
-                  placeholder="https://"
-                  className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus:border-[hsl(var(--navy))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--navy))]/30"
-                />
+          {/* --- PROMOTE VALORWELL --- */}
+          {isPromote && (
+            <>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label htmlFor="first_name" className="block text-sm font-medium text-foreground">First name</label>
+                  <input id="first_name" type="text" required value={form.first_name} onChange={(e) => update("first_name", e.target.value)} className={inputCls} />
+                </div>
+                <div>
+                  <label htmlFor="last_name" className="block text-sm font-medium text-foreground">Last name</label>
+                  <input id="last_name" type="text" required value={form.last_name} onChange={(e) => update("last_name", e.target.value)} className={inputCls} />
+                </div>
+              </div>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-foreground">Email</label>
+                  <input id="email" type="email" required value={form.email} onChange={(e) => update("email", e.target.value)} className={inputCls} />
+                </div>
+                <div>
+                  <label htmlFor="phone" className="block text-sm font-medium text-foreground">Phone <span className="text-muted-foreground">(optional)</span></label>
+                  <input id="phone" type="tel" value={form.phone} onChange={(e) => update("phone", e.target.value)} className={inputCls} />
+                </div>
+              </div>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label htmlFor="organization" className="block text-sm font-medium text-foreground">Organization</label>
+                  <input id="organization" type="text" value={form.organization} onChange={(e) => update("organization", e.target.value)} className={inputCls} />
+                </div>
+                <div>
+                  <label htmlFor="role_title" className="block text-sm font-medium text-foreground">Role / title</label>
+                  <input id="role_title" type="text" value={form.role_title} onChange={(e) => update("role_title", e.target.value)} className={inputCls} />
+                </div>
+              </div>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label htmlFor="website" className="block text-sm font-medium text-foreground">Website</label>
+                  <input id="website" type="url" value={form.website} onChange={(e) => update("website", e.target.value)} placeholder="https://" className={inputCls} />
+                </div>
+                <div>
+                  <label htmlFor="social_link" className="block text-sm font-medium text-foreground">Best social / video link</label>
+                  <input id="social_link" type="url" value={form.social_link} onChange={(e) => update("social_link", e.target.value)} placeholder="https://" className={inputCls} />
+                </div>
               </div>
               <div>
-                <label htmlFor="social_link" className="block text-sm font-medium text-foreground">
-                  Best social / video link
-                </label>
-                <input
-                  id="social_link"
-                  type="url"
-                  value={form.social_link}
-                  onChange={(e) => update("social_link", e.target.value)}
-                  placeholder="https://"
-                  className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus:border-[hsl(var(--navy))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--navy))]/30"
-                />
+                <label htmlFor="action" className="block text-sm font-medium text-foreground">What real action are you doing? Who is measurably better off?</label>
+                <textarea id="action" required rows={5} value={form.responses.action ?? ""} onChange={(e) => setResponse("action", e.target.value)} className={inputCls} placeholder="Be specific. What happens, who benefits, and what would break if it stopped." />
+                <p className="mt-1 text-xs text-muted-foreground">Please do not include medical records, SSNs, VA file numbers, or clinical/claim evidence.</p>
               </div>
-            </div>
-          )}
-
-          <div>
-            <label htmlFor="action" className="block text-sm font-medium text-foreground">
-              {isNomination
-                ? "What real action are they doing? Who is measurably better off?"
-                : isCreator
-                ? "What are you building or amplifying, and who is it helping?"
-                : isClinician
-                ? "How are you serving veterans, families, or underserved communities?"
-                : isOrgLane
-                ? "What real action is your organization doing? Who is measurably better off?"
-                : form.lane === "not-sure"
-                ? "Tell us what you're thinking. We'll route it."
-                : "What real action are you doing? Who is measurably better off?"}
-            </label>
-            <textarea
-              id="action"
-              required
-              rows={5}
-              value={form.responses.action ?? ""}
-              onChange={(e) => setResponse("action", e.target.value)}
-              className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus:border-[hsl(var(--navy))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--navy))]/30"
-              placeholder="Be specific. What happens, who benefits, and what would break if it stopped."
-            />
-            <p className="mt-1 text-xs text-muted-foreground">
-              Please do not include medical records, SSNs, VA file numbers, or clinical/claim evidence.
-            </p>
-          </div>
-
-          {(form.lane === "sponsor" || form.lane === "partner") && (
-            <div>
-              <label htmlFor="support" className="block text-sm font-medium text-foreground">
-                How do you want to help the movement travel farther?
-              </label>
-              <textarea
-                id="support"
-                rows={3}
-                value={form.responses.support ?? ""}
-                onChange={(e) => setResponse("support", e.target.value)}
-                className="mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus:border-[hsl(var(--navy))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--navy))]/30"
-              />
-            </div>
+              <div>
+                <label htmlFor="support" className="block text-sm font-medium text-foreground">How do you want to help the movement travel farther?</label>
+                <textarea id="support" rows={3} value={form.responses.support ?? ""} onChange={(e) => setResponse("support", e.target.value)} className={inputCls} />
+              </div>
+            </>
           )}
 
           <div className="flex items-start gap-3 rounded-lg border border-border bg-muted/40 p-4">
@@ -444,8 +472,7 @@ function StoryForm({ initialLane }: { initialLane?: LaneValue }) {
               required
             />
             <label htmlFor="consent" className="text-sm text-foreground">
-              I understand submitting this form does not guarantee being featured, partnership, sponsorship, clinical care,
-              documentation, funding, endorsement, or any outcome.
+              I'm okay with ValorWell contacting me using the info I've provided. If I'm nominating someone else, I confirm that person or organization is okay with being contacted this way.
             </label>
           </div>
 
@@ -459,7 +486,7 @@ function StoryForm({ initialLane }: { initialLane?: LaneValue }) {
           <div className="flex flex-wrap items-center gap-3">
             <button
               type="submit"
-              disabled={status === "loading" || !form.consent || !form.lane}
+              disabled={status === "loading" || !canSubmit}
               className="inline-flex items-center gap-2 rounded-md bg-[hsl(var(--gold-accent))] px-6 py-3 text-sm font-semibold text-[hsl(var(--navy))] transition-opacity hover:opacity-90 disabled:opacity-50"
             >
               {status === "loading" ? (
@@ -801,10 +828,10 @@ export default function BeyondTheYellowPage() {
         {/* 12. STORY / NOMINATION FORM */}
         <section id={FORM_ANCHOR} className="border-b border-border py-20 md:py-24">
           <div className="mx-auto max-w-3xl px-4">
-            <Eyebrow tone="navy">Send it in</Eyebrow>
-            <SectionHeading>If you are doing more than talking, share the story.</SectionHeading>
+            <Eyebrow tone="navy">Keep the movement moving</Eyebrow>
+            <SectionHeading>Keep the Movement Moving</SectionHeading>
             <p className="mt-4 text-lg text-muted-foreground">
-              This is not a generic contact form. Pick the lane that fits and the fields will follow.
+              Pick the lane that fits and the fields will follow.
             </p>
             <div className="mt-8">
               <StoryForm initialLane={initialLane} />
@@ -812,60 +839,6 @@ export default function BeyondTheYellowPage() {
           </div>
         </section>
 
-
-        {/* 14. WATCH / FOLLOW / SHARE LOOP */}
-        <section className="border-b border-border py-20 md:py-24">
-          <div className="mx-auto max-w-5xl px-4">
-            <Eyebrow tone="navy">Keep the movement moving</Eyebrow>
-            <SectionHeading>Watch. Follow. Share. Nominate.</SectionHeading>
-            <div className="mt-10 grid gap-4 md:grid-cols-3">
-              <Link
-                to="/watch"
-                onClick={() => track("bty_follow_click", { location: "loop" })}
-                className="group rounded-2xl border border-border bg-card p-6"
-              >
-                <Play className="h-6 w-6 text-[hsl(var(--gold-accent))]" />
-                <h3 className="mt-3 text-lg font-bold text-foreground">Watch Beyond The Yellow</h3>
-                <p className="mt-2 text-muted-foreground">Long-form conversations and short clips as they release.</p>
-                <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-[hsl(var(--navy))] group-hover:underline">
-                  Go to the Watch hub <ArrowRight className="h-4 w-4" />
-                </span>
-              </Link>
-              <button
-                onClick={() => {
-                  track("bty_share_click", { location: "loop" });
-                  const url = typeof window !== "undefined" ? window.location.href : "";
-                  if (typeof navigator !== "undefined" && (navigator as any).share) {
-                    (navigator as any)
-                      .share({ title: "Beyond The Yellow", text: "Support is not a symbol. Support is behavior.", url })
-                      .catch(() => {});
-                  } else if (typeof navigator !== "undefined" && navigator.clipboard) {
-                    navigator.clipboard.writeText(url).catch(() => {});
-                  }
-                }}
-                className="group rounded-2xl border border-border bg-card p-6 text-left"
-              >
-                <Share2 className="h-6 w-6 text-[hsl(var(--gold-accent))]" />
-                <h3 className="mt-3 text-lg font-bold text-foreground">Share the movement</h3>
-                <p className="mt-2 text-muted-foreground">Send Beyond The Yellow to someone doing the work — or someone who should be.</p>
-                <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-[hsl(var(--navy))] group-hover:underline">
-                  Copy or share this page <ArrowRight className="h-4 w-4" />
-                </span>
-              </button>
-              <button
-                onClick={() => goToFormWithLane("nominate", "bty_final_nominate")}
-                className="group rounded-2xl border border-border bg-card p-6 text-left"
-              >
-                <UserPlus className="h-6 w-6 text-[hsl(var(--gold-accent))]" />
-                <h3 className="mt-3 text-lg font-bold text-foreground">Nominate someone</h3>
-                <p className="mt-2 text-muted-foreground">Point us at people whose work would leave a hole if it stopped.</p>
-                <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-[hsl(var(--navy))] group-hover:underline">
-                  Send a nomination <ArrowRight className="h-4 w-4" />
-                </span>
-              </button>
-            </div>
-          </div>
-        </section>
 
         {/* 15. FAQ */}
         <section className="border-b border-border bg-[hsl(var(--section-alt))] py-20 md:py-24">
