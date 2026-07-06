@@ -36,7 +36,7 @@ const initiatives = [
     href: "/beyondtheyellow",
     cta: "Join The Movement",
     image: flagBanner,
-    mobileBg: "bg-[hsl(45_90%_45%)] text-primary",
+    mobileBg: "bg-[hsl(42_71%_51%)] text-primary",
     mobileBtn: "bg-primary text-primary-foreground hover:bg-primary/90",
   },
   {
@@ -61,11 +61,11 @@ function Eyebrow({ children, tone = "navy" }: { children: React.ReactNode; tone?
     tone === "red"
       ? "text-accent"
       : tone === "yellow"
-      ? "text-[hsl(45_90%_35%)]"
+      ? "text-[hsl(42_71%_35%)]"
       : "text-primary";
   return (
     <div className={cn("flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.18em]", toneCls)}>
-      <span className={cn("h-px w-8", tone === "red" ? "bg-accent" : tone === "yellow" ? "bg-[hsl(45_90%_45%)]" : "bg-primary/60")} aria-hidden />
+      <span className={cn("h-px w-8", tone === "red" ? "bg-accent" : tone === "yellow" ? "bg-[hsl(42_71%_51%)]" : "bg-primary/60")} aria-hidden />
       {children}
     </div>
   );
@@ -131,6 +131,42 @@ export default function HomePage() {
         canonical="/"
       />
       <OrganizationSchema />
+
+      <div className="home-theme">
+      <style>{`
+        .home-theme {
+          /* Field Dispatch — same palette as /mission, scoped to Home only */
+          --background: 43 40% 93%;        /* #F4F1E8 paper */
+          --foreground: 145 9% 15%;        /* #1F2A24 ink */
+          --card: 43 40% 93%;
+          --card-foreground: 145 9% 15%;
+          --popover: 43 40% 93%;
+          --popover-foreground: 145 9% 15%;
+          --primary: 145 15% 27%;          /* #3B5147 forest */
+          --primary-foreground: 43 40% 93%;
+          --secondary: 44 33% 88%;         /* #EAE5D6 paper-2 */
+          --secondary-foreground: 145 9% 15%;
+          --muted: 44 33% 88%;
+          --muted-foreground: 145 9% 35%;
+          --accent: 9 51% 46%;             /* #B24A3A rust */
+          --accent-foreground: 43 40% 93%;
+          --border: 145 9% 80%;
+          --input: 145 9% 80%;
+          --ring: 145 15% 27%;
+          --section-alt: 44 33% 88%;
+          --hero-gradient-start: 43 40% 93%;
+          --hero-gradient-end: 44 33% 88%;
+
+          font-family: "Trebuchet MS", "Lucida Sans", "Lucida Grande", sans-serif;
+        }
+        .home-theme h1, .home-theme h2, .home-theme h3,
+        .home-theme h4, .home-theme h5, .home-theme h6 {
+          font-family: "Trebuchet MS", "Lucida Sans", "Lucida Grande", sans-serif;
+          letter-spacing: -0.02em;
+        }
+      `}</style>
+
+
 
       {/* 2. Mission-first hero */}
       <section className="relative overflow-hidden border-b border-border/60 bg-background">
@@ -352,7 +388,7 @@ export default function HomePage() {
           className="absolute inset-0 -z-10 opacity-40"
           style={{
             background:
-              "radial-gradient(ellipse at 85% 20%, hsl(45 90% 55% / 0.18), transparent 55%), radial-gradient(ellipse at 10% 90%, hsl(45 90% 55% / 0.10), transparent 50%)",
+              "radial-gradient(ellipse at 85% 20%, hsl(42 71% 51% / 0.18), transparent 55%), radial-gradient(ellipse at 10% 90%, hsl(42 71% 51% / 0.10), transparent 50%)",
           }}
           aria-hidden
         />
@@ -361,7 +397,7 @@ export default function HomePage() {
             <div className="lg:col-span-6">
               <Eyebrow tone="yellow">The Movement</Eyebrow>
               <h2 className="mt-5 text-3xl font-bold tracking-tight text-foreground md:text-4xl lg:text-5xl">
-                Support is not a symbol. <span className="text-[hsl(45_90%_40%)]">Support is behavior.</span>
+                Support is not a symbol. <span className="text-[hsl(42_71%_40%)]">Support is behavior.</span>
               </h2>
               <p className="mt-6 text-lg text-muted-foreground">
                 Beyond The Yellow is a ValorWell-powered movement spotlighting people and organizations taking real action for their communities instead of stopping at symbolic support.
@@ -369,7 +405,7 @@ export default function HomePage() {
               <p className="mt-4 text-lg text-muted-foreground">
                 The test is simple: if the support stopped tomorrow, would anyone be worse off? Would they even know?
               </p>
-              <p className="mt-8 border-l-4 border-[hsl(45_90%_45%)] pl-5 text-xl font-semibold leading-snug text-foreground md:text-2xl">
+              <p className="mt-8 border-l-4 border-[hsl(42_71%_51%)] pl-5 text-xl font-semibold leading-snug text-foreground md:text-2xl">
                 People are out there actually doing something. Are you?
               </p>
               <p className="mt-8 text-base text-muted-foreground">
@@ -395,7 +431,7 @@ export default function HomePage() {
               <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-border bg-gradient-to-br from-foreground/90 via-foreground/70 to-primary/60">
                 <div className="absolute inset-0 flex flex-col justify-between p-8 text-background">
                   <div className="flex items-center gap-2">
-                    <span className="rounded-full bg-[hsl(45_90%_55%)] px-3 py-1 text-xs font-bold uppercase tracking-wider text-foreground">
+                    <span className="rounded-full bg-[hsl(42_71%_51%)] px-3 py-1 text-xs font-bold uppercase tracking-wider text-foreground">
                       Beyond The Yellow
                     </span>
                     <span className="text-xs uppercase tracking-wider opacity-80">A ValorWell movement</span>
@@ -733,6 +769,8 @@ export default function HomePage() {
           </p>
         </div>
       </section>
+      </div>
     </Layout>
   );
 }
+

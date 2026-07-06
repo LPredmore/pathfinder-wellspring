@@ -1,48 +1,47 @@
+## Goal
+Reskin `src/pages/HomePage.tsx` to match the "Field Dispatch" palette and typography used on `/mission`. No layout or content changes.
 
-# HomePage targeted edits
+## Approach
+Wrap the HomePage's returned JSX in a `home-theme` container (same technique as `mission-theme`) and inject the same scoped `<style>` block, so we get the palette + Trebuchet MS font system without polluting the global design tokens or affecting other pages.
 
-Scope: `src/pages/HomePage.tsx` only. No other files touched. No new deps.
+Then replace the current color utility classes throughout HomePage with the Field Dispatch tokens.
 
-## 1. Hero aside → YouTube Short placeholder
+## Palette tokens (scoped to HomePage only)
+```
+--mission-ink:      145 9% 15%    /* #1F2A24 */
+--mission-paper:    43 40% 93%    /* #F4F1E8 — cream, dominant background */
+--mission-paper-2:  44 33% 88%    /* #EAE5D6 — alt section background */
+--mission-forest:   145 15% 27%   /* #3B5147 — primary dark */
+--mission-gold:     42 71% 51%    /* #D7A92E — accent */
+--mission-rust:     9 51% 46%     /* #B24A3A — one urgent moment */
+```
+Font: `"Trebuchet MS", "Lucida Sans", "Lucida Grande", sans-serif` on the wrapper + headings.
 
-Replace the "Currently Building" card (lines ~162–189) with a 9:16 vertical YouTube Short placeholder that matches the existing `ClickToLoadYouTubeShort` component pattern already in the codebase.
+## Color mapping (existing → new)
+- Section backgrounds currently on cream/white/muted → `bg-[hsl(var(--mission-paper))]`
+- Alternating section backgrounds → `bg-[hsl(var(--mission-paper-2))]`
+- Dark/full-bleed forest bands → `bg-[hsl(var(--mission-forest))]` with `text-[hsl(var(--mission-paper))]`
+- Body text → `text-[hsl(var(--mission-ink))]` (with `/80` or `/75` for secondary)
+- Eyebrows, numeric callouts, gold underlines, accent lines → `text-[hsl(var(--mission-gold))]`
+- Primary CTA (light section) → `bg-[hsl(var(--mission-forest))] text-[hsl(var(--mission-paper))]` hover → `bg-[hsl(var(--mission-ink))]`
+- Primary CTA (dark section) → `bg-[hsl(var(--mission-gold))] text-[hsl(var(--mission-ink))]` hover → `bg-[hsl(var(--mission-paper))]`
+- Secondary link → `text-[hsl(var(--mission-ink))]/70` hover → `text-[hsl(var(--mission-rust))]`
+- Card borders → `border-[hsl(var(--mission-ink))]/15`, hover → `border-[hsl(var(--mission-forest))]`
+- One "urgent" accent (e.g. the "Need care now" line, initiative eyebrows on rust like Mission) → `text-[hsl(var(--mission-rust))]`
 
-- Add a `HERO_SHORT_VIDEO_ID` constant at the top of the file (empty string for now — user drops in a YouTube video ID later).
-- Reuse `ClickToLoadYouTubeShort` from `@/components/ClickToLoadYouTubeShort` when the ID is set.
-- When the ID is empty, render a bordered 9:16 placeholder box with a Play icon and "Founder short coming soon" caption so the layout doesn't collapse.
-- Keeps the `lg:col-span-4` aside slot intact so the hero grid still balances at 8/4.
-
-## 2. Reorder Current Initiatives
-
-Reorder the `initiatives` array (lines 13–50) to: **Operation Claims Success → Beyond The Yellow → Real Medical Care**. No copy or styling changes, just array order (both desktop grid and mobile accordion pick this up automatically).
-
-## 3. Choose Your Lane → 4 paths
-
-Replace the 6-card array (lines ~506–548) with exactly the 4 lanes the user specified, in this order, keeping the existing card styling and grid:
-
-1. **I'm a Veteran or Family Member** — "Understand the care-first mission and find the right place to start." → `Explore Veteran & Family Support` → `/veterans` — event `homepage_lane_veteran_family`
-2. **I Need Mental Health Care** — "Looking for actual mental health support or a clearer care starting point?" → `Find Care` → `/get-care` — event `homepage_lane_care`
-3. **I'm a Clinician** — "Help build ethical, care-first systems—not just fill appointment slots." → `Join the Clinician Mission` → `/clinicians` — event `homepage_lane_clinician`
-4. **I Want to Join the Mission** — "Bring relationships, reach, resources, ideas, infrastructure, support, or the ability to help move the work." → `Join the Mission` → `/partner` — event `homepage_lane_join`
-
-Change the grid to `md:grid-cols-2 lg:grid-cols-4` so all four lanes sit on one row on desktop, two-up on tablet, stacked on mobile.
-
-## 4. Remove "Watch ValorWell" section entirely
-
-Delete the whole `{/* 6. Watch / content growth engine */}` `<section>` block (lines ~418–490). Removes the dark full-bleed watch band and its 4 lane cards. No references to it exist elsewhere in the file.
+## Element-by-element pass on HomePage sections
+1. **Hero** — cream bg + paper-grain, ink headline with `.gold-underline` on the key phrase, forest primary CTA, ink/70 secondary link, YouTube Short placeholder frame gets `border-[hsl(var(--mission-gold))]/70 bg-[hsl(var(--mission-forest))] text-[hsl(var(--mission-paper))]` (same as Mission).
+2. **Identity strip** — full-bleed `bg-[hsl(var(--mission-forest))]` with cream text and gold eyebrow.
+3. **Current Initiatives (OCS → BTY → Real Medical Care)** — paper background, rust eyebrows, ink headings, ink/80 body, forest "learn more" caret line.
+4. **Pillars / momentum / static build-log** — paper-2 background band, gold numerals, ink headings, ink/80 body.
+5. **Choose Your Lane (4 cards)** — paper-2 background, cards on `bg-[hsl(var(--mission-paper))]/60` with `border-[hsl(var(--mission-ink))]/15`, hover lifts to forest border + full paper bg (reuse `.lane-card` class from Mission by naming it the same in this scoped style block).
+6. **Founder POV pull-quote** — italic forest text on paper.
+7. **Closing full-bleed** — forest bg, cream text, gold CTA button with ink text.
 
 ## Technical notes
-
-- Single file edit: `src/pages/HomePage.tsx`.
-- Imports to add: `ClickToLoadYouTubeShort`. `Play` import stays (still used elsewhere in hero visuals if kept — will drop if it becomes unused after the Watch section is removed, along with any other now-unused lucide icons like `Radio`, `Wrench`, `Users`, `Hammer` if truly orphaned, to keep the file clean).
-- No route, nav, SEO, or schema changes.
-- No global CSS changes.
-- All existing `trackHomeEvent` calls in untouched sections remain as-is; only the Choose Your Lane events are renamed to the 4 new ones above.
-
-## Acceptance
-
-- Hero shows the vertical Short placeholder in the right column; "Currently building" list is gone.
-- Initiatives render as OCS → BTY → Real Medical Care on both desktop and mobile.
-- Choose Your Lane shows exactly 4 cards with the exact copy and CTAs above.
-- The dark "Watch ValorWell" section no longer appears between BTY and Choose Your Lane.
-- No TypeScript or unused-import errors.
+- Single file edit: `src/pages/HomePage.tsx`. No changes to `index.css`, `tailwind.config.ts`, or any other page — the theme stays scoped via the `.home-theme` wrapper, so the rest of the site (Header/Footer excluded from restyle) keeps its current tokens.
+- Header/Footer are rendered by the page but keep their existing global styles; we only restyle what lives inside `<main>` on HomePage.
+- Reuse the exact `<style>` block from MissionPage (renamed selector prefix to `.home-theme`) so utility classes like `.gold-underline`, `.paper-grain`, `.lane-card`, `.rise-in`, `.pillar-link` are available.
+- No content edits: every heading, paragraph, CTA label, card copy, event tracking key, route, and section order stays exactly as-is.
+- No layout edits: grid columns, spacing, section order, card counts, and component structure are untouched.
+- Verification: after the edit, view `/` at 1280 wide via Playwright and confirm cream/forest/gold palette + Trebuchet MS is applied and Mission and Home read as one brand.
