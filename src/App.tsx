@@ -28,7 +28,7 @@ const publicPages: { path: string; name: string }[] = [
   { path: "/families", name: "Families" },
   { path: "/individuals", name: "Individuals" },
   { path: "/clinicians", name: "Clinicians / Join the Mission" },
-  { path: "/beyondtheyellow", name: "Beyond The Yellow" },
+  
   
   
   { path: "/partner", name: "Partner / Support" },
