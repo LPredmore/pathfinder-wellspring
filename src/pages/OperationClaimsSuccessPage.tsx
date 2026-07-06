@@ -1235,11 +1235,6 @@ export default function OperationClaimsSuccessPage() {
               ))}
             </ol>
 
-            <div id="ethics" className="mt-10">
-              <Guardrail tone="warn">
-                ValorWell does not guarantee Nexus Letters, VA disability ratings, service connection, claim approval, VA Community Care authorization, or any VA outcome. Documentation, when available, depends on clinical appropriateness and proper care context.
-              </Guardrail>
-            </div>
           </div>
         </section>
 
