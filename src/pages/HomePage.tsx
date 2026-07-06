@@ -616,7 +616,7 @@ export default function HomePage() {
               We do not need more logos around the mission. We need more people who can move the work.
             </h2>
             <p className="mt-6 text-lg text-muted-foreground">
-              ValorWell is interested in veteran organizations, community groups, creators, media, clinicians, employers, supporters, sponsors, funders, and connectors who can help real action travel farther or help the infrastructure become stronger.
+              Maybe you don't provide clinical care. That's fine. This mission also needs reach, relationships, resources, expertise, distribution, and the right introductions.
             </p>
           </div>
 
@@ -698,14 +698,20 @@ export default function HomePage() {
               <h2 className="mt-5 text-3xl font-bold tracking-tight text-foreground md:text-4xl lg:text-5xl">
                 We're not interested in talking around broken systems. We're building through them.
               </h2>
-              <div className="mt-8 space-y-5 text-lg text-muted-foreground">
+              <div className=\"mt-8 space-y-5 text-lg text-muted-foreground whitespace-pre-line\">
                 <p>
-                  ValorWell started with a simple frustration: too many people need real support, and too many systems make reaching that support harder than it should be.
+                  Too many people need real support. Too many systems make reaching that support harder than it should be.
+
+                  We cannot fix every broken system at once. But we can pick a real problem, tell the truth about it, build a better path, and show the work while we do it.
+
+                  Right now, that work starts with veterans and families. We are building the infrastructure, recruiting the people, and putting real action behind the things we say matter.
+
+                  That's the standard behind ValorWell.
                 </p>
                 <p>
-                  We cannot fix every system overnight. We can build better pathways, recruit the right clinicians, explain what we learn, challenge predatory models, spotlight people taking real action, and put real work behind the causes we say matter.
+                  {"\n"}
                 </p>
-                <p className="font-medium text-foreground">That's the standard behind ValorWell.</p>
+                <p className=\"font-medium text-foreground\">{"\n"}</p>
               </div>
               <div className="mt-10">
                 <BtnPrimary to="/about" onClick={() => trackHomeEvent("homepage_about_click", { source: "founder" })}>
