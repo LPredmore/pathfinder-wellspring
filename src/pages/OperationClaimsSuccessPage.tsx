@@ -998,9 +998,6 @@ export default function OperationClaimsSuccessPage() {
               />
             </div>
 
-            <p className="mt-10 max-w-3xl text-lg font-semibold text-[#111814]">
-              Veterans keep paying the price for an arms race they did not create.
-            </p>
           </div>
         </section>
 
