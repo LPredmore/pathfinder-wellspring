@@ -718,14 +718,14 @@ export default function Clinicians() {
         <section>
           <div className="max-w-5xl mx-auto px-6 md:px-10 py-24 md:py-32">
             <h2 className="text-4xl md:text-6xl font-bold leading-[1.05] max-w-4xl">
-              Maybe you're not done with this work. Maybe you're done doing it their way.
+              Stop reading. Start something.
             </h2>
             <div className="mt-10 space-y-5 max-w-3xl text-lg md:text-xl leading-relaxed text-[color:var(--cl-ink)]/85">
-              <p>You do not have to open a private practice tomorrow. You do not have to promise ValorWell your whole week. You do not have to pretend burnout means you stopped caring.</p>
-              <p>Start with an honest conversation about the clinician you want to be and the mission you want your work attached to.</p>
+              <p>You don't have to open a private practice tomorrow. You don't have to promise ValorWell your whole week. You don't have to pretend burnout means you stopped caring.</p>
+              <p>You just have to raise your hand while the door is still this wide open.</p>
             </div>
             <div className="mt-10 flex flex-col sm:flex-row gap-4">
-              <PrimaryCTA>See If You Fit ValorWell</PrimaryCTA>
+              <PrimaryCTA>Raise Your Hand</PrimaryCTA>
               <SecondaryCTA to="/operation-claims-success">Explore Operation Claims Success</SecondaryCTA>
             </div>
             <p className="mt-16 text-xl md:text-2xl font-bold text-[color:var(--cl-evergreen)] max-w-3xl">
