@@ -604,10 +604,10 @@ export default function Clinicians() {
               {[
                 ["Pay per session", "$75 per completed session"],
                 ["Pay cadence", "Paid weekly"],
-                ["Classification", "1099 contractor"],
-                ["Format", "Telehealth-first"],
                 ["Schedule", "You set realistic availability"],
                 ["Caseload", "No guaranteed caseload"],
+                ["Format", "Telehealth-first"],
+                ["Classification", "1099 contractor"],
                 ["Billing", "Billing workflows handled by ValorWell"],
                 ["Scope", "Your scope and comfort matter"],
               ].map(([k, v]) => (
