@@ -1,7 +1,6 @@
 import { Layout } from "@/components/layout";
 import { SEO, BreadcrumbSchema } from "@/components/SEO";
 import { Link } from "react-router-dom";
-import { DonateButton } from "@/components/DonateButton";
 
 const Eyebrow = ({ children }: { children: React.ReactNode }) => (
   <div className="text-[11px] md:text-xs font-bold tracking-[0.22em] uppercase text-[color:var(--cl-ember)]">
