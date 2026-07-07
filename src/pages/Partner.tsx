@@ -47,31 +47,13 @@ const paths: { title: string; body: string; cta: string; to: string }[] = [
     title: "Tell a Real Action Story",
     body: "Bring the work you are already doing. If it is real, Beyond The Yellow may want to spotlight it.",
     cta: "Share Your Story",
-    to: "/contact",
-  },
-  {
-    title: "Create Content Together",
-    body: "Interviews, conversations, clips, and long-form work built around something worth saying.",
-    cta: "Start a Content Conversation",
-    to: "/contact",
-  },
-  {
-    title: "Build a Useful Pathway",
-    body: "Referral pathways, resource sharing, or care access work that actually helps someone downstream.",
-    cta: "Map a Pathway",
-    to: "/contact",
+    to: "/beyondtheyellow",
   },
   {
     title: "Support or Sponsor the Work",
     body: "Fund care, sponsor Beyond The Yellow, or back the operating engine underneath the mission.",
     cta: "Explore Support",
     to: "/beyondtheyellow",
-  },
-  {
-    title: "Make the Introduction",
-    body: "Know an organization, funder, clinician network, or leader ValorWell should be talking with?",
-    cta: "Send an Introduction",
-    to: "/contact",
   },
 ];
 
@@ -127,9 +109,8 @@ export default function Partner() {
                   Bring the work you are already doing. Let's find the overlap and build something useful enough that both organizations are stronger because it exists.
                 </p>
               </div>
-              <div className="mt-10 flex flex-wrap gap-4">
-                <PrimaryCTA to="/contact">Explore How We Could Work Together</PrimaryCTA>
-                <SecondaryCTA to="/contact">Tell Us What You're Building</SecondaryCTA>
+              <div className="mt-10">
+                <PrimaryCTA to="/beyondtheyellow">Tell Us What You're Building</PrimaryCTA>
               </div>
             </div>
           </div>
@@ -320,9 +301,8 @@ export default function Partner() {
                 <p className="font-medium">
                   Sponsorship does not buy a feature. The work has to be real.
                 </p>
-                <div className="pt-4 flex flex-wrap gap-4">
-                  <PrimaryCTA to="/contact">Share Your Beyond The Yellow Story</PrimaryCTA>
-                  <SecondaryCTA to="/beyondtheyellow">Watch Beyond The Yellow</SecondaryCTA>
+                <div className="pt-4">
+                  <PrimaryCTA to="/beyondtheyellow">Share Your Beyond The Yellow Story</PrimaryCTA>
                 </div>
               </div>
             </div>
@@ -375,16 +355,10 @@ export default function Partner() {
                 </p>
               </div>
 
-              <div className="mt-10 flex flex-wrap gap-4">
+              <div className="mt-10">
                 <Link
-                  to="/contact"
+                  to="/beyondtheyellow"
                   className="inline-flex items-center justify-center bg-[color:var(--cl-canvas)] text-[color:var(--cl-evergreen)] px-7 py-4 text-sm font-bold tracking-wide uppercase hover:bg-[color:var(--cl-ember)] hover:text-[color:var(--cl-canvas)] transition-colors"
-                >
-                  Start a Partnership Conversation
-                </Link>
-                <Link
-                  to="/contact"
-                  className="inline-flex items-center justify-center border border-[color:var(--cl-canvas)] text-[color:var(--cl-canvas)] px-7 py-4 text-sm font-bold tracking-wide uppercase hover:bg-[color:var(--cl-canvas)] hover:text-[color:var(--cl-evergreen)] transition-colors"
                 >
                   Share Your Beyond The Yellow Story
                 </Link>
