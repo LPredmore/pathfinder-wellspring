@@ -193,9 +193,6 @@ const GetCare = () => {
               ))}
             </ul>
 
-            <div className="mt-16 border-l-2 border-[color:var(--cl-ember)] pl-5 text-lg md:text-xl">
-              Have CHAMPVA? Start there. We will help make the next step clearer.
-            </div>
           </div>
         </section>
 
