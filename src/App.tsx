@@ -20,6 +20,7 @@ import BeyondTheYellowPage from "./pages/BeyondTheYellowPage";
 import Clinicians from "./pages/Clinicians";
 import GetCare from "./pages/GetCare";
 import Partner from "./pages/Partner";
+import Contact from "./pages/Contact";
 import AuthorityResources from "./pages/authority/Resources";
 import AuthorityFamilySystems from "./pages/authority/FamilySystems";
 import AuthorityMilitaryFamilyTherapy from "./pages/authority/MilitaryFamilyTherapy";
