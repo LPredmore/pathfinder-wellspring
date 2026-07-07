@@ -14,7 +14,6 @@ const PORTAL_URL = "https://clients.valorwell.org";
 const editorialLines = [
   "I have CHAMPVA. I just need to know where to start.",
   "I do not want to call ten therapists.",
-  "I need care for my child, teen, myself, or someone in my family.",
   "I want telehealth care that fits real life.",
 ];
 
@@ -138,16 +137,13 @@ const GetCare = () => {
                 CHAMPVA Mental Health Care
               </p>
               <h1 className="mt-5 text-4xl leading-[1.05] md:text-6xl">
-                Mental health care for people with CHAMPVA.
+                If you have CHAMPVA, you're in the right place.
               </h1>
               <p className="mt-8 max-w-2xl text-lg md:text-xl">
-                You spend enough time navigating systems built around the veteran you love. Getting care for yourself shouldn't become another one.
+                Telehealth mental health care built around the benefit you already have. We bill CHAMPVA directly. We verify before care begins. You do not have to explain CHAMPVA to us.
               </p>
-              <p className="mt-4 max-w-2xl text-base md:text-lg text-[color:var(--cl-ink)]/80">
-                ValorWell provides telehealth mental health care for people with CHAMPVA. We bill CHAMPVA directly, verify your information before care begins, and help you understand what to expect before your first session.
-              </p>
-              <p className="mt-6 max-w-2xl text-sm text-[color:var(--cl-ink)]/70">
-                ValorWell currently provides telehealth mental health care through the CHAMPVA pathway in states where we have licensed clinician availability.
+              <p className="mt-6 max-w-2xl text-base md:text-lg text-[color:var(--cl-ink)]/80">
+                For spouses, dependents, and family members who have spent long enough figuring things out alone.
               </p>
 
               <div className="mt-10 flex flex-wrap items-center gap-4">
@@ -197,9 +193,6 @@ const GetCare = () => {
               ))}
             </ul>
 
-            <div className="mt-16 border-l-2 border-[color:var(--cl-ember)] pl-5 text-lg md:text-xl">
-              Have CHAMPVA? Start there. We will help make the next step clearer.
-            </div>
           </div>
         </section>
 
@@ -211,14 +204,11 @@ const GetCare = () => {
                 CHAMPVA Clarity
               </p>
               <h2 className="mt-4 text-3xl leading-tight md:text-4xl">
-                No insurance-logo wall. Here is what you actually want to know.
+                What you actually want to know.
               </h2>
               <p className="mt-8 text-lg italic text-[color:var(--cl-ink)]/80">
                 Less decoding the system. More getting to the care you came for.
               </p>
-              <div className="mt-8">
-                <PrimaryCTA />
-              </div>
             </div>
             <div className="md:col-span-7">
               <dl className="divide-y divide-[color:var(--cl-ink)]/15 border-t border-b border-[color:var(--cl-ink)]/15">
@@ -231,6 +221,9 @@ const GetCare = () => {
                   </div>
                 ))}
               </dl>
+              <p className="mt-6 text-base italic text-[color:var(--cl-ink)]/75">
+                Every intake gets a real response. Not a directory. Not a dead end.
+              </p>
             </div>
           </div>
         </section>
@@ -269,7 +262,7 @@ const GetCare = () => {
               One Clear Place to Start
             </p>
             <h2 className="mt-4 max-w-4xl text-3xl leading-tight md:text-5xl">
-              Ready for care? Start in the ValorWell client portal.
+              One door. That's the whole thing.
             </h2>
             <p className="mt-6 max-w-3xl text-base md:text-lg text-[color:var(--cl-canvas)]/80">
               ValorWell does not need another marketing form between you and the actual care process.
@@ -288,9 +281,6 @@ const GetCare = () => {
               ))}
             </ol>
 
-            <div className="mt-12">
-              <PrimaryCTA />
-            </div>
           </div>
         </section>
 
@@ -298,7 +288,7 @@ const GetCare = () => {
         <section className="border-b border-[color:var(--cl-ink)]/10">
           <div className="container-wide py-20 md:py-28">
             <h2 className="max-w-4xl text-3xl leading-tight md:text-5xl">
-              CHAMPVA families are nationwide. ValorWell is building the clinician network to meet them there.
+              CHAMPVA families are everywhere. We're growing to meet them.
             </h2>
             <div className="mt-8 grid gap-10 md:grid-cols-2">
               <p className="text-lg text-[color:var(--cl-ink)]/85">
@@ -308,35 +298,9 @@ const GetCare = () => {
                 Today, care is available in states where ValorWell has licensed clinician capacity.
               </p>
             </div>
-            <div className="mt-10 inline-block border border-[color:var(--cl-ember)] px-5 py-3 text-sm font-semibold uppercase tracking-widest text-[color:var(--cl-ember)]">
-              Nationwide mission · State-by-state licensed care · Growing fast
-            </div>
           </div>
         </section>
 
-        {/* CARE FIRST */}
-        <section className="bg-[color:var(--cl-evergreen)] text-[color:var(--cl-canvas)]">
-          <div className="container-wide py-20 md:py-28">
-            <h2 className="max-w-4xl text-3xl leading-tight md:text-5xl">
-              You are a person before you are a claim, a benefit, or a piece of paperwork.
-            </h2>
-            <div className="mt-10 grid gap-8 md:grid-cols-4">
-              {[
-                "Licensed clinical care",
-                "Clinical judgment and fit",
-                "Real telehealth relationships",
-                "Documentation only when clinically appropriate",
-              ].map((v) => (
-                <div key={v} className="border-t border-[color:var(--cl-canvas)]/25 pt-4 text-lg">
-                  {v}
-                </div>
-              ))}
-            </div>
-            <p className="mt-12 text-xl md:text-2xl italic">
-              Care first. Not paperwork first. Not throughput first.
-            </p>
-          </div>
-        </section>
 
         {/* COMING SOON */}
         <section className="border-b border-[color:var(--cl-ink)]/10">
@@ -415,21 +379,18 @@ const GetCare = () => {
 
         {/* FINAL CTA */}
         <section className="bg-[color:var(--cl-ink)] text-[color:var(--cl-canvas)]">
-          <div className="container-wide py-20 md:py-28">
-            <h2 className="max-w-4xl text-3xl leading-tight md:text-5xl">
-              Have CHAMPVA? You already know enough to take the first step.
+          <div className="container-wide py-24 md:py-36">
+            <p className="text-lg md:text-xl text-[color:var(--cl-canvas)]/70">
+              Have CHAMPVA?
+            </p>
+            <h2 className="mt-4 text-4xl leading-[1.05] md:text-6xl">
+              You're already in.
             </h2>
-            <p className="mt-6 max-w-2xl text-lg text-[color:var(--cl-canvas)]/85">
-              You do not need another therapist directory or ten phone calls.
-            </p>
-            <p className="mt-4 max-w-2xl text-lg text-[color:var(--cl-canvas)]/85">
-              Start your ValorWell intake. We bill CHAMPVA directly, verify your information before care begins, and help make the next step clearer.
-            </p>
             <div className="mt-10">
               <PrimaryCTA />
             </div>
-            <p className="mt-10 max-w-2xl text-base italic text-[color:var(--cl-canvas)]/70">
-              Your mental health care should not become another system you have to navigate alone.
+            <p className="mt-8 text-base text-[color:var(--cl-canvas)]/70">
+              We'll take it from here.
             </p>
           </div>
         </section>
