@@ -19,6 +19,7 @@ import OperationClaimsSuccessPage from "./pages/OperationClaimsSuccessPage";
 import BeyondTheYellowPage from "./pages/BeyondTheYellowPage";
 import Clinicians from "./pages/Clinicians";
 import GetCare from "./pages/GetCare";
+import Partner from "./pages/Partner";
 
 const queryClient = new QueryClient();
 
@@ -27,7 +28,7 @@ const publicPages: { path: string; name: string }[] = [
   { path: "/veterans", name: "Veterans" },
   { path: "/families", name: "Families" },
   { path: "/individuals", name: "Individuals" },
-  { path: "/partner", name: "Partner / Support" },
+  
   { path: "/contact", name: "Contact" },
   { path: "/privacy", name: "Privacy Policy" },
   { path: "/terms", name: "Terms of Service" },
@@ -78,6 +79,9 @@ const App = () => (
               <Route path="/clinicians" element={<Clinicians />} />
               <Route path="/therapists" element={<Navigate to="/clinicians" replace />} />
               <Route path="/get-care" element={<GetCare />} />
+              <Route path="/partner" element={<Partner />} />
+
+
 
               {publicPages.map((p) => (
                 <Route key={p.path} path={p.path} element={<PageShell name={p.name} path={p.path} />} />
