@@ -19,19 +19,15 @@ import MissionPage from "./pages/MissionPage";
 import OperationClaimsSuccessPage from "./pages/OperationClaimsSuccessPage";
 import BeyondTheYellowPage from "./pages/BeyondTheYellowPage";
 import Clinicians from "./pages/Clinicians";
+import GetCare from "./pages/GetCare";
 
 const queryClient = new QueryClient();
 
 // Approved sitemap — every public page is a labeled shell.
 const publicPages: { path: string; name: string }[] = [
-  { path: "/get-care", name: "Find Care" },
   { path: "/veterans", name: "Veterans" },
   { path: "/families", name: "Families" },
   { path: "/individuals", name: "Individuals" },
-  
-  
-  
-  
   { path: "/partner", name: "Partner / Support" },
   { path: "/about", name: "About ValorWell" },
   { path: "/contact", name: "Contact" },
@@ -98,7 +94,7 @@ const App = () => (
               <Route path="/beyondtheyellow" element={<BeyondTheYellowPage />} />
               <Route path="/clinicians" element={<Clinicians />} />
               <Route path="/therapists" element={<Navigate to="/clinicians" replace />} />
-
+              <Route path="/get-care" element={<GetCare />} />
 
               {publicPages.map((p) => (
                 <Route key={p.path} path={p.path} element={<PageShell name={p.name} path={p.path} />} />
