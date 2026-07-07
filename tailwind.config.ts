@@ -14,9 +14,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["Arial", "Helvetica", "sans-serif"],
-        heading: ["Arial", "Helvetica", "sans-serif"],
-        display: ["Arial", "Helvetica", "sans-serif"],
+        sans: ["Trebuchet MS", "Arial", "Helvetica", "sans-serif"],
+        heading: ["Trebuchet MS", "Arial", "Helvetica", "sans-serif"],
+        display: ["Trebuchet MS", "Arial", "Helvetica", "sans-serif"],
       },
       colors: {
         navy: "hsl(var(--navy))",
