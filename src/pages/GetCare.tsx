@@ -20,7 +20,7 @@ const editorialLines = [
 const ledger = [
   "We bill CHAMPVA directly.",
   "No upfront private-pay therapy bill.",
-  "\n",
+  "Your VA Cost-Share may apply.",
   "We verify your information before care begins.",
   "We help you understand what to expect.",
 ];
