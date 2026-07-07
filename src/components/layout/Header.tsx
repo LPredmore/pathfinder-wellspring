@@ -196,6 +196,27 @@ export function Header() {
             >
               Find Care
             </Link>
+            <button
+              type="button"
+              onClick={() => setMobileLogin((v) => !v)}
+              aria-expanded={mobileLogin}
+              className="mt-1 flex w-full items-center justify-between rounded-md border border-primary/30 px-3 py-3 text-base font-semibold text-primary hover:bg-primary hover:text-primary-foreground"
+            >
+              Login <ChevronDown className={cn("h-4 w-4 transition-transform", mobileLogin && "rotate-180")} aria-hidden />
+            </button>
+            {mobileLogin && (
+              <div className="pl-3">
+                {loginLinks.map((i) => (
+                  <a
+                    key={i.name}
+                    href={i.href}
+                    className="block rounded-md px-3 py-2.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
+                  >
+                    {i.name}
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       )}
