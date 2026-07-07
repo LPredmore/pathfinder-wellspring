@@ -288,7 +288,7 @@ const GetCare = () => {
         <section className="border-b border-[color:var(--cl-ink)]/10">
           <div className="container-wide py-20 md:py-28">
             <h2 className="max-w-4xl text-3xl leading-tight md:text-5xl">
-              CHAMPVA families are nationwide. ValorWell is building the clinician network to meet them there.
+              CHAMPVA families are everywhere. We're growing to meet them.
             </h2>
             <div className="mt-8 grid gap-10 md:grid-cols-2">
               <p className="text-lg text-[color:var(--cl-ink)]/85">
@@ -298,35 +298,9 @@ const GetCare = () => {
                 Today, care is available in states where ValorWell has licensed clinician capacity.
               </p>
             </div>
-            <div className="mt-10 inline-block border border-[color:var(--cl-ember)] px-5 py-3 text-sm font-semibold uppercase tracking-widest text-[color:var(--cl-ember)]">
-              Nationwide mission · State-by-state licensed care · Growing fast
-            </div>
           </div>
         </section>
 
-        {/* CARE FIRST */}
-        <section className="bg-[color:var(--cl-evergreen)] text-[color:var(--cl-canvas)]">
-          <div className="container-wide py-20 md:py-28">
-            <h2 className="max-w-4xl text-3xl leading-tight md:text-5xl">
-              You are a person before you are a claim, a benefit, or a piece of paperwork.
-            </h2>
-            <div className="mt-10 grid gap-8 md:grid-cols-4">
-              {[
-                "Licensed clinical care",
-                "Clinical judgment and fit",
-                "Real telehealth relationships",
-                "Documentation only when clinically appropriate",
-              ].map((v) => (
-                <div key={v} className="border-t border-[color:var(--cl-canvas)]/25 pt-4 text-lg">
-                  {v}
-                </div>
-              ))}
-            </div>
-            <p className="mt-12 text-xl md:text-2xl italic">
-              Care first. Not paperwork first. Not throughput first.
-            </p>
-          </div>
-        </section>
 
         {/* COMING SOON */}
         <section className="border-b border-[color:var(--cl-ink)]/10">
