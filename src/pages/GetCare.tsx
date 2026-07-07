@@ -262,7 +262,7 @@ const GetCare = () => {
               One Clear Place to Start
             </p>
             <h2 className="mt-4 max-w-4xl text-3xl leading-tight md:text-5xl">
-              Ready for care? Start in the ValorWell client portal.
+              One door. That's the whole thing.
             </h2>
             <p className="mt-6 max-w-3xl text-base md:text-lg text-[color:var(--cl-canvas)]/80">
               ValorWell does not need another marketing form between you and the actual care process.
