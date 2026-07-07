@@ -20,6 +20,16 @@ import BeyondTheYellowPage from "./pages/BeyondTheYellowPage";
 import Clinicians from "./pages/Clinicians";
 import GetCare from "./pages/GetCare";
 import Partner from "./pages/Partner";
+import AuthorityResources from "./pages/authority/Resources";
+import AuthorityFamilySystems from "./pages/authority/FamilySystems";
+import AuthorityMilitaryFamilyTherapy from "./pages/authority/MilitaryFamilyTherapy";
+import AuthorityVeteranMentalHealthCare from "./pages/authority/VeteranMentalHealthCare";
+import AuthorityVACommunityCareMentalHealth from "./pages/authority/VACommunityCareMentalHealth";
+import AuthorityResourcesChampva from "./pages/authority/ResourcesChampva";
+import AuthorityResourcesDocumentation from "./pages/authority/ResourcesDocumentation";
+import AuthorityResourcesFamilySystems from "./pages/authority/ResourcesFamilySystems";
+import AuthorityResourcesVACommunityCare from "./pages/authority/ResourcesVACommunityCare";
+import AuthorityResourcesVeteranMentalHealth from "./pages/authority/ResourcesVeteranMentalHealth";
 
 const queryClient = new QueryClient();
 
