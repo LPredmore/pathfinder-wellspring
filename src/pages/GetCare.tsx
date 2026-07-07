@@ -204,14 +204,11 @@ const GetCare = () => {
                 CHAMPVA Clarity
               </p>
               <h2 className="mt-4 text-3xl leading-tight md:text-4xl">
-                No insurance-logo wall. Here is what you actually want to know.
+                What you actually want to know.
               </h2>
               <p className="mt-8 text-lg italic text-[color:var(--cl-ink)]/80">
                 Less decoding the system. More getting to the care you came for.
               </p>
-              <div className="mt-8">
-                <PrimaryCTA />
-              </div>
             </div>
             <div className="md:col-span-7">
               <dl className="divide-y divide-[color:var(--cl-ink)]/15 border-t border-b border-[color:var(--cl-ink)]/15">
