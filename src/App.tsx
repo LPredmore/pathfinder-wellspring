@@ -65,11 +65,11 @@ const legacyRedirects: { from: string; to: string }[] = [
   { from: "/faq", to: "/contact" },
   { from: "/urgent-help", to: "/get-care" },
   // Media / authority / product routes that will be rebuilt intentionally later
-  { from: "/resources", to: "/" },
-  { from: "/veteran-mental-health-care", to: "/veterans" },
-  { from: "/va-community-care-mental-health", to: "/veterans" },
-  { from: "/military-family-therapy", to: "/families" },
-  { from: "/family-systems", to: "/families" },
+  { from: "/resources", to: "/authority/resources" },
+  { from: "/veteran-mental-health-care", to: "/authority/veteran-mental-health-care" },
+  { from: "/va-community-care-mental-health", to: "/authority/va-community-care-mental-health" },
+  { from: "/military-family-therapy", to: "/authority/military-family-therapy" },
+  { from: "/family-systems", to: "/authority/family-systems" },
 ];
 
 const App = () => (
