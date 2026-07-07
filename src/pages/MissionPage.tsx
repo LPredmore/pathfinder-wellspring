@@ -144,10 +144,10 @@ export default function MissionPage() {
 
           background-color: hsl(var(--mission-paper));
           color: hsl(var(--mission-ink));
-          font-family: "Trebuchet MS", "Lucida Sans", "Lucida Grande", sans-serif;
+          font-family: Arial, Helvetica, sans-serif;
         }
         .mission-theme h1, .mission-theme h2, .mission-theme h3 {
-          font-family: "Trebuchet MS", "Lucida Sans", "Lucida Grande", sans-serif;
+          font-family: Arial, Helvetica, sans-serif;
           letter-spacing: -0.02em;
         }
         .mission-theme .display {

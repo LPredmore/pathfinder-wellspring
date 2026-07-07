@@ -162,11 +162,11 @@ export default function HomePage() {
           --hero-gradient-start: 43 40% 93%;
           --hero-gradient-end: 44 33% 88%;
 
-          font-family: "Trebuchet MS", "Lucida Sans", "Lucida Grande", sans-serif;
+          font-family: Arial, Helvetica, sans-serif;
         }
         .home-theme h1, .home-theme h2, .home-theme h3,
         .home-theme h4, .home-theme h5, .home-theme h6 {
-          font-family: "Trebuchet MS", "Lucida Sans", "Lucida Grande", sans-serif;
+          font-family: Arial, Helvetica, sans-serif;
           letter-spacing: -0.02em;
         }
       `}</style>
