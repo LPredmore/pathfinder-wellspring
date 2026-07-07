@@ -137,16 +137,13 @@ const GetCare = () => {
                 CHAMPVA Mental Health Care
               </p>
               <h1 className="mt-5 text-4xl leading-[1.05] md:text-6xl">
-                Mental health care for people with CHAMPVA.
+                If you have CHAMPVA, you're in the right place.
               </h1>
               <p className="mt-8 max-w-2xl text-lg md:text-xl">
-                You spend enough time navigating systems built around the veteran you love. Getting care for yourself shouldn't become another one.
+                Telehealth mental health care built around the benefit you already have. We bill CHAMPVA directly. We verify before care begins. You do not have to explain CHAMPVA to us.
               </p>
-              <p className="mt-4 max-w-2xl text-base md:text-lg text-[color:var(--cl-ink)]/80">
-                ValorWell provides telehealth mental health care for people with CHAMPVA. We bill CHAMPVA directly, verify your information before care begins, and help you understand what to expect before your first session.
-              </p>
-              <p className="mt-6 max-w-2xl text-sm text-[color:var(--cl-ink)]/70">
-                ValorWell currently provides telehealth mental health care through the CHAMPVA pathway in states where we have licensed clinician availability.
+              <p className="mt-6 max-w-2xl text-base md:text-lg text-[color:var(--cl-ink)]/80">
+                For spouses, dependents, and family members who have spent long enough figuring things out alone.
               </p>
 
               <div className="mt-10 flex flex-wrap items-center gap-4">
