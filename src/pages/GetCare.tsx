@@ -221,6 +221,9 @@ const GetCare = () => {
                   </div>
                 ))}
               </dl>
+              <p className="mt-6 text-base italic text-[color:var(--cl-ink)]/75">
+                Every intake gets a real response. Not a directory. Not a dead end.
+              </p>
             </div>
           </div>
         </section>
