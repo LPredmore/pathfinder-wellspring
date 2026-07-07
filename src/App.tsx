@@ -21,6 +21,7 @@ import Clinicians from "./pages/Clinicians";
 import GetCare from "./pages/GetCare";
 import Partner from "./pages/Partner";
 import Contact from "./pages/Contact";
+import Privacy from "./pages/Privacy";
 import AuthorityResources from "./pages/authority/Resources";
 import AuthorityFamilySystems from "./pages/authority/FamilySystems";
 import AuthorityMilitaryFamilyTherapy from "./pages/authority/MilitaryFamilyTherapy";
@@ -39,10 +40,6 @@ const publicPages: { path: string; name: string }[] = [
   { path: "/veterans", name: "Veterans" },
   { path: "/families", name: "Families" },
   { path: "/individuals", name: "Individuals" },
-  
-  
-  { path: "/privacy", name: "Privacy Policy" },
-  { path: "/terms", name: "Terms of Service" },
 ];
 
 // Legacy path aliases → new approved paths.
