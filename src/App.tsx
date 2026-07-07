@@ -20,6 +20,16 @@ import BeyondTheYellowPage from "./pages/BeyondTheYellowPage";
 import Clinicians from "./pages/Clinicians";
 import GetCare from "./pages/GetCare";
 import Partner from "./pages/Partner";
+import AuthorityResources from "./pages/authority/Resources";
+import AuthorityFamilySystems from "./pages/authority/FamilySystems";
+import AuthorityMilitaryFamilyTherapy from "./pages/authority/MilitaryFamilyTherapy";
+import AuthorityVeteranMentalHealthCare from "./pages/authority/VeteranMentalHealthCare";
+import AuthorityVACommunityCareMentalHealth from "./pages/authority/VACommunityCareMentalHealth";
+import AuthorityResourcesChampva from "./pages/authority/ResourcesChampva";
+import AuthorityResourcesDocumentation from "./pages/authority/ResourcesDocumentation";
+import AuthorityResourcesFamilySystems from "./pages/authority/ResourcesFamilySystems";
+import AuthorityResourcesVACommunityCare from "./pages/authority/ResourcesVACommunityCare";
+import AuthorityResourcesVeteranMentalHealth from "./pages/authority/ResourcesVeteranMentalHealth";
 
 const queryClient = new QueryClient();
 
@@ -55,11 +65,11 @@ const legacyRedirects: { from: string; to: string }[] = [
   { from: "/faq", to: "/contact" },
   { from: "/urgent-help", to: "/get-care" },
   // Media / authority / product routes that will be rebuilt intentionally later
-  { from: "/resources", to: "/" },
-  { from: "/veteran-mental-health-care", to: "/veterans" },
-  { from: "/va-community-care-mental-health", to: "/veterans" },
-  { from: "/military-family-therapy", to: "/families" },
-  { from: "/family-systems", to: "/families" },
+  { from: "/resources", to: "/authority/resources" },
+  { from: "/veteran-mental-health-care", to: "/authority/veteran-mental-health-care" },
+  { from: "/va-community-care-mental-health", to: "/authority/va-community-care-mental-health" },
+  { from: "/military-family-therapy", to: "/authority/military-family-therapy" },
+  { from: "/family-systems", to: "/authority/family-systems" },
 ];
 
 const App = () => (
@@ -80,6 +90,17 @@ const App = () => (
               <Route path="/therapists" element={<Navigate to="/clinicians" replace />} />
               <Route path="/get-care" element={<GetCare />} />
               <Route path="/partner" element={<Partner />} />
+
+              <Route path="/authority/resources" element={<AuthorityResources />} />
+              <Route path="/authority/family-systems" element={<AuthorityFamilySystems />} />
+              <Route path="/authority/military-family-therapy" element={<AuthorityMilitaryFamilyTherapy />} />
+              <Route path="/authority/veteran-mental-health-care" element={<AuthorityVeteranMentalHealthCare />} />
+              <Route path="/authority/va-community-care-mental-health" element={<AuthorityVACommunityCareMentalHealth />} />
+              <Route path="/authority/resources/champva" element={<AuthorityResourcesChampva />} />
+              <Route path="/authority/resources/documentation" element={<AuthorityResourcesDocumentation />} />
+              <Route path="/authority/resources/family-systems" element={<AuthorityResourcesFamilySystems />} />
+              <Route path="/authority/resources/va-community-care" element={<AuthorityResourcesVACommunityCare />} />
+              <Route path="/authority/resources/veteran-mental-health" element={<AuthorityResourcesVeteranMentalHealth />} />
 
 
 
