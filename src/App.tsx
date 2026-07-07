@@ -91,6 +91,17 @@ const App = () => (
               <Route path="/get-care" element={<GetCare />} />
               <Route path="/partner" element={<Partner />} />
 
+              <Route path="/authority/resources" element={<AuthorityResources />} />
+              <Route path="/authority/family-systems" element={<AuthorityFamilySystems />} />
+              <Route path="/authority/military-family-therapy" element={<AuthorityMilitaryFamilyTherapy />} />
+              <Route path="/authority/veteran-mental-health-care" element={<AuthorityVeteranMentalHealthCare />} />
+              <Route path="/authority/va-community-care-mental-health" element={<AuthorityVACommunityCareMentalHealth />} />
+              <Route path="/authority/resources/champva" element={<AuthorityResourcesChampva />} />
+              <Route path="/authority/resources/documentation" element={<AuthorityResourcesDocumentation />} />
+              <Route path="/authority/resources/family-systems" element={<AuthorityResourcesFamilySystems />} />
+              <Route path="/authority/resources/va-community-care" element={<AuthorityResourcesVACommunityCare />} />
+              <Route path="/authority/resources/veteran-mental-health" element={<AuthorityResourcesVeteranMentalHealth />} />
+
 
 
               {publicPages.map((p) => (
