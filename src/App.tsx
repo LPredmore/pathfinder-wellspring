@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { AuthProvider } from "@/contexts/AuthContext";
-import { PageShell } from "@/components/layout";
+
 
 // Preserved functional (non-shell) routes
 import Donate from "./pages/Donate";
@@ -35,13 +35,6 @@ import AuthorityResourcesVeteranMentalHealth from "./pages/authority/ResourcesVe
 
 const queryClient = new QueryClient();
 
-// Approved sitemap — every public page is a labeled shell.
-const publicPages: { path: string; name: string }[] = [
-  { path: "/veterans", name: "Veterans" },
-  { path: "/families", name: "Families" },
-  { path: "/individuals", name: "Individuals" },
-];
-
 // Legacy path aliases → new approved paths.
 const legacyRedirects: { from: string; to: string }[] = [
   { from: "/therapy", to: "/get-care" },
@@ -64,11 +57,14 @@ const legacyRedirects: { from: string; to: string }[] = [
   { from: "/urgent-help", to: "/get-care" },
   // Media / authority / product routes that will be rebuilt intentionally later
   { from: "/resources", to: "/authority/resources" },
-  { from: "/veteran-mental-health-care", to: "/authority/veteran-mental-health-care" },
-  { from: "/va-community-care-mental-health", to: "/authority/va-community-care-mental-health" },
-  { from: "/military-family-therapy", to: "/authority/military-family-therapy" },
-  { from: "/family-systems", to: "/authority/family-systems" },
-];
+              { from: "/veteran-mental-health-care", to: "/authority/veteran-mental-health-care" },
+              { from: "/va-community-care-mental-health", to: "/authority/va-community-care-mental-health" },
+              { from: "/military-family-therapy", to: "/authority/military-family-therapy" },
+              { from: "/family-systems", to: "/authority/family-systems" },
+              { from: "/veterans", to: "/get-care" },
+              { from: "/families", to: "/get-care" },
+              { from: "/individuals", to: "/get-care" },
+            ];
 
 const App = () => (
   <HelmetProvider>
