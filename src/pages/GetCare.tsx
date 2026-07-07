@@ -281,9 +281,6 @@ const GetCare = () => {
               ))}
             </ol>
 
-            <div className="mt-12">
-              <PrimaryCTA />
-            </div>
           </div>
         </section>
 
