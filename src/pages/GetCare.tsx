@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/accordion";
 import { ArrowRight, Phone } from "lucide-react";
 
-const PORTAL_URL = "https://clients.valorwell.org";
+const PORTAL_URL = "https://client.valorwell.org";
 
 const editorialLines = [
   "I have CHAMPVA. I just need to know where to start.",
