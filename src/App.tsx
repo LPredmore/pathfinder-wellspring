@@ -61,9 +61,8 @@ const legacyRedirects: { from: string; to: string }[] = [
               { from: "/va-community-care-mental-health", to: "/authority/va-community-care-mental-health" },
               { from: "/military-family-therapy", to: "/authority/military-family-therapy" },
               { from: "/family-systems", to: "/authority/family-systems" },
-              { from: "/veterans", to: "/get-care" },
-              { from: "/families", to: "/get-care" },
-              { from: "/individuals", to: "/get-care" },
+              { from: "/veteran-mental-health-care", to: "/authority/veteran-mental-health-care" },
+              { from: "/va-community-care-mental-health", to: "/authority/va-community-care-mental-health" },
             ];
 
 const App = () => (
