@@ -20,6 +20,7 @@ import BeyondTheYellowPage from "./pages/BeyondTheYellowPage";
 import Clinicians from "./pages/Clinicians";
 import GetCare from "./pages/GetCare";
 import Partner from "./pages/Partner";
+import Contact from "./pages/Contact";
 import AuthorityResources from "./pages/authority/Resources";
 import AuthorityFamilySystems from "./pages/authority/FamilySystems";
 import AuthorityMilitaryFamilyTherapy from "./pages/authority/MilitaryFamilyTherapy";
@@ -39,7 +40,7 @@ const publicPages: { path: string; name: string }[] = [
   { path: "/families", name: "Families" },
   { path: "/individuals", name: "Individuals" },
   
-  { path: "/contact", name: "Contact" },
+  
   { path: "/privacy", name: "Privacy Policy" },
   { path: "/terms", name: "Terms of Service" },
 ];
@@ -90,6 +91,7 @@ const App = () => (
               <Route path="/therapists" element={<Navigate to="/clinicians" replace />} />
               <Route path="/get-care" element={<GetCare />} />
               <Route path="/partner" element={<Partner />} />
+              <Route path="/contact" element={<Contact />} />
 
               <Route path="/authority/resources" element={<AuthorityResources />} />
               <Route path="/authority/family-systems" element={<AuthorityFamilySystems />} />
