@@ -379,21 +379,18 @@ const GetCare = () => {
 
         {/* FINAL CTA */}
         <section className="bg-[color:var(--cl-ink)] text-[color:var(--cl-canvas)]">
-          <div className="container-wide py-20 md:py-28">
-            <h2 className="max-w-4xl text-3xl leading-tight md:text-5xl">
-              Have CHAMPVA? You already know enough to take the first step.
+          <div className="container-wide py-24 md:py-36">
+            <p className="text-lg md:text-xl text-[color:var(--cl-canvas)]/70">
+              Have CHAMPVA?
+            </p>
+            <h2 className="mt-4 text-4xl leading-[1.05] md:text-6xl">
+              You're already in.
             </h2>
-            <p className="mt-6 max-w-2xl text-lg text-[color:var(--cl-canvas)]/85">
-              You do not need another therapist directory or ten phone calls.
-            </p>
-            <p className="mt-4 max-w-2xl text-lg text-[color:var(--cl-canvas)]/85">
-              Start your ValorWell intake. We bill CHAMPVA directly, verify your information before care begins, and help make the next step clearer.
-            </p>
             <div className="mt-10">
               <PrimaryCTA />
             </div>
-            <p className="mt-10 max-w-2xl text-base italic text-[color:var(--cl-canvas)]/70">
-              Your mental health care should not become another system you have to navigate alone.
+            <p className="mt-8 text-base text-[color:var(--cl-canvas)]/70">
+              We'll take it from here.
             </p>
           </div>
         </section>
