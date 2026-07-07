@@ -1,26 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://www.valorwell.org/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://www.valorwell.org/get-care</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://www.valorwell.org/beyondtheyellow</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://www.valorwell.org/media</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.valorwell.org/media/youtube-podcast</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.valorwell.org/videos</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.valorwell.org/contact</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.valorwell.org/partners</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.valorwell.org/veteran-mental-health-care</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.valorwell.org/va-community-care-mental-health</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.valorwell.org/military-family-therapy</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.valorwell.org/family-systems</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.valorwell.org/resources/champva</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.valorwell.org/resources/va-community-care</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.valorwell.org/resources/documentation</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.valorwell.org/resources/veteran-mental-health</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.valorwell.org/resources/family-systems</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.valorwell.org/mission-one-pager</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.valorwell.org/get-started</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.valorwell.org/faq</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://www.valorwell.org/urgent-help</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.valorwell.org/privacy</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
-  <url><loc>https://www.valorwell.org/terms</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://www.valorwell.org/</loc></url>
+  <url><loc>https://www.valorwell.org/mission</loc></url>
+  <url><loc>https://www.valorwell.org/operation-claims-success</loc></url>
+  <url><loc>https://www.valorwell.org/beyondtheyellow</loc></url>
+  <url><loc>https://www.valorwell.org/watch</loc></url>
+  <url><loc>https://www.valorwell.org/get-care</loc></url>
+  <url><loc>https://www.valorwell.org/clinicians</loc></url>
+  <url><loc>https://www.valorwell.org/contact</loc></url>
+  <url><loc>https://www.valorwell.org/privacy</loc></url>
 </urlset>
