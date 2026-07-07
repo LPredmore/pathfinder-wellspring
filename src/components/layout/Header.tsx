@@ -17,24 +17,37 @@ const getInvolved = [
   { name: "Contact", href: "/contact" },
 ];
 
+const loginLinks = [
+  { name: "Client", href: "https://client.valorwell.org" },
+  { name: "Clinician", href: "https://emr.valorwell.org" },
+];
+
 export function Header() {
   const [open, setOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [mobileGI, setMobileGI] = useState(false);
+  const [loginOpen, setLoginOpen] = useState(false);
+  const [mobileLogin, setMobileLogin] = useState(false);
   const location = useLocation();
   const menuRef = useRef<HTMLDivElement>(null);
+  const loginRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setOpen(false);
     setMenuOpen(false);
+    setLoginOpen(false);
   }, [location.pathname]);
 
   useEffect(() => {
     function onDown(e: MouseEvent) {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) setMenuOpen(false);
+      if (loginRef.current && !loginRef.current.contains(e.target as Node)) setLoginOpen(false);
     }
     function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") setMenuOpen(false);
+      if (e.key === "Escape") {
+        setMenuOpen(false);
+        setLoginOpen(false);
+      }
     }
     document.addEventListener("mousedown", onDown);
     document.addEventListener("keydown", onKey);
