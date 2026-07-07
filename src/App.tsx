@@ -19,6 +19,7 @@ import MissionPage from "./pages/MissionPage";
 import OperationClaimsSuccessPage from "./pages/OperationClaimsSuccessPage";
 import BeyondTheYellowPage from "./pages/BeyondTheYellowPage";
 import Clinicians from "./pages/Clinicians";
+import GetCare from "./pages/GetCare";
 
 const queryClient = new QueryClient();
 
