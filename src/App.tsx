@@ -9,7 +9,6 @@ import { PageShell } from "@/components/layout";
 
 // Preserved functional (non-shell) routes
 import Donate from "./pages/Donate";
-import CreatorApply from "./pages/CreatorApply";
 import InfluencerPortal from "./pages/InfluencerPortal";
 import AdminDashboard from "./pages/AdminDashboard";
 import NotFound from "./pages/NotFound";
@@ -29,7 +28,6 @@ const publicPages: { path: string; name: string }[] = [
   { path: "/families", name: "Families" },
   { path: "/individuals", name: "Individuals" },
   { path: "/partner", name: "Partner / Support" },
-  { path: "/about", name: "About ValorWell" },
   { path: "/contact", name: "Contact" },
   { path: "/privacy", name: "Privacy Policy" },
   { path: "/terms", name: "Terms of Service" },
@@ -53,29 +51,14 @@ const legacyRedirects: { from: string; to: string }[] = [
   { from: "/funders", to: "/partner" },
   { from: "/referral-partners", to: "/partner" },
   { from: "/mission-one-pager", to: "/partner" },
-  { from: "/our-model", to: "/about" },
-  { from: "/foundation", to: "/about" },
-  { from: "/impact", to: "/about" },
-  { from: "/advocates", to: "/partner" },
   { from: "/faq", to: "/contact" },
   { from: "/urgent-help", to: "/get-care" },
   // Media / authority / product routes that will be rebuilt intentionally later
   { from: "/resources", to: "/" },
   { from: "/veteran-mental-health-care", to: "/veterans" },
-  { from: "/champva-mental-health", to: "/veterans" },
   { from: "/va-community-care-mental-health", to: "/veterans" },
-  { from: "/documentation-support", to: "/veterans" },
   { from: "/military-family-therapy", to: "/families" },
   { from: "/family-systems", to: "/families" },
-  { from: "/bestselfs", to: "/" },
-  { from: "/corefeel", to: "/" },
-  { from: "/vibetales", to: "/" },
-  { from: "/ninjado", to: "/" },
-  { from: "/skillsquest", to: "/" },
-  { from: "/brightdeed", to: "/" },
-  { from: "/pendulo", to: "/" },
-  { from: "/challenge", to: "/beyondtheyellow" },
-  { from: "/competitions", to: "/beyondtheyellow" },
 ];
 
 const App = () => (
@@ -106,7 +89,6 @@ const App = () => (
 
               {/* Preserved functional routes (not in public nav) */}
               <Route path="/donate" element={<Donate />} />
-              <Route path="/beyondtheyellow/apply" element={<CreatorApply />} />
               <Route path="/influencer" element={<InfluencerPortal />} />
               <Route path="/admin" element={<AdminDashboard />} />
 
