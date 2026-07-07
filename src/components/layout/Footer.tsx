@@ -13,10 +13,10 @@ const groups: { title: string; links: { name: string; href: string }[] }[] = [
   {
     title: "Find Your Path",
     links: [
-      { name: "Veterans", href: "/veterans" },
-      { name: "Families", href: "/families" },
       { name: "Find Care", href: "/get-care" },
       { name: "Clinicians", href: "/clinicians" },
+      { name: "Partner / Support", href: "/partner" },
+      { name: "Contact", href: "/contact" },
     ],
   },
   {
