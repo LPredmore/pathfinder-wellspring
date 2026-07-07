@@ -56,20 +56,17 @@ export function OrganizationSchema() {
   const schema = {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": "https://www.valorwell.org/#organization",
     name: "ValorWell",
-    alternateName: "ValorWell Mental Health",
-    url: SITE_URL,
-    logo: `${SITE_URL}/brand/valorwell-logo.png`,
-    description: DEFAULT_DESCRIPTION,
-    sameAs: [
-      // Add social media URLs when available
-      // "https://www.linkedin.com/company/valorwell",
-      // "https://www.facebook.com/valorwell",
-    ],
+    url: "https://www.valorwell.org",
+    logo: "https://www.valorwell.org/brand/valorwell-logo.png",
+    description:
+      "ValorWell is building better systems around veteran and family support, mental well-being, ethical care, and real community action through Operation Claims Success, Beyond The Yellow, and a real clinical operating engine.",
+    sameAs: ["https://www.youtube.com/@ValorWell"],
     contactPoint: {
       "@type": "ContactPoint",
-      email: "support@valorwell.org",
-      contactType: "customer service",
+      email: "info@valorwell.org",
+      contactType: "general inquiries",
       availableLanguage: "English",
     },
     areaServed: {
