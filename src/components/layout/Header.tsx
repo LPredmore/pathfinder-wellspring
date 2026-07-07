@@ -114,6 +114,35 @@ export function Header() {
           >
             Find Care
           </Link>
+
+          <div className="relative" ref={loginRef}>
+            <button
+              type="button"
+              onClick={() => setLoginOpen((v) => !v)}
+              aria-haspopup="menu"
+              aria-expanded={loginOpen}
+              className="inline-flex items-center gap-1 rounded-md border border-primary/30 bg-transparent px-4 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
+            >
+              Login <ChevronDown className="h-4 w-4" aria-hidden />
+            </button>
+            {loginOpen && (
+              <div
+                role="menu"
+                className="absolute right-0 top-full mt-2 w-48 rounded-md border border-border bg-popover p-1 shadow-lg"
+              >
+                {loginLinks.map((i) => (
+                  <a
+                    key={i.name}
+                    href={i.href}
+                    role="menuitem"
+                    className="block rounded px-3 py-2 text-sm text-foreground hover:bg-muted focus:bg-muted focus:outline-none"
+                  >
+                    {i.name}
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
         <button
