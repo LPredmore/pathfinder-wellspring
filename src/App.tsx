@@ -100,10 +100,6 @@ const App = () => (
 
 
 
-              {publicPages.map((p) => (
-                <Route key={p.path} path={p.path} element={<PageShell name={p.name} path={p.path} />} />
-              ))}
-
               {legacyRedirects.map((r) => (
                 <Route key={r.from} path={r.from} element={<Navigate to={r.to} replace />} />
               ))}
