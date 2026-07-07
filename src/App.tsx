@@ -91,6 +91,7 @@ const App = () => (
               <Route path="/therapists" element={<Navigate to="/clinicians" replace />} />
               <Route path="/get-care" element={<GetCare />} />
               <Route path="/partner" element={<Partner />} />
+              <Route path="/contact" element={<Contact />} />
 
               <Route path="/authority/resources" element={<AuthorityResources />} />
               <Route path="/authority/family-systems" element={<AuthorityFamilySystems />} />
