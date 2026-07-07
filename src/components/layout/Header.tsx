@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { DonateButton } from "@/components/DonateButton";
 
 const primary = [
   { name: "Mission", href: "/mission" },
@@ -115,6 +116,9 @@ export function Header() {
             Find Care
           </Link>
 
+          <DonateButton source="header" size="md" />
+
+
           <div className="relative" ref={loginRef}>
             <button
               type="button"
@@ -196,6 +200,11 @@ export function Header() {
             >
               Find Care
             </Link>
+            <DonateButton
+              source="header-mobile"
+              size="lg"
+              className="mt-2 w-full justify-center"
+            />
             <button
               type="button"
               onClick={() => setMobileLogin((v) => !v)}

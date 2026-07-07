@@ -10,6 +10,7 @@ import { ClickToLoadYouTubeShort } from "@/components/ClickToLoadYouTubeShort";
 import ocsAsset from "@/assets/operation-claims-success.png.asset.json";
 import careAsset from "@/assets/real-mental-health-care.png.asset.json";
 import btyAsset from "@/assets/beyond-the-yellow.png.asset.json";
+import { DonateButton } from "@/components/DonateButton";
 
 const soldierPortrait = ocsAsset.url;
 const heroFamily = careAsset.url;
@@ -383,7 +384,35 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* 3.5 Donate to OCS band */}
+      <section className="border-b border-border/60 bg-primary text-primary-foreground">
+        <div className="container-wide py-16 md:py-20">
+          <div className="grid gap-8 md:grid-cols-12 md:items-center">
+            <div className="md:col-span-8">
+              <Eyebrow tone="yellow">Fuel Operation Claims Success</Eyebrow>
+              <h2 className="mt-4 text-3xl font-bold leading-tight tracking-tight md:text-4xl">
+                Every dollar moves the better path forward.
+              </h2>
+              <p className="mt-4 max-w-2xl text-lg text-primary-foreground/85">
+                We are building real care, honest education, and provider infrastructure for veterans and families — instead of another expensive shortcut. Donations fund the work.
+              </p>
+            </div>
+            <div className="flex md:col-span-4 md:justify-end">
+              <DonateButton
+                source="home-ocs-band"
+                size="lg"
+                withIcon
+                className="bg-[hsl(42_71%_51%)] text-[hsl(145_15%_15%)] hover:brightness-95"
+              >
+                Donate to OCS
+              </DonateButton>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* 4. Build in Public — REMOVED */}
+
 
       {/* 5. Beyond The Yellow */}
       <section className="relative border-b border-border/60 bg-background">

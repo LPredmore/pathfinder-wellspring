@@ -16,6 +16,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { trackHomeEvent } from "@/lib/tracking";
 import { supabase } from "@/integrations/supabase/client";
+import { DonateButton } from "@/components/DonateButton";
 
 const track = (name: string, params: Record<string, unknown> = {}) =>
   trackHomeEvent(name, { page: "beyond-the-yellow", ...params });
@@ -884,6 +885,14 @@ export default function BeyondTheYellowPage() {
               >
                 <Play className="h-4 w-4" /> Watch Beyond The Yellow
               </Link>
+              <DonateButton
+                source="bty-final"
+                size="lg"
+                withIcon
+                className="bg-[hsl(var(--gold-accent))] text-[hsl(var(--navy))] hover:brightness-95"
+              >
+                Fuel the Mission
+              </DonateButton>
             </div>
             <p className="mt-10 text-xl font-semibold md:text-2xl">
               Support is not a symbol. <span className="text-[hsl(var(--gold-accent))]">Support is behavior.</span>

@@ -24,6 +24,7 @@ import { Footer } from "@/components/layout/Footer";
 import { trackHomeEvent } from "@/lib/tracking";
 import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
+import { DonateButton } from "@/components/DonateButton";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import imgVeteranOrg from "@/assets/supporters-veteran-org.jpg";
 import imgCreators from "@/assets/supporters-creators.jpg";
@@ -1071,8 +1072,35 @@ export default function OperationClaimsSuccessPage() {
               We&rsquo;re building a path{" "}
               <span className="text-[#D7A92E]">the system should not have to close</span> behind us.
             </p>
+
+            <div className="mt-12 rounded-2xl border border-white/15 bg-white/5 p-6 md:p-8">
+              <div className="grid gap-6 md:grid-cols-12 md:items-center">
+                <div className="md:col-span-8">
+                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#D7A92E]">
+                    Fund the better path
+                  </p>
+                  <p className="mt-2 text-xl font-semibold md:text-2xl">
+                    Donations move Operation Claims Success from principle to infrastructure.
+                  </p>
+                  <p className="mt-2 text-white/75">
+                    Real care. Honest education. Provider pathways. This is where your donation goes.
+                  </p>
+                </div>
+                <div className="flex md:col-span-4 md:justify-end">
+                  <DonateButton
+                    source="ocs-mid"
+                    size="lg"
+                    withIcon
+                    className="bg-[#D7A92E] text-[#111814] hover:brightness-95"
+                  >
+                    Donate to OCS
+                  </DonateButton>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
+
 
         {/* ================= BEAT 1: ACCESS ================= */}
         <section id="buildout" className="border-t border-[#3B5147]/10 bg-white">
@@ -1504,6 +1532,14 @@ export default function OperationClaimsSuccessPage() {
               >
                 Join the Clinician Mission
               </Link>
+              <DonateButton
+                source="ocs-final"
+                size="lg"
+                withIcon
+                className="bg-[#D7A92E] text-[#111814] hover:brightness-95"
+              >
+                Donate to OCS
+              </DonateButton>
             </div>
             <p className="mt-12 text-2xl font-bold text-[#D7A92E] md:text-3xl">
               Break the cycle. Build the path. Care first.
@@ -1529,3 +1565,4 @@ export default function OperationClaimsSuccessPage() {
     </div>
   );
 }
+
