@@ -40,7 +40,7 @@ const publicPages: { path: string; name: string }[] = [
   { path: "/families", name: "Families" },
   { path: "/individuals", name: "Individuals" },
   
-  { path: "/contact", name: "Contact" },
+  
   { path: "/privacy", name: "Privacy Policy" },
   { path: "/terms", name: "Terms of Service" },
 ];
