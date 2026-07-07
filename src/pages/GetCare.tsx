@@ -14,7 +14,6 @@ const PORTAL_URL = "https://clients.valorwell.org";
 const editorialLines = [
   "I have CHAMPVA. I just need to know where to start.",
   "I do not want to call ten therapists.",
-  "I need care for my child, teen, myself, or someone in my family.",
   "I want telehealth care that fits real life.",
 ];
 
