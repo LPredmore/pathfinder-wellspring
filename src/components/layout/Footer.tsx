@@ -32,7 +32,6 @@ const groups: { title: string; links: { name: string; href: string }[] }[] = [
     title: "Legal",
     links: [
       { name: "Privacy", href: "/privacy" },
-      { name: "Terms", href: "/terms" },
     ],
   },
 ];
