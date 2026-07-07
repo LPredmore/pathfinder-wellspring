@@ -308,6 +308,9 @@ const GetCare = () => {
             <h2 className="max-w-4xl text-3xl leading-tight md:text-5xl">
               Have TRICARE or need a VA Community Care path? Raise your hand.
             </h2>
+            <p className="mt-6 max-w-3xl text-base md:text-lg text-[color:var(--cl-ink)]/80">
+              We are currently working on building our TRICARE and VA Community Care Network, and having an idea of where the need is strongest helps us direct our care resources.
+            </p>
 
             <div className="mt-14 grid gap-6 md:grid-cols-2">
               {[
