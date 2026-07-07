@@ -7,9 +7,13 @@ import { trackHomeEvent } from "@/lib/tracking";
 import { cn } from "@/lib/utils";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ClickToLoadYouTubeShort } from "@/components/ClickToLoadYouTubeShort";
-import soldierPortrait from "@/assets/soldier-portrait.jpg";
-import heroFamily from "@/assets/hero-family.jpg";
-import flagBanner from "@/assets/flag-banner.jpg";
+import ocsAsset from "@/assets/operation-claims-success.png.asset.json";
+import careAsset from "@/assets/real-mental-health-care.png.asset.json";
+import btyAsset from "@/assets/beyond-the-yellow.png.asset.json";
+
+const soldierPortrait = ocsAsset.url;
+const heroFamily = careAsset.url;
+const flagBanner = btyAsset.url;
 
 // Drop a YouTube Short video ID here (the part after /shorts/ or ?v=) to swap the hero placeholder.
 const HERO_SHORT_VIDEO_ID = "";
