@@ -8,7 +8,6 @@ const groups: { title: string; links: { name: string; href: string }[] }[] = [
       { name: "Operation Claims Success", href: "/operation-claims-success" },
       { name: "Beyond The Yellow", href: "/beyondtheyellow" },
       { name: "Watch ValorWell", href: "/watch" },
-      { name: "About ValorWell", href: "/about" },
     ],
   },
   {
