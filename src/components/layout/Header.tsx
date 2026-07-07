@@ -17,24 +17,37 @@ const getInvolved = [
   { name: "Contact", href: "/contact" },
 ];
 
+const loginLinks = [
+  { name: "Client", href: "https://client.valorwell.org" },
+  { name: "Clinician", href: "https://emr.valorwell.org" },
+];
+
 export function Header() {
   const [open, setOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [mobileGI, setMobileGI] = useState(false);
+  const [loginOpen, setLoginOpen] = useState(false);
+  const [mobileLogin, setMobileLogin] = useState(false);
   const location = useLocation();
   const menuRef = useRef<HTMLDivElement>(null);
+  const loginRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setOpen(false);
     setMenuOpen(false);
+    setLoginOpen(false);
   }, [location.pathname]);
 
   useEffect(() => {
     function onDown(e: MouseEvent) {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) setMenuOpen(false);
+      if (loginRef.current && !loginRef.current.contains(e.target as Node)) setLoginOpen(false);
     }
     function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") setMenuOpen(false);
+      if (e.key === "Escape") {
+        setMenuOpen(false);
+        setLoginOpen(false);
+      }
     }
     document.addEventListener("mousedown", onDown);
     document.addEventListener("keydown", onKey);
@@ -101,6 +114,35 @@ export function Header() {
           >
             Find Care
           </Link>
+
+          <div className="relative" ref={loginRef}>
+            <button
+              type="button"
+              onClick={() => setLoginOpen((v) => !v)}
+              aria-haspopup="menu"
+              aria-expanded={loginOpen}
+              className="inline-flex items-center gap-1 rounded-md border border-primary/30 bg-transparent px-4 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
+            >
+              Login <ChevronDown className="h-4 w-4" aria-hidden />
+            </button>
+            {loginOpen && (
+              <div
+                role="menu"
+                className="absolute right-0 top-full mt-2 w-48 rounded-md border border-border bg-popover p-1 shadow-lg"
+              >
+                {loginLinks.map((i) => (
+                  <a
+                    key={i.name}
+                    href={i.href}
+                    role="menuitem"
+                    className="block rounded px-3 py-2 text-sm text-foreground hover:bg-muted focus:bg-muted focus:outline-none"
+                  >
+                    {i.name}
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
         <button
@@ -154,6 +196,27 @@ export function Header() {
             >
               Find Care
             </Link>
+            <button
+              type="button"
+              onClick={() => setMobileLogin((v) => !v)}
+              aria-expanded={mobileLogin}
+              className="mt-1 flex w-full items-center justify-between rounded-md border border-primary/30 px-3 py-3 text-base font-semibold text-primary hover:bg-primary hover:text-primary-foreground"
+            >
+              Login <ChevronDown className={cn("h-4 w-4 transition-transform", mobileLogin && "rotate-180")} aria-hidden />
+            </button>
+            {mobileLogin && (
+              <div className="pl-3">
+                {loginLinks.map((i) => (
+                  <a
+                    key={i.name}
+                    href={i.href}
+                    className="block rounded-md px-3 py-2.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
+                  >
+                    {i.name}
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       )}
