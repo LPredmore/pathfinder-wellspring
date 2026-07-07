@@ -25,14 +25,9 @@ const queryClient = new QueryClient();
 
 // Approved sitemap — every public page is a labeled shell.
 const publicPages: { path: string; name: string }[] = [
-  { path: "/get-care", name: "Find Care" },
   { path: "/veterans", name: "Veterans" },
   { path: "/families", name: "Families" },
   { path: "/individuals", name: "Individuals" },
-  
-  
-  
-  
   { path: "/partner", name: "Partner / Support" },
   { path: "/about", name: "About ValorWell" },
   { path: "/contact", name: "Contact" },
