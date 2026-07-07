@@ -9,118 +9,119 @@
 
 @layer base {
   :root {
-    /* Core brand colors - patriotic palette */
-    --background: 210 40% 98%;
-    --foreground: 215 45% 20%;
+    /* ValorWell Field Dispatch palette — evergreen / paper / rust */
+    --background: 43 40% 93%;         /* #F4F1E8 paper */
+    --foreground: 145 9% 15%;         /* #1F2A24 ink */
 
-    --card: 0 0% 100%;
-    --card-foreground: 215 45% 20%;
+    --card: 43 40% 93%;
+    --card-foreground: 145 9% 15%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 215 45% 20%;
+    --popover: 43 40% 93%;
+    --popover-foreground: 145 9% 15%;
 
-    /* Primary: Deep Navy Blue */
-    --primary: 215 50% 23%;
-    --primary-foreground: 0 0% 100%;
+    /* Primary: Evergreen */
+    --primary: 145 15% 27%;           /* #3B5147 */
+    --primary-foreground: 43 40% 93%;
 
-    /* Secondary: Sky Blue */
-    --secondary: 205 80% 92%;
-    --secondary-foreground: 215 50% 23%;
+    /* Secondary: Warm paper-2 */
+    --secondary: 44 33% 88%;          /* #EAE5D6 */
+    --secondary-foreground: 145 9% 15%;
 
-    /* Muted: Soft gray-blue */
-    --muted: 210 30% 95%;
-    --muted-foreground: 215 20% 45%;
+    /* Muted */
+    --muted: 44 33% 88%;
+    --muted-foreground: 145 9% 35%;
 
-    /* Accent: Patriotic Red */
-    --accent: 0 72% 45%;
-    --accent-foreground: 0 0% 100%;
+    /* Accent: Rust */
+    --accent: 9 51% 46%;              /* #B24A3A */
+    --accent-foreground: 43 40% 93%;
 
     /* Destructive */
-    --destructive: 0 72% 45%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive: 9 51% 46%;
+    --destructive-foreground: 43 40% 93%;
 
-    --border: 210 25% 88%;
-    --input: 210 25% 88%;
-    --ring: 215 50% 23%;
+    --border: 145 9% 80%;
+    --input: 145 9% 80%;
+    --ring: 145 15% 27%;
 
     --radius: 0.625rem;
 
     /* Sidebar */
-    --sidebar-background: 210 35% 96%;
-    --sidebar-foreground: 215 50% 23%;
-    --sidebar-primary: 215 50% 23%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 205 70% 92%;
-    --sidebar-accent-foreground: 215 50% 23%;
-    --sidebar-border: 210 25% 88%;
-    --sidebar-ring: 215 50% 23%;
+    --sidebar-background: 44 33% 90%;
+    --sidebar-foreground: 145 15% 27%;
+    --sidebar-primary: 145 15% 27%;
+    --sidebar-primary-foreground: 43 40% 93%;
+    --sidebar-accent: 44 33% 88%;
+    --sidebar-accent-foreground: 145 15% 27%;
+    --sidebar-border: 145 9% 80%;
+    --sidebar-ring: 145 15% 27%;
 
     /* Custom ValorWell tokens */
-    --hero-gradient-start: 205 70% 95%;
-    --hero-gradient-end: 210 40% 98%;
-    --section-alt: 205 60% 97%;
-    --trust-bg: 210 35% 96%;
-    
-    /* Patriotic specific */
-    --navy: 215 50% 23%;
-    --navy-light: 215 40% 35%;
-    --patriot-red: 0 72% 45%;
-    --patriot-red-dark: 0 72% 38%;
-    --sky-blue: 205 80% 92%;
-    --sky-blue-light: 205 85% 96%;
-    --gold-accent: 45 90% 55%;
+    --hero-gradient-start: 43 40% 93%;
+    --hero-gradient-end: 44 33% 88%;
+    --section-alt: 44 33% 88%;
+    --trust-bg: 44 33% 90%;
+
+    /* Legacy alias tokens — retuned to the Field Dispatch palette
+       so any lingering utility classes stay in-palette. */
+    --navy: 145 15% 27%;              /* was patriotic navy → evergreen */
+    --navy-light: 145 12% 40%;
+    --patriot-red: 9 51% 46%;         /* → rust */
+    --patriot-red-dark: 9 51% 38%;
+    --sky-blue: 44 33% 88%;           /* → paper-2 */
+    --sky-blue-light: 43 40% 93%;
+    --gold-accent: 42 71% 51%;        /* keep gold for BTY */
   }
 
   .dark {
-    --background: 215 40% 10%;
-    --foreground: 210 30% 95%;
+    --background: 145 12% 10%;
+    --foreground: 43 40% 93%;
 
-    --card: 215 35% 12%;
-    --card-foreground: 210 30% 95%;
+    --card: 145 12% 12%;
+    --card-foreground: 43 40% 93%;
 
-    --popover: 215 35% 12%;
-    --popover-foreground: 210 30% 95%;
+    --popover: 145 12% 12%;
+    --popover-foreground: 43 40% 93%;
 
-    --primary: 205 70% 60%;
-    --primary-foreground: 215 40% 10%;
+    --primary: 145 20% 55%;
+    --primary-foreground: 145 12% 10%;
 
-    --secondary: 215 30% 18%;
-    --secondary-foreground: 210 30% 95%;
+    --secondary: 145 10% 18%;
+    --secondary-foreground: 43 40% 93%;
 
-    --muted: 215 30% 18%;
-    --muted-foreground: 210 20% 60%;
+    --muted: 145 10% 18%;
+    --muted-foreground: 43 20% 70%;
 
-    --accent: 0 65% 50%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 9 55% 55%;
+    --accent-foreground: 43 40% 93%;
 
-    --destructive: 0 65% 45%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive: 9 55% 50%;
+    --destructive-foreground: 43 40% 93%;
 
-    --border: 215 30% 20%;
-    --input: 215 30% 20%;
-    --ring: 205 70% 60%;
+    --border: 145 10% 22%;
+    --input: 145 10% 22%;
+    --ring: 145 20% 55%;
 
-    --sidebar-background: 215 35% 10%;
-    --sidebar-foreground: 210 30% 95%;
-    --sidebar-primary: 205 70% 60%;
-    --sidebar-primary-foreground: 215 40% 10%;
-    --sidebar-accent: 215 25% 18%;
-    --sidebar-accent-foreground: 210 30% 95%;
-    --sidebar-border: 215 30% 18%;
-    --sidebar-ring: 205 70% 60%;
+    --sidebar-background: 145 12% 10%;
+    --sidebar-foreground: 43 40% 93%;
+    --sidebar-primary: 145 20% 55%;
+    --sidebar-primary-foreground: 145 12% 10%;
+    --sidebar-accent: 145 10% 18%;
+    --sidebar-accent-foreground: 43 40% 93%;
+    --sidebar-border: 145 10% 22%;
+    --sidebar-ring: 145 20% 55%;
 
-    --hero-gradient-start: 215 35% 12%;
-    --hero-gradient-end: 215 40% 10%;
-    --section-alt: 215 30% 14%;
-    --trust-bg: 215 28% 15%;
-    
-    --navy: 205 70% 60%;
-    --navy-light: 205 65% 70%;
-    --patriot-red: 0 65% 55%;
-    --patriot-red-dark: 0 65% 45%;
-    --sky-blue: 205 50% 25%;
-    --sky-blue-light: 205 45% 20%;
-    --gold-accent: 45 85% 50%;
+    --hero-gradient-start: 145 12% 12%;
+    --hero-gradient-end: 145 12% 10%;
+    --section-alt: 145 10% 14%;
+    --trust-bg: 145 10% 15%;
+
+    --navy: 145 20% 55%;
+    --navy-light: 145 18% 65%;
+    --patriot-red: 9 55% 55%;
+    --patriot-red-dark: 9 55% 45%;
+    --sky-blue: 145 10% 22%;
+    --sky-blue-light: 145 10% 18%;
+    --gold-accent: 42 71% 51%;
   }
 }
 
@@ -200,19 +201,11 @@
     @apply text-patriot-red text-lg;
   }
 }
-/* Clinicians page — scoped editorial theme */
+/* Clinicians / Get Care / Partner scoped theme — keeps the `bg-[color:var(--cl-*)]`
+   utilities used across those pages working. Palette matches the new globals. */
 .clinicians-theme {
   --cl-evergreen: #3B5147;
   --cl-canvas: #F4F1E8;
   --cl-ink: #111814;
   --cl-ember: #B24A3A;
-  font-family: 'Trebuchet MS', 'Lucida Grande', sans-serif;
-}
-.clinicians-theme h1,
-.clinicians-theme h2,
-.clinicians-theme h3,
-.clinicians-theme h4,
-.clinicians-theme h5,
-.clinicians-theme h6 {
-  font-family: 'Trebuchet MS', 'Lucida Grande', sans-serif;
 }

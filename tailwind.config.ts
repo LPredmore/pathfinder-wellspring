@@ -14,9 +14,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["Georgia", "Times New Roman", "serif"],
-        heading: ["Georgia", "Times New Roman", "serif"],
-        display: ["Georgia", "Times New Roman", "serif"],
+        sans: ["Arial", "Helvetica", "sans-serif"],
+        heading: ["Arial", "Helvetica", "sans-serif"],
+        display: ["Arial", "Helvetica", "sans-serif"],
       },
       colors: {
         navy: "hsl(var(--navy))",
