@@ -20,7 +20,7 @@ const editorialLines = [
 const ledger = [
   "We bill CHAMPVA directly.",
   "No upfront private-pay therapy bill.",
-  "Your CHAMPVA cost share may apply.",
+  "\n",
   "We verify your information before care begins.",
   "We help you understand what to expect.",
 ];
@@ -155,7 +155,7 @@ const GetCare = () => {
                   See How CHAMPVA Care Works
                 </a>
               </div>
-              <p className="mt-4 text-xs text-[color:var(--cl-ink)]/60">Your CHAMPVA cost share may apply.</p>
+              <p className="mt-4 text-xs text-[color:var(--cl-ink)]/60">{"\n"}</p>
             </div>
 
             <aside className="md:col-span-4 md:border-l md:border-[color:var(--cl-ink)]/15 md:pl-8">
