@@ -239,10 +239,10 @@ export default function MissionPage() {
               <Eyebrow>The ValorWell Mission</Eyebrow>
               <h1 className="mt-5 display">
                 Veterans and families are being sold shortcuts.{" "}
-                <span className="gold-underline">We're building the real path — in public.</span>
+                <span className="gold-underline">We're building the real path.</span>
               </h1>
               <p className="mt-6 body-lg max-w-2xl text-[hsl(var(--mission-ink))]/80">
-                Care first. Not letter first.
+                {"\n"}
               </p>
             </div>
 
