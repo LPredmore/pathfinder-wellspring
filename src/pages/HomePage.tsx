@@ -19,6 +19,9 @@ const flagBanner = btyAsset.url;
 // Drop a YouTube Short video ID here (the part after /shorts/ or ?v=) to swap the hero placeholder.
 const HERO_SHORT_VIDEO_ID = "OugB8UujBfw";
 
+// Beyond The Yellow card Short on the homepage.
+const BTY_SHORT_VIDEO_ID = "mZl4vL9E2uA";
+
 const initiatives = [
   {
     key: "ocs",
