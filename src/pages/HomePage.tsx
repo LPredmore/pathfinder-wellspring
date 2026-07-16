@@ -11,6 +11,7 @@ import ocsAsset from "@/assets/operation-claims-success.png.asset.json";
 import careAsset from "@/assets/real-mental-health-care.png.asset.json";
 import btyAsset from "@/assets/beyond-the-yellow.png.asset.json";
 import founderCoverAsset from "@/assets/founder-cover.png.asset.json";
+import btyCoverAsset from "@/assets/bty-cover.png.asset.json";
 import { DonateButton } from "@/components/DonateButton";
 
 const soldierPortrait = ocsAsset.url;
@@ -25,7 +26,7 @@ const HERO_SHORT_COVER: string | null = founderCoverAsset.url;
 // Beyond The Yellow card Short on the homepage.
 const BTY_SHORT_VIDEO_ID = "mZl4vL9E2uA";
 // Optional custom cover image for the BTY Short.
-const BTY_SHORT_COVER: string | null = null;
+const BTY_SHORT_COVER: string | null = btyCoverAsset.url;
 
 const initiatives = [
   {
