@@ -455,24 +455,28 @@ export default function HomePage() {
             </div>
 
             <div className="lg:col-span-6">
-              <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-border bg-gradient-to-br from-foreground/90 via-foreground/70 to-primary/60">
-                <div className="absolute inset-0 flex flex-col justify-between p-8 text-background">
-                  <div className="flex items-center gap-2">
-                    <span className="rounded-full bg-[hsl(42_71%_51%)] px-3 py-1 text-xs font-bold uppercase tracking-wider text-foreground">
-                      Beyond The Yellow
-                    </span>
-                    <span className="text-xs uppercase tracking-wider opacity-80">A ValorWell movement</span>
-                  </div>
-                  <div>
-                    <p className="text-3xl font-bold leading-tight md:text-4xl">
-                      "The ribbon is a start. The behavior is the standard."
-                    </p>
-                    <p className="mt-6 text-sm uppercase tracking-widest opacity-80">
-                      {"\n"}
-                    </p>
+              {BTY_SHORT_VIDEO_ID ? (
+                <ClickToLoadYouTubeShort
+                  videoId={BTY_SHORT_VIDEO_ID}
+                  title="Beyond The Yellow short"
+                />
+              ) : (
+                <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-border bg-gradient-to-br from-foreground/90 via-foreground/70 to-primary/60">
+                  <div className="absolute inset-0 flex flex-col justify-between p-8 text-background">
+                    <div className="flex items-center gap-2">
+                      <span className="rounded-full bg-[hsl(42_71%_51%)] px-3 py-1 text-xs font-bold uppercase tracking-wider text-foreground">
+                        Beyond The Yellow
+                      </span>
+                      <span className="text-xs uppercase tracking-wider opacity-80">A ValorWell movement</span>
+                    </div>
+                    <div>
+                      <p className="text-3xl font-bold leading-tight md:text-4xl">
+                        "The ribbon is a start. The behavior is the standard."
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>
