@@ -465,7 +465,7 @@ export default function HomePage() {
                       "The ribbon is a start. The behavior is the standard."
                     </p>
                     <p className="mt-6 text-sm uppercase tracking-widest opacity-80">
-                      Hosted by Luke · Founder, ValorWell
+                      {"\n"}
                     </p>
                   </div>
                 </div>
