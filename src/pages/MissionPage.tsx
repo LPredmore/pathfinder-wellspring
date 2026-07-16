@@ -11,7 +11,7 @@ import { trackHomeEvent } from "@/lib/tracking";
  * Accepts a YouTube embed URL (https://www.youtube.com/embed/VIDEO_ID)
  * or leave empty to render the typographic fallback hero.
  */
-const FOUNDER_VIDEO_URL = "";
+const FOUNDER_VIDEO_URL = "https://www.youtube.com/embed/seviqJeC6FI";
 
 const track = (name: string, params: Record<string, unknown> = {}) =>
   trackHomeEvent(name, { page: "mission", ...params });
