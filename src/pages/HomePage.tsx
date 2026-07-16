@@ -17,7 +17,7 @@ const heroFamily = careAsset.url;
 const flagBanner = btyAsset.url;
 
 // Drop a YouTube Short video ID here (the part after /shorts/ or ?v=) to swap the hero placeholder.
-const HERO_SHORT_VIDEO_ID = "";
+const HERO_SHORT_VIDEO_ID = "OugB8UujBfw";
 
 const initiatives = [
   {
