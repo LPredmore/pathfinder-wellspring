@@ -258,19 +258,14 @@ export default function MissionPage() {
 
             {/* Video / fallback */}
             <div className="mt-10 rise-in">
-              {FOUNDER_VIDEO_URL ? (
-                <div
-                  className="relative w-full overflow-hidden rounded-lg border border-[hsl(var(--mission-gold))]/70 shadow-lg"
-                  style={{ aspectRatio: "16 / 9" }}
-                >
-                  <iframe
-                    src={FOUNDER_VIDEO_URL}
+              {FOUNDER_VIDEO_ID ? (
+                <div className="rounded-lg border border-[hsl(var(--mission-gold))]/70 shadow-lg overflow-hidden">
+                  <ClickToLoadYouTubeShort
+                    videoId={FOUNDER_VIDEO_ID}
                     title="ValorWell — Why this exists. From the founder."
-                    loading="lazy"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowFullScreen
-                    className="absolute inset-0 h-full w-full"
-                    onLoad={() => track("mission_hero_video_ready")}
+                    aspect="16 / 9"
+                    maxWidthClassName="max-w-none"
+                    coverImage={FOUNDER_VIDEO_COVER ?? undefined}
                   />
                 </div>
               ) : (
