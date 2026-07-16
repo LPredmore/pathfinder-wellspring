@@ -20,9 +20,7 @@ const flagBanner = btyAsset.url;
 // Drop a YouTube Short video ID here (the part after /shorts/ or ?v=) to swap the hero placeholder.
 const HERO_SHORT_VIDEO_ID = "OugB8UujBfw";
 // Optional custom cover image for the hero Short. Import an asset and assign it here.
-//   e.g.  import heroCover from "@/assets/hero-cover.jpg";
-//         const HERO_SHORT_COVER = heroCover;
-const HERO_SHORT_COVER: string | null = null;
+const HERO_SHORT_COVER: string | null = founderCoverAsset.url;
 
 // Beyond The Yellow card Short on the homepage.
 const BTY_SHORT_VIDEO_ID = "mZl4vL9E2uA";
