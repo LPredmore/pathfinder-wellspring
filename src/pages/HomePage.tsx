@@ -18,9 +18,15 @@ const flagBanner = btyAsset.url;
 
 // Drop a YouTube Short video ID here (the part after /shorts/ or ?v=) to swap the hero placeholder.
 const HERO_SHORT_VIDEO_ID = "OugB8UujBfw";
+// Optional custom cover image for the hero Short. Import an asset and assign it here.
+//   e.g.  import heroCover from "@/assets/hero-cover.jpg";
+//         const HERO_SHORT_COVER = heroCover;
+const HERO_SHORT_COVER: string | null = null;
 
 // Beyond The Yellow card Short on the homepage.
 const BTY_SHORT_VIDEO_ID = "mZl4vL9E2uA";
+// Optional custom cover image for the BTY Short.
+const BTY_SHORT_COVER: string | null = null;
 
 const initiatives = [
   {
@@ -213,6 +219,7 @@ export default function HomePage() {
               <ClickToLoadYouTubeShort
                 videoId={HERO_SHORT_VIDEO_ID}
                 title="ValorWell founder short"
+                coverImage={HERO_SHORT_COVER ?? undefined}
               />
             ) : (
               <div
@@ -459,6 +466,7 @@ export default function HomePage() {
                 <ClickToLoadYouTubeShort
                   videoId={BTY_SHORT_VIDEO_ID}
                   title="Beyond The Yellow short"
+                  coverImage={BTY_SHORT_COVER ?? undefined}
                 />
               ) : (
                 <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-border bg-gradient-to-br from-foreground/90 via-foreground/70 to-primary/60">

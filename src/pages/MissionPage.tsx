@@ -4,14 +4,24 @@ import { Helmet } from "react-helmet-async";
 import { ArrowRight, Play } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { ClickToLoadYouTubeShort } from "@/components/ClickToLoadYouTubeShort";
 import { trackHomeEvent } from "@/lib/tracking";
 
 /**
  * Founder video — swap this one line to change the hero video.
- * Accepts a YouTube embed URL (https://www.youtube.com/embed/VIDEO_ID)
- * or leave empty to render the typographic fallback hero.
+ * Just the YouTube video ID (the part after /embed/ or /shorts/).
+ * Leave empty to render the typographic fallback hero.
  */
-const FOUNDER_VIDEO_URL = "https://www.youtube.com/embed/seviqJeC6FI";
+const FOUNDER_VIDEO_ID = "seviqJeC6FI";
+
+/**
+ * Optional custom cover image shown before the video plays.
+ * To use one: drop the image in src/assets/, import it at the top of this file,
+ * and set this to the imported variable. If left null, YouTube's thumbnail is used.
+ *   e.g.  import founderCover from "@/assets/founder-cover.jpg";
+ *         const FOUNDER_VIDEO_COVER = founderCover;
+ */
+const FOUNDER_VIDEO_COVER: string | null = null;
 
 const track = (name: string, params: Record<string, unknown> = {}) =>
   trackHomeEvent(name, { page: "mission", ...params });
@@ -248,19 +258,14 @@ export default function MissionPage() {
 
             {/* Video / fallback */}
             <div className="mt-10 rise-in">
-              {FOUNDER_VIDEO_URL ? (
-                <div
-                  className="relative w-full overflow-hidden rounded-lg border border-[hsl(var(--mission-gold))]/70 shadow-lg"
-                  style={{ aspectRatio: "16 / 9" }}
-                >
-                  <iframe
-                    src={FOUNDER_VIDEO_URL}
+              {FOUNDER_VIDEO_ID ? (
+                <div className="rounded-lg border border-[hsl(var(--mission-gold))]/70 shadow-lg overflow-hidden">
+                  <ClickToLoadYouTubeShort
+                    videoId={FOUNDER_VIDEO_ID}
                     title="ValorWell — Why this exists. From the founder."
-                    loading="lazy"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowFullScreen
-                    className="absolute inset-0 h-full w-full"
-                    onLoad={() => track("mission_hero_video_ready")}
+                    aspect="16 / 9"
+                    maxWidthClassName="max-w-none"
+                    coverImage={FOUNDER_VIDEO_COVER ?? undefined}
                   />
                 </div>
               ) : (
