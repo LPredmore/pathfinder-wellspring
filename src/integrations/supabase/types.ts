@@ -1645,7 +1645,6 @@ export type Database = {
           avatar_url: string | null
           comfort_level: string | null
           created_at: string | null
-          email: string | null
           first_name: string | null
           fundraising_goal: string | null
           highest_follower_count: number | null
@@ -1654,7 +1653,6 @@ export type Database = {
           is_competing: boolean | null
           last_name: string | null
           motivation: string | null
-          password: string | null
           past_competitions: Json[] | null
           personal_mission: string | null
           pref_name: string | null
