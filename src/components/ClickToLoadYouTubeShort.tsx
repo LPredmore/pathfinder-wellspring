@@ -13,6 +13,10 @@ interface ClickToLoadYouTubeShortProps {
    * If omitted, falls back to the YouTube-generated thumbnail.
    */
   coverImage?: string;
+  /** Aspect ratio of the player. Defaults to "9 / 16" (vertical Short). Use "16 / 9" for landscape. */
+  aspect?: string;
+  /** Max width class override. Defaults to "max-w-sm" (good for Shorts). */
+  maxWidthClassName?: string;
 }
 
 const ClickToLoadYouTubeShort = ({
@@ -20,6 +24,8 @@ const ClickToLoadYouTubeShort = ({
   title = "YouTube Short",
   className,
   coverImage,
+  aspect = "9 / 16",
+  maxWidthClassName = "max-w-sm",
 }: ClickToLoadYouTubeShortProps) => {
   const [loaded, setLoaded] = useState(false);
 
@@ -29,8 +35,8 @@ const ClickToLoadYouTubeShort = ({
   return (
     <div className={className}>
       <div
-        className="relative mx-auto max-w-sm min-w-[200px] min-h-[200px] rounded-lg overflow-hidden"
-        style={{ aspectRatio: "9 / 16" }}
+        className={`relative mx-auto w-full ${maxWidthClassName} min-h-[200px] rounded-lg overflow-hidden`}
+        style={{ aspectRatio: aspect }}
       >
         {loaded ? (
           <iframe
