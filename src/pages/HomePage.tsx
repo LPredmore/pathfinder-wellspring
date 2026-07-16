@@ -219,6 +219,7 @@ export default function HomePage() {
               <ClickToLoadYouTubeShort
                 videoId={HERO_SHORT_VIDEO_ID}
                 title="ValorWell founder short"
+                coverImage={HERO_SHORT_COVER ?? undefined}
               />
             ) : (
               <div
