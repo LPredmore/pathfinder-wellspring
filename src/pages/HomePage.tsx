@@ -466,6 +466,7 @@ export default function HomePage() {
                 <ClickToLoadYouTubeShort
                   videoId={BTY_SHORT_VIDEO_ID}
                   title="Beyond The Yellow short"
+                  coverImage={BTY_SHORT_COVER ?? undefined}
                 />
               ) : (
                 <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-border bg-gradient-to-br from-foreground/90 via-foreground/70 to-primary/60">
