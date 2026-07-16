@@ -6,6 +6,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ClickToLoadYouTubeShort } from "@/components/ClickToLoadYouTubeShort";
 import { trackHomeEvent } from "@/lib/tracking";
+import missionCoverAsset from "@/assets/mission-cover.png.asset.json";
 
 /**
  * Founder video — swap this one line to change the hero video.
@@ -21,7 +22,7 @@ const FOUNDER_VIDEO_ID = "seviqJeC6FI";
  *   e.g.  import founderCover from "@/assets/founder-cover.jpg";
  *         const FOUNDER_VIDEO_COVER = founderCover;
  */
-const FOUNDER_VIDEO_COVER: string | null = null;
+const FOUNDER_VIDEO_COVER: string | null = missionCoverAsset.url;
 
 const track = (name: string, params: Record<string, unknown> = {}) =>
   trackHomeEvent(name, { page: "mission", ...params });
