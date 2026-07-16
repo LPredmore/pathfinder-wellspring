@@ -10,6 +10,7 @@ import { ClickToLoadYouTubeShort } from "@/components/ClickToLoadYouTubeShort";
 import ocsAsset from "@/assets/operation-claims-success.png.asset.json";
 import careAsset from "@/assets/real-mental-health-care.png.asset.json";
 import btyAsset from "@/assets/beyond-the-yellow.png.asset.json";
+import founderCoverAsset from "@/assets/founder-cover.png.asset.json";
 import { DonateButton } from "@/components/DonateButton";
 
 const soldierPortrait = ocsAsset.url;
