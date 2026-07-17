@@ -1,0 +1,656 @@
+name: Apply Billing Hub intake cutover
+
+on:
+  push:
+    branches:
+      - agent/billing-hub-intake-cutover
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/billing-hub-intake-cutover
+          fetch-depth: 0
+
+      - name: Apply targeted source changes
+        shell: bash
+        run: |
+          python3 <<'PY'
+          from pathlib import Path
+          import re
+
+          def replace_once(text: str, old: str, new: str, label: str) -> str:
+              count = text.count(old)
+              if count != 1:
+                  raise RuntimeError(f"{label}: expected exactly one match, found {count}")
+              return text.replace(old, new, 1)
+
+          billing_client = '''import { createClient } from "@supabase/supabase-js";
+
+const BILLING_HUB_URL = "https://ahqauomkgflopxgnlndd.supabase.co";
+const BILLING_HUB_PUBLISHABLE_KEY = "sb_publishable_VVcb2HRrfnMm-T1Y0i7Gtw_qLhuPMYT";
+
+/**
+ * Dedicated public-intake client.
+ *
+ * The website's legacy Supabase client remains in place for unrelated media,
+ * donation, and portal functionality. Public form submissions use Billing Hub
+ * without sharing or persisting the legacy website auth session.
+ */
+export const billingHubSupabase = createClient(
+  BILLING_HUB_URL,
+  BILLING_HUB_PUBLISHABLE_KEY,
+  {
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false,
+      detectSessionInUrl: false,
+    },
+  },
+);
+'''
+          client_path = Path("src/integrations/billingHub/client.ts")
+          client_path.parent.mkdir(parents=True, exist_ok=True)
+          client_path.write_text(billing_client, encoding="utf-8")
+
+          # Clinician application -> Billing Hub canonical provider applicant pipeline.
+          path = Path("src/components/forms/TherapistApplicationForm.tsx")
+          text = path.read_text(encoding="utf-8")
+          text = replace_once(
+              text,
+              'import { supabase } from "@/integrations/supabase/client";',
+              'import { billingHubSupabase } from "@/integrations/billingHub/client";',
+              "clinician import",
+          )
+          old = '''    const { error } = await supabase.from("therapist_applications").insert({
+      first_name: data.firstName,
+      last_name: data.lastName,
+      email: data.email,
+      phone: data.phone,
+      licensed_states: data.licensedStates,
+      license_type: data.licenseType,
+      referral_source: data.referralSource,
+      telehealth_experience: data.telehealthExperience,
+      motivation: data.motivation,
+      weekly_hours: data.weeklyHours,
+    });'''
+          new = '''    const { error } = await (billingHubSupabase as any).rpc(
+      "submit_website_clinician_application",
+      {
+        p_payload: {
+          submission_key: crypto.randomUUID(),
+          first_name: data.firstName.trim(),
+          last_name: data.lastName.trim(),
+          email: data.email.trim().toLowerCase(),
+          phone: data.phone.trim(),
+          licensed_states: data.licensedStates,
+          license_type: data.licenseType,
+          referral_source: data.referralSource,
+          telehealth_experience: data.telehealthExperience,
+          motivation: data.motivation.trim(),
+          weekly_hours: data.weeklyHours,
+          source_page: "/clinicians",
+          user_agent: typeof navigator !== "undefined" ? navigator.userAgent : null,
+          consent: true,
+        },
+      },
+    );'''
+          text = replace_once(text, old, new, "clinician submit")
+          path.write_text(text, encoding="utf-8")
+
+          # OCS routing: four operational lanes plus multi-role relationship classification.
+          path = Path("src/pages/OperationClaimsSuccessPage.tsx")
+          text = path.read_text(encoding="utf-8")
+          text = replace_once(
+              text,
+              'import { supabase } from "@/integrations/supabase/client";',
+              'import { billingHubSupabase } from "@/integrations/billingHub/client";',
+              "ocs import",
+          )
+          text = text.replace('lane: "veteran_org"', 'lane: "partnership_support"')
+          text = text.replace('lane: "creator"', 'lane: "partnership_support"')
+          text = text.replace('lane: "supporter"', 'lane: "partnership_support"')
+
+          old_lanes = '''const laneOptions: { value: string; label: string; tag: string }[] = [
+  { value: "veteran", label: "Veteran or family member looking for education", tag: "veteran-interest" },
+  { value: "clinician", label: "Clinician or provider interested in the mission", tag: "clinician-lead" },
+  { value: "veteran_org", label: "Veteran organization", tag: "veteran-org-lead" },
+  { value: "community_org", label: "Community organization, employer, church, or nonprofit", tag: "partner-lead" },
+  { value: "supporter", label: "Supporter or sponsor", tag: "supporter-lead" },
+  { value: "creator", label: "Creator, media outlet, podcast, or storyteller", tag: "creator-lead" },
+  { value: "intro", label: "Introduction / connector", tag: "intro-lead" },
+  { value: "general", label: "I want to help move the mission, but I'm not sure where I fit", tag: "ocs-lead" },
+];'''
+          new_lanes = '''const laneOptions = [
+  { value: "veteran", label: "Veteran or family member seeking education", tag: "veteran-interest" },
+  { value: "provider_recruiting", label: "Clinician or provider interested in ValorWell", tag: "clinician-lead" },
+  { value: "partnership_support", label: "Organization, supporter, creator, sponsor, or connector", tag: "relationship-lead" },
+  { value: "general", label: "I want to help, but I'm not sure where I fit", tag: "ocs-lead" },
+] as const;
+
+const partnershipRoleOptions = [
+  { value: "veteran_organization", label: "Veteran-affiliated organization" },
+  { value: "community_organization", label: "Community organization" },
+  { value: "employer", label: "Employer" },
+  { value: "church", label: "Church or faith community" },
+  { value: "nonprofit", label: "Nonprofit" },
+  { value: "supporter", label: "Supporter" },
+  { value: "sponsor", label: "Sponsor" },
+  { value: "funder", label: "Funder" },
+  { value: "creator", label: "Creator or influencer" },
+  { value: "media_outlet", label: "Media outlet" },
+  { value: "podcaster", label: "Podcaster" },
+  { value: "storyteller", label: "Storyteller" },
+  { value: "connector", label: "Connector or introduction source" },
+] as const;'''
+          text = replace_once(text, old_lanes, new_lanes, "ocs lane options")
+
+          text = replace_once(
+              text,
+              '''  social_link: string;
+  responses: Record<string, string>;
+  consent: boolean;''',
+              '''  social_link: string;
+  organization_kind: string;
+  relationship_types: string[];
+  veteran_affiliated: boolean;
+  responses: Record<string, string>;
+  consent: boolean;''',
+              "ocs form type",
+          )
+          text = replace_once(
+              text,
+              '''  social_link: "",
+  responses: {},
+  consent: false,''',
+              '''  social_link: "",
+  organization_kind: "",
+  relationship_types: [],
+  veteran_affiliated: false,
+  responses: {},
+  consent: false,''',
+              "ocs initial form",
+          )
+          text = replace_once(
+              text,
+              '''  const setResponse = (key: string, val: string) => {
+    if (!startedRef.current) {
+      startedRef.current = true;
+      track("ocs_form_start");
+    }
+    setForm((prev) => ({ ...prev, responses: { ...prev.responses, [key]: val } }));
+  };''',
+              '''  const setResponse = (key: string, val: string) => {
+    if (!startedRef.current) {
+      startedRef.current = true;
+      track("ocs_form_start");
+    }
+    setForm((prev) => ({ ...prev, responses: { ...prev.responses, [key]: val } }));
+  };
+
+  const toggleRelationshipType = (value: string) => {
+    update(
+      "relationship_types",
+      form.relationship_types.includes(value)
+        ? form.relationship_types.filter((role) => role !== value)
+        : [...form.relationship_types, value],
+    );
+  };''',
+              "ocs role toggle",
+          )
+
+          old_submit = '''    const laneMeta = laneOptions.find((l) => l.value === form.lane);
+    const tags = ["ocs-lead", laneMeta?.tag ?? "ocs-lead"].filter(Boolean);
+    if (form.lane === "veteran") tags.push("va-community-care-interest", "documentation-education-interest");
+
+    try {
+      const { error } = await (supabase as any).from("ocs_inquiries").insert({
+        lane: form.lane,
+        first_name: form.first_name.trim(),
+        last_name: form.last_name.trim(),
+        email: form.email.trim(),
+        phone: form.phone.trim() || null,
+        organization: form.organization.trim() || null,
+        role_title: form.role_title.trim() || null,
+        website: form.website.trim() || null,
+        social_link: form.social_link.trim() || null,
+        responses: form.responses,
+        tags,
+        source_page: "/operation-claims-success",
+        user_agent: typeof navigator !== "undefined" ? navigator.userAgent : null,
+      });
+      if (error) throw error;'''
+          new_submit = '''    const laneMeta = laneOptions.find((l) => l.value === form.lane);
+    const tags = ["ocs-lead", laneMeta?.tag ?? "ocs-lead"].filter(Boolean);
+    if (form.lane === "veteran") tags.push("va-community-care-interest", "documentation-education-interest");
+
+    const licensedStates = (form.responses.licensed_states ?? "")
+      .split(",")
+      .map((state) => state.trim())
+      .filter(Boolean);
+    const veteranAffiliation =
+      form.responses.relationship === "Veteran"
+        ? "veteran"
+        : form.responses.relationship === "Family member" || form.responses.relationship === "Caregiver"
+          ? "family_member"
+          : form.responses.relationship === "Active duty"
+            ? "military_connected"
+            : undefined;
+
+    try {
+      const { error } = await (billingHubSupabase as any).rpc("submit_website_ocs_inquiry", {
+        p_payload: {
+          submission_key: crypto.randomUUID(),
+          lane: form.lane,
+          first_name: form.first_name.trim(),
+          last_name: form.last_name.trim(),
+          email: form.email.trim().toLowerCase(),
+          phone: form.phone.trim() || null,
+          organization: form.organization.trim() || null,
+          organization_kind: form.organization_kind || null,
+          role_title: form.role_title.trim() || null,
+          website: form.website.trim() || null,
+          social_link: form.social_link.trim() || null,
+          relationship_types: form.relationship_types,
+          veteran_affiliated: form.veteran_affiliated,
+          veteran_affiliation: veteranAffiliation,
+          license_type: form.responses.license_type || null,
+          licensed_states: licensedStates,
+          referral_source: "Operation Claims Success",
+          telehealth_experience: ["Extensive", "Some"].includes(form.responses.telehealth_experience ?? ""),
+          motivation: form.responses.why || form.responses.notes || null,
+          responses: form.responses,
+          tags,
+          consent: form.consent,
+          source_page: "/operation-claims-success",
+          user_agent: typeof navigator !== "undefined" ? navigator.userAgent : null,
+        },
+      });
+      if (error) throw error;'''
+          text = replace_once(text, old_submit, new_submit, "ocs submit")
+
+          old_contact = '''            <TextField label="Phone (optional)" type="tel" value={form.phone} onChange={(v) => update("phone", v)} />
+            <TextField label="Organization (optional)" value={form.organization} onChange={(v) => update("organization", v)} />
+            <TextField label="Role / title (optional)" value={form.role_title} onChange={(v) => update("role_title", v)} />
+            <TextField label="Website (optional)" value={form.website} onChange={(v) => update("website", v)} />
+            <TextField label="Social link (optional)" value={form.social_link} onChange={(v) => update("social_link", v)} />
+          </fieldset>
+
+          <ConditionalFields lane={form.lane} responses={form.responses} setResponse={setResponse} />'''
+          new_contact = '''            <TextField label="Phone (optional)" type="tel" value={form.phone} onChange={(v) => update("phone", v)} />
+            {form.lane === "partnership_support" && (
+              <>
+                <TextField label="Organization (optional)" value={form.organization} onChange={(v) => update("organization", v)} />
+                <TextField label="Role / title (optional)" value={form.role_title} onChange={(v) => update("role_title", v)} />
+                <TextField label="Website (optional)" value={form.website} onChange={(v) => update("website", v)} />
+                <TextField label="Social link (optional)" value={form.social_link} onChange={(v) => update("social_link", v)} />
+              </>
+            )}
+          </fieldset>
+
+          {form.lane === "partnership_support" && (
+            <PartnershipClassification
+              selected={form.relationship_types}
+              organizationKind={form.organization_kind}
+              veteranAffiliated={form.veteran_affiliated}
+              onToggle={toggleRelationshipType}
+              onOrganizationKind={(value) => update("organization_kind", value)}
+              onVeteranAffiliated={(value) => update("veteran_affiliated", value)}
+            />
+          )}
+
+          <ConditionalFields lane={form.lane} responses={form.responses} setResponse={setResponse} />'''
+          text = replace_once(text, old_contact, new_contact, "ocs contact/classification UI")
+
+          function_pattern = re.compile(r'function ConditionalFields\(\{.*?\n\}\n\n/\* ---------- FAQ ---------- \*/', re.S)
+          replacement = '''function PartnershipClassification({
+  selected,
+  organizationKind,
+  veteranAffiliated,
+  onToggle,
+  onOrganizationKind,
+  onVeteranAffiliated,
+}: {
+  selected: string[];
+  organizationKind: string;
+  veteranAffiliated: boolean;
+  onToggle: (value: string) => void;
+  onOrganizationKind: (value: string) => void;
+  onVeteranAffiliated: (value: boolean) => void;
+}) {
+  return (
+    <fieldset className="space-y-4 rounded-lg border border-[#3B5147]/20 bg-[#F4F1E8]/50 p-4">
+      <legend className="px-1 text-lg font-semibold text-[#111814]">3. How should we understand this relationship?</legend>
+      <p className="text-sm text-[#111814]/70">Select every description that applies. These classifications control outreach; they do not create separate duplicate contacts.</p>
+      <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+        {partnershipRoleOptions.map((option) => (
+          <label key={option.value} className="flex items-start gap-2 rounded-md border border-[#3B5147]/15 bg-white p-3 text-sm">
+            <input
+              type="checkbox"
+              checked={selected.includes(option.value)}
+              onChange={() => onToggle(option.value)}
+              className="mt-0.5 h-4 w-4 accent-[#3B5147]"
+            />
+            <span>{option.label}</span>
+          </label>
+        ))}
+      </div>
+      <div className="grid gap-4 md:grid-cols-2">
+        <SelectField
+          label="Primary organization type (optional)"
+          value={organizationKind}
+          onChange={onOrganizationKind}
+          options={["Veteran organization", "Community organization", "Employer", "Church / faith community", "Nonprofit", "Media", "Other"]}
+        />
+        <label className="flex items-center gap-3 rounded-md border border-[#3B5147]/15 bg-white p-3 text-sm text-[#111814]">
+          <input
+            type="checkbox"
+            checked={veteranAffiliated}
+            onChange={(event) => onVeteranAffiliated(event.target.checked)}
+            className="h-4 w-4 accent-[#3B5147]"
+          />
+          This organization or relationship is veteran / military-family affiliated
+        </label>
+      </div>
+    </fieldset>
+  );
+}
+
+function ConditionalFields({
+  lane,
+  responses,
+  setResponse,
+}: {
+  lane: LaneValue;
+  responses: Record<string, string>;
+  setResponse: (k: string, v: string) => void;
+}) {
+  const r = (k: string) => responses[k] ?? "";
+
+  return (
+    <fieldset className="grid gap-4 md:grid-cols-2">
+      <legend className="col-span-full text-lg font-semibold text-[#111814]">
+        {lane === "partnership_support" ? "4. A little more context" : "3. A little more context"}
+      </legend>
+
+      {lane === "veteran" && (
+        <>
+          <SelectField
+            label="Your relationship to the veteran community"
+            value={r("relationship")}
+            onChange={(v) => setResponse("relationship", v)}
+            options={["Veteran", "Active duty", "Family member", "Caregiver", "Friend/ally", "Other"]}
+          />
+          <TextField label="Topic you're trying to better understand" value={r("topic")} onChange={(v) => setResponse("topic", v)} />
+          <TextField label="State (optional)" value={r("state")} onChange={(v) => setResponse("state", v)} />
+          <SelectField
+            label="What kind of next step would be most useful?"
+            value={r("next_step")}
+            onChange={(v) => setResponse("next_step", v)}
+            options={["VA Community Care education", "Understanding the care-first model", "Mental health care information", "Ethical documentation education", "Operation Claims Success updates", "Not sure"]}
+          />
+        </>
+      )}
+
+      {lane === "provider_recruiting" && (
+        <>
+          <TextField label="License type" value={r("license_type")} onChange={(v) => setResponse("license_type", v)} />
+          <TextField label="Licensed states (comma separated)" value={r("licensed_states")} onChange={(v) => setResponse("licensed_states", v)} />
+          <TextField label="Current practice or employer" value={r("practice")} onChange={(v) => setResponse("practice", v)} />
+          <SelectField
+            label="Telehealth experience"
+            value={r("telehealth_experience")}
+            onChange={(v) => setResponse("telehealth_experience", v)}
+            options={["Extensive", "Some", "Limited", "None yet"]}
+          />
+          <TextField label="LinkedIn, resume, or practice-site URL" value={r("linkedin")} onChange={(v) => setResponse("linkedin", v)} />
+          <TextArea label="Why does this mission interest you?" value={r("why")} onChange={(v) => setResponse("why", v)} />
+        </>
+      )}
+
+      {lane === "partnership_support" && (
+        <>
+          <TextArea label="What are you hoping to build, support, share, fund, or introduce?" value={r("goal")} onChange={(v) => setResponse("goal", v)} />
+          <TextArea label="What real work, audience, resource, or relationship are you bringing?" value={r("current_work")} onChange={(v) => setResponse("current_work", v)} />
+        </>
+      )}
+
+      {lane === "general" && (
+        <TextArea label="Anything you want ValorWell to know? (optional)" value={r("notes")} onChange={(v) => setResponse("notes", v)} />
+      )}
+    </fieldset>
+  );
+}
+
+/* ---------- FAQ ---------- */'''
+          text, count = function_pattern.subn(replacement, text, count=1)
+          if count != 1:
+              raise RuntimeError(f"ocs ConditionalFields replacement: expected 1, found {count}")
+          path.write_text(text, encoding="utf-8")
+
+          # BTY submissions -> Billing Hub with role and veteran-affiliation differentiators.
+          path = Path("src/pages/BeyondTheYellowPage.tsx")
+          text = path.read_text(encoding="utf-8")
+          text = replace_once(
+              text,
+              'import { supabase } from "@/integrations/supabase/client";',
+              'import { billingHubSupabase } from "@/integrations/billingHub/client";',
+              "bty import",
+          )
+          text = replace_once(
+              text,
+              '''type LaneValue = (typeof lanes)[number]["value"];
+
+type FormState = {''',
+              '''type LaneValue = (typeof lanes)[number]["value"];
+
+const btyRelationshipTypeOptions = [
+  { value: "supporter", label: "Supporter" },
+  { value: "sponsor", label: "Sponsor" },
+  { value: "funder", label: "Funder" },
+  { value: "creator", label: "Creator or influencer" },
+  { value: "media_outlet", label: "Media outlet" },
+  { value: "podcaster", label: "Podcaster" },
+  { value: "storyteller", label: "Storyteller" },
+  { value: "connector", label: "Connector or introduction source" },
+  { value: "veteran_organization", label: "Veteran-affiliated organization" },
+  { value: "community_organization", label: "Community organization" },
+  { value: "nonprofit", label: "Nonprofit" },
+] as const;
+
+type FormState = {''',
+              "bty role options",
+          )
+          text = replace_once(
+              text,
+              '''  subject_name: string;
+  responses: Record<string, string>;
+  consent: boolean;''',
+              '''  subject_name: string;
+  organization_kind: string;
+  relationship_types: string[];
+  veteran_affiliated: boolean;
+  subject_veteran_affiliated: boolean;
+  responses: Record<string, string>;
+  consent: boolean;''',
+              "bty form type",
+          )
+          text = replace_once(
+              text,
+              '''  subject_name: "",
+  responses: {},
+  consent: false,''',
+              '''  subject_name: "",
+  organization_kind: "",
+  relationship_types: [],
+  veteran_affiliated: false,
+  subject_veteran_affiliated: false,
+  responses: {},
+  consent: false,''',
+              "bty defaults",
+          )
+          text = replace_once(
+              text,
+              '''  const setResponse = (k: string, v: string) => {
+    markStart();
+    setForm((p) => ({ ...p, responses: { ...p.responses, [k]: v } }));
+  };''',
+              '''  const setResponse = (k: string, v: string) => {
+    markStart();
+    setForm((p) => ({ ...p, responses: { ...p.responses, [k]: v } }));
+  };
+
+  const toggleRelationshipType = (value: string) => {
+    update(
+      "relationship_types",
+      form.relationship_types.includes(value)
+        ? form.relationship_types.filter((role) => role !== value)
+        : [...form.relationship_types, value],
+    );
+  };''',
+              "bty role toggle",
+          )
+
+          old_bty_submit = '''      const { error } = await (supabase as any).from("bty_submissions").insert({
+        lane: form.lane,
+        first_name: form.first_name.trim() || null,
+        last_name: form.last_name.trim() || null,
+        email: form.email.trim() || null,
+        phone: form.phone.trim() || null,
+        organization: form.organization.trim() || null,
+        role_title: form.role_title.trim() || null,
+        website: form.website.trim() || null,
+        social_link: form.social_link.trim() || null,
+        subject_name: form.subject_name.trim() || null,
+        responses: form.responses,
+        tags,
+        consent: form.consent,
+        source_page: "/beyondtheyellow",
+        user_agent: typeof navigator !== "undefined" ? navigator.userAgent : null,
+      });'''
+          new_bty_submit = '''      const { error } = await (billingHubSupabase as any).rpc("submit_website_bty_submission", {
+        p_payload: {
+          submission_key: crypto.randomUUID(),
+          lane: form.lane,
+          first_name: form.first_name.trim() || null,
+          last_name: form.last_name.trim() || null,
+          email: form.email.trim().toLowerCase() || null,
+          phone: form.phone.trim() || null,
+          organization: form.organization.trim() || null,
+          organization_kind: form.organization_kind || null,
+          role_title: form.role_title.trim() || null,
+          website: form.website.trim() || null,
+          social_link: form.social_link.trim() || null,
+          subject_name: form.subject_name.trim() || null,
+          subject_type: form.responses.nomination_type || null,
+          relationship_types: form.relationship_types,
+          veteran_affiliated: form.veteran_affiliated,
+          subject_veteran_affiliated: form.subject_veteran_affiliated,
+          responses: form.responses,
+          tags,
+          consent: form.consent,
+          source_page: "/beyondtheyellow",
+          user_agent: typeof navigator !== "undefined" ? navigator.userAgent : null,
+        },
+      });'''
+          text = replace_once(text, old_bty_submit, new_bty_submit, "bty submit")
+
+          consent_anchor = '''          <div className="flex items-start gap-3 rounded-lg border border-border bg-muted/40 p-4">
+            <input
+              id="consent"'''
+          classification = '''          {(isPromote || withOrg) && (
+            <fieldset className="space-y-4 rounded-lg border border-border bg-muted/30 p-4">
+              <legend className="px-1 text-sm font-semibold text-foreground">How should we classify this relationship?</legend>
+              <p className="text-xs text-muted-foreground">Select every description that applies. One person or organization may have several roles.</p>
+              <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                {btyRelationshipTypeOptions.map((option) => (
+                  <label key={option.value} className="flex items-start gap-2 rounded-md border border-border bg-background p-3 text-sm">
+                    <input
+                      type="checkbox"
+                      checked={form.relationship_types.includes(option.value)}
+                      onChange={() => toggleRelationshipType(option.value)}
+                      className="mt-0.5 h-4 w-4 rounded border-input"
+                    />
+                    <span>{option.label}</span>
+                  </label>
+                ))}
+              </div>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label htmlFor="organization_kind" className="block text-sm font-medium text-foreground">Primary organization type (optional)</label>
+                  <select
+                    id="organization_kind"
+                    value={form.organization_kind}
+                    onChange={(event) => update("organization_kind", event.target.value)}
+                    className={inputCls}
+                  >
+                    <option value="">Select...</option>
+                    <option value="veteran_organization">Veteran organization</option>
+                    <option value="community_organization">Community organization</option>
+                    <option value="nonprofit">Nonprofit</option>
+                    <option value="media">Media / podcast</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+                <label className="flex items-center gap-3 rounded-md border border-border bg-background p-3 text-sm text-foreground">
+                  <input
+                    type="checkbox"
+                    checked={form.veteran_affiliated}
+                    onChange={(event) => update("veteran_affiliated", event.target.checked)}
+                    className="h-4 w-4 rounded border-input"
+                  />
+                  Veteran or military-family affiliated
+                </label>
+              </div>
+            </fieldset>
+          )}
+
+          {showNominateOrganization && (
+            <label className="flex items-center gap-3 rounded-lg border border-border bg-muted/30 p-4 text-sm text-foreground">
+              <input
+                type="checkbox"
+                checked={form.subject_veteran_affiliated}
+                onChange={(event) => update("subject_veteran_affiliated", event.target.checked)}
+                className="h-4 w-4 rounded border-input"
+              />
+              The nominated organization is veteran or military-family affiliated
+            </label>
+          )}
+
+'''
+          text = replace_once(text, consent_anchor, classification + consent_anchor, "bty classifications")
+          path.write_text(text, encoding="utf-8")
+
+          # Remove this one-time workflow before committing the application changes.
+          Path(".github/workflows/apply-billing-hub-intake-cutover.yml").unlink()
+          PY
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate build
+        run: npm run build
+
+      - name: Commit cutover
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/integrations/billingHub/client.ts \
+                  src/components/forms/TherapistApplicationForm.tsx \
+                  src/pages/OperationClaimsSuccessPage.tsx \
+                  src/pages/BeyondTheYellowPage.tsx \
+                  .github/workflows/apply-billing-hub-intake-cutover.yml
+          git commit -m "route website intake to Billing Hub"
+          git push origin HEAD:agent/billing-hub-intake-cutover
