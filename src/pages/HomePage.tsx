@@ -11,7 +11,7 @@ import ocsAsset from "@/assets/operation-claims-success.png.asset.json";
 import careAsset from "@/assets/real-mental-health-care.png.asset.json";
 import btyAsset from "@/assets/beyond-the-yellow.png.asset.json";
 import founderCoverAsset from "@/assets/founder-cover-new.png.asset.json";
-import btyCoverAsset from "@/assets/bty-cover.png.asset.json";
+import btyCoverAsset from "@/assets/bty-cover-new.png.asset.json";
 import { DonateButton } from "@/components/DonateButton";
 
 const soldierPortrait = ocsAsset.url;
