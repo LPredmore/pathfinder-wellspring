@@ -260,19 +260,17 @@ export default function MissionPage() {
             {/* Video / fallback */}
             <div className="mt-10 rise-in">
               {FOUNDER_VIDEO_ID ? (
-                <div className="rounded-lg border border-[hsl(var(--mission-gold))]/70 shadow-lg overflow-hidden">
+                <div className="w-fit mx-auto rounded-lg border border-[hsl(var(--mission-gold))]/70 shadow-lg overflow-hidden">
                   <ClickToLoadYouTubeShort
                     videoId={FOUNDER_VIDEO_ID}
                     title="ValorWell — Why this exists. From the founder."
-                    aspect="16 / 9"
-                    maxWidthClassName="max-w-none"
                     coverImage={FOUNDER_VIDEO_COVER ?? undefined}
                   />
                 </div>
               ) : (
                 <div
-                  className="relative w-full overflow-hidden rounded-lg border border-[hsl(var(--mission-gold))]/70 bg-[hsl(var(--mission-forest))] text-[hsl(var(--mission-paper))]"
-                  style={{ aspectRatio: "16 / 9" }}
+                  className="relative mx-auto w-full max-w-sm overflow-hidden rounded-lg border border-[hsl(var(--mission-gold))]/70 bg-[hsl(var(--mission-forest))] text-[hsl(var(--mission-paper))]"
+                  style={{ aspectRatio: "9 / 16" }}
                 >
                   <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
                     <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-[hsl(var(--mission-gold))] text-[hsl(var(--mission-ink))]">
