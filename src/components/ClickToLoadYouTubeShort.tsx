@@ -17,6 +17,11 @@ interface ClickToLoadYouTubeShortProps {
   aspect?: string;
   /** Max width class override. Defaults to "max-w-sm" (good for Shorts). */
   maxWidthClassName?: string;
+  /**
+   * Classes applied to the inner aspect-ratio player wrapper.
+   * Useful for height-constrained layouts (e.g. "h-[60vh] w-auto").
+   */
+  playerClassName?: string;
 }
 
 const ClickToLoadYouTubeShort = ({
@@ -26,6 +31,7 @@ const ClickToLoadYouTubeShort = ({
   coverImage,
   aspect = "9 / 16",
   maxWidthClassName = "max-w-sm",
+  playerClassName,
 }: ClickToLoadYouTubeShortProps) => {
   const [loaded, setLoaded] = useState(false);
 
@@ -35,7 +41,7 @@ const ClickToLoadYouTubeShort = ({
   return (
     <div className={className}>
       <div
-        className={`relative mx-auto w-full ${maxWidthClassName} min-h-[200px] rounded-lg overflow-hidden`}
+        className={`relative mx-auto w-full ${maxWidthClassName} min-h-[200px] rounded-lg overflow-hidden ${playerClassName ?? ""}`}
         style={{ aspectRatio: aspect }}
       >
         {loaded ? (

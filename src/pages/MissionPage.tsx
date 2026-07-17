@@ -246,66 +246,67 @@ export default function MissionPage() {
         {/* 1. HERO — video-anchor */}
         <section className="relative bg-[hsl(var(--mission-paper))] paper-grain">
           <div className="mx-auto max-w-6xl px-5 sm:px-8 lg:px-12 pt-16 pb-20 md:pt-24 md:pb-28">
-            <div className="rise-in">
-              <Eyebrow>The ValorWell Mission</Eyebrow>
-              <h1 className="mt-5 display">
-                Veterans and families are being sold shortcuts.{" "}
-                <span className="gold-underline">We're building the real path.</span>
-              </h1>
-              <p className="mt-6 body-lg max-w-2xl text-[hsl(var(--mission-ink))]/80">
-                {"\n"}
-              </p>
-            </div>
+            <div className="grid gap-10 lg:gap-14 items-center md:grid-cols-2">
+              <div className="rise-in">
+                <Eyebrow>The ValorWell Mission</Eyebrow>
+                <h1 className="mt-5 display">
+                  Veterans and families are being sold shortcuts.{" "}
+                  <span className="gold-underline">We're building the real path.</span>
+                </h1>
+                <p className="mt-6 body-lg max-w-xl text-[hsl(var(--mission-ink))]/80">
+                  Watch the founder explain why ValorWell exists — and what we're building instead.
+                </p>
 
-            {/* Video / fallback */}
-            <div className="mt-10 rise-in">
-              {FOUNDER_VIDEO_ID ? (
-                <div className="w-fit mx-auto rounded-lg border border-[hsl(var(--mission-gold))]/70 shadow-lg overflow-hidden">
+                <div className="mt-8 flex flex-col items-start gap-3">
+                  <Link
+                    to="/watch"
+                    onClick={() => track("mission_hero_follow_build")}
+                    className="inline-flex items-center gap-2 rounded-md bg-[hsl(var(--mission-forest))] px-7 py-4 text-base font-bold text-[hsl(var(--mission-paper))] transition-colors hover:bg-[hsl(var(--mission-ink))]"
+                  >
+                    Follow the Build <ArrowRight className="h-4 w-4" />
+                  </Link>
+                  <Link
+                    to="/get-care"
+                    onClick={() => track("mission_hero_get_care")}
+                    className="text-sm font-semibold text-[hsl(var(--mission-ink))]/70 underline underline-offset-4 hover:text-[hsl(var(--mission-rust))]"
+                  >
+                    Need care now →
+                  </Link>
+                </div>
+              </div>
+
+              {/* Video / fallback */}
+              <div className="rise-in flex justify-center">
+                {FOUNDER_VIDEO_ID ? (
                   <ClickToLoadYouTubeShort
                     videoId={FOUNDER_VIDEO_ID}
                     title="ValorWell — Why this exists. From the founder."
                     coverImage={FOUNDER_VIDEO_COVER ?? undefined}
+                    maxWidthClassName=""
+                    playerClassName="h-[55vh] md:h-[65vh] !w-auto rounded-lg border border-[hsl(var(--mission-gold))]/70 shadow-lg"
                   />
-                </div>
-              ) : (
-                <div
-                  className="relative mx-auto w-full max-w-sm overflow-hidden rounded-lg border border-[hsl(var(--mission-gold))]/70 bg-[hsl(var(--mission-forest))] text-[hsl(var(--mission-paper))]"
-                  style={{ aspectRatio: "9 / 16" }}
-                >
-                  <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
-                    <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-[hsl(var(--mission-gold))] text-[hsl(var(--mission-ink))]">
-                      <Play className="h-7 w-7" fill="currentColor" />
+                ) : (
+                  <div
+                    className="relative h-[55vh] md:h-[65vh] w-auto overflow-hidden rounded-lg border border-[hsl(var(--mission-gold))]/70 bg-[hsl(var(--mission-forest))] text-[hsl(var(--mission-paper))]"
+                    style={{ aspectRatio: "9 / 16" }}
+                  >
+                    <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
+                      <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-[hsl(var(--mission-gold))] text-[hsl(var(--mission-ink))]">
+                        <Play className="h-7 w-7" fill="currentColor" />
+                      </div>
+                      <p className="text-lg font-bold uppercase tracking-[0.2em] text-[hsl(var(--mission-gold))]">
+                        From the founder
+                      </p>
+                      <p className="mt-3 max-w-xl text-xl md:text-2xl font-semibold leading-snug">
+                        "We are not selling the shortcut. We are building the better path."
+                      </p>
+                      <p className="mt-4 text-sm text-[hsl(var(--mission-paper))]/70">
+                        Luke — Founder, ValorWell &middot; Host, Beyond The Yellow
+                      </p>
                     </div>
-                    <p className="text-lg font-bold uppercase tracking-[0.2em] text-[hsl(var(--mission-gold))]">
-                      From the founder
-                    </p>
-                    <p className="mt-3 max-w-xl text-xl md:text-2xl font-semibold leading-snug">
-                      "We are not selling the shortcut. We are building the better path."
-                    </p>
-                    <p className="mt-4 text-sm text-[hsl(var(--mission-paper))]/70">
-                      Luke — Founder, ValorWell &middot; Host, Beyond The Yellow
-                    </p>
                   </div>
-                </div>
-              )}
-            </div>
-
-            {/* CTAs */}
-            <div className="mt-8 flex flex-col items-start gap-3">
-              <Link
-                to="/watch"
-                onClick={() => track("mission_hero_follow_build")}
-                className="inline-flex items-center gap-2 rounded-md bg-[hsl(var(--mission-forest))] px-7 py-4 text-base font-bold text-[hsl(var(--mission-paper))] transition-colors hover:bg-[hsl(var(--mission-ink))]"
-              >
-                Follow the Build <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link
-                to="/get-care"
-                onClick={() => track("mission_hero_get_care")}
-                className="text-sm font-semibold text-[hsl(var(--mission-ink))]/70 underline underline-offset-4 hover:text-[hsl(var(--mission-rust))]"
-              >
-                Need care now →
-              </Link>
+                )}
+              </div>
             </div>
           </div>
         </section>
