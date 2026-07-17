@@ -20,13 +20,13 @@ export function LegacyFormPortal({
     if (!section) return;
 
     const legacyForm = section.querySelector("form") as HTMLElement | null;
+    const formContainer = legacyForm?.parentElement ?? section;
     const previousDisplay = legacyForm?.style.display ?? "";
     if (legacyForm) legacyForm.style.display = "none";
 
     const host = document.createElement("div");
     host.dataset.billingHubIntake = targetId;
-    host.className = "mt-8";
-    section.appendChild(host);
+    formContainer.appendChild(host);
     setTarget(host);
 
     return () => {
