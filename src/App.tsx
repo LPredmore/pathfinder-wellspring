@@ -6,7 +6,6 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { AuthProvider } from "@/contexts/AuthContext";
 
-
 // Preserved functional (non-shell) routes
 import Donate from "./pages/Donate";
 import InfluencerPortal from "./pages/InfluencerPortal";
@@ -15,8 +14,8 @@ import NotFound from "./pages/NotFound";
 import HomePage from "./pages/HomePage";
 import WatchPage from "./pages/WatchPage";
 import MissionPage from "./pages/MissionPage";
-import OperationClaimsSuccessPage from "./pages/OperationClaimsSuccessPage";
-import BeyondTheYellowPage from "./pages/BeyondTheYellowPage";
+import OcsBillingHubPage from "./pages/OcsBillingHubPage";
+import BtyBillingHubPage from "./pages/BtyBillingHubPage";
 import Clinicians from "./pages/Clinicians";
 import GetCare from "./pages/GetCare";
 import Partner from "./pages/Partner";
@@ -40,7 +39,6 @@ const legacyRedirects: { from: string; to: string }[] = [
   { from: "/therapy", to: "/get-care" },
   { from: "/get-started", to: "/get-care" },
   { from: "/how-it-works", to: "/get-care" },
-  
   { from: "/media", to: "/watch" },
   { from: "/media/youtube-podcast", to: "/watch" },
   { from: "/videos", to: "/watch" },
@@ -55,15 +53,12 @@ const legacyRedirects: { from: string; to: string }[] = [
   { from: "/mission-one-pager", to: "/partner" },
   { from: "/faq", to: "/contact" },
   { from: "/urgent-help", to: "/get-care" },
-  // Media / authority / product routes that will be rebuilt intentionally later
   { from: "/resources", to: "/authority/resources" },
-              { from: "/veteran-mental-health-care", to: "/authority/veteran-mental-health-care" },
-              { from: "/va-community-care-mental-health", to: "/authority/va-community-care-mental-health" },
-              { from: "/military-family-therapy", to: "/authority/military-family-therapy" },
-              { from: "/family-systems", to: "/authority/family-systems" },
-              { from: "/veteran-mental-health-care", to: "/authority/veteran-mental-health-care" },
-              { from: "/va-community-care-mental-health", to: "/authority/va-community-care-mental-health" },
-            ];
+  { from: "/veteran-mental-health-care", to: "/authority/veteran-mental-health-care" },
+  { from: "/va-community-care-mental-health", to: "/authority/va-community-care-mental-health" },
+  { from: "/military-family-therapy", to: "/authority/military-family-therapy" },
+  { from: "/family-systems", to: "/authority/family-systems" },
+];
 
 const App = () => (
   <HelmetProvider>
@@ -77,8 +72,8 @@ const App = () => (
               <Route path="/" element={<HomePage />} />
               <Route path="/watch" element={<WatchPage />} />
               <Route path="/mission" element={<MissionPage />} />
-              <Route path="/operation-claims-success" element={<OperationClaimsSuccessPage />} />
-              <Route path="/beyondtheyellow" element={<BeyondTheYellowPage />} />
+              <Route path="/operation-claims-success" element={<OcsBillingHubPage />} />
+              <Route path="/beyondtheyellow" element={<BtyBillingHubPage />} />
               <Route path="/clinicians" element={<Clinicians />} />
               <Route path="/therapists" element={<Navigate to="/clinicians" replace />} />
               <Route path="/get-care" element={<GetCare />} />
@@ -97,10 +92,8 @@ const App = () => (
               <Route path="/authority/resources/va-community-care" element={<AuthorityResourcesVACommunityCare />} />
               <Route path="/authority/resources/veteran-mental-health" element={<AuthorityResourcesVeteranMentalHealth />} />
 
-
-
-              {legacyRedirects.map((r) => (
-                <Route key={r.from} path={r.from} element={<Navigate to={r.to} replace />} />
+              {legacyRedirects.map((redirect) => (
+                <Route key={redirect.from} path={redirect.from} element={<Navigate to={redirect.to} replace />} />
               ))}
 
               {/* Preserved functional routes (not in public nav) */}
