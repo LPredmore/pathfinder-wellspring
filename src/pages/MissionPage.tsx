@@ -6,7 +6,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ClickToLoadYouTubeShort } from "@/components/ClickToLoadYouTubeShort";
 import { trackHomeEvent } from "@/lib/tracking";
-import missionCoverAsset from "@/assets/mission-cover.png.asset.json";
+import missionCoverAsset from "@/assets/mission-cover-new.png.asset.json";
 
 /**
  * Founder video — swap this one line to change the hero video.
