@@ -269,8 +269,8 @@ export default function MissionPage() {
                 </div>
               ) : (
                 <div
-                  className="relative w-full overflow-hidden rounded-lg border border-[hsl(var(--mission-gold))]/70 bg-[hsl(var(--mission-forest))] text-[hsl(var(--mission-paper))]"
-                  style={{ aspectRatio: "16 / 9" }}
+                  className="relative mx-auto w-full max-w-sm overflow-hidden rounded-lg border border-[hsl(var(--mission-gold))]/70 bg-[hsl(var(--mission-forest))] text-[hsl(var(--mission-paper))]"
+                  style={{ aspectRatio: "9 / 16" }}
                 >
                   <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
                     <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-[hsl(var(--mission-gold))] text-[hsl(var(--mission-ink))]">
