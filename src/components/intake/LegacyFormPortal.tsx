@@ -20,7 +20,8 @@ export function LegacyFormPortal({
     if (!section) return;
 
     const legacyForm = section.querySelector("form") as HTMLElement | null;
-    const formContainer = legacyForm?.parentElement ?? section;
+    const firstContentContainer = section.firstElementChild as HTMLElement | null;
+    const formContainer = legacyForm?.parentElement ?? firstContentContainer ?? section;
     const previousDisplay = legacyForm?.style.display ?? "";
     if (legacyForm) legacyForm.style.display = "none";
 
