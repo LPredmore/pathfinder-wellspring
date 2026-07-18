@@ -1,8 +1,14 @@
 # Welcome to your Lovable project
 
+## Creator and community interest data
+
+Billing Hub is the canonical destination for creator, promoter, storyteller, supporter, connector, and community-interest submissions. The anonymous form at `/beyondtheyellow` calls a narrow Billing Hub RPC and does not create accounts or require login. See [the workflow, field map, security model, operations, and rollback guide](docs/creator-community-interest-workflow.md) and [the pre-change audit](docs/pre-change-interest-audit-2026-07-17.md).
+
 ## Project info
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+**Lovable project**: https://lovable.dev/projects/c758642f-82dd-4b2c-89f4-751876e059fc
+
+**Production site**: https://valorwell.org
 
 ## How can I edit this code?
 
@@ -10,7 +16,7 @@ There are several ways of editing your application.
 
 **Use Lovable**
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+Simply visit the [Lovable Project](https://lovable.dev/projects/c758642f-82dd-4b2c-89f4-751876e059fc) and start prompting.
 
 Changes made via Lovable will be committed automatically to this repo.
 
@@ -62,7 +68,7 @@ This project is built with:
 
 ## How can I deploy this project?
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+Open the [ValorWell Website project](https://lovable.dev/projects/c758642f-82dd-4b2c-89f4-751876e059fc) and click Share -> Publish, then verify [valorwell.org](https://valorwell.org).
 
 ## Can I connect a custom domain to my Lovable project?
 

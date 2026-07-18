@@ -22,7 +22,7 @@ import {
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { trackHomeEvent } from "@/lib/tracking";
-import { supabase } from "@/integrations/supabase/client";
+import { billingHubSupabase, createWebsiteSubmissionKey } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
 import { DonateButton } from "@/components/DonateButton";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
@@ -398,27 +398,30 @@ function RoutingForm({ initialLane }: { initialLane?: LaneValue }) {
     if (form.lane === "veteran") tags.push("va-community-care-interest", "documentation-education-interest");
 
     try {
-      const { error } = await (supabase as any).from("ocs_inquiries").insert({
-        lane: form.lane,
-        first_name: form.first_name.trim(),
-        last_name: form.last_name.trim(),
-        email: form.email.trim(),
-        phone: form.phone.trim() || null,
-        organization: form.organization.trim() || null,
-        role_title: form.role_title.trim() || null,
-        website: form.website.trim() || null,
-        social_link: form.social_link.trim() || null,
-        responses: form.responses,
-        tags,
-        source_page: "/operation-claims-success",
-        user_agent: typeof navigator !== "undefined" ? navigator.userAgent : null,
+      const { error } = await billingHubSupabase.rpc("submit_website_ocs_inquiry", {
+        p_payload: {
+          submission_key: createWebsiteSubmissionKey(),
+          lane: form.lane,
+          first_name: form.first_name.trim(),
+          last_name: form.last_name.trim(),
+          email: form.email.trim().toLowerCase(),
+          phone: form.phone.trim() || null,
+          organization: form.organization.trim() || null,
+          role_title: form.role_title.trim() || null,
+          website: form.website.trim() || null,
+          social_link: form.social_link.trim() || null,
+          responses: form.responses,
+          tags,
+          source_page: "/operation-claims-success",
+          user_agent: typeof navigator !== "undefined" ? navigator.userAgent : null,
+        },
       });
       if (error) throw error;
       track("ocs_form_submit", { lane: form.lane });
       track(`ocs_form_submit_${form.lane}`);
       setStatus("success");
-    } catch (err: any) {
-      setErrorMsg(err?.message ?? "Something went wrong. Please try again.");
+    } catch {
+      setErrorMsg("Something went wrong. Please try again.");
       setStatus("error");
     }
   };

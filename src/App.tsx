@@ -8,7 +8,6 @@ import { AuthProvider } from "@/contexts/AuthContext";
 
 // Preserved functional (non-shell) routes
 import Donate from "./pages/Donate";
-import InfluencerPortal from "./pages/InfluencerPortal";
 import AdminDashboard from "./pages/AdminDashboard";
 import NotFound from "./pages/NotFound";
 import HomePage from "./pages/HomePage";
@@ -54,6 +53,7 @@ const legacyRedirects: { from: string; to: string }[] = [
   { from: "/faq", to: "/contact" },
   { from: "/urgent-help", to: "/get-care" },
   { from: "/resources", to: "/authority/resources" },
+  { from: "/influencer", to: "/beyondtheyellow" },
   { from: "/veteran-mental-health-care", to: "/authority/veteran-mental-health-care" },
   { from: "/va-community-care-mental-health", to: "/authority/va-community-care-mental-health" },
   { from: "/military-family-therapy", to: "/authority/military-family-therapy" },
@@ -62,8 +62,7 @@ const legacyRedirects: { from: string; to: string }[] = [
 
 const App = () => (
   <HelmetProvider>
-    <AuthProvider>
-      <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
         <TooltipProvider>
           <Toaster />
           <Sonner />
@@ -98,15 +97,13 @@ const App = () => (
 
               {/* Preserved functional routes (not in public nav) */}
               <Route path="/donate" element={<Donate />} />
-              <Route path="/influencer" element={<InfluencerPortal />} />
-              <Route path="/admin" element={<AdminDashboard />} />
+              <Route path="/admin" element={<AuthProvider><AdminDashboard /></AuthProvider>} />
 
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
         </TooltipProvider>
-      </QueryClientProvider>
-    </AuthProvider>
+    </QueryClientProvider>
   </HelmetProvider>
 );
 

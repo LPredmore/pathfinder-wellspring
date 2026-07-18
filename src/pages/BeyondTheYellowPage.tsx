@@ -1,11 +1,10 @@
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import {
   ArrowRight,
   Check,
   X,
-  Loader2,
   Play,
   Users,
   Megaphone,
@@ -15,8 +14,9 @@ import {
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { trackHomeEvent } from "@/lib/tracking";
-import { supabase } from "@/integrations/supabase/client";
 import { DonateButton } from "@/components/DonateButton";
+import { BtyNominationForm } from "@/components/intake/BtyNominationForm";
+import { UnifiedBtyForm } from "@/components/intake/UnifiedBtyForm";
 
 const track = (name: string, params: Record<string, unknown> = {}) =>
   trackHomeEvent(name, { page: "beyond-the-yellow", ...params });
@@ -52,461 +52,7 @@ function SectionHeading({ children, className = "" }: { children: ReactNode; cla
   );
 }
 
-/* ---------- Lanes ---------- */
-
-const lanes = [
-  { value: "share-story", label: "Share My BTY Story", tag: "share-story", event: "bty_share_story_submit" },
-  { value: "nominate", label: "Nominate Someone Else to BTY", tag: "nomination", event: "bty_nomination_submit" },
-  { value: "promote-valorwell", label: "Join ValorWell's BTY", tag: "promote-valorwell", event: "bty_promote_valorwell_submit" },
-] as const;
-
-type LaneValue = (typeof lanes)[number]["value"];
-
-type FormState = {
-  lane: LaneValue | "";
-  first_name: string;
-  last_name: string;
-  email: string;
-  phone: string;
-  organization: string;
-  role_title: string;
-  website: string;
-  social_link: string;
-  subject_name: string;
-  responses: Record<string, string>;
-  consent: boolean;
-};
-
-const emptyForm: FormState = {
-  lane: "",
-  first_name: "",
-  last_name: "",
-  email: "",
-  phone: "",
-  organization: "",
-  role_title: "",
-  website: "",
-  social_link: "",
-  subject_name: "",
-  responses: {},
-  consent: false,
-};
-
-/* ---------- Story / Nomination Form ---------- */
-
-function StoryForm({ initialLane }: { initialLane?: LaneValue }) {
-  const [form, setForm] = useState<FormState>({ ...emptyForm, lane: initialLane ?? "" });
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-  const [errorMsg, setErrorMsg] = useState("");
-  const startedRef = useRef(false);
-  const laneCompleteFiredRef = useRef<string | null>(null);
-
-  useEffect(() => {
-    if (initialLane && initialLane !== form.lane) {
-      setForm((p) => ({ ...p, lane: initialLane }));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialLane]);
-
-  useEffect(() => {
-    const onLeave = () => {
-      if (startedRef.current && status !== "success" && status !== "loading") {
-        track("bty_form_abandon", { lane: form.lane || "unselected" });
-      }
-    };
-    window.addEventListener("beforeunload", onLeave);
-    return () => window.removeEventListener("beforeunload", onLeave);
-  }, [form.lane, status]);
-
-  const markStart = () => {
-    if (!startedRef.current) {
-      startedRef.current = true;
-      track("bty_story_start");
-    }
-  };
-
-  const setLane = (val: LaneValue) => {
-    markStart();
-    setForm((p) => ({ ...p, lane: val }));
-    track("bty_lane_selected", { lane: val });
-    if (laneCompleteFiredRef.current !== val) {
-      laneCompleteFiredRef.current = val;
-      track("bty_form_step_complete", { step: "lane" });
-    }
-  };
-
-  const update = <K extends keyof FormState>(k: K, v: FormState[K]) => {
-    markStart();
-    setForm((p) => ({ ...p, [k]: v }));
-  };
-
-  const setResponse = (k: string, v: string) => {
-    markStart();
-    setForm((p) => ({ ...p, responses: { ...p.responses, [k]: v } }));
-  };
-
-  const laneMeta = lanes.find((l) => l.value === form.lane);
-
-  const submit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!form.lane || !form.consent) return;
-    setStatus("loading");
-    setErrorMsg("");
-    const tags = ["bty-lead", laneMeta?.tag ?? "bty-lead"].filter(Boolean);
-
-    try {
-      const { error } = await (supabase as any).from("bty_submissions").insert({
-        lane: form.lane,
-        first_name: form.first_name.trim() || null,
-        last_name: form.last_name.trim() || null,
-        email: form.email.trim() || null,
-        phone: form.phone.trim() || null,
-        organization: form.organization.trim() || null,
-        role_title: form.role_title.trim() || null,
-        website: form.website.trim() || null,
-        social_link: form.social_link.trim() || null,
-        subject_name: form.subject_name.trim() || null,
-        responses: form.responses,
-        tags,
-        consent: form.consent,
-        source_page: "/beyondtheyellow",
-        user_agent: typeof navigator !== "undefined" ? navigator.userAgent : null,
-      });
-      if (error) throw error;
-      track("bty_form_submit", { lane: form.lane });
-      if (laneMeta?.event) track(laneMeta.event);
-      setStatus("success");
-    } catch (err: any) {
-      setErrorMsg(err?.message ?? "Something went wrong. Please try again.");
-      setStatus("error");
-    }
-  };
-
-  if (status === "success") {
-    return (
-      <div className="rounded-2xl border border-border bg-card p-8 text-center shadow-sm">
-        <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-[hsl(var(--gold-accent))] text-[hsl(var(--navy))]">
-          <Check className="h-6 w-6" />
-        </div>
-        <h3 className="text-2xl font-bold text-foreground">Thanks for sharing the story.</h3>
-        <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
-          ValorWell will review the submission and follow up if there is a fit. In the meantime, follow ValorWell, watch Beyond
-          The Yellow, and keep doing the work people would actually miss if it stopped.
-        </p>
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-          <Link
-            to="/watch"
-            onClick={() => track("bty_follow_click", { location: "form_success" })}
-            className="inline-flex items-center gap-2 rounded-md bg-[hsl(var(--navy))] px-5 py-3 text-sm font-semibold text-white hover:bg-[hsl(var(--navy-light))]"
-          >
-            Watch Beyond The Yellow <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
-  const isShare = form.lane === "share-story";
-  const isNominate = form.lane === "nominate";
-  const isPromote = form.lane === "promote-valorwell";
-  const nominationType = form.responses.nomination_type ?? "";
-  const withOrg = form.responses.with_organization === "yes";
-  const showNominateIndividual = isNominate && nominationType === "individual";
-  const showNominateOrganization = isNominate && nominationType === "organization";
-  const showFields = isShare || isPromote || showNominateIndividual || showNominateOrganization;
-
-  const inputCls =
-    "mt-1 block w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground focus:border-[hsl(var(--navy))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--navy))]/30";
-
-  const canSubmit = (() => {
-    if (!form.consent || !form.lane) return false;
-    if (isNominate && !nominationType) return false;
-    return true;
-  })();
-
-  return (
-    <form onSubmit={submit} className="rounded-2xl border border-border bg-card p-6 shadow-sm md:p-8" noValidate>
-      <fieldset>
-        <legend className="text-lg font-semibold text-foreground">What brings you here?</legend>
-        <p className="mt-1 text-sm text-muted-foreground">Pick the lane that fits best. Fields adjust after you choose.</p>
-        <div className="mt-4 grid gap-2 sm:grid-cols-3">
-          {lanes.map((l) => {
-            const active = form.lane === l.value;
-            return (
-              <button
-                key={l.value}
-                type="button"
-                onClick={() => setLane(l.value)}
-                aria-pressed={active}
-                className={`rounded-lg border px-4 py-3 text-left text-sm font-medium transition-colors ${
-                  active
-                    ? "border-[hsl(var(--gold-accent))] bg-[hsl(var(--gold-accent))]/15 text-foreground"
-                    : "border-border bg-background text-foreground hover:border-[hsl(var(--navy))] hover:bg-muted"
-                }`}
-              >
-                {l.label}
-              </button>
-            );
-          })}
-        </div>
-      </fieldset>
-
-      {isNominate && (
-        <fieldset className="mt-8">
-          <legend className="text-sm font-medium text-foreground">Are you nominating an individual or an organization?</legend>
-          <div className="mt-3 grid gap-2 sm:grid-cols-2">
-            {[
-              { value: "individual", label: "Individual" },
-              { value: "organization", label: "Organization" },
-            ].map((opt) => {
-              const active = nominationType === opt.value;
-              return (
-                <button
-                  key={opt.value}
-                  type="button"
-                  onClick={() => setResponse("nomination_type", opt.value)}
-                  aria-pressed={active}
-                  className={`rounded-lg border px-4 py-3 text-left text-sm font-medium transition-colors ${
-                    active
-                      ? "border-[hsl(var(--gold-accent))] bg-[hsl(var(--gold-accent))]/15 text-foreground"
-                      : "border-border bg-background text-foreground hover:border-[hsl(var(--navy))] hover:bg-muted"
-                  }`}
-                >
-                  {opt.label}
-                </button>
-              );
-            })}
-          </div>
-        </fieldset>
-      )}
-
-      {showFields && (
-        <div className="mt-8 space-y-6">
-          {/* --- SHARE MY BTY STORY --- */}
-          {isShare && (
-            <>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div>
-                  <label htmlFor="first_name" className="block text-sm font-medium text-foreground">First name</label>
-                  <input id="first_name" type="text" required value={form.first_name} onChange={(e) => update("first_name", e.target.value)} className={inputCls} />
-                </div>
-                <div>
-                  <label htmlFor="last_name" className="block text-sm font-medium text-foreground">Last name</label>
-                  <input id="last_name" type="text" required value={form.last_name} onChange={(e) => update("last_name", e.target.value)} className={inputCls} />
-                </div>
-              </div>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-foreground">Email</label>
-                  <input id="email" type="email" required value={form.email} onChange={(e) => update("email", e.target.value)} className={inputCls} />
-                </div>
-                <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-foreground">Phone <span className="text-muted-foreground">(optional)</span></label>
-                  <input id="phone" type="tel" value={form.phone} onChange={(e) => update("phone", e.target.value)} className={inputCls} />
-                </div>
-              </div>
-              <div>
-                <label htmlFor="action" className="block text-sm font-medium text-foreground">What real action are you doing? Who is measurably better off?</label>
-                <textarea id="action" required rows={5} value={form.responses.action ?? ""} onChange={(e) => setResponse("action", e.target.value)} className={inputCls} placeholder="Be specific. What happens, who benefits, and what would break if it stopped." />
-                <p className="mt-1 text-xs text-muted-foreground">Please do not include medical records, SSNs, VA file numbers, or clinical/claim evidence.</p>
-              </div>
-              <div className="flex items-start gap-3 rounded-lg border border-border bg-muted/40 p-4">
-                <input id="with_org" type="checkbox" checked={withOrg} onChange={(e) => setResponse("with_organization", e.target.checked ? "yes" : "no")} className="mt-1 h-4 w-4 rounded border-input" />
-                <label htmlFor="with_org" className="text-sm text-foreground">I am working as part of an organization</label>
-              </div>
-              {withOrg && (
-                <div>
-                  <label htmlFor="organization" className="block text-sm font-medium text-foreground">Name of the organization you're with</label>
-                  <input id="organization" type="text" required value={form.organization} onChange={(e) => update("organization", e.target.value)} className={inputCls} />
-                </div>
-              )}
-            </>
-          )}
-
-          {/* --- NOMINATE INDIVIDUAL --- */}
-          {showNominateIndividual && (
-            <>
-              <div>
-                <label htmlFor="subject_name" className="block text-sm font-medium text-foreground">Who are you nominating?</label>
-                <input id="subject_name" type="text" required value={form.subject_name} onChange={(e) => update("subject_name", e.target.value)} className={inputCls} placeholder="Their name" />
-              </div>
-              <div>
-                <label htmlFor="social_link" className="block text-sm font-medium text-foreground">Their best social / video link</label>
-                <input id="social_link" type="url" value={form.social_link} onChange={(e) => update("social_link", e.target.value)} placeholder="https://" className={inputCls} />
-              </div>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div>
-                  <label htmlFor="first_name" className="block text-sm font-medium text-foreground">Your first name</label>
-                  <input id="first_name" type="text" required value={form.first_name} onChange={(e) => update("first_name", e.target.value)} className={inputCls} />
-                </div>
-                <div>
-                  <label htmlFor="last_name" className="block text-sm font-medium text-foreground">Your last name</label>
-                  <input id="last_name" type="text" required value={form.last_name} onChange={(e) => update("last_name", e.target.value)} className={inputCls} />
-                </div>
-              </div>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-foreground">Your email</label>
-                  <input id="email" type="email" required value={form.email} onChange={(e) => update("email", e.target.value)} className={inputCls} />
-                </div>
-                <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-foreground">Your phone <span className="text-muted-foreground">(optional)</span></label>
-                  <input id="phone" type="tel" value={form.phone} onChange={(e) => update("phone", e.target.value)} className={inputCls} />
-                </div>
-              </div>
-              <div>
-                <label htmlFor="action" className="block text-sm font-medium text-foreground">What real action are they doing? Who is measurably better off?</label>
-                <textarea id="action" required rows={5} value={form.responses.action ?? ""} onChange={(e) => setResponse("action", e.target.value)} className={inputCls} placeholder="Be specific. What happens, who benefits, and what would break if it stopped." />
-                <p className="mt-1 text-xs text-muted-foreground">Please do not include medical records, SSNs, VA file numbers, or clinical/claim evidence.</p>
-              </div>
-            </>
-          )}
-
-          {/* --- NOMINATE ORGANIZATION --- */}
-          {showNominateOrganization && (
-            <>
-              <div>
-                <label htmlFor="subject_name" className="block text-sm font-medium text-foreground">Organization</label>
-                <input id="subject_name" type="text" required value={form.subject_name} onChange={(e) => update("subject_name", e.target.value)} className={inputCls} placeholder="Organization name" />
-              </div>
-              <div>
-                <label htmlFor="website" className="block text-sm font-medium text-foreground">Website or social media link</label>
-                <input id="website" type="url" value={form.website} onChange={(e) => update("website", e.target.value)} placeholder="https://" className={inputCls} />
-              </div>
-              <div className="rounded-lg border border-border bg-muted/30 p-4 space-y-4">
-                <p className="text-sm font-medium text-foreground">Point of contact information</p>
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div>
-                    <label htmlFor="first_name" className="block text-sm font-medium text-foreground">First name</label>
-                    <input id="first_name" type="text" required value={form.first_name} onChange={(e) => update("first_name", e.target.value)} className={inputCls} />
-                  </div>
-                  <div>
-                    <label htmlFor="last_name" className="block text-sm font-medium text-foreground">Last name</label>
-                    <input id="last_name" type="text" required value={form.last_name} onChange={(e) => update("last_name", e.target.value)} className={inputCls} />
-                  </div>
-                </div>
-                <div>
-                  <label htmlFor="role_title" className="block text-sm font-medium text-foreground">Role / title</label>
-                  <input id="role_title" type="text" value={form.role_title} onChange={(e) => update("role_title", e.target.value)} className={inputCls} />
-                </div>
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-foreground">Email</label>
-                    <input id="email" type="email" required value={form.email} onChange={(e) => update("email", e.target.value)} className={inputCls} />
-                  </div>
-                  <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-foreground">Phone <span className="text-muted-foreground">(optional)</span></label>
-                    <input id="phone" type="tel" value={form.phone} onChange={(e) => update("phone", e.target.value)} className={inputCls} />
-                  </div>
-                </div>
-              </div>
-              <div>
-                <label htmlFor="action" className="block text-sm font-medium text-foreground">What real action are they doing? Who is measurably better off?</label>
-                <textarea id="action" required rows={5} value={form.responses.action ?? ""} onChange={(e) => setResponse("action", e.target.value)} className={inputCls} placeholder="Be specific. What happens, who benefits, and what would break if it stopped." />
-                <p className="mt-1 text-xs text-muted-foreground">Please do not include medical records, SSNs, VA file numbers, or clinical/claim evidence.</p>
-              </div>
-            </>
-          )}
-
-          {/* --- PROMOTE VALORWELL --- */}
-          {isPromote && (
-            <>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div>
-                  <label htmlFor="first_name" className="block text-sm font-medium text-foreground">First name</label>
-                  <input id="first_name" type="text" required value={form.first_name} onChange={(e) => update("first_name", e.target.value)} className={inputCls} />
-                </div>
-                <div>
-                  <label htmlFor="last_name" className="block text-sm font-medium text-foreground">Last name</label>
-                  <input id="last_name" type="text" required value={form.last_name} onChange={(e) => update("last_name", e.target.value)} className={inputCls} />
-                </div>
-              </div>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-foreground">Email</label>
-                  <input id="email" type="email" required value={form.email} onChange={(e) => update("email", e.target.value)} className={inputCls} />
-                </div>
-                <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-foreground">Phone <span className="text-muted-foreground">(optional)</span></label>
-                  <input id="phone" type="tel" value={form.phone} onChange={(e) => update("phone", e.target.value)} className={inputCls} />
-                </div>
-              </div>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div>
-                  <label htmlFor="organization" className="block text-sm font-medium text-foreground">Organization</label>
-                  <input id="organization" type="text" value={form.organization} onChange={(e) => update("organization", e.target.value)} className={inputCls} />
-                </div>
-                <div>
-                  <label htmlFor="role_title" className="block text-sm font-medium text-foreground">Role / title</label>
-                  <input id="role_title" type="text" value={form.role_title} onChange={(e) => update("role_title", e.target.value)} className={inputCls} />
-                </div>
-              </div>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div>
-                  <label htmlFor="website" className="block text-sm font-medium text-foreground">Website</label>
-                  <input id="website" type="url" value={form.website} onChange={(e) => update("website", e.target.value)} placeholder="https://" className={inputCls} />
-                </div>
-                <div>
-                  <label htmlFor="social_link" className="block text-sm font-medium text-foreground">Best social / video link</label>
-                  <input id="social_link" type="url" value={form.social_link} onChange={(e) => update("social_link", e.target.value)} placeholder="https://" className={inputCls} />
-                </div>
-              </div>
-              <div>
-                <label htmlFor="action" className="block text-sm font-medium text-foreground">What real action are you doing? Who is measurably better off?</label>
-                <textarea id="action" required rows={5} value={form.responses.action ?? ""} onChange={(e) => setResponse("action", e.target.value)} className={inputCls} placeholder="Be specific. What happens, who benefits, and what would break if it stopped." />
-                <p className="mt-1 text-xs text-muted-foreground">Please do not include medical records, SSNs, VA file numbers, or clinical/claim evidence.</p>
-              </div>
-              <div>
-                <label htmlFor="support" className="block text-sm font-medium text-foreground">How do you want to help the movement travel farther?</label>
-                <textarea id="support" rows={3} value={form.responses.support ?? ""} onChange={(e) => setResponse("support", e.target.value)} className={inputCls} />
-              </div>
-            </>
-          )}
-
-          <div className="flex items-start gap-3 rounded-lg border border-border bg-muted/40 p-4">
-            <input
-              id="consent"
-              type="checkbox"
-              checked={form.consent}
-              onChange={(e) => update("consent", e.target.checked)}
-              className="mt-1 h-4 w-4 rounded border-input"
-              required
-            />
-            <label htmlFor="consent" className="text-sm text-foreground">
-              I'm okay with ValorWell contacting me using the info I've provided. If I'm nominating someone else, I confirm that person or organization is okay with being contacted this way.
-            </label>
-          </div>
-
-          {status === "error" && (
-            <div className="flex items-start gap-2 rounded-md border border-accent/30 bg-accent/5 p-3 text-sm text-accent">
-              <X className="mt-0.5 h-4 w-4 shrink-0" />
-              <p>{errorMsg || "Submission failed. Please try again."}</p>
-            </div>
-          )}
-
-          <div className="flex flex-wrap items-center gap-3">
-            <button
-              type="submit"
-              disabled={status === "loading" || !canSubmit}
-              className="inline-flex items-center gap-2 rounded-md bg-[hsl(var(--gold-accent))] px-6 py-3 text-sm font-semibold text-[hsl(var(--navy))] transition-opacity hover:opacity-90 disabled:opacity-50"
-            >
-              {status === "loading" ? (
-                <>
-                  <Loader2 className="h-4 w-4 animate-spin" /> Sending…
-                </>
-              ) : (
-                <>
-                  Send it to ValorWell <ArrowRight className="h-4 w-4" />
-                </>
-              )}
-            </button>
-            <span className="text-xs text-muted-foreground">We reply if there's a fit.</span>
-          </div>
-        </div>
-      )}
-    </form>
-  );
-}
+type LaneValue = "share-story" | "nominate" | "promote-valorwell";
 
 /* ---------- FAQ ---------- */
 
@@ -834,8 +380,33 @@ export default function BeyondTheYellowPage() {
             <p className="mt-4 text-lg text-muted-foreground">
               Pick the lane that fits and the fields will follow.
             </p>
+            <div className="mt-6 grid gap-2 sm:grid-cols-3" aria-label="Beyond The Yellow participation lane">
+              {([
+                ["share-story", "Share my story"],
+                ["nominate", "Nominate someone"],
+                ["promote-valorwell", "Join or promote"],
+              ] as const).map(([lane, label]) => (
+                <button
+                  key={lane}
+                  type="button"
+                  aria-pressed={initialLane === lane}
+                  onClick={() => goToFormWithLane(lane, `bty_lane_${lane}`)}
+                  className={`rounded-lg border px-4 py-3 text-left text-sm font-medium transition-colors ${
+                    initialLane === lane
+                      ? "border-[hsl(var(--gold-accent))] bg-[hsl(var(--gold-accent))]/15 text-foreground"
+                      : "border-border bg-background text-foreground hover:border-[hsl(var(--navy))] hover:bg-muted"
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
             <div className="mt-8">
-              <StoryForm initialLane={initialLane} />
+              {initialLane === "nominate" ? (
+                <BtyNominationForm />
+              ) : (
+                <UnifiedBtyForm initialLane={initialLane} />
+              )}
             </div>
           </div>
         </section>
@@ -864,13 +435,16 @@ export default function BeyondTheYellowPage() {
             </h2>
             <div className="mt-10 flex flex-wrap justify-center gap-3">
               <button
-                onClick={() => {
-                  track("bty_final_story");
-                  scrollToId(FORM_ANCHOR);
-                }}
+                onClick={() => goToFormWithLane("share-story", "bty_final_story")}
                 className="inline-flex items-center gap-2 rounded-md bg-[hsl(var(--gold-accent))] px-6 py-3 text-sm font-semibold text-[hsl(var(--navy))] hover:opacity-90"
               >
                 Share Your Beyond The Yellow Story <ArrowRight className="h-4 w-4" />
+              </button>
+              <button
+                onClick={() => goToFormWithLane("promote-valorwell", "bty_final_join")}
+                className="inline-flex items-center gap-2 rounded-md border border-white/30 bg-white/10 px-6 py-3 text-sm font-semibold text-white hover:bg-white/20"
+              >
+                Join or promote the movement
               </button>
               <button
                 onClick={() => goToFormWithLane("nominate", "bty_final_nominate")}
@@ -906,10 +480,7 @@ export default function BeyondTheYellowPage() {
       {showSticky && (
         <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 p-3 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] backdrop-blur md:hidden">
           <button
-            onClick={() => {
-              track("bty_sticky_story");
-              scrollToId(FORM_ANCHOR);
-            }}
+            onClick={() => goToFormWithLane("share-story", "bty_sticky_story")}
             className="flex w-full items-center justify-center gap-2 rounded-md bg-[hsl(var(--gold-accent))] px-5 py-3 text-sm font-semibold text-[hsl(var(--navy))]"
           >
             Share Your Story <ArrowRight className="h-4 w-4" />

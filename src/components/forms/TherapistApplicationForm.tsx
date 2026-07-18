@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { supabase } from "@/integrations/supabase/client";
+import { billingHubSupabase, createWebsiteSubmissionKey } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -107,17 +107,22 @@ export function TherapistApplicationForm() {
   const onSubmit = async (data: FormData) => {
     setSubmitError(null);
     
-    const { error } = await supabase.from("therapist_applications").insert({
-      first_name: data.firstName,
-      last_name: data.lastName,
-      email: data.email,
-      phone: data.phone,
-      licensed_states: data.licensedStates,
-      license_type: data.licenseType,
-      referral_source: data.referralSource,
-      telehealth_experience: data.telehealthExperience,
-      motivation: data.motivation,
-      weekly_hours: data.weeklyHours,
+    const { error } = await billingHubSupabase.rpc("submit_website_clinician_application", {
+      p_payload: {
+        submission_key: createWebsiteSubmissionKey(),
+        first_name: data.firstName.trim(),
+        last_name: data.lastName.trim(),
+        email: data.email.trim().toLowerCase(),
+        phone: data.phone.trim(),
+        licensed_states: data.licensedStates,
+        license_type: data.licenseType,
+        referral_source: data.referralSource,
+        telehealth_experience: data.telehealthExperience,
+        motivation: data.motivation.trim(),
+        weekly_hours: data.weeklyHours,
+        source_page: "/clinicians",
+        user_agent: typeof navigator === "undefined" ? null : navigator.userAgent,
+      },
     });
 
     if (error) {
