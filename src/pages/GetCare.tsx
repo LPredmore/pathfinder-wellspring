@@ -1,4 +1,4 @@
-import { useState, type ComponentType } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Layout } from "@/components/layout";
 import { SEO, BreadcrumbSchema } from "@/components/SEO";
@@ -18,6 +18,7 @@ import {
   ShieldCheck,
   UserRound,
   Users,
+  type LucideIcon,
 } from "lucide-react";
 
 const PORTAL_URL = "https://client.valorwell.org";
@@ -34,7 +35,7 @@ interface CoverageOption {
   value: Coverage;
   label: string;
   description: string;
-  icon: ComponentType<{ className?: string; "aria-hidden"?: boolean }>;
+  icon: LucideIcon;
 }
 
 interface PathDetail {
@@ -239,14 +240,19 @@ export default function GetCare() {
         canonical="/get-care"
       />
       <BreadcrumbSchema
-        items={[{ name: "Home", url: "/" }, { name: "Get Care", url: "/get-care" }]}
+        items={[
+          { name: "Home", url: "/" },
+          { name: "Get Care", url: "/get-care" },
+        ]}
       />
 
       <div className="clinicians-theme bg-[color:var(--cl-canvas)] text-[color:var(--cl-ink)]">
         <div className="bg-[color:var(--cl-ink)] text-[color:var(--cl-canvas)]">
           <div className="container-wide flex flex-col gap-3 py-3 text-sm md:flex-row md:items-center md:justify-between">
             <p className="leading-snug">
-              <span className="font-semibold">Need immediate support right now?</span>{" "}
+              <span className="font-semibold">
+                Need immediate support right now?
+              </span>{" "}
               ValorWell is not a crisis service. Call or text 988. Veterans and
               their loved ones can call 988 and press 1 or text 838255.
             </p>
@@ -254,13 +260,17 @@ export default function GetCare() {
               href="tel:988"
               className="inline-flex shrink-0 items-center gap-2 border border-[color:var(--cl-canvas)]/40 px-3 py-1.5 hover:bg-[color:var(--cl-canvas)]/10"
             >
-              <Phone className="h-3.5 w-3.5" aria-hidden="true" /> Call or Text 988
+              <Phone className="h-3.5 w-3.5" aria-hidden="true" /> Call or Text
+              988
             </a>
           </div>
         </div>
 
         <section className="relative overflow-hidden border-b border-[color:var(--cl-ink)]/10">
-          <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+          <div
+            className="pointer-events-none absolute inset-0"
+            aria-hidden="true"
+          >
             <div className="absolute -left-24 -top-24 h-80 w-80 rounded-full bg-[color:var(--cl-evergreen)]/10 blur-3xl" />
             <div className="absolute -right-24 top-20 h-72 w-72 rounded-full bg-[color:var(--cl-ember)]/8 blur-3xl" />
           </div>
@@ -583,7 +593,8 @@ export default function GetCare() {
                 href="#find-your-path"
                 className="inline-flex min-h-12 items-center gap-2 bg-[color:var(--cl-ember)] px-7 py-4 text-sm font-bold uppercase tracking-wide text-[color:var(--cl-canvas)] hover:bg-[color:var(--cl-canvas)] hover:text-[color:var(--cl-ink)]"
               >
-                Find Your Care Path <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                Find Your Care Path
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </a>
             </div>
           </div>
