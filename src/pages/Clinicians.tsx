@@ -21,10 +21,6 @@ const Eyebrow = ({ children }: { children: React.ReactNode }) => (
   </div>
 );
 
-const Rule = () => (
-  <div className="h-px w-full bg-[color:var(--cl-evergreen)]/25" />
-);
-
 const PrimaryCTA = ({
   children,
   onClick,
@@ -100,8 +96,12 @@ const faqItems: { q: string; a: string }[] = [
     a: "Veterans and their families are navigating fragmented care pathways, VA-aligned systems, delays, and a documentation economy that too often puts the letter before the person. We want to build the care-first alternative — and we need clinicians who want to help build it.",
   },
   {
+    q: "Do I need prior experience working with veterans?",
+    a: "Veteran-specific experience is valuable but is not the only factor we consider. ValorWell provides education on military culture, veteran-specific mental-health issues, ethical VA documentation, and the reasons service-related conditions may be missing from military treatment records.",
+  },
+  {
     q: "What license types are currently included?",
-    a: "We are currently onboarding common independent clinical licenses across mental health disciplines. If you are licensed to treat in a way that insurance will accept, we can use you.",
+    a: "We currently consider independently licensed psychologists, clinical social workers, professional counselors, mental health counselors, and marriage and family therapists, subject to state licensure, payer requirements, clinical scope, and current network need.",
   },
 ];
 
@@ -431,8 +431,8 @@ export default function Clinicians() {
                     "Weekly pay.",
                     "Availability you set.",
                     "Billing workflows handled by ValorWell.",
-                    "You decide which patients you see. No push-back",
-                    "Complete support by a team of clinicians, not admins",
+                    "You decide which patients you see. No pushback.",
+                    "Support from a team that understands clinical care.",
                     "Clinical judgment respected within ethical standards.",
                   ].map((l, i) => (
                     <li
@@ -472,7 +472,7 @@ export default function Clinicians() {
                 {
                   n: "",
                   t: "Your license still means something",
-                  d: "State and national boards already decided you're qualified. We trust their judgment more than a manager's. Your calls stay your calls.",
+                  d: "Your independent license and clinical judgment are respected. Clinical decisions remain yours within your scope, professional standards, payer requirements, and collaborative quality review.",
                 },
                 {
                   n: "",
@@ -482,16 +482,13 @@ export default function Clinicians() {
                 {
                   n: "",
                   t: "Systems should give time back",
-                  d: "You provide the care. We handle everything sitting between you and the person in front of you.",
+                  d: "You provide the care. ValorWell builds the billing, scheduling, documentation, telehealth, and operational workflows intended to reduce the friction around it.",
                 },
               ].map((m, i) => (
                 <div
-                  key={m.n}
+                  key={m.t}
                   className={`p-8 md:p-10 border-b border-[color:var(--cl-evergreen)]/25 ${i % 2 === 0 ? "md:border-r" : ""}`}
                 >
-                  <div className="text-2xl font-bold text-[color:var(--cl-ember)] tabular-nums">
-                    {m.n}
-                  </div>
                   <h3 className="mt-3 text-2xl md:text-3xl font-bold leading-tight">
                     {m.t}
                   </h3>
@@ -531,7 +528,7 @@ export default function Clinicians() {
               {[
                 {
                   t: "AI notes that speak human first",
-                  d: 'Type in plain language after session — "client came in dysregulated, we worked on grounding, homework was..." — and the system converts it into a fully compliant, clinically appropriate note. You edit. You don\'t author from scratch.',
+                  d: "Enter a plain-language clinical summary after session and the system creates a structured note draft aligned with the chart workflow. You remain responsible for reviewing, editing, and signing the final documentation.",
                 },
                 {
                   t: "Notes that already know the plan",
@@ -539,7 +536,7 @@ export default function Clinicians() {
                 },
                 {
                   t: "Two-way secure calendar sync",
-                  d: "Your real calendar and ValorWell stay in lockstep — both directions, always current, PHI protected. Block personal time once and your availability updates without you touching it.",
+                  d: "Your external calendar and ValorWell can stay synchronized in both directions while limiting exposed clinical information. Block personal time once and your availability can update without duplicate calendar work.",
                 },
                 {
                   t: "Auto-scheduling inside your guardrails",
