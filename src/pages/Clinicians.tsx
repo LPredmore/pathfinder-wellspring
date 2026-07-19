@@ -25,7 +25,15 @@ const Rule = () => (
   <div className="h-px w-full bg-[color:var(--cl-evergreen)]/25" />
 );
 
-const PrimaryCTA = ({ children, onClick, href = "#raise-your-hand" }: { children: React.ReactNode; onClick?: (e: React.MouseEvent) => void; href?: string }) => (
+const PrimaryCTA = ({
+  children,
+  onClick,
+  href = "#raise-your-hand",
+}: {
+  children: React.ReactNode;
+  onClick?: (e: React.MouseEvent) => void;
+  href?: string;
+}) => (
   <a
     href={href}
     onClick={onClick ?? scrollToApplication}
@@ -35,7 +43,13 @@ const PrimaryCTA = ({ children, onClick, href = "#raise-your-hand" }: { children
   </a>
 );
 
-const SecondaryCTA = ({ children, to }: { children: React.ReactNode; to: string }) => (
+const SecondaryCTA = ({
+  children,
+  to,
+}: {
+  children: React.ReactNode;
+  to: string;
+}) => (
   <Link
     to={to}
     className="inline-flex items-center justify-center border border-[color:var(--cl-evergreen)] text-[color:var(--cl-evergreen)] px-7 py-4 text-sm font-bold tracking-wide uppercase hover:bg-[color:var(--cl-evergreen)] hover:text-[color:var(--cl-canvas)] transition-colors"
@@ -96,8 +110,8 @@ export default function Clinicians() {
     <div className="clinicians-theme bg-[color:var(--cl-canvas)] text-[color:var(--cl-ink)]">
       <Layout>
         <SEO
-          title="Clinicians — For clinicians who still give a damn | ValorWell"
-          description="A telehealth-first clinician opportunity for licensed mental health professionals who are burned out on the system around the work — not the work itself. $75/session, 1099, paid weekly."
+          title="Mental Health Clinician Opportunities — $75 per session"
+          description="Join ValorWell as a telehealth mental-health clinician. $75 per completed session, paid weekly, flexible availability, billing support, clinical autonomy, and an opportunity to help shape a veteran-focused care mission."
           canonical="/clinicians"
         />
         <JobPostingSchema />
@@ -109,175 +123,190 @@ export default function Clinicians() {
         />
 
         {/* HERO */}
-        <section className="border-b border-[color:var(--cl-evergreen)]/20">
-          <div className="max-w-6xl mx-auto px-6 md:px-10 pt-16 md:pt-24 pb-16 md:pb-24">
-            <Eyebrow>For Clinicians Who Still Give a Damn</Eyebrow>
-            <h1 className="mt-6 text-4xl md:text-6xl lg:text-7xl leading-[1.05] font-bold text-[color:var(--cl-ink)] max-w-5xl">
-              You didn't lose the calling. They buried it under paperwork, quotas, and people who never met your client.
-            </h1>
-            <div className="mt-10 grid md:grid-cols-12 gap-8">
-              <p className="md:col-span-8 text-lg md:text-xl leading-relaxed text-[color:var(--cl-ink)]/85">
-                If you're still reading, you already know the feeling. You're not burned out on the work — you're burned out on everything wrapped around it. ValorWell is being built for the clinician version of you that still exists underneath all of that.
-                <br /><br />
-                We're pulling together a group of clinicians who want their judgment back, their evenings back, and a mission worth attaching their license to. That group is being assembled right now.
+        <section className="relative overflow-hidden border-b border-[color:var(--cl-evergreen)]/20">
+          <div
+            className="pointer-events-none absolute inset-0"
+            aria-hidden="true"
+          >
+            <div className="absolute -right-24 -top-24 h-96 w-96 rounded-full bg-[color:var(--cl-ember)]/10 blur-3xl" />
+            <div className="absolute -bottom-32 -left-32 h-96 w-96 rounded-full bg-[color:var(--cl-evergreen)]/10 blur-3xl" />
+          </div>
+          <div className="container-wide relative grid gap-12 py-16 md:py-24 lg:grid-cols-12 lg:items-center">
+            <div className="lg:col-span-7">
+              <Eyebrow>
+                Now Recruiting Licensed Mental-Health Clinicians
+              </Eyebrow>
+              <h1 className="mt-6 max-w-5xl text-4xl font-bold leading-[1.03] tracking-tight md:text-6xl lg:text-7xl">
+                Help build the clinic clinicians keep saying should exist.
+              </h1>
+              <p className="mt-7 max-w-3xl text-lg leading-relaxed text-[color:var(--cl-ink)]/85 md:text-xl">
+                Clear pay. Flexible availability. Billing support. Clinical
+                judgment that still belongs to the clinician. And a
+                veteran-focused mission you can help shape while the operating
+                model is still being built.
               </p>
-              <div className="md:col-span-4 flex flex-col gap-3 md:pt-2">
-                <PrimaryCTA>Raise Your Hand</PrimaryCTA>
-                <SecondaryCTA to="/mission">See the Mission for Veterans &amp; Families</SecondaryCTA>
+              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+                <PrimaryCTA>Apply to Join ValorWell</PrimaryCTA>
+                <SecondaryCTA to="/operation-claims-success">
+                  See the Veteran Mission
+                </SecondaryCTA>
               </div>
-            </div>
-            <div className="mt-14">
-              <Rule />
-              <p className="mt-5 text-sm md:text-base tracking-wide text-[color:var(--cl-evergreen)] font-semibold">
-                $75/session &nbsp;·&nbsp; 1099 &nbsp;·&nbsp; Paid weekly &nbsp;·&nbsp; Telehealth-first &nbsp;·&nbsp; Set your availability
+              <p className="mt-5 max-w-2xl text-sm leading-relaxed text-[color:var(--cl-ink)]/65">
+                Independently licensed clinicians only. Current direct-clinician
+                structure is telehealth-first 1099 contract work. Caseload
+                volume is not guaranteed.
               </p>
             </div>
+
+            <aside className="lg:col-span-5">
+              <div className="border border-[color:var(--cl-evergreen)]/25 bg-[color:var(--cl-ink)] p-7 text-[color:var(--cl-canvas)] shadow-xl md:p-9">
+                <div className="text-xs font-bold uppercase tracking-[0.22em] text-[color:var(--cl-ember)]">
+                  The Actual Deal
+                </div>
+                <dl className="mt-6 divide-y divide-[color:var(--cl-canvas)]/15 border-y border-[color:var(--cl-canvas)]/15">
+                  {[
+                    ["Current pay", "$75 per completed session"],
+                    ["Pay cadence", "Weekly"],
+                    ["Schedule", "You set availability"],
+                    ["Structure", "1099 · Telehealth-first"],
+                    ["Billing", "Handled by ValorWell"],
+                  ].map(([label, value]) => (
+                    <div
+                      key={label}
+                      className="grid grid-cols-[1fr_auto] gap-5 py-5"
+                    >
+                      <dt className="text-sm font-semibold text-[color:var(--cl-canvas)]/65">
+                        {label}
+                      </dt>
+                      <dd className="text-right text-base font-bold text-[color:var(--cl-canvas)] md:text-lg">
+                        {value}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+                <p className="mt-6 text-sm leading-relaxed text-[color:var(--cl-canvas)]/72">
+                  You focus on care and timely documentation. ValorWell builds
+                  the operational support around the work.
+                </p>
+              </div>
+            </aside>
           </div>
         </section>
 
-        {/* MOVEMENT / FOMO */}
-        <section className="border-b border-[color:var(--cl-evergreen)]/20 bg-[color:var(--cl-ink)] text-[color:var(--cl-canvas)]">
-          <div className="max-w-6xl mx-auto px-6 md:px-10 py-20 md:py-28">
-            <div className="text-[11px] md:text-xs font-bold tracking-[0.22em] uppercase text-[color:var(--cl-ember)]">
-              Something Is Being Built. You Can Be Early.
-            </div>
-            <h2 className="mt-6 text-3xl md:text-5xl font-bold leading-tight max-w-4xl">
-              ValorWell is building the greatest space available for clinicians to have the autonomy they've always wanted — with the administrative support they've never had.
+        {/* RECRUITING FOCUS */}
+        <section className="border-b border-[color:var(--cl-evergreen)]/20">
+          <div className="container-wide py-20 md:py-28">
+            <Eyebrow>What Matters Before the Mission Pitch</Eyebrow>
+            <h2 className="mt-6 max-w-4xl text-3xl font-bold leading-tight md:text-5xl">
+              Meaningful work is not enough if the structure makes the work
+              unsustainable.
             </h2>
-            <p className="mt-6 text-lg md:text-xl leading-relaxed text-[color:var(--cl-canvas)]/85 max-w-3xl">
-              We're changing how mental healthcare gets delivered. Starting with the veteran community. Then everywhere else. The clinicians who show up early are the ones who get to shape what this becomes.
+            <p className="mt-6 max-w-3xl text-lg leading-relaxed text-[color:var(--cl-ink)]/80 md:text-xl">
+              Clinicians compare compensation, control, administrative burden,
+              caseload reality, professional support, and whether the
+              organization respects the license. So those answers should not be
+              hidden behind a recruiter call.
             </p>
 
-            <div className="mt-14 grid md:grid-cols-3 gap-0 border border-[color:var(--cl-canvas)]/20">
-              <div className="p-8 md:p-10 border-b md:border-b-0 md:border-r border-[color:var(--cl-canvas)]/20 bg-[color:var(--cl-ember)] text-[color:var(--cl-ink)]">
-                <div className="text-xs font-bold tracking-[0.22em] uppercase">Now</div>
-                <h3 className="mt-4 text-2xl md:text-3xl font-bold leading-tight">You help shape it.</h3>
-                <p className="mt-3 text-base md:text-lg leading-relaxed">
-                  Shape the EHR. Shape the culture. Shape how the system is built. Your voice is in the room while the room is still being built.
-                </p>
+            <div className="mt-14 grid gap-px border border-[color:var(--cl-evergreen)]/20 bg-[color:var(--cl-evergreen)]/20 md:grid-cols-2 lg:grid-cols-3">
+              {[
+                [
+                  "Pay you can see",
+                  "$75 per completed session, paid weekly. The current rate is public before you apply.",
+                ],
+                [
+                  "A schedule you control",
+                  "Start with a few sessions or create more capacity as the work grows. You set realistic availability.",
+                ],
+                [
+                  "Less administrative drag",
+                  "ValorWell handles the billing workflow and builds scheduling, documentation, and telehealth tools around care.",
+                ],
+                [
+                  "Honest caseload expectations",
+                  "Demand varies by state and pathway. We will not promise a full caseload before the referrals exist.",
+                ],
+                [
+                  "Clinical support",
+                  "Get support from people who understand clinical care, veteran-specific issues, and ethical documentation.",
+                ],
+                [
+                  "A mission with substance",
+                  "Help veterans reach legitimate care without turning treatment or disability documentation into a transaction.",
+                ],
+              ].map(([title, body], index) => (
+                <article
+                  key={title}
+                  className="bg-[color:var(--cl-canvas)] p-7 md:p-9"
+                >
+                  <p className="text-xs font-bold text-[color:var(--cl-ember)]">
+                    {String(index + 1).padStart(2, "0")}
+                  </p>
+                  <h3 className="mt-4 text-xl font-bold leading-tight md:text-2xl">
+                    {title}
+                  </h3>
+                  <p className="mt-3 leading-relaxed text-[color:var(--cl-ink)]/75">
+                    {body}
+                  </p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* EARLY COHORT */}
+        <section className="border-b border-[color:var(--cl-evergreen)]/20 bg-[color:var(--cl-evergreen)] text-[color:var(--cl-canvas)]">
+          <div className="container-wide py-20 md:py-28">
+            <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
+              <div className="lg:col-span-8">
+                <div className="text-[11px] font-bold uppercase tracking-[0.22em] text-[color:var(--cl-ember)] md:text-xs">
+                  The Early-Clinician Advantage
+                </div>
+                <h2 className="mt-6 max-w-4xl text-3xl font-bold leading-tight md:text-5xl">
+                  Join after the system is finished and you inherit it. Join
+                  during the build and you can influence it.
+                </h2>
               </div>
-              <div className="p-8 md:p-10 border-b md:border-b-0 md:border-r border-[color:var(--cl-canvas)]/20">
-                <div className="text-xs font-bold tracking-[0.22em] uppercase text-[color:var(--cl-canvas)]/70">Soon</div>
-                <h3 className="mt-4 text-2xl md:text-3xl font-bold leading-tight text-[color:var(--cl-canvas)]">You join what someone else shaped.</h3>
-                <p className="mt-3 text-base md:text-lg leading-relaxed text-[color:var(--cl-canvas)]/80">
-                  Still meaningful. Still better than what you're leaving. But the walls are already up and the rules are already written.
-                </p>
-              </div>
-              <div className="p-8 md:p-10">
-                <div className="text-xs font-bold tracking-[0.22em] uppercase text-[color:var(--cl-canvas)]/60">Later</div>
-                <h3 className="mt-4 text-2xl md:text-3xl font-bold leading-tight text-[color:var(--cl-canvas)]/85">You watch from the outside.</h3>
-                <p className="mt-3 text-base md:text-lg leading-relaxed text-[color:var(--cl-canvas)]/70">
-                  And you wonder what would've happened if you'd raised your hand back in 2026, when the door was still this wide open.
-                </p>
-              </div>
+              <p className="lg:col-span-4 text-lg leading-relaxed text-[color:var(--cl-canvas)]/78">
+                The clinicians joining now have the strongest opportunity to
+                shape the culture, workflows, documentation standards, and
+                technology later clinicians will experience as established
+                practice.
+              </p>
             </div>
 
-            <p className="mt-10 text-xl md:text-2xl font-semibold text-[color:var(--cl-canvas)] max-w-3xl">
-              This is not a job listing. It's an invitation to help build the thing you keep telling your colleagues should exist.
+            <div className="mt-14 grid gap-6 md:grid-cols-3">
+              {[
+                [
+                  "Shape the tools",
+                  "Identify friction in the EHR, notes, calendar, telehealth, and scheduling while changes are still easier to make.",
+                ],
+                [
+                  "Shape the culture",
+                  "Help establish what clinician autonomy, accountability, support, and ethical documentation mean in practice.",
+                ],
+                [
+                  "Shape the mission",
+                  "Help build a legitimate care pathway for veterans before the network and standards become settled infrastructure.",
+                ],
+              ].map(([title, body]) => (
+                <article
+                  key={title}
+                  className="border border-[color:var(--cl-canvas)]/20 bg-[color:var(--cl-canvas)]/5 p-7 md:p-9"
+                >
+                  <h3 className="text-2xl font-bold">{title}</h3>
+                  <p className="mt-4 leading-relaxed text-[color:var(--cl-canvas)]/75">
+                    {body}
+                  </p>
+                </article>
+              ))}
+            </div>
+
+            <p className="mt-12 max-w-4xl text-2xl font-bold leading-snug md:text-3xl">
+              This is not artificial scarcity. It is the practical difference
+              between helping write the standards and joining after they are
+              written.
             </p>
-          </div>
-        </section>
-
-        {/* PAIN */}
-        <section className="border-b border-[color:var(--cl-evergreen)]/20">
-          <div className="max-w-6xl mx-auto px-6 md:px-10 py-20 md:py-28">
-            <Eyebrow>Maybe the Work Isn't the Problem</Eyebrow>
-            <h2 className="mt-6 text-3xl md:text-5xl font-bold leading-tight max-w-4xl">
-              You may not be tired of helping people. You may be tired of everything standing between you and the person in front of you.
-            </h2>
-            <div className="mt-10 grid md:grid-cols-12 gap-10">
-              <div className="md:col-span-7 space-y-5 text-lg leading-relaxed text-[color:var(--cl-ink)]/85">
-                <p>
-                  There is a version of burnout nobody talks about enough: still caring deeply about the client and slowly losing patience with the machine around the care.
-                </p>
-                <p>
-                  The meeting about your productivity. The treatment workflow built for every person except the one sitting in front of you. The note you finish after dinner. The person with no clinical relationship to your client telling you what the work should look like.
-                </p>
-                <p>
-                  That does not automatically mean you chose the wrong profession.
-                </p>
-                <p className="font-semibold text-[color:var(--cl-ink)]">
-                  It may mean you are done pretending a bad system is the same thing as clinical work.
-                </p>
-              </div>
-              <ol className="md:col-span-5 md:pl-8 md:border-l md:border-[color:var(--cl-evergreen)]/25 space-y-0">
-                {[
-                  "The quota becoming the goal.",
-                  "One-size-fits-everyone treatment.",
-                  "Administrative second-guessing.",
-                  "Documentation owning your evenings.",
-                  "Being told to just follow the workflow.",
-                ].map((line, i) => (
-                  <li key={i} className="py-4 border-b border-[color:var(--cl-evergreen)]/20 last:border-b-0 flex gap-4 items-baseline">
-                    <span className="text-xs font-bold text-[color:var(--cl-ember)] tabular-nums w-6 shrink-0">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <span className="text-lg md:text-xl font-semibold leading-snug">{line}</span>
-                  </li>
-                ))}
-              </ol>
-            </div>
-          </div>
-          <div className="bg-[color:var(--cl-evergreen)] text-[color:var(--cl-canvas)]">
-            <div className="max-w-6xl mx-auto px-6 md:px-10 py-14 md:py-20">
-              <p className="text-2xl md:text-4xl font-bold leading-snug max-w-4xl">
-                Good clinicians do not become machines just because the system rewards machine-like behavior.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* SYSTEM TENSION */}
-        <section className="border-b border-[color:var(--cl-evergreen)]/20">
-          <div className="max-w-6xl mx-auto px-6 md:px-10 py-20 md:py-28">
-            <Eyebrow>What We Refuse to Copy</Eyebrow>
-            <h2 className="mt-6 text-3xl md:text-5xl font-bold leading-tight max-w-4xl">
-              A clinic can talk about care all day and still build a system that grinds the care out of clinicians.
-            </h2>
-            <div className="mt-8 space-y-5 max-w-3xl text-lg leading-relaxed text-[color:var(--cl-ink)]/85">
-              <p>ValorWell is not interested in recreating the same hamster wheel with a different logo.</p>
-              <p>
-                We do not believe clinician burnout is solved with a wellness email, a pizza lunch, or another resilience training while the operating model stays exactly the same.
-              </p>
-            </div>
-            <div className="mt-14 grid md:grid-cols-2 gap-0 border border-[color:var(--cl-evergreen)]/30">
-              <div className="p-8 md:p-10 border-b md:border-b-0 md:border-r border-[color:var(--cl-evergreen)]/30 bg-[color:var(--cl-canvas)]">
-                <div className="text-xs font-bold tracking-[0.22em] uppercase text-[color:var(--cl-ink)]/60">
-                  The Hamster Wheel
-                </div>
-                <ul className="mt-6 space-y-4 text-lg">
-                  {[
-                    "Fill the slots.",
-                    "Hit the number.",
-                    "Follow the template.",
-                    "Catch up on notes tonight.",
-                    "Ask permission to use your judgment.",
-                    "Burn out. Replace. Repeat.",
-                  ].map((line, i) => (
-                    <li key={i} className="text-[color:var(--cl-ink)]/70 line-through decoration-[color:var(--cl-ember)]/70 decoration-2">
-                      {line}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="p-8 md:p-10 bg-[color:var(--cl-evergreen)] text-[color:var(--cl-canvas)]">
-                <div className="text-xs font-bold tracking-[0.22em] uppercase text-[color:var(--cl-canvas)]/80">
-                  What We Are Trying to Build
-                </div>
-                <ul className="mt-6 space-y-4 text-lg font-medium">
-                  {[
-                    "You set your availability. No questions",
-                    "Care for the person in front of you.",
-                    "Use clinical judgment without being second guessed",
-                    "Let systems remove friction.",
-                    "Start small if small is sustainable.",
-                    "Build capacity without burning through clinicians.",
-                  ].map((line, i) => (
-                    <li key={i}>{line}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
           </div>
         </section>
 
@@ -286,17 +315,23 @@ export default function Clinicians() {
           <div className="max-w-6xl mx-auto px-6 md:px-10 py-20 md:py-28">
             <Eyebrow>The Mission Right Now</Eyebrow>
             <h2 className="mt-6 text-3xl md:text-5xl font-bold leading-tight max-w-4xl">
-              Veterans deserve a better path. We need clinicians who want to help build it.
+              Veterans deserve a better path. We need clinicians who want to
+              help build it.
             </h2>
             <div className="mt-8 space-y-5 max-w-3xl text-lg leading-relaxed text-[color:var(--cl-ink)]/85">
               <p>
-                Veterans and families are forced to navigate confusing mental health care pathways, VA-aligned systems, delays, and an expensive documentation ecosystem that can put the letter before the person.
+                Veterans and families are forced to navigate confusing mental
+                health care pathways, VA-aligned systems, delays, and an
+                expensive documentation ecosystem that can put the letter before
+                the person.
               </p>
               <p className="font-semibold text-[color:var(--cl-ink)]">
                 ValorWell is building a care-first alternative.
               </p>
               <p>
-                Operation Claims Success connects honest access education, real mental health care, stronger provider pathways, and ethical documentation when clinically appropriate.
+                Operation Claims Success connects honest access education, real
+                mental health care, stronger provider pathways, and ethical
+                documentation when clinically appropriate.
               </p>
               <p className="font-semibold text-[color:var(--cl-ink)]">
                 Care first. Clinician judgment still matters.
@@ -307,7 +342,10 @@ export default function Clinicians() {
               {[
                 { n: "01", t: "Real care has to exist." },
                 { n: "02", t: "Provider capacity has to grow." },
-                { n: "03", t: "Ethical documentation needs clinicians, not a letter factory." },
+                {
+                  n: "03",
+                  t: "Ethical documentation needs clinicians, not a letter factory.",
+                },
               ].map((b) => (
                 <div
                   key={b.n}
@@ -328,7 +366,9 @@ export default function Clinicians() {
                 Explore Operation Claims Success
               </SecondaryCTA>
               <p className="text-xs md:text-sm text-[color:var(--cl-ink)]/60 max-w-xl">
-                ValorWell does not guarantee VA authorization, referrals, Nexus Letters, disability ratings, service connection, claim approval, or any VA outcome.
+                ValorWell does not guarantee VA authorization, referrals, Nexus
+                Letters, disability ratings, service connection, claim approval,
+                or any VA outcome.
               </p>
             </div>
           </div>
@@ -344,9 +384,18 @@ export default function Clinicians() {
               Here is the actual deal.
             </h2>
             <div className="mt-8 space-y-5 max-w-3xl text-lg leading-relaxed text-[color:var(--cl-canvas)]/85">
-              <p>ValorWell is building the clinician network before pretending demand is perfectly matched in every state.</p>
-              <p>Some clinicians may begin with only a few sessions per month.</p>
-              <p>If you need someone to promise a full caseload next month, this is probably not the right opportunity. We are looking for people invested in the long-term mission.</p>
+              <p>
+                ValorWell is building the clinician network before pretending
+                demand is perfectly matched in every state.
+              </p>
+              <p>
+                Some clinicians may begin with only a few sessions per month.
+              </p>
+              <p>
+                If you need someone to promise a full caseload next month, this
+                is probably not the right opportunity. We are looking for people
+                invested in the long-term mission.
+              </p>
             </div>
 
             <div className="mt-14 grid md:grid-cols-2 gap-10">
@@ -362,7 +411,10 @@ export default function Clinicians() {
                     "Documentation on demand.",
                     "Guaranteed VA outcomes.",
                   ].map((l, i) => (
-                    <li key={i} className="pb-4 border-b border-[color:var(--cl-canvas)]/15 line-through decoration-[color:var(--cl-ember)]/70 decoration-2">
+                    <li
+                      key={i}
+                      className="pb-4 border-b border-[color:var(--cl-canvas)]/15 line-through decoration-[color:var(--cl-ember)]/70 decoration-2"
+                    >
                       {l}
                     </li>
                   ))}
@@ -383,7 +435,10 @@ export default function Clinicians() {
                     "Complete support by a team of clinicians, not admins",
                     "Clinical judgment respected within ethical standards.",
                   ].map((l, i) => (
-                    <li key={i} className="pb-4 border-b border-[color:var(--cl-canvas)]/20">
+                    <li
+                      key={i}
+                      className="pb-4 border-b border-[color:var(--cl-canvas)]/20"
+                    >
                       {l}
                     </li>
                   ))}
@@ -392,7 +447,8 @@ export default function Clinicians() {
             </div>
 
             <p className="mt-14 text-2xl md:text-3xl font-bold leading-snug max-w-4xl">
-              We would rather lose the wrong applicant on this page than disappoint the right clinician after onboarding.
+              We would rather lose the wrong applicant on this page than
+              disappoint the right clinician after onboarding.
             </p>
           </div>
         </section>
@@ -402,29 +458,53 @@ export default function Clinicians() {
           <div className="max-w-6xl mx-auto px-6 md:px-10 py-20 md:py-28">
             <Eyebrow>Autonomy Needs Infrastructure</Eyebrow>
             <h2 className="mt-6 text-3xl md:text-5xl font-bold leading-tight max-w-4xl">
-              We are not asking you to build a private practice from scratch just to get your clinical judgment back.
+              We are not asking you to build a private practice from scratch
+              just to get your clinical judgment back.
             </h2>
 
             <div className="mt-14 grid md:grid-cols-2 gap-0 border-t border-[color:var(--cl-evergreen)]/25">
               {[
-                { n: "", t: "Your availability is yours", d: "You decide how many patients you see and when. Set the ages, presentations, and hours you'll accept. Nobody guilt-trips you into more." },
-                { n: "", t: "Your license still means something", d: "State and national boards already decided you're qualified. We trust their judgment more than a manager's. Your calls stay your calls." },
-                { n: "", t: "Billing is not your second job", d: "ValorWell handles the billing workflow. You see the patient, document in the EHR we built for you, and move on with your day." },
-                { n: "", t: "Systems should give time back", d: "You provide the care. We handle everything sitting between you and the person in front of you." },
+                {
+                  n: "",
+                  t: "Your availability is yours",
+                  d: "You decide how many patients you see and when. Set the ages, presentations, and hours you'll accept. Nobody guilt-trips you into more.",
+                },
+                {
+                  n: "",
+                  t: "Your license still means something",
+                  d: "State and national boards already decided you're qualified. We trust their judgment more than a manager's. Your calls stay your calls.",
+                },
+                {
+                  n: "",
+                  t: "Billing is not your second job",
+                  d: "ValorWell handles the billing workflow. You see the patient, document in the EHR we built for you, and move on with your day.",
+                },
+                {
+                  n: "",
+                  t: "Systems should give time back",
+                  d: "You provide the care. We handle everything sitting between you and the person in front of you.",
+                },
               ].map((m, i) => (
                 <div
                   key={m.n}
                   className={`p-8 md:p-10 border-b border-[color:var(--cl-evergreen)]/25 ${i % 2 === 0 ? "md:border-r" : ""}`}
                 >
-                  <div className="text-2xl font-bold text-[color:var(--cl-ember)] tabular-nums">{m.n}</div>
-                  <h3 className="mt-3 text-2xl md:text-3xl font-bold leading-tight">{m.t}</h3>
-                  <p className="mt-3 text-lg text-[color:var(--cl-ink)]/80 leading-relaxed">{m.d}</p>
+                  <div className="text-2xl font-bold text-[color:var(--cl-ember)] tabular-nums">
+                    {m.n}
+                  </div>
+                  <h3 className="mt-3 text-2xl md:text-3xl font-bold leading-tight">
+                    {m.t}
+                  </h3>
+                  <p className="mt-3 text-lg text-[color:var(--cl-ink)]/80 leading-relaxed">
+                    {m.d}
+                  </p>
                 </div>
               ))}
             </div>
 
             <p className="mt-10 text-xl md:text-2xl font-semibold text-[color:var(--cl-evergreen)] max-w-3xl">
-              Clear boundaries. You are not expected to practice outside your scope or accept every type of client.
+              Clear boundaries. You are not expected to practice outside your
+              scope or accept every type of client.
             </p>
           </div>
         </section>
@@ -436,17 +516,22 @@ export default function Clinicians() {
               The EHR We Actually Built For Ourselves
             </div>
             <h2 className="mt-6 text-3xl md:text-5xl font-bold leading-tight max-w-4xl">
-              We didn't buy an EHR. We built the one clinicians kept describing in interviews.
+              We didn't buy an EHR. We built the one clinicians kept describing
+              in interviews.
             </h2>
             <p className="mt-6 text-lg md:text-xl leading-relaxed text-[color:var(--cl-canvas)]/85 max-w-3xl">
-              Every feature in here exists because a clinician said "why does this take forty minutes?" — and we agreed with them. This is not a rebranded template. It's custom infrastructure that keeps getting better because the clinicians using it are in the room while we build it.
+              Every feature in here exists because a clinician said "why does
+              this take forty minutes?" — and we agreed with them. This is not a
+              rebranded template. It's custom infrastructure that keeps getting
+              better because the clinicians using it are in the room while we
+              build it.
             </p>
 
             <div className="mt-14 grid md:grid-cols-2 lg:grid-cols-3 gap-0 border-t border-l border-[color:var(--cl-canvas)]/20">
               {[
                 {
                   t: "AI notes that speak human first",
-                  d: "Type in plain language after session — \"client came in dysregulated, we worked on grounding, homework was...\" — and the system converts it into a fully compliant, clinically appropriate note. You edit. You don't author from scratch.",
+                  d: 'Type in plain language after session — "client came in dysregulated, we worked on grounding, homework was..." — and the system converts it into a fully compliant, clinically appropriate note. You edit. You don\'t author from scratch.',
                 },
                 {
                   t: "Notes that already know the plan",
@@ -462,7 +547,7 @@ export default function Clinicians() {
                 },
                 {
                   t: "Telehealth built in, not bolted on",
-                  d: "Video, waiting room, session, and chart on one screen. No third-party link. No \"can you see my screen?\" No context switching mid-session.",
+                  d: 'Video, waiting room, session, and chart on one screen. No third-party link. No "can you see my screen?" No context switching mid-session.',
                 },
                 {
                   t: "Availability you actually control",
@@ -483,9 +568,9 @@ export default function Clinicians() {
               ))}
             </div>
 
-
             <p className="mt-14 text-2xl md:text-3xl font-bold leading-snug max-w-4xl text-[color:var(--cl-canvas)]">
-              This is what "dedicated to our clinicians" looks like when it's not just a slide in a pitch deck.
+              This is what "dedicated to our clinicians" looks like when it's
+              not just a slide in a pitch deck.
             </p>
           </div>
         </section>
@@ -494,7 +579,8 @@ export default function Clinicians() {
         <section className="border-b border-[color:var(--cl-evergreen)]/20">
           <div className="max-w-6xl mx-auto px-6 md:px-10 py-20 md:py-28">
             <h2 className="text-3xl md:text-5xl font-bold leading-tight max-w-4xl">
-              We care about your license. We care even more about what kind of clinician you are trying not to become.
+              We care about your license. We care even more about what kind of
+              clinician you are trying not to become.
             </h2>
 
             <div className="mt-14 grid md:grid-cols-2 gap-12">
@@ -511,7 +597,12 @@ export default function Clinicians() {
                     "You are comfortable building as we grow.",
                     "You'd rather fix a system than complain.",
                   ].map((l, i) => (
-                    <li key={i} className="pb-4 border-b border-[color:var(--cl-evergreen)]/25">{l}</li>
+                    <li
+                      key={i}
+                      className="pb-4 border-b border-[color:var(--cl-evergreen)]/25"
+                    >
+                      {l}
+                    </li>
                   ))}
                 </ul>
               </div>
@@ -519,7 +610,9 @@ export default function Clinicians() {
                 <div className="text-xs font-bold tracking-[0.22em] uppercase text-[color:var(--cl-ember)]">
                   This will not be the right fit for every clinician. Good.
                 </div>
-                <p className="mt-6 text-lg text-[color:var(--cl-ink)]/80">Not a fit if you:</p>
+                <p className="mt-6 text-lg text-[color:var(--cl-ink)]/80">
+                  Not a fit if you:
+                </p>
                 <ul className="mt-4 space-y-4 text-lg">
                   {[
                     "Need guaranteed full-time volume.",
@@ -528,7 +621,12 @@ export default function Clinicians() {
                     "Think autonomy means no accountability.",
                     "See veterans only as a lead source.",
                   ].map((l, i) => (
-                    <li key={i} className="pb-4 border-b border-[color:var(--cl-evergreen)]/25 text-[color:var(--cl-ink)]/75">{l}</li>
+                    <li
+                      key={i}
+                      className="pb-4 border-b border-[color:var(--cl-evergreen)]/25 text-[color:var(--cl-ink)]/75"
+                    >
+                      {l}
+                    </li>
                   ))}
                 </ul>
               </div>
@@ -536,69 +634,133 @@ export default function Clinicians() {
 
             <p className="mt-14 text-2xl md:text-3xl font-bold leading-snug max-w-3xl">
               But if you read that list and thought,{" "}
-              <span className="italic text-[color:var(--cl-ember)]">Exactly</span>—we should probably talk.
+              <span className="italic text-[color:var(--cl-ember)]">
+                Exactly
+              </span>
+              —we should probably talk.
             </p>
           </div>
         </section>
 
-
         {/* PRACTICAL TERMS */}
-        <section className="border-b border-[color:var(--cl-evergreen)]/20">
-          <div className="max-w-5xl mx-auto px-6 md:px-10 py-20 md:py-28">
-            <Eyebrow>Practical Terms</Eyebrow>
-            <h2 className="mt-6 text-3xl md:text-5xl font-bold leading-tight max-w-4xl">
-              Mission does not pay your bills. The structure still has to make sense.
+        <section
+          id="practical-terms"
+          className="border-b border-[color:var(--cl-evergreen)]/20 scroll-mt-24"
+        >
+          <div className="container-wide py-20 md:py-28">
+            <Eyebrow>Pay Without the Recruiting Fog</Eyebrow>
+            <h2 className="mt-6 max-w-4xl text-3xl font-bold leading-tight md:text-5xl">
+              Mission does not pay your bills. The structure still has to make
+              sense.
             </h2>
-
-            <dl className="mt-12 border-t border-[color:var(--cl-evergreen)]/25">
-              {[
-                ["Pay per session", "$75 per completed session. The goal is $100/session as we scale"],
-                ["Pay cadence", "Paid weekly"],
-                ["Schedule", "You set availability"],
-                ["Caseload", "No guaranteed caseload yet. But ready to grow with you"],
-                ["Format", "Telehealth-first"],
-                ["Classification", "1099 contractor"],
-                ["Billing", "Billing workflows handled by ValorWell"],
-                ["Scope", "You decide what you are comfortable with"],
-              ].map(([k, v]) => (
-                <div key={k} className="grid grid-cols-12 gap-6 py-5 border-b border-[color:var(--cl-evergreen)]/25">
-                  <dt className="col-span-5 md:col-span-4 text-sm md:text-base uppercase tracking-wider font-bold text-[color:var(--cl-evergreen)]">
-                    {k}
-                  </dt>
-                  <dd className="col-span-7 md:col-span-8 text-lg md:text-xl font-semibold">
-                    {v}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-
-            <p className="mt-10 text-lg md:text-xl text-[color:var(--cl-ink)]/80 max-w-3xl">
-              {"\n"}
+            <p className="mt-6 max-w-3xl text-lg leading-relaxed text-[color:var(--cl-ink)]/80">
+              The examples below use the current $75 completed-session rate.
+              They are gross contractor earnings before taxes and are not
+              promises of referral volume.
             </p>
+
+            <div className="mt-12 grid gap-10 lg:grid-cols-12">
+              <dl className="border-t border-[color:var(--cl-evergreen)]/25 lg:col-span-7">
+                {[
+                  ["Pay per session", "$75 per completed session"],
+                  ["Pay cadence", "Paid weekly"],
+                  ["Schedule", "You set your availability"],
+                  [
+                    "Caseload",
+                    "No guaranteed volume; grow as demand and fit align",
+                  ],
+                  ["Format", "Telehealth-first"],
+                  ["Classification", "1099 contractor"],
+                  ["Billing", "Billing workflow handled by ValorWell"],
+                  [
+                    "Clinical scope",
+                    "You control the populations and concerns you accept",
+                  ],
+                ].map(([label, value]) => (
+                  <div
+                    key={label}
+                    className="grid grid-cols-12 gap-5 border-b border-[color:var(--cl-evergreen)]/25 py-5"
+                  >
+                    <dt className="col-span-5 text-sm font-bold uppercase tracking-wider text-[color:var(--cl-evergreen)] md:col-span-4">
+                      {label}
+                    </dt>
+                    <dd className="col-span-7 text-lg font-semibold md:col-span-8 md:text-xl">
+                      {value}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+
+              <aside className="bg-[color:var(--cl-ink)] p-7 text-[color:var(--cl-canvas)] lg:col-span-5 md:p-9">
+                <div className="text-xs font-bold uppercase tracking-[0.22em] text-[color:var(--cl-ember)]">
+                  Current Rate Examples
+                </div>
+                <dl className="mt-6 divide-y divide-[color:var(--cl-canvas)]/15 border-y border-[color:var(--cl-canvas)]/15">
+                  {[
+                    ["5 sessions/week", "$375 gross/week"],
+                    ["10 sessions/week", "$750 gross/week"],
+                    ["15 sessions/week", "$1,125 gross/week"],
+                    ["20 sessions/week", "$1,500 gross/week"],
+                  ].map(([sessions, earnings]) => (
+                    <div
+                      key={sessions}
+                      className="grid grid-cols-[1fr_auto] gap-4 py-5"
+                    >
+                      <dt className="text-[color:var(--cl-canvas)]/70">
+                        {sessions}
+                      </dt>
+                      <dd className="font-bold">{earnings}</dd>
+                    </div>
+                  ))}
+                </dl>
+                <p className="mt-6 text-sm leading-relaxed text-[color:var(--cl-canvas)]/65">
+                  The current contract rate applies to completed sessions. No
+                  specific weekly caseload is promised.
+                </p>
+              </aside>
+            </div>
           </div>
         </section>
 
         {/* APPLICATION HANDOFF */}
-        <section id="raise-your-hand" className="border-b border-[color:var(--cl-evergreen)]/20 bg-[color:var(--cl-ink)] text-[color:var(--cl-canvas)] scroll-mt-24">
-          <div className="max-w-5xl mx-auto px-6 md:px-10 py-20 md:py-28">
-            <div className="text-[11px] md:text-xs font-bold tracking-[0.22em] uppercase text-[color:var(--cl-ember)]">
-              Raise Your Hand
-            </div>
-            <h2 className="mt-6 text-3xl md:text-5xl font-bold leading-tight max-w-4xl">
-              Maybe you are not done with clinical work. Maybe you are done doing it their way.
-            </h2>
-            <div className="mt-8 space-y-5 max-w-3xl text-lg leading-relaxed text-[color:var(--cl-canvas)]/85">
-              <p>Tell us who you are, where you are licensed, and what made you stop on this page.</p>
-              <p>You do not need a perfect résumé speech. We want the honest version.</p>
-            </div>
+        <section
+          id="raise-your-hand"
+          className="border-b border-[color:var(--cl-evergreen)]/20 bg-[color:var(--cl-ink)] text-[color:var(--cl-canvas)] scroll-mt-24"
+        >
+          <div className="container-wide py-20 md:py-28">
+            <div className="grid gap-10 lg:grid-cols-12 lg:items-start">
+              <div className="lg:col-span-5">
+                <div className="text-[11px] font-bold uppercase tracking-[0.22em] text-[color:var(--cl-ember)] md:text-xs">
+                  Raise Your Hand
+                </div>
+                <h2 className="mt-6 text-3xl font-bold leading-tight md:text-5xl">
+                  The early clinician network is being assembled now.
+                </h2>
+                <div className="mt-7 space-y-5 text-lg leading-relaxed text-[color:var(--cl-canvas)]/80">
+                  <p>
+                    Tell us where you are licensed, how much capacity you want
+                    to create, and what made this opportunity worth exploring.
+                  </p>
+                  <p>
+                    You may apply to join ValorWell directly or to accept
+                    appropriate OCS referrals through your own independently
+                    VACCN-connected practice.
+                  </p>
+                </div>
+                <p className="mt-8 text-sm leading-relaxed text-[color:var(--cl-canvas)]/65">
+                  Applications are reviewed for licensure, operational need,
+                  clinical scope, current state pathways, and mission fit.
+                  Submission is not automatic acceptance.
+                </p>
+              </div>
 
-            {/* CLINICIAN_APPLICATION_SLOT: insert application component here */}
-            <div
-              id="clinician-application-slot"
-              aria-label="Clinician application"
-              className="mt-14 bg-[color:var(--cl-canvas)] text-[color:var(--cl-ink)] p-6 md:p-10 rounded-sm"
-            >
-              <TherapistApplicationForm />
+              <div
+                id="clinician-application-slot"
+                aria-label="Clinician application"
+                className="lg:col-span-7"
+              >
+                <TherapistApplicationForm />
+              </div>
             </div>
           </div>
         </section>
@@ -627,13 +789,16 @@ export default function Clinicians() {
                   <div className="text-3xl md:text-4xl font-bold text-[color:var(--cl-ember)] tabular-nums">
                     {String(i + 1).padStart(2, "0")}
                   </div>
-                  <p className="mt-3 text-xl font-semibold leading-snug">{step}</p>
+                  <p className="mt-3 text-xl font-semibold leading-snug">
+                    {step}
+                  </p>
                 </li>
               ))}
             </ol>
 
             <p className="mt-10 text-xl md:text-2xl font-semibold text-[color:var(--cl-evergreen)] max-w-3xl">
-              We would rather set expectations clearly before onboarding than sell you a fantasy and ask you to forgive us later.
+              We would rather set expectations clearly before onboarding than
+              sell you a fantasy and ask you to forgive us later.
             </p>
           </div>
         </section>
@@ -671,15 +836,25 @@ export default function Clinicians() {
               Stop reading. Start something.
             </h2>
             <div className="mt-10 space-y-5 max-w-3xl text-lg md:text-xl leading-relaxed text-[color:var(--cl-ink)]/85">
-              <p>You don't have to open a private practice tomorrow. You don't have to promise ValorWell your whole week. You don't have to pretend burnout means you stopped caring.</p>
-              <p>You just have to raise your hand while the door is still this wide open.</p>
+              <p>
+                You don't have to open a private practice tomorrow. You don't
+                have to promise ValorWell your whole week. You don't have to
+                pretend burnout means you stopped caring.
+              </p>
+              <p>
+                You just have to raise your hand while the door is still this
+                wide open.
+              </p>
             </div>
             <div className="mt-10 flex flex-col sm:flex-row gap-4">
               <PrimaryCTA>Raise Your Hand</PrimaryCTA>
-              <SecondaryCTA to="/operation-claims-success">Explore Operation Claims Success</SecondaryCTA>
+              <SecondaryCTA to="/operation-claims-success">
+                Explore Operation Claims Success
+              </SecondaryCTA>
             </div>
             <p className="mt-16 text-xl md:text-2xl font-bold text-[color:var(--cl-evergreen)] max-w-3xl">
-              Real care needs clinicians who still give a damn. The system around them should help—not hollow them out.
+              Real care needs clinicians who still give a damn. The system
+              around them should help—not hollow them out.
             </p>
           </div>
         </section>
