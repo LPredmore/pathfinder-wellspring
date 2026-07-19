@@ -1,0 +1,199 @@
+name: Temporary PR clinician path patch
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Patch clinician entry paths
+        shell: bash
+        run: |
+          python <<'PY'
+          from pathlib import Path
+          import re
+
+          mission_path = Path("src/pages/MissionPage.tsx")
+          mission = mission_path.read_text()
+
+          lanes_pattern = re.compile(r"const lanes = \[.*?\n\];\n\nconst dispatch = \[", re.S)
+          lanes_replacement = '''const lanes = [
+            {
+              title: "Get Care",
+              line: "Veterans, families, and individuals looking for the real path.",
+              href: "/get-care",
+              event: "mission_lane_get_care",
+            },
+            {
+              title: "Watch & Share",
+              line: "Follow the build. Share what's useful. Help the right people find it.",
+              href: "/watch",
+              event: "mission_lane_watch",
+            },
+          ];
+
+          const buildWithUsOptions = [
+            {
+              label: "I am a clinician wanting to work with ValorWell",
+              href: "/clinicians",
+              event: "mission_lane_build_clinician",
+            },
+            {
+              label: "I want to partner with or support ValorWell",
+              href: "/partner",
+              event: "mission_lane_build_partner",
+            },
+            {
+              label: "I want to show my Beyond The Yellow mission",
+              href: "/beyondtheyellow",
+              event: "mission_lane_build_bty",
+            },
+          ];
+
+          const dispatch = ['''
+          mission, count = lanes_pattern.subn(lanes_replacement, mission, count=1)
+          if count != 1:
+              raise SystemExit(f"Expected one mission lanes match, found {count}")
+
+          old_css = '''        .mission-theme .lane-card:hover {
+                    transform: translateY(-3px);
+                    border-color: hsl(var(--mission-forest));
+                    background-color: hsl(var(--mission-paper));
+                  }
+                  .mission-theme .rise-in {'''
+          new_css = '''        .mission-theme .lane-card:hover,
+                  .mission-theme .lane-card:focus-within {
+                    transform: translateY(-3px);
+                    border-color: hsl(var(--mission-forest));
+                    background-color: hsl(var(--mission-paper));
+                  }
+                  .mission-theme .build-menu {
+                    opacity: 0;
+                    visibility: hidden;
+                    transform: translateY(-0.25rem);
+                    pointer-events: none;
+                    transition: opacity 160ms ease, transform 160ms ease, visibility 160ms ease;
+                  }
+                  .mission-theme .build-menu-group:hover .build-menu,
+                  .mission-theme .build-menu-group:focus-within .build-menu {
+                    opacity: 1;
+                    visibility: visible;
+                    transform: translateY(0);
+                    pointer-events: auto;
+                  }
+                  .mission-theme .rise-in {'''
+          if mission.count(old_css) != 1:
+              raise SystemExit(f"Expected one mission CSS match, found {mission.count(old_css)}")
+          mission = mission.replace(old_css, new_css)
+
+          lane_marker = "        {/* 6. PICK YOUR LANE */}"
+          lane_start = mission.index(lane_marker)
+          grid_start = mission.index('          <div className="mt-12 grid gap-6 md:grid-cols-3">', lane_start)
+          grid_end = mission.index("        </Band>", grid_start)
+          new_grid = '''          <div className="mt-12 grid gap-6 md:grid-cols-3">
+                    {lanes.map((l) => (
+                      <Link
+                        key={l.title}
+                        to={l.href}
+                        onClick={() => track(l.event)}
+                        className="lane-card block rounded-lg border-2 border-[hsl(var(--mission-ink))]/15 bg-[hsl(var(--mission-paper))]/60 p-8"
+                      >
+                        <h3 className="text-2xl font-bold text-[hsl(var(--mission-ink))]">{l.title}</h3>
+                        <p className="mt-4 text-[hsl(var(--mission-ink))]/75">{l.line}</p>
+                        <p className="mt-8 inline-flex items-center gap-2 text-sm font-bold text-[hsl(var(--mission-forest))]">
+                          Go <ArrowRight className="h-4 w-4" />
+                        </p>
+                      </Link>
+                    ))}
+
+                    <div className="build-menu-group relative z-10">
+                      <button
+                        type="button"
+                        aria-haspopup="menu"
+                        className="lane-card block h-full w-full rounded-lg border-2 border-[hsl(var(--mission-ink))]/15 bg-[hsl(var(--mission-paper))]/60 p-8 text-left"
+                      >
+                        <h3 className="text-2xl font-bold text-[hsl(var(--mission-ink))]">Build With Us</h3>
+                        <p className="mt-4 text-[hsl(var(--mission-ink))]/75">
+                          Clinicians, partners, supporters, sponsors, and mission-builders — choose your path.
+                        </p>
+                        <span className="mt-8 inline-flex items-center gap-2 text-sm font-bold text-[hsl(var(--mission-forest))]">
+                          Choose a Path <ArrowRight className="h-4 w-4" />
+                        </span>
+                      </button>
+
+                      <div className="build-menu absolute left-0 right-0 top-full z-20 pt-2" role="menu">
+                        <div className="overflow-hidden rounded-lg border-2 border-[hsl(var(--mission-forest))] bg-[hsl(var(--mission-paper))] shadow-xl">
+                          {buildWithUsOptions.map((option) => (
+                            <Link
+                              key={option.href}
+                              to={option.href}
+                              role="menuitem"
+                              onClick={() => track(option.event)}
+                              className="flex items-center justify-between gap-4 border-b border-[hsl(var(--mission-ink))]/10 px-5 py-4 text-sm font-bold text-[hsl(var(--mission-ink))] last:border-b-0 hover:bg-[hsl(var(--mission-gold))]/20 focus:bg-[hsl(var(--mission-gold))]/20 focus:outline-none"
+                            >
+                              <span>{option.label}</span>
+                              <ArrowRight className="h-4 w-4 shrink-0 text-[hsl(var(--mission-forest))]" />
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+'''
+          mission = mission[:grid_start] + new_grid + mission[grid_end:]
+          mission_path.write_text(mission)
+
+          partner_path = Path("src/pages/Partner.tsx")
+          partner = partner_path.read_text()
+          partner_anchor = '''              <div className="mt-10">
+                          <PrimaryCTA to="/beyondtheyellow">Tell Us What You're Building</PrimaryCTA>
+                        </div>'''
+          partner_insert = partner_anchor + '''
+
+                        <details className="group mt-8 max-w-xl border border-[color:var(--cl-evergreen)]/25 bg-[color:var(--cl-canvas)]">
+                          <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 text-sm font-bold text-[color:var(--cl-evergreen)] marker:hidden">
+                            <span>I am a therapist interested in working with ValorWell</span>
+                            <span className="text-lg transition-transform group-open:rotate-45" aria-hidden="true">+</span>
+                          </summary>
+                          <div className="border-t border-[color:var(--cl-evergreen)]/20 px-5 py-5">
+                            <p className="text-sm leading-relaxed text-[color:var(--cl-ink)]/75">
+                              Individual clinicians can review current opportunities and submit one clinician application on the recruiting page.
+                            </p>
+                            <Link
+                              to="/clinicians"
+                              className="mt-4 inline-flex items-center text-sm font-bold uppercase tracking-wide text-[color:var(--cl-ember)] hover:text-[color:var(--cl-ink)]"
+                            >
+                              View Clinician Opportunities →
+                            </Link>
+                          </div>
+                        </details>'''
+          if partner.count(partner_anchor) != 1:
+              raise SystemExit(f"Expected one partner CTA match, found {partner.count(partner_anchor)}")
+          partner_path.write_text(partner.replace(partner_anchor, partner_insert))
+          PY
+
+      - name: Format changed pages
+        run: |
+          npm ci
+          npx prettier --write src/pages/MissionPage.tsx src/pages/Partner.tsx
+
+      - name: Commit patched pages
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/pages/MissionPage.tsx src/pages/Partner.tsx
+          git diff --cached --quiet && exit 0
+          git commit -m "Fix clinician entry pathways"
+          git push origin HEAD:${{ github.head_ref }}
