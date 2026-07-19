@@ -7,35 +7,13 @@ import {
   type ReactNode,
 } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
-import MissionPageBase from "./MissionPage";
 import PartnerPageBase from "./Partner";
-import { trackHomeEvent } from "@/lib/tracking";
 
 type ElementProps = {
   children?: ReactNode;
   className?: string;
-  to?: string;
   [key: string]: unknown;
 };
-
-const buildWithUsOptions = [
-  {
-    label: "I am a clinician wanting to work with ValorWell",
-    href: "/clinicians",
-    event: "mission_lane_build_clinician",
-  },
-  {
-    label: "I want to partner with or support ValorWell",
-    href: "/partner",
-    event: "mission_lane_build_partner",
-  },
-  {
-    label: "I want to show my Beyond The Yellow mission",
-    href: "/beyondtheyellow",
-    event: "mission_lane_build_bty",
-  },
-] as const;
 
 function getNodeText(node: ReactNode): string {
   if (typeof node === "string" || typeof node === "number") {
@@ -51,55 +29,6 @@ function getNodeText(node: ReactNode): string {
   }
 
   return "";
-}
-
-function BuildWithUsMenu() {
-  return (
-    <div className="group relative z-20">
-      <button
-        type="button"
-        aria-haspopup="menu"
-        aria-label="Choose how you want to build with ValorWell"
-        className="lane-card block h-full w-full rounded-lg border-2 border-[hsl(var(--mission-ink))]/15 bg-[hsl(var(--mission-paper))]/60 p-8 text-left"
-      >
-        <h3 className="text-2xl font-bold text-[hsl(var(--mission-ink))]">
-          Build With Us
-        </h3>
-        <p className="mt-4 text-[hsl(var(--mission-ink))]/75">
-          Clinicians, partners, supporters, sponsors, and mission-builders — choose
-          your path.
-        </p>
-        <span className="mt-8 inline-flex items-center gap-2 text-sm font-bold text-[hsl(var(--mission-forest))]">
-          Choose a Path <ArrowRight className="h-4 w-4" />
-        </span>
-      </button>
-
-      <div
-        role="menu"
-        aria-label="Build with ValorWell pathways"
-        className="invisible pointer-events-none absolute left-0 right-0 top-full z-30 pt-2 opacity-0 transition-opacity duration-150 group-hover:visible group-hover:pointer-events-auto group-hover:opacity-100 group-focus-within:visible group-focus-within:pointer-events-auto group-focus-within:opacity-100"
-      >
-        <div className="overflow-hidden rounded-lg border-2 border-[hsl(var(--mission-forest))] bg-[hsl(var(--mission-paper))] shadow-xl">
-          {buildWithUsOptions.map((option) => (
-            <Link
-              key={option.href}
-              to={option.href}
-              role="menuitem"
-              onClick={() =>
-                trackHomeEvent(option.event, {
-                  page: "mission",
-                })
-              }
-              className="flex items-center justify-between gap-4 border-b border-[hsl(var(--mission-ink))]/10 px-5 py-4 text-sm font-bold text-[hsl(var(--mission-ink))] last:border-b-0 hover:bg-[hsl(var(--mission-gold))]/20 focus:bg-[hsl(var(--mission-gold))]/20 focus:outline-none"
-            >
-              <span>{option.label}</span>
-              <ArrowRight className="h-4 w-4 shrink-0 text-[hsl(var(--mission-forest))]" />
-            </Link>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
 }
 
 function TherapistHandoff() {
@@ -127,38 +56,6 @@ function TherapistHandoff() {
         </Link>
       </div>
     </details>
-  );
-}
-
-function transformMissionNode(node: ReactNode): ReactNode {
-  if (Array.isArray(node)) {
-    return node.map(transformMissionNode);
-  }
-
-  if (!isValidElement(node)) {
-    return node;
-  }
-
-  const element = node as ReactElement<ElementProps>;
-  const props = element.props;
-  const isBuildWithUsCard =
-    props.to === "/partner" &&
-    typeof props.className === "string" &&
-    props.className.includes("lane-card") &&
-    getNodeText(props.children).includes("Build With Us");
-
-  if (isBuildWithUsCard) {
-    return <BuildWithUsMenu key={String(element.key ?? "build-with-us")} />;
-  }
-
-  if (props.children === undefined) {
-    return element;
-  }
-
-  return cloneElement(
-    element,
-    undefined,
-    Children.map(props.children, transformMissionNode),
   );
 }
 
@@ -200,14 +97,9 @@ function transformPartnerNode(node: ReactNode): ReactNode {
 }
 
 /**
- * These wrappers keep the established page layouts intact while consolidating
- * individual clinician traffic at /clinicians. They can be removed when the
- * underlying Mission and Partner pages receive their planned full rebuilds.
+ * Temporary wrapper retained for the existing Partner page until that page is
+ * rebuilt. The Mission page now owns its pathways directly.
  */
-export function MissionPageWithPathways() {
-  return transformMissionNode(MissionPageBase());
-}
-
 export function PartnerPageWithClinicianHandoff() {
   return transformPartnerNode(PartnerPageBase());
 }

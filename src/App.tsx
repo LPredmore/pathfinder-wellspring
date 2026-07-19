@@ -12,16 +12,14 @@ import AdminDashboard from "./pages/AdminDashboard";
 import NotFound from "./pages/NotFound";
 import HomePage from "./pages/HomePage";
 import WatchPage from "./pages/WatchPage";
+import MissionPage from "./pages/MissionPage";
 import OcsBillingHubPage from "./pages/OcsBillingHubPage";
 import BtyBillingHubPage from "./pages/BtyBillingHubPage";
 import Clinicians from "./pages/Clinicians";
 import GetCare from "./pages/GetCare";
 import Contact from "./pages/Contact";
 import Privacy from "./pages/Privacy";
-import {
-  MissionPageWithPathways,
-  PartnerPageWithClinicianHandoff,
-} from "./pages/PathwayPageWrappers";
+import { PartnerPageWithClinicianHandoff } from "./pages/PathwayPageWrappers";
 import AuthorityResources from "./pages/authority/Resources";
 import AuthorityFamilySystems from "./pages/authority/FamilySystems";
 import AuthorityMilitaryFamilyTherapy from "./pages/authority/MilitaryFamilyTherapy";
@@ -81,7 +79,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/watch" element={<WatchPage />} />
-            <Route path="/mission" element={<MissionPageWithPathways />} />
+            <Route path="/mission" element={<MissionPage />} />
             <Route
               path="/operation-claims-success"
               element={<OcsBillingHubPage />}
