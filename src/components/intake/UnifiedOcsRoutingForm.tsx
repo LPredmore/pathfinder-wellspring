@@ -4,29 +4,13 @@ import { billingHubSupabase } from "@/integrations/supabase/client";
 import { trackHomeEvent } from "@/lib/tracking";
 
 const lanes = [
-  { value: "veteran", label: "Veteran or family member seeking education" },
-  { value: "provider_recruiting", label: "Clinician or provider interested in ValorWell" },
+  { value: "veteran", label: "Veteran seeking help with a mental-health claim or appeal" },
+  { value: "provider_recruiting", label: "ValorWell or VACCN-connected clinician interested in accepting veterans" },
   { value: "partnership_support", label: "Organization, supporter, creator, sponsor, or connector" },
   { value: "general", label: "I want to help, but I am not sure where I fit" },
 ] as const;
 
 type Lane = (typeof lanes)[number]["value"];
-
-const relationshipOptions = [
-  ["veteran_organization", "Veteran-affiliated organization"],
-  ["community_organization", "Community organization"],
-  ["employer", "Employer"],
-  ["church", "Church or faith community"],
-  ["nonprofit", "Nonprofit"],
-  ["supporter", "Supporter"],
-  ["sponsor", "Sponsor"],
-  ["funder", "Funder"],
-  ["creator", "Creator or influencer"],
-  ["media_outlet", "Media outlet"],
-  ["podcaster", "Podcaster"],
-  ["storyteller", "Storyteller"],
-  ["connector", "Connector or introduction source"],
-] as const;
 
 type FormState = {
   lane: Lane | "";
@@ -42,11 +26,14 @@ type FormState = {
   relationshipTypes: string[];
   veteranAffiliated: boolean;
   relationshipToVeteran: string;
-  topic: string;
   state: string;
+  claimStage: string;
+  currentCare: string;
   licenseType: string;
   licensedStates: string;
   telehealthExperience: string;
+  providerPath: string;
+  vaccnStatus: string;
   details: string;
   consent: boolean;
 };
@@ -65,14 +52,33 @@ const initialState: FormState = {
   relationshipTypes: [],
   veteranAffiliated: false,
   relationshipToVeteran: "",
-  topic: "",
   state: "",
+  claimStage: "",
+  currentCare: "",
   licenseType: "",
   licensedStates: "",
   telehealthExperience: "",
+  providerPath: "",
+  vaccnStatus: "",
   details: "",
   consent: false,
 };
+
+const relationshipOptions = [
+  ["veteran_organization", "Veteran-affiliated organization"],
+  ["community_organization", "Community organization"],
+  ["employer", "Employer"],
+  ["church", "Church or faith community"],
+  ["nonprofit", "Nonprofit"],
+  ["supporter", "Supporter"],
+  ["sponsor", "Sponsor"],
+  ["funder", "Funder"],
+  ["creator", "Creator or influencer"],
+  ["media_outlet", "Media outlet"],
+  ["podcaster", "Podcaster"],
+  ["storyteller", "Storyteller"],
+  ["connector", "Connector or introduction source"],
+] as const;
 
 const inputClass =
   "mt-1 w-full rounded-md border border-[#3B5147]/25 bg-white px-3 py-2 text-sm text-[#111814] focus:border-[#3B5147] focus:outline-none focus:ring-2 focus:ring-[#3B5147]/30";
@@ -96,14 +102,34 @@ function Field({
       <label htmlFor={id} className="block text-sm font-medium text-[#111814]">
         {label} {required && <span className="text-[#B24A3A]">*</span>}
       </label>
-      <input
-        id={id}
-        type={type}
-        value={value}
-        required={required}
-        onChange={(event) => onChange(event.target.value)}
-        className={inputClass}
-      />
+      <input id={id} type={type} value={value} required={required} onChange={(event) => onChange(event.target.value)} className={inputClass} />
+    </div>
+  );
+}
+
+function SelectField({
+  label,
+  value,
+  options,
+  onChange,
+  required = false,
+}: {
+  label: string;
+  value: string;
+  options: string[];
+  onChange: (value: string) => void;
+  required?: boolean;
+}) {
+  const id = `ocs_${label.replace(/\W+/g, "_").toLowerCase()}`;
+  return (
+    <div>
+      <label htmlFor={id} className="block text-sm font-medium text-[#111814]">
+        {label} {required && <span className="text-[#B24A3A]">*</span>}
+      </label>
+      <select id={id} required={required} className={inputClass} value={value} onChange={(event) => onChange(event.target.value)}>
+        <option value="">Select...</option>
+        {options.map((option) => <option key={option}>{option}</option>)}
+      </select>
     </div>
   );
 }
@@ -131,10 +157,7 @@ export function UnifiedOcsRoutingForm() {
     setStatus("loading");
     setErrorMessage("");
 
-    const licensedStates = form.licensedStates
-      .split(",")
-      .map((value) => value.trim())
-      .filter(Boolean);
+    const licensedStates = form.licensedStates.split(",").map((value) => value.trim()).filter(Boolean);
     const veteranAffiliation =
       form.relationshipToVeteran === "Veteran"
         ? "veteran"
@@ -168,8 +191,11 @@ export function UnifiedOcsRoutingForm() {
         motivation: form.details.trim() || null,
         responses: {
           relationship: form.relationshipToVeteran,
-          topic: form.topic,
+          claim_stage: form.claimStage,
+          current_mental_health_care: form.currentCare,
           telehealth_experience: form.telehealthExperience,
+          provider_path: form.providerPath,
+          vaccn_status: form.vaccnStatus,
           details: form.details,
         },
         consent: form.consent,
@@ -194,9 +220,9 @@ export function UnifiedOcsRoutingForm() {
         <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-[#3B5147] text-white">
           <Check className="h-6 w-6" />
         </div>
-        <h3 className="text-2xl font-bold text-[#111814]">Thanks for reaching out.</h3>
+        <h3 className="text-2xl font-bold text-[#111814]">Your information has been received.</h3>
         <p className="mx-auto mt-3 max-w-xl text-[#111814]/70">
-          We received your information and routed it to the outreach path that fits what you selected.
+          ValorWell will review your state, situation, and selected path and reach out within 48 hours with the appropriate next steps.
         </p>
       </div>
     );
@@ -207,26 +233,12 @@ export function UnifiedOcsRoutingForm() {
       <fieldset>
         <legend className="text-lg font-semibold text-[#111814]">1. Choose the closest path</legend>
         <p className="mt-1 text-sm text-[#111814]/70">
-          This is a mission-routing form, not a clinical intake. Do not include medical records, VA claim files, or diagnoses.
+          This is a routing form, not a clinical intake. Do not include medical records, VA claim files, diagnoses, Social Security numbers, or detailed trauma information.
         </p>
         <div className="mt-4 grid gap-2 md:grid-cols-2">
           {lanes.map((lane) => (
-            <label
-              key={lane.value}
-              className={`flex cursor-pointer items-start gap-3 rounded-lg border p-3 text-sm transition ${
-                form.lane === lane.value
-                  ? "border-[#3B5147] bg-[#3B5147]/5"
-                  : "border-[#3B5147]/20 bg-white hover:border-[#3B5147]/50"
-              }`}
-            >
-              <input
-                type="radio"
-                name="ocs-lane"
-                value={lane.value}
-                checked={form.lane === lane.value}
-                onChange={() => update("lane", lane.value)}
-                className="mt-1 accent-[#3B5147]"
-              />
+            <label key={lane.value} className={`flex cursor-pointer items-start gap-3 rounded-lg border p-3 text-sm transition ${form.lane === lane.value ? "border-[#3B5147] bg-[#3B5147]/5" : "border-[#3B5147]/20 bg-white hover:border-[#3B5147]/50"}`}>
+              <input type="radio" name="ocs-lane" value={lane.value} checked={form.lane === lane.value} onChange={() => update("lane", lane.value)} className="mt-1 accent-[#3B5147]" />
               <span>{lane.label}</span>
             </label>
           ))}
@@ -245,49 +257,33 @@ export function UnifiedOcsRoutingForm() {
 
           {form.lane === "veteran" && (
             <fieldset className="grid gap-4 md:grid-cols-2">
-              <legend className="col-span-full text-lg font-semibold text-[#111814]">3. What are you trying to understand?</legend>
-              <div>
-                <label className="block text-sm font-medium text-[#111814]">Relationship to the veteran community</label>
-                <select className={inputClass} value={form.relationshipToVeteran} onChange={(event) => update("relationshipToVeteran", event.target.value)}>
-                  <option value="">Select...</option>
-                  {['Veteran', 'Active duty', 'Family member', 'Caregiver', 'Friend/ally', 'Other'].map((value) => <option key={value}>{value}</option>)}
-                </select>
-              </div>
-              <Field label="State (optional)" value={form.state} onChange={(value) => update("state", value)} />
-              <Field label="Topic or question" value={form.topic} onChange={(value) => update("topic", value)} />
+              <legend className="col-span-full text-lg font-semibold text-[#111814]">3. Help us check your current path</legend>
+              <SelectField label="Relationship to the veteran" required value={form.relationshipToVeteran} options={["Veteran", "Active duty", "Family member", "Caregiver", "Other"]} onChange={(value) => update("relationshipToVeteran", value)} />
+              <Field label="Veteran's state" required value={form.state} onChange={(value) => update("state", value)} />
+              <SelectField label="Current claim or appeal stage" value={form.claimStage} options={["Considering a new claim", "Preparing an original claim", "Requesting an increased rating", "Exploring a secondary condition", "Responding to a denial", "Appeal in progress", "Not sure"]} onChange={(value) => update("claimStage", value)} />
+              <SelectField label="Current mental-health care" value={form.currentCare} options={["No current care", "Receiving care through the VA", "Receiving care outside the VA", "Previously received care", "Not sure"]} onChange={(value) => update("currentCare", value)} />
             </fieldset>
           )}
 
           {form.lane === "provider_recruiting" && (
             <fieldset className="grid gap-4 md:grid-cols-2">
-              <legend className="col-span-full text-lg font-semibold text-[#111814]">3. Clinical background</legend>
-              <Field label="License type" value={form.licenseType} onChange={(value) => update("licenseType", value)} />
-              <Field label="Licensed states (comma separated)" value={form.licensedStates} onChange={(value) => update("licensedStates", value)} />
-              <div>
-                <label className="block text-sm font-medium text-[#111814]">Telehealth experience</label>
-                <select className={inputClass} value={form.telehealthExperience} onChange={(event) => update("telehealthExperience", event.target.value)}>
-                  <option value="">Select...</option>
-                  {['Extensive', 'Some', 'Limited', 'None yet'].map((value) => <option key={value}>{value}</option>)}
-                </select>
-              </div>
+              <legend className="col-span-full text-lg font-semibold text-[#111814]">3. Clinical and VACCN background</legend>
+              <Field label="License type" required value={form.licenseType} onChange={(value) => update("licenseType", value)} />
+              <Field label="Licensed states (comma separated)" required value={form.licensedStates} onChange={(value) => update("licensedStates", value)} />
+              <SelectField label="How would you like to participate?" value={form.providerPath} options={["Join ValorWell", "Accept referrals as an outside VACCN provider", "Open to either path"]} onChange={(value) => update("providerPath", value)} />
+              <SelectField label="Current VACCN status" value={form.vaccnStatus} options={["Already connected to VACCN", "Registration in progress", "Not currently connected", "Not sure"]} onChange={(value) => update("vaccnStatus", value)} />
+              <SelectField label="Telehealth experience" value={form.telehealthExperience} options={["Extensive", "Some", "Limited", "None yet"]} onChange={(value) => update("telehealthExperience", value)} />
             </fieldset>
           )}
 
           {form.lane === "partnership_support" && (
             <fieldset className="space-y-5 rounded-lg border border-[#3B5147]/20 bg-[#F4F1E8]/50 p-4">
               <legend className="px-1 text-lg font-semibold text-[#111814]">3. Relationship classification</legend>
-              <p className="text-sm text-[#111814]/70">
-                Select every description that applies. One contact or organization can have several roles without being duplicated.
-              </p>
+              <p className="text-sm text-[#111814]/70">Select every description that applies.</p>
               <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
                 {relationshipOptions.map(([value, label]) => (
                   <label key={value} className="flex items-start gap-2 rounded-md border border-[#3B5147]/15 bg-white p-3 text-sm">
-                    <input
-                      type="checkbox"
-                      checked={form.relationshipTypes.includes(value)}
-                      onChange={() => toggleRelationship(value)}
-                      className="mt-0.5 h-4 w-4 accent-[#3B5147]"
-                    />
+                    <input type="checkbox" checked={form.relationshipTypes.includes(value)} onChange={() => toggleRelationship(value)} className="mt-0.5 h-4 w-4 accent-[#3B5147]" />
                     <span>{label}</span>
                   </label>
                 ))}
@@ -297,26 +293,9 @@ export function UnifiedOcsRoutingForm() {
                 <Field label="Role / title (optional)" value={form.roleTitle} onChange={(value) => update("roleTitle", value)} />
                 <Field label="Website (optional)" value={form.website} onChange={(value) => update("website", value)} />
                 <Field label="Social link (optional)" value={form.socialLink} onChange={(value) => update("socialLink", value)} />
-                <div>
-                  <label className="block text-sm font-medium text-[#111814]">Primary organization type</label>
-                  <select className={inputClass} value={form.organizationKind} onChange={(event) => update("organizationKind", event.target.value)}>
-                    <option value="">Select...</option>
-                    <option value="veteran_organization">Veteran organization</option>
-                    <option value="community_organization">Community organization</option>
-                    <option value="employer">Employer</option>
-                    <option value="church">Church or faith community</option>
-                    <option value="nonprofit">Nonprofit</option>
-                    <option value="media">Media or podcast</option>
-                    <option value="other">Other</option>
-                  </select>
-                </div>
+                <SelectField label="Primary organization type" value={form.organizationKind} options={["Veteran organization", "Community organization", "Employer", "Church or faith community", "Nonprofit", "Media or podcast", "Other"]} onChange={(value) => update("organizationKind", value)} />
                 <label className="flex items-center gap-3 rounded-md border border-[#3B5147]/15 bg-white p-3 text-sm">
-                  <input
-                    type="checkbox"
-                    checked={form.veteranAffiliated}
-                    onChange={(event) => update("veteranAffiliated", event.target.checked)}
-                    className="h-4 w-4 accent-[#3B5147]"
-                  />
+                  <input type="checkbox" checked={form.veteranAffiliated} onChange={(event) => update("veteranAffiliated", event.target.checked)} className="h-4 w-4 accent-[#3B5147]" />
                   Veteran or military-family affiliated
                 </label>
               </div>
@@ -325,35 +304,25 @@ export function UnifiedOcsRoutingForm() {
 
           <div>
             <label htmlFor="ocs_details" className="block text-sm font-medium text-[#111814]">
-              {form.lane === "partnership_support"
-                ? "What are you hoping to build, support, share, fund, or introduce?"
+              {form.lane === "veteran"
+                ? "Briefly tell us what you need help understanding"
                 : form.lane === "provider_recruiting"
-                  ? "Why does working with ValorWell interest you?"
-                  : "Anything else ValorWell should know?"}
+                  ? "Tell us about your practice and interest in serving veterans"
+                  : form.lane === "partnership_support"
+                    ? "What are you hoping to build, support, share, fund, or introduce?"
+                    : "Anything else ValorWell should know?"}
             </label>
             <textarea id="ocs_details" rows={4} value={form.details} onChange={(event) => update("details", event.target.value)} className={inputClass} />
           </div>
 
           <label className="flex items-start gap-3 text-sm text-[#111814]">
-            <input
-              type="checkbox"
-              checked={form.consent}
-              onChange={(event) => update("consent", event.target.checked)}
-              required
-              className="mt-1 h-4 w-4 accent-[#3B5147]"
-            />
-            <span>
-              I understand this submission does not guarantee clinical care, VA access, documentation, partnership, sponsorship, a feature, or any VA outcome.
-            </span>
+            <input type="checkbox" checked={form.consent} onChange={(event) => update("consent", event.target.checked)} required className="mt-1 h-4 w-4 accent-[#3B5147]" />
+            <span>I understand this submission does not guarantee immediate clinical care, VA authorization, documentation, partnership, or any VA outcome.</span>
           </label>
 
           {status === "error" && <div role="alert" className="rounded-md border border-[#B24A3A]/40 bg-[#B24A3A]/5 p-3 text-sm text-[#B24A3A]">{errorMessage}</div>}
 
-          <button
-            type="submit"
-            disabled={status === "loading" || !form.consent}
-            className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-[#3B5147] px-6 py-3 text-base font-semibold text-white hover:bg-[#2f4239] disabled:opacity-60 md:w-auto"
-          >
+          <button type="submit" disabled={status === "loading" || !form.consent} className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-[#3B5147] px-6 py-3 text-base font-semibold text-white hover:bg-[#2f4239] disabled:opacity-60 md:w-auto">
             {status === "loading" ? <Loader2 className="h-4 w-4 animate-spin" /> : <ArrowRight className="h-4 w-4" />}
             Send to ValorWell
           </button>
