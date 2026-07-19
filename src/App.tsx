@@ -12,14 +12,16 @@ import AdminDashboard from "./pages/AdminDashboard";
 import NotFound from "./pages/NotFound";
 import HomePage from "./pages/HomePage";
 import WatchPage from "./pages/WatchPage";
-import MissionPage from "./pages/MissionPage";
 import OcsBillingHubPage from "./pages/OcsBillingHubPage";
 import BtyBillingHubPage from "./pages/BtyBillingHubPage";
 import Clinicians from "./pages/Clinicians";
 import GetCare from "./pages/GetCare";
-import Partner from "./pages/Partner";
 import Contact from "./pages/Contact";
 import Privacy from "./pages/Privacy";
+import {
+  MissionPageWithPathways,
+  PartnerPageWithClinicianHandoff,
+} from "./pages/PathwayPageWrappers";
 import AuthorityResources from "./pages/authority/Resources";
 import AuthorityFamilySystems from "./pages/authority/FamilySystems";
 import AuthorityMilitaryFamilyTherapy from "./pages/authority/MilitaryFamilyTherapy";
@@ -54,55 +56,111 @@ const legacyRedirects: { from: string; to: string }[] = [
   { from: "/urgent-help", to: "/get-care" },
   { from: "/resources", to: "/authority/resources" },
   { from: "/influencer", to: "/beyondtheyellow" },
-  { from: "/veteran-mental-health-care", to: "/authority/veteran-mental-health-care" },
-  { from: "/va-community-care-mental-health", to: "/authority/va-community-care-mental-health" },
-  { from: "/military-family-therapy", to: "/authority/military-family-therapy" },
+  {
+    from: "/veteran-mental-health-care",
+    to: "/authority/veteran-mental-health-care",
+  },
+  {
+    from: "/va-community-care-mental-health",
+    to: "/authority/va-community-care-mental-health",
+  },
+  {
+    from: "/military-family-therapy",
+    to: "/authority/military-family-therapy",
+  },
   { from: "/family-systems", to: "/authority/family-systems" },
 ];
 
 const App = () => (
   <HelmetProvider>
     <QueryClientProvider client={queryClient}>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/watch" element={<WatchPage />} />
-              <Route path="/mission" element={<MissionPage />} />
-              <Route path="/operation-claims-success" element={<OcsBillingHubPage />} />
-              <Route path="/beyondtheyellow" element={<BtyBillingHubPage />} />
-              <Route path="/clinicians" element={<Clinicians />} />
-              <Route path="/therapists" element={<Navigate to="/clinicians" replace />} />
-              <Route path="/get-care" element={<GetCare />} />
-              <Route path="/partner" element={<Partner />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/privacy" element={<Privacy />} />
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/watch" element={<WatchPage />} />
+            <Route path="/mission" element={<MissionPageWithPathways />} />
+            <Route
+              path="/operation-claims-success"
+              element={<OcsBillingHubPage />}
+            />
+            <Route path="/beyondtheyellow" element={<BtyBillingHubPage />} />
+            <Route path="/clinicians" element={<Clinicians />} />
+            <Route
+              path="/therapists"
+              element={<Navigate to="/clinicians" replace />}
+            />
+            <Route path="/get-care" element={<GetCare />} />
+            <Route
+              path="/partner"
+              element={<PartnerPageWithClinicianHandoff />}
+            />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/privacy" element={<Privacy />} />
 
-              <Route path="/authority/resources" element={<AuthorityResources />} />
-              <Route path="/authority/family-systems" element={<AuthorityFamilySystems />} />
-              <Route path="/authority/military-family-therapy" element={<AuthorityMilitaryFamilyTherapy />} />
-              <Route path="/authority/veteran-mental-health-care" element={<AuthorityVeteranMentalHealthCare />} />
-              <Route path="/authority/va-community-care-mental-health" element={<AuthorityVACommunityCareMentalHealth />} />
-              <Route path="/authority/resources/champva" element={<AuthorityResourcesChampva />} />
-              <Route path="/authority/resources/documentation" element={<AuthorityResourcesDocumentation />} />
-              <Route path="/authority/resources/family-systems" element={<AuthorityResourcesFamilySystems />} />
-              <Route path="/authority/resources/va-community-care" element={<AuthorityResourcesVACommunityCare />} />
-              <Route path="/authority/resources/veteran-mental-health" element={<AuthorityResourcesVeteranMentalHealth />} />
+            <Route path="/authority/resources" element={<AuthorityResources />} />
+            <Route
+              path="/authority/family-systems"
+              element={<AuthorityFamilySystems />}
+            />
+            <Route
+              path="/authority/military-family-therapy"
+              element={<AuthorityMilitaryFamilyTherapy />}
+            />
+            <Route
+              path="/authority/veteran-mental-health-care"
+              element={<AuthorityVeteranMentalHealthCare />}
+            />
+            <Route
+              path="/authority/va-community-care-mental-health"
+              element={<AuthorityVACommunityCareMentalHealth />}
+            />
+            <Route
+              path="/authority/resources/champva"
+              element={<AuthorityResourcesChampva />}
+            />
+            <Route
+              path="/authority/resources/documentation"
+              element={<AuthorityResourcesDocumentation />}
+            />
+            <Route
+              path="/authority/resources/family-systems"
+              element={<AuthorityResourcesFamilySystems />}
+            />
+            <Route
+              path="/authority/resources/va-community-care"
+              element={<AuthorityResourcesVACommunityCare />}
+            />
+            <Route
+              path="/authority/resources/veteran-mental-health"
+              element={<AuthorityResourcesVeteranMentalHealth />}
+            />
 
-              {legacyRedirects.map((redirect) => (
-                <Route key={redirect.from} path={redirect.from} element={<Navigate to={redirect.to} replace />} />
-              ))}
+            {legacyRedirects.map((redirect) => (
+              <Route
+                key={redirect.from}
+                path={redirect.from}
+                element={<Navigate to={redirect.to} replace />}
+              />
+            ))}
 
-              {/* Preserved functional routes (not in public nav) */}
-              <Route path="/donate" element={<Donate />} />
-              <Route path="/admin" element={<AuthProvider><AdminDashboard /></AuthProvider>} />
+            {/* Preserved functional routes (not in public nav) */}
+            <Route path="/donate" element={<Donate />} />
+            <Route
+              path="/admin"
+              element={
+                <AuthProvider>
+                  <AdminDashboard />
+                </AuthProvider>
+              }
+            />
 
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-        </TooltipProvider>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
     </QueryClientProvider>
   </HelmetProvider>
 );
