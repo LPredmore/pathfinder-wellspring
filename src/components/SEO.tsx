@@ -10,8 +10,10 @@ interface SEOProps {
 }
 
 const SITE_NAME = "ValorWell";
-const DEFAULT_TITLE = "ValorWell - Mental Health Care for Veterans and Families";
-const DEFAULT_DESCRIPTION = "Online mental health care for veterans and families—therapy, support sessions, and groups built around access. CHAMPVA accepted.";
+const DEFAULT_TITLE =
+  "ValorWell - Mental Health Care for Veterans and Families";
+const DEFAULT_DESCRIPTION =
+  "Online mental health care for veterans and families—therapy, support sessions, and groups built around access. CHAMPVA accepted.";
 const SITE_URL = "https://www.valorwell.org";
 const DEFAULT_IMAGE = `${SITE_URL}/og-image.png`;
 
@@ -89,21 +91,21 @@ export function MedicalOrganizationSchema() {
     name: "ValorWell",
     url: SITE_URL,
     logo: `${SITE_URL}/brand/valorwell-logo.png`,
-    description: "Mental health care provider specializing in therapy and support services for veterans, service members, and their families.",
-    medicalSpecialty: [
-      "Psychiatry",
-      "Mental Health",
-    ],
+    description:
+      "Mental health care provider specializing in therapy and support services for veterans, service members, and their families.",
+    medicalSpecialty: ["Psychiatry", "Mental Health"],
     availableService: [
       {
         "@type": "MedicalTherapy",
         name: "Therapy",
-        description: "Professional, licensed counseling covered by CHAMPVA for veterans and families.",
+        description:
+          "Professional, licensed counseling covered by CHAMPVA for veterans and families.",
       },
       {
         "@type": "MedicalTherapy",
         name: "Support Sessions",
-        description: "Guidance and skills-based coaching for everyday challenges.",
+        description:
+          "Guidance and skills-based coaching for everyday challenges.",
       },
     ],
     areaServed: {
@@ -212,7 +214,8 @@ export function JobPostingSchema() {
     "@context": "https://schema.org",
     "@type": "JobPosting",
     title: "Licensed Mental Health Therapist",
-    description: "Join ValorWell as a licensed mental health clinician serving veterans and military families. Telehealth-first, CHAMPVA billing infrastructure in place. Seeking LCSWs, LPCs, LMFTs, and Psychologists.",
+    description:
+      "Join ValorWell as a licensed mental-health clinician serving veterans and military families. Telehealth-first 1099 work, $75 per completed session, weekly pay, flexible availability, billing support, and clinical autonomy.",
     hiringOrganization: {
       "@type": "Organization",
       name: "ValorWell",
@@ -225,10 +228,12 @@ export function JobPostingSchema() {
       "@type": "Country",
       name: "United States",
     },
-    datePosted: "2026-01-01",
+    datePosted: "2026-07-19",
     validThrough: "2026-12-31",
-    qualifications: "Licensed mental health clinician (LCSW, LPC, LMFT, or Psychologist). Experience with trauma-informed care preferred.",
-    responsibilities: "Provide telehealth therapy to veterans and military families. Work within CHAMPVA billing framework.",
+    qualifications:
+      "Licensed mental health clinician (LCSW, LPC, LMFT, or Psychologist). Experience with trauma-informed care preferred.",
+    responsibilities:
+      "Provide telehealth mental-health care within the clinician's license and scope, complete timely clinical documentation, and support veteran and military-family care pathways.",
     industry: "Mental Health Care",
     occupationalCategory: "Mental Health Counselors",
   };
@@ -250,7 +255,8 @@ export function NonprofitOrganizationSchema() {
     alternateName: "ValorWell Mental Health",
     url: SITE_URL,
     logo: `${SITE_URL}/brand/valorwell-logo.png`,
-    description: "501(c)(3) nonprofit providing free and low-cost mental health care to veterans and military families who can't access VA services.",
+    description:
+      "501(c)(3) nonprofit providing free and low-cost mental health care to veterans and military families who can't access VA services.",
     nonprofitStatus: "Nonprofit501c3",
     foundingDate: "2023",
     areaServed: {
@@ -286,12 +292,14 @@ export function DonateActionSchema() {
     "@context": "https://schema.org",
     "@type": "DonateAction",
     name: "Donate to Support Veterans Mental Health",
-    description: "Your donation funds free mental health care for veterans who can't access VA services. Over 120 veterans served through our bridge program.",
+    description:
+      "Your donation funds free mental health care for veterans who can't access VA services. Over 120 veterans served through our bridge program.",
     recipient: {
       "@type": "NGO",
       name: "ValorWell",
       url: SITE_URL,
-      description: "Nonprofit providing mental health care to veterans and military families",
+      description:
+        "Nonprofit providing mental health care to veterans and military families",
       areaServed: {
         "@type": "Country",
         name: "United States",
@@ -301,7 +309,10 @@ export function DonateActionSchema() {
     target: {
       "@type": "EntryPoint",
       urlTemplate: `${SITE_URL}/donate`,
-      actionPlatform: ["http://schema.org/DesktopWebPlatform", "http://schema.org/MobileWebPlatform"],
+      actionPlatform: [
+        "http://schema.org/DesktopWebPlatform",
+        "http://schema.org/MobileWebPlatform",
+      ],
     },
   };
 
@@ -320,7 +331,12 @@ interface VideoSchemaProps {
   thumbnailUrl?: string;
 }
 
-export function VideoObjectSchema({ name, description, embedUrl, thumbnailUrl }: VideoSchemaProps) {
+export function VideoObjectSchema({
+  name,
+  description,
+  embedUrl,
+  thumbnailUrl,
+}: VideoSchemaProps) {
   const schema = {
     "@context": "https://schema.org",
     "@type": "VideoObject",

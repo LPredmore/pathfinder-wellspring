@@ -93,10 +93,10 @@ const REFERRAL_SOURCES = [
 ] as const;
 
 const WEEKLY_HOURS_OPTIONS = [
-  "30+ hours a week",
-  "20-30 hours a week",
-  "10-20 hours a week",
-  "Whenever I find time",
+  "1-5 sessions per week",
+  "6-10 sessions per week",
+  "11-20 sessions per week",
+  "20+ sessions per week",
 ] as const;
 
 const formSchema = z.object({
@@ -181,7 +181,8 @@ export function TherapistApplicationForm() {
           motivation: data.motivation.trim(),
           weekly_hours: data.weeklyHours,
           source_page: "/clinicians",
-          user_agent: typeof navigator === "undefined" ? null : navigator.userAgent,
+          user_agent:
+            typeof navigator === "undefined" ? null : navigator.userAgent,
         },
       },
     );
@@ -214,8 +215,8 @@ export function TherapistApplicationForm() {
             Application Received!
           </h3>
           <p className="text-muted-foreground">
-            Thank you for your interest in working with ValorWell. We&apos;ll review
-            your application and be in touch soon.
+            Thank you for your interest in working with ValorWell. We&apos;ll
+            review your application and be in touch soon.
           </p>
         </CardContent>
       </Card>
@@ -225,53 +226,50 @@ export function TherapistApplicationForm() {
   return (
     <Card className="mx-auto max-w-2xl bg-white/95 backdrop-blur-sm">
       <CardHeader>
-        <CardTitle className="text-center text-2xl">Join Our Team</CardTitle>
+        <CardTitle className="text-center text-2xl">
+          Apply to Join the Clinician Network
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <div className="mb-8 rounded-lg border border-[color:var(--cl-evergreen)]/25 bg-[color:var(--cl-canvas)] p-5">
           <h3 className="text-lg font-bold text-[color:var(--cl-ink)]">
-            Two ways clinicians can participate in Operation Claims Success
+            Choose the participation path that fits
           </h3>
           <div className="mt-4 grid gap-4 md:grid-cols-2">
-            <div className="rounded-md border border-[color:var(--cl-evergreen)]/20 bg-white p-4">
+            <div className="border-l-4 border-[color:var(--cl-ember)] bg-white p-4">
               <p className="font-semibold text-[color:var(--cl-evergreen)]">
                 Join ValorWell
               </p>
               <p className="mt-2 text-sm leading-relaxed text-[color:var(--cl-ink)]/75">
-                Work as a ValorWell 1099 clinician. ValorWell handles the billing
-                workflow and pays $75 per completed session. Depending on the state,
-                care may be supported through VA Community Care or mission-funded
-                capacity.
+                Work as a telehealth-first 1099 clinician. ValorWell handles
+                billing workflows and currently pays $75 per completed session,
+                weekly.
               </p>
             </div>
-            <div className="rounded-md border border-[color:var(--cl-evergreen)]/20 bg-white p-4">
+            <div className="border-l-4 border-[color:var(--cl-evergreen)] bg-white p-4">
               <p className="font-semibold text-[color:var(--cl-evergreen)]">
-                Accept OCS referrals through your own practice
+                Accept OCS referrals through your practice
               </p>
               <p className="mt-2 text-sm leading-relaxed text-[color:var(--cl-ink)]/75">
-                This path is for independently licensed clinicians who already
-                participate in VACCN, maintain their own practice, handle their own VA
-                billing, and can accept referred veterans without charging them beyond
-                the approved VA payment.
+                For independently licensed clinicians who already participate in
+                VACCN, maintain their own practice, and handle their own VA
+                billing.
               </p>
             </div>
           </div>
-          <p className="mt-4 text-sm leading-relaxed text-[color:var(--cl-ink)]/75">
-            OCS referral providers follow ValorWell clinical documentation standards
-            and complete a proper assessment before supporting a DBQ or Nexus opinion.
-            ValorWell continues the veteran&apos;s claims education, evidence review,
-            and documentation coordination. Outside referral providers are not paid
-            from ValorWell donations.
-          </p>
-          <p className="mt-3 text-sm font-semibold text-[color:var(--cl-ink)]">
-            In the application below, tell us which path interests you and whether you
-            are already connected to VACCN.
+          <p className="mt-4 text-sm leading-relaxed text-[color:var(--cl-ink)]/70">
+            Tell us which path interests you in the application. Outside
+            referral providers follow ValorWell documentation standards and
+            complete a proper assessment before supporting any DBQ or Nexus
+            opinion.
           </p>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div className="space-y-4">
-            <h3 className="font-semibold text-foreground">Personal Information</h3>
+            <h3 className="font-semibold text-foreground">
+              Personal Information
+            </h3>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="firstName">First Name *</Label>
@@ -297,14 +295,18 @@ export function TherapistApplicationForm() {
                 <Label htmlFor="email">Preferred Email *</Label>
                 <Input id="email" type="email" {...register("email")} />
                 {errors.email && (
-                  <p className="text-sm text-destructive">{errors.email.message}</p>
+                  <p className="text-sm text-destructive">
+                    {errors.email.message}
+                  </p>
                 )}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="phone">Phone Number *</Label>
                 <Input id="phone" type="tel" {...register("phone")} />
                 {errors.phone && (
-                  <p className="text-sm text-destructive">{errors.phone.message}</p>
+                  <p className="text-sm text-destructive">
+                    {errors.phone.message}
+                  </p>
                 )}
               </div>
             </div>
@@ -346,9 +348,13 @@ export function TherapistApplicationForm() {
               <RadioGroup
                 value={licenseType}
                 onValueChange={(value) =>
-                  setValue("licenseType", value as (typeof LICENSE_TYPES)[number], {
-                    shouldValidate: true,
-                  })
+                  setValue(
+                    "licenseType",
+                    value as (typeof LICENSE_TYPES)[number],
+                    {
+                      shouldValidate: true,
+                    },
+                  )
                 }
               >
                 {LICENSE_TYPES.map((type) => (
@@ -450,13 +456,13 @@ export function TherapistApplicationForm() {
 
             <div className="space-y-2">
               <Label htmlFor="motivation">
-                Why do you want to work with ValorWell, and which OCS provider
-                path interests you? *
+                What are you looking for, and which clinician path interests
+                you? *
               </Label>
               <Textarea
                 id="motivation"
                 {...register("motivation")}
-                placeholder="Tell us whether you want to join ValorWell, accept OCS referrals through your own VACCN-connected practice, or are open to either. Include your current VACCN status and your interest in serving veterans."
+                placeholder="Tell us whether you want to join ValorWell, accept OCS referrals through your own VACCN-connected practice, or explore either path. Include your current VACCN status, the populations you serve, and what you want from the opportunity."
                 className="min-h-[140px]"
               />
               {errors.motivation && (
@@ -467,7 +473,9 @@ export function TherapistApplicationForm() {
             </div>
 
             <div className="space-y-2">
-              <Label>How many hours per week can you commit? *</Label>
+              <Label>
+                How many sessions per week would you like to make available? *
+              </Label>
               <Select
                 value={weeklyHours}
                 onValueChange={(value) =>
@@ -498,7 +506,9 @@ export function TherapistApplicationForm() {
           </div>
 
           {submitError && (
-            <p className="text-center text-sm text-destructive">{submitError}</p>
+            <p className="text-center text-sm text-destructive">
+              {submitError}
+            </p>
           )}
 
           <Button
