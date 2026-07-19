@@ -41,8 +41,12 @@ export function Header() {
 
   useEffect(() => {
     function onDown(e: MouseEvent) {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) setMenuOpen(false);
-      if (loginRef.current && !loginRef.current.contains(e.target as Node)) setLoginOpen(false);
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
+      }
+      if (loginRef.current && !loginRef.current.contains(e.target as Node)) {
+        setLoginOpen(false);
+      }
     }
     function onKey(e: KeyboardEvent) {
       if (e.key === "Escape") {
@@ -60,9 +64,20 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
-      <nav className="container-wide flex h-16 items-center justify-between gap-4" aria-label="Primary">
-        <Link to="/" className="flex items-center gap-2 text-lg font-bold tracking-tight text-foreground" aria-label="ValorWell home">
-          <img src="/brand/valorwell-logo.png" alt="ValorWell" className="h-8 w-auto" />
+      <nav
+        className="container-wide flex h-16 items-center justify-between gap-4"
+        aria-label="Primary"
+      >
+        <Link
+          to="/"
+          className="flex items-center gap-2 text-lg font-bold tracking-tight text-foreground"
+          aria-label="ValorWell home"
+        >
+          <img
+            src="/brand/valorwell-logo.png"
+            alt="ValorWell"
+            className="h-8 w-auto"
+          />
           <span>VALORWELL</span>
         </Link>
 
@@ -72,8 +87,10 @@ export function Header() {
               key={item.name}
               to={item.href}
               className={cn(
-                "text-sm font-medium transition-colors hover:text-foreground whitespace-nowrap",
-                location.pathname === item.href ? "text-foreground" : "text-muted-foreground",
+                "whitespace-nowrap text-sm font-medium transition-colors hover:text-foreground",
+                location.pathname === item.href
+                  ? "text-foreground"
+                  : "text-muted-foreground",
               )}
             >
               {item.name}
@@ -95,14 +112,14 @@ export function Header() {
                 role="menu"
                 className="absolute right-0 top-full mt-2 w-64 rounded-md border border-border bg-popover p-1 shadow-lg"
               >
-                {getInvolved.map((i) => (
+                {getInvolved.map((item) => (
                   <Link
-                    key={i.name}
-                    to={i.href}
+                    key={item.name}
+                    to={item.href}
                     role="menuitem"
                     className="block rounded px-3 py-2 text-sm text-foreground hover:bg-muted focus:bg-muted focus:outline-none"
                   >
-                    {i.name}
+                    {item.name}
                   </Link>
                 ))}
               </div>
@@ -113,11 +130,10 @@ export function Header() {
             to="/get-care"
             className="ml-2 inline-flex items-center rounded-md border border-primary/30 bg-transparent px-4 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
           >
-            Find Care
+            Get Care
           </Link>
 
           <DonateButton source="header" size="md" />
-
 
           <div className="relative" ref={loginRef}>
             <button
@@ -134,14 +150,14 @@ export function Header() {
                 role="menu"
                 className="absolute right-0 top-full mt-2 w-48 rounded-md border border-border bg-popover p-1 shadow-lg"
               >
-                {loginLinks.map((i) => (
+                {loginLinks.map((item) => (
                   <a
-                    key={i.name}
-                    href={i.href}
+                    key={item.name}
+                    href={item.href}
                     role="menuitem"
                     className="block rounded px-3 py-2 text-sm text-foreground hover:bg-muted focus:bg-muted focus:outline-none"
                   >
-                    {i.name}
+                    {item.name}
                   </a>
                 ))}
               </div>
@@ -151,7 +167,7 @@ export function Header() {
 
         <button
           type="button"
-          className="lg:hidden -m-2 rounded-md p-2 text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="-m-2 rounded-md p-2 text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring lg:hidden"
           onClick={() => setOpen((v) => !v)}
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
@@ -162,8 +178,8 @@ export function Header() {
       </nav>
 
       {open && (
-        <div id="mobile-menu" className="lg:hidden border-t border-border bg-background">
-          <div className="container-wide py-4 space-y-1">
+        <div id="mobile-menu" className="border-t border-border bg-background lg:hidden">
+          <div className="container-wide space-y-1 py-4">
             {primary.map((item) => (
               <Link
                 key={item.name}
@@ -179,17 +195,24 @@ export function Header() {
               aria-expanded={mobileGI}
               className="flex w-full items-center justify-between rounded-md px-3 py-3 text-base font-medium text-foreground hover:bg-muted"
             >
-              Get Involved <ChevronDown className={cn("h-4 w-4 transition-transform", mobileGI && "rotate-180")} aria-hidden />
+              Get Involved
+              <ChevronDown
+                className={cn(
+                  "h-4 w-4 transition-transform",
+                  mobileGI && "rotate-180",
+                )}
+                aria-hidden
+              />
             </button>
             {mobileGI && (
               <div className="pl-3">
-                {getInvolved.map((i) => (
+                {getInvolved.map((item) => (
                   <Link
-                    key={i.name}
-                    to={i.href}
+                    key={item.name}
+                    to={item.href}
                     className="block rounded-md px-3 py-2.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
                   >
-                    {i.name}
+                    {item.name}
                   </Link>
                 ))}
               </div>
@@ -198,7 +221,7 @@ export function Header() {
               to="/get-care"
               className="mt-3 block rounded-md border border-primary/30 px-3 py-3 text-center text-base font-semibold text-primary hover:bg-primary hover:text-primary-foreground"
             >
-              Find Care
+              Get Care
             </Link>
             <DonateButton
               source="header-mobile"
@@ -211,17 +234,24 @@ export function Header() {
               aria-expanded={mobileLogin}
               className="mt-1 flex w-full items-center justify-between rounded-md border border-primary/30 px-3 py-3 text-base font-semibold text-primary hover:bg-primary hover:text-primary-foreground"
             >
-              Login <ChevronDown className={cn("h-4 w-4 transition-transform", mobileLogin && "rotate-180")} aria-hidden />
+              Login
+              <ChevronDown
+                className={cn(
+                  "h-4 w-4 transition-transform",
+                  mobileLogin && "rotate-180",
+                )}
+                aria-hidden
+              />
             </button>
             {mobileLogin && (
               <div className="pl-3">
-                {loginLinks.map((i) => (
+                {loginLinks.map((item) => (
                   <a
-                    key={i.name}
-                    href={i.href}
+                    key={item.name}
+                    href={item.href}
                     className="block rounded-md px-3 py-2.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
                   >
-                    {i.name}
+                    {item.name}
                   </a>
                 ))}
               </div>
