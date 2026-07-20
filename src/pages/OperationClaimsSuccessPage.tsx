@@ -2,6 +2,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import ocsHeroImage from "@/assets/operation-claims-success-hero.png.asset.json";
+import disconnectedSystemsImage from "@/assets/disconnected-veteran-systems.png.asset.json";
 import {
   ArrowRight,
   Check,
@@ -710,10 +711,11 @@ export default function OperationClaimsSuccessPage() {
             </div>
             <div className="mt-12 grid gap-8 lg:grid-cols-12 lg:items-center">
               <div className="lg:col-span-7">
-                <Placeholder
-                  wide
-                  title="Disconnected veteran systems diagram"
-                  description="Show the veteran between treatment, Community Care, documentation, and adjudication, then contrast those handoffs with the connected OCS path."
+                <img
+                  src={disconnectedSystemsImage.url}
+                  alt="A veteran stands between a maze of disconnected systems—delays, red tape, confusing information, and empty promises—while the VA Benefits Processing Center waits in the distance."
+                  className="h-auto w-full rounded-2xl"
+                  loading="lazy"
                 />
               </div>
               <div className="lg:col-span-5">
