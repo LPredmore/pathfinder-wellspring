@@ -258,13 +258,12 @@ function TextAreaField({ id, label, value, onChange, error, required = false, ma
   );
 }
 
-type InitialLane = "share-story" | "promote-valorwell";
+type InitialLane = "share-story";
 
 export function UnifiedBtyForm({ initialLane }: { initialLane?: InitialLane }) {
   const seededState = useMemo(() => {
     const state = initialState();
     if (initialLane === "share-story") state.roleCodes = ["storyteller", "bty_story_submitter"];
-    if (initialLane === "promote-valorwell") state.roleCodes = ["bty_promoter"];
     return state;
   }, [initialLane]);
   const [form, setForm] = useState<CreatorInterestFormState>(seededState);
@@ -273,12 +272,8 @@ export function UnifiedBtyForm({ initialLane }: { initialLane?: InitialLane }) {
   const [submissionKey] = useState(() => createWebsiteSubmissionKey());
 
   useEffect(() => {
-    const preset: RoleCode[] = initialLane === "share-story"
-      ? ["storyteller", "bty_story_submitter"]
-      : initialLane === "promote-valorwell"
-        ? ["bty_promoter"]
-        : [];
-    if (preset.length === 0) return;
+    if (initialLane !== "share-story") return;
+    const preset: RoleCode[] = ["storyteller", "bty_story_submitter"];
     setForm((current) => ({
       ...current,
       roleCodes: Array.from(new Set([...current.roleCodes, ...preset])),

@@ -31,7 +31,7 @@ import { trackHomeEvent } from "@/lib/tracking";
 
 const FORM_ANCHOR = "bty-guest-interest";
 
-type LaneValue = "share-story" | "nominate" | "promote-valorwell";
+type LaneValue = "share-story" | "nominate";
 type EyebrowTone = "yellow" | "navy" | "red";
 
 const track = (name: string, params: Record<string, unknown> = {}) =>
@@ -384,11 +384,6 @@ export default function BeyondTheYellowPage() {
               ))}
             </div>
 
-            <p className="mt-8 rounded-xl border border-border bg-muted/30 px-5 py-4 text-sm text-muted-foreground">
-              ValorWell will agree on the production plan before recording. Selection
-              does not guarantee a particular audience size, reach, publication date,
-              or number of promotional assets.
-            </p>
           </div>
         </section>
 
@@ -443,46 +438,6 @@ export default function BeyondTheYellowPage() {
         </section>
 
 
-        <section className="border-b border-border bg-[hsl(var(--navy))] py-20 text-white md:py-28">
-          <div className="mx-auto grid max-w-6xl gap-14 px-4 lg:grid-cols-12 lg:items-center">
-            <div className="lg:col-span-5">
-              <Eyebrow>What the feature can become</Eyebrow>
-              <h2 className="mt-4 text-3xl font-bold leading-tight md:text-4xl lg:text-5xl">
-                One real conversation. Multiple ways for the story to travel.
-              </h2>
-              <p className="mt-6 text-lg leading-relaxed text-white/75">
-                The long-form conversation is the source. The strongest moments can
-                then be shaped for the places where people actually discover and share
-                stories.
-              </p>
-              <div className="mt-8 space-y-4">
-                {[
-                  [Video, "Long-form conversation"],
-                  [Share2, "Short-form clips"],
-                  [Megaphone, "Quotes and social assets"],
-                  [Building2, "Written feature or guest profile"],
-                ].map(([Icon, label]) => (
-                  <div key={String(label)} className="flex items-center gap-3">
-                    <Icon
-                      className="h-5 w-5 text-[hsl(var(--gold-accent))]"
-                      aria-hidden="true"
-                    />
-                    <span className="font-semibold">{String(label)}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="lg:col-span-7">
-              <VisualPlaceholder
-                label="Beyond The Yellow content-package placeholder"
-                guidance="Recommended: a designed mockup showing one future guest across a long-form episode frame, vertical clip, quote card, and written story card. Clearly label it as a sample format until real episodes exist."
-                aspectClass="aspect-[4/3]"
-                dark
-              />
-            </div>
-          </div>
-        </section>
-
         <section className="border-b border-border py-20 md:py-28">
           <div className="mx-auto max-w-5xl px-4 text-center">
             <Eyebrow tone="navy">The honest launch-stage opportunity</Eyebrow>
@@ -531,7 +486,7 @@ export default function BeyondTheYellowPage() {
               </p>
             </div>
 
-            <div className="mt-10 grid gap-4 md:grid-cols-3">
+            <div className="mt-10 grid gap-4 md:grid-cols-2">
               {[
                 {
                   lane: "share-story" as const,
@@ -544,12 +499,6 @@ export default function BeyondTheYellowPage() {
                   icon: Users,
                   title: "I want to nominate someone",
                   body: "I know a creator, leader, or organization whose work deserves consideration.",
-                },
-                {
-                  lane: "promote-valorwell" as const,
-                  icon: Handshake,
-                  title: "I want to help launch the series",
-                  body: "I can introduce guests, collaborate, distribute, sponsor production, or connect aligned communities.",
                 },
               ].map((item) => {
                 const selected = selectedLane === item.lane;
@@ -583,12 +532,6 @@ export default function BeyondTheYellowPage() {
             </div>
 
             <div className="mx-auto mt-8 max-w-4xl">
-              <div className="mb-5 rounded-xl border border-border bg-background px-5 py-4 text-sm text-muted-foreground">
-                Beyond The Yellow is curated. An invitation or submission does not
-                guarantee recording, publication, partnership, funding, endorsement,
-                or audience reach. There is no fee to apply or participate as an
-                editorial guest.
-              </div>
               {selectedLane === "nominate" ? (
                 <BtyNominationForm key="nominate" />
               ) : (
