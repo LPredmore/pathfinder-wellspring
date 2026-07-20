@@ -395,10 +395,10 @@ export default function BeyondTheYellowPage() {
         <section className="border-b border-border bg-[hsl(var(--section-alt))] py-20 md:py-28">
           <div className="mx-auto grid max-w-6xl gap-14 px-4 lg:grid-cols-12 lg:items-center">
             <div className="lg:col-span-6">
-              <VisualPlaceholder
-                label="Creator-in-action image placeholder"
-                guidance="Recommended: documentary-style imagery showing a creator, organizer, founder, or volunteer actively serving people, building something, teaching, delivering resources, or leading a real local effort."
-                aspectClass="aspect-[4/3]"
+              <img
+                src={btyCreatorInActionAsset.url}
+                alt="Beyond The Yellow community creators in action at sunset overlooking a town"
+                className="h-auto w-full rounded-2xl"
               />
             </div>
             <div className="lg:col-span-6">
