@@ -409,7 +409,7 @@ export default function HomePage() {
                 <img
                   src={btyHomepage.url}
                   alt="Beyond The Yellow — Support should be felt. See what real action looks like."
-                  className="h-full w-full object-cover"
+                  className="h-auto w-full"
                   loading="lazy"
                 />
               </div>
