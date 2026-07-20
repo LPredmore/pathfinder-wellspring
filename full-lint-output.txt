@@ -1,0 +1,46 @@
+
+> vite_react_shadcn_ts@0.0.0 lint
+> eslint .
+
+
+/home/runner/work/pathfinder-wellspring/pathfinder-wellspring/src/components/icons/PlatformIcon.tsx
+  67:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/home/runner/work/pathfinder-wellspring/pathfinder-wellspring/src/components/intake/UnifiedBtyForm.tsx
+   12:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+   24:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+  122:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+  161:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/home/runner/work/pathfinder-wellspring/pathfinder-wellspring/src/components/ui/badge.tsx
+  29:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/home/runner/work/pathfinder-wellspring/pathfinder-wellspring/src/components/ui/button.tsx
+  47:18  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/home/runner/work/pathfinder-wellspring/pathfinder-wellspring/src/components/ui/form.tsx
+  129:10  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/home/runner/work/pathfinder-wellspring/pathfinder-wellspring/src/components/ui/navigation-menu.tsx
+  111:3  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/home/runner/work/pathfinder-wellspring/pathfinder-wellspring/src/components/ui/sidebar.tsx
+  636:3  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/home/runner/work/pathfinder-wellspring/pathfinder-wellspring/src/components/ui/sonner.tsx
+  27:19  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/home/runner/work/pathfinder-wellspring/pathfinder-wellspring/src/components/ui/toggle.tsx
+  37:18  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/home/runner/work/pathfinder-wellspring/pathfinder-wellspring/src/contexts/AuthContext.tsx
+  51:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/home/runner/work/pathfinder-wellspring/pathfinder-wellspring/src/pages/AdminDashboard.tsx
+  36:69  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  36:77  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  61:63  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  61:71  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+✖ 17 problems (4 errors, 13 warnings)
+
