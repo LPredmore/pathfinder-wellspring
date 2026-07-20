@@ -485,12 +485,14 @@ export default function HomePage() {
             </div>
 
             <div className="lg:col-span-6">
-              {/* IMAGE PLACEHOLDER: replace with a veteran-centered care-path visual. */}
-              <VisualPlaceholder
-                label="Operation Claims Success image placeholder"
-                guidance="Recommended: a veteran-centered image representing a broken care and documentation path being rebuilt with legitimate clinical infrastructure."
-                tone="ember"
-              />
+              <div className="overflow-hidden rounded-2xl border border-border shadow-sm">
+                <img
+                  src={ocsHomepage.url}
+                  alt="Operation Claims Success — Mission-driven guidance to help veterans build stronger claims with clarity, confidence, and momentum."
+                  className="h-auto w-full"
+                  loading="lazy"
+                />
+              </div>
             </div>
           </div>
         </section>
