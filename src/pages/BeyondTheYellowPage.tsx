@@ -486,7 +486,7 @@ export default function BeyondTheYellowPage() {
               </p>
             </div>
 
-            <div className="mt-10 grid gap-4 md:grid-cols-3">
+            <div className="mt-10 grid gap-4 md:grid-cols-2">
               {[
                 {
                   lane: "share-story" as const,
