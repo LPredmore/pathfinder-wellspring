@@ -1,6 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import ocsHeroImage from "@/assets/operation-claims-success-hero.png.asset.json";
 import {
   ArrowRight,
   Check,
