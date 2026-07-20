@@ -31,7 +31,7 @@ import { trackHomeEvent } from "@/lib/tracking";
 
 const FORM_ANCHOR = "bty-guest-interest";
 
-type LaneValue = "share-story" | "nominate" | "promote-valorwell";
+type LaneValue = "share-story" | "nominate";
 type EyebrowTone = "yellow" | "navy" | "red";
 
 const track = (name: string, params: Record<string, unknown> = {}) =>
@@ -499,12 +499,6 @@ export default function BeyondTheYellowPage() {
                   icon: Users,
                   title: "I want to nominate someone",
                   body: "I know a creator, leader, or organization whose work deserves consideration.",
-                },
-                {
-                  lane: "promote-valorwell" as const,
-                  icon: Handshake,
-                  title: "I want to help launch the series",
-                  body: "I can introduce guests, collaborate, distribute, sponsor production, or connect aligned communities.",
                 },
               ].map((item) => {
                 const selected = selectedLane === item.lane;
