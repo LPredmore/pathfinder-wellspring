@@ -1,6 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import ocsHeroImage from "@/assets/operation-claims-success-hero.png.asset.json";
 import {
   ArrowRight,
   Check,
@@ -571,12 +572,14 @@ export default function OperationClaimsSuccessPage() {
               </p>
             </div>
             <div className="lg:col-span-5">
-              <Placeholder
-                dark
-                portrait
-                title="Founder-led OCS hero visual"
-                description="Luke in the foreground with treatment, education, evidence review, DBQs, Nexus analysis, and continued support converging into one legitimate path."
-              />
+              <div className="overflow-hidden rounded-2xl border border-white/15 shadow-lg">
+                <img
+                  src={ocsHeroImage.url}
+                  alt="Operation Claims Success — Built for veterans seeking clarity. Strategic, compassionate guidance to help veterans navigate stronger disability claims with confidence and direction."
+                  className="h-auto w-full"
+                  loading="eager"
+                />
+              </div>
             </div>
           </div>
         </section>
