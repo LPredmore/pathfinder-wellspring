@@ -1,5 +1,6 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Helmet } from "react-helmet-async";
+import btyHeroAsset from "@/assets/bty-hero.png.asset.json";
 import {
   ArrowRight,
   BadgeCheck,
