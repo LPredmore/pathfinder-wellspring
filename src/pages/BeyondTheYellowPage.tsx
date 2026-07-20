@@ -1,5 +1,6 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Helmet } from "react-helmet-async";
+import btyHeroAsset from "@/assets/bty-hero.png.asset.json";
 import {
   ArrowRight,
   BadgeCheck,
@@ -296,11 +297,10 @@ export default function BeyondTheYellowPage() {
             </div>
 
             <div className="lg:col-span-5">
-              <VisualPlaceholder
-                label="Beyond The Yellow hero image placeholder"
-                guidance="Recommended: a cinematic portrait or action image of an authentic small or mid-size creator working directly in their community—not posing with a generic cause symbol."
-                aspectClass="aspect-[4/5]"
-                dark
+              <img
+                src={btyHeroAsset.url}
+                alt="Beyond The Yellow: a mission-driven platform where real stories lead to real action"
+                className="h-auto w-full rounded-3xl object-contain"
               />
             </div>
           </div>
