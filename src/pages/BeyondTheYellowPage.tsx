@@ -384,11 +384,6 @@ export default function BeyondTheYellowPage() {
               ))}
             </div>
 
-            <p className="mt-8 rounded-xl border border-border bg-muted/30 px-5 py-4 text-sm text-muted-foreground">
-              ValorWell will agree on the production plan before recording. Selection
-              does not guarantee a particular audience size, reach, publication date,
-              or number of promotional assets.
-            </p>
           </div>
         </section>
 
