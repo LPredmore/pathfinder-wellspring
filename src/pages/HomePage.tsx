@@ -22,6 +22,7 @@ import { trackHomeEvent } from "@/lib/tracking";
 import homepageHero from "@/assets/homepage-hero.png.asset.json";
 import btyHomepage from "@/assets/bty-homepage.png.asset.json";
 import ocsHomepage from "@/assets/operation-claims-success-homepage.png.asset.json";
+import valorwellClinic from "@/assets/valorwell-clinic.png.asset.json";
 
 
 
@@ -505,13 +506,14 @@ export default function HomePage() {
           <div className="container-wide py-20 md:py-28">
             <div className="grid items-start gap-14 lg:grid-cols-12">
               <div className="lg:col-span-5">
-                {/* IMAGE PLACEHOLDER: replace with authentic telehealth-care imagery. */}
-                <VisualPlaceholder
-                  label="ValorWell clinic image placeholder"
-                  guidance="Recommended: credible, human telehealth imagery involving licensed clinicians and veterans or family members. Avoid generic hospital or sad-person stock photography."
-                  tone="care"
-                  aspectClass="aspect-[4/5]"
-                />
+                <div className="overflow-hidden rounded-2xl border border-border shadow-sm">
+                  <img
+                    src={valorwellClinic.url}
+                    alt="ValorWell Mental Health Clinic — Real mental health care for veterans and families."
+                    className="h-auto w-full"
+                    loading="lazy"
+                  />
+                </div>
               </div>
 
               <div className="lg:col-span-7">
