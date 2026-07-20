@@ -547,12 +547,11 @@ export default function BeyondTheYellowPage() {
               <Eyebrow tone="navy">What happens next</Eyebrow>
               <SectionHeading>A clear launch-stage process.</SectionHeading>
             </div>
-            <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
               {[
                 ["01", "We review the work", "We look at what is actually being done, who benefits, and whether the work fits the series."],
                 ["02", "We review the story", "We consider whether the conversation can be clear, useful, honest, and meaningful to viewers."],
                 ["03", "We confirm the guest", "Selected people receive a direct conversation about fit, expectations, recording, and production."],
-                ["04", "We build the feature", "The prerecorded conversation becomes the source for the agreed episode and supporting content."],
               ].map(([number, title, body]) => (
                 <div
                   key={number}
