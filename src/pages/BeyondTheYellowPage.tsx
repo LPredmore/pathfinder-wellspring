@@ -1,6 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Helmet } from "react-helmet-async";
 import btyHeroAsset from "@/assets/bty-hero.png.asset.json";
+import btyCreatorInActionAsset from "@/assets/bty-creator-in-action.png.asset.json";
 import {
   ArrowRight,
   BadgeCheck,
@@ -394,10 +395,10 @@ export default function BeyondTheYellowPage() {
         <section className="border-b border-border bg-[hsl(var(--section-alt))] py-20 md:py-28">
           <div className="mx-auto grid max-w-6xl gap-14 px-4 lg:grid-cols-12 lg:items-center">
             <div className="lg:col-span-6">
-              <VisualPlaceholder
-                label="Creator-in-action image placeholder"
-                guidance="Recommended: documentary-style imagery showing a creator, organizer, founder, or volunteer actively serving people, building something, teaching, delivering resources, or leading a real local effort."
-                aspectClass="aspect-[4/3]"
+              <img
+                src={btyCreatorInActionAsset.url}
+                alt="Beyond The Yellow community creators in action at sunset overlooking a town"
+                className="h-auto w-full rounded-2xl"
               />
             </div>
             <div className="lg:col-span-6">
@@ -441,53 +442,6 @@ export default function BeyondTheYellowPage() {
           </div>
         </section>
 
-        <section className="border-b border-border py-20 md:py-28">
-          <div className="mx-auto max-w-6xl px-4">
-            <div className="mx-auto max-w-4xl text-center">
-              <Eyebrow tone="navy">The conversation</Eyebrow>
-              <SectionHeading>
-                No gotcha questions. No manufactured outrage. No demand that you
-                perform your mission for the camera.
-              </SectionHeading>
-              <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
-                This is a prerecorded remote conversation built to help people
-                understand the work and the person behind it.
-              </p>
-            </div>
-
-            <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-              {[
-                ["01", "What did you see?", "The problem, need, or gap that became impossible for you to ignore."],
-                ["02", "Why did you act?", "The personal experience, conviction, or moment that moved you from concern to action."],
-                ["03", "What do you actually do?", "The real work, who it reaches, what is difficult, and what changes because it exists."],
-                ["04", "How can people help?", "The next step your audience and ours can take without turning the feature into an advertisement."],
-              ].map(([number, title, body]) => (
-                <article
-                  key={number}
-                  className="rounded-2xl border border-border bg-card p-6"
-                >
-                  <span className="text-sm font-extrabold tracking-[0.18em] text-[hsl(var(--gold-accent))]">
-                    {number}
-                  </span>
-                  <h3 className="mt-4 text-lg font-bold text-foreground">
-                    {title}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                    {body}
-                  </p>
-                </article>
-              ))}
-            </div>
-
-            <div className="mt-12">
-              <VisualPlaceholder
-                label="Remote conversation image placeholder"
-                guidance="Recommended: a polished but natural split-screen or behind-the-scenes image of Luke speaking with a community creator remotely. It should feel conversational and credible, not like a cable-news debate."
-                aspectClass="aspect-video"
-              />
-            </div>
-          </div>
-        </section>
 
         <section className="border-b border-border bg-[hsl(var(--navy))] py-20 text-white md:py-28">
           <div className="mx-auto grid max-w-6xl gap-14 px-4 lg:grid-cols-12 lg:items-center">
