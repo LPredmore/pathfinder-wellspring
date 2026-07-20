@@ -58,8 +58,7 @@ export default function AdminDashboard() {
       { key: "welcome_email_subject", value: emailSubject },
       { key: "welcome_email_body", value: emailBody },
     ]) {
-      const { error } = await supabase
-        .from("site_config")
+      const { error } = await (supabase.from("site_config" as any) as any)
         .upsert({ ...entry, updated_at: new Date().toISOString() }, { onConflict: "key" });
       if (error) {
         toast.error("Unable to save Website settings.");
