@@ -32,23 +32,23 @@ export default function AdminDashboard() {
     if (authLoading || roleLoading || !isAdmin) return;
     let cancelled = false;
     setLoading(true);
-    supabase
-      .from("site_config")
-      .select("key, value")
-      .in("key", ["welcome_email_subject", "welcome_email_body"])
-      .then(({ data, error }) => {
-        if (cancelled) return;
-        if (error) {
-          toast.error("Unable to load Website settings.");
-          setLoading(false);
-          return;
-        }
-        for (const row of data ?? []) {
-          if (row.key === "welcome_email_subject") setEmailSubject(row.value);
-          if (row.key === "welcome_email_body") setEmailBody(row.value);
-        }
+    const load = async () => {
+      const { data, error } = await (supabase.from("site_config" as any) as any)
+        .select("key, value")
+        .in("key", ["welcome_email_subject", "welcome_email_body"]);
+      if (cancelled) return;
+      if (error) {
+        toast.error("Unable to load Website settings.");
         setLoading(false);
-      });
+        return;
+      }
+      for (const row of (data ?? []) as { key: string; value: string }[]) {
+        if (row.key === "welcome_email_subject") setEmailSubject(row.value);
+        if (row.key === "welcome_email_body") setEmailBody(row.value);
+      }
+      setLoading(false);
+    };
+    load();
     return () => { cancelled = true; };
   }, [authLoading, isAdmin, roleLoading]);
 
@@ -58,8 +58,7 @@ export default function AdminDashboard() {
       { key: "welcome_email_subject", value: emailSubject },
       { key: "welcome_email_body", value: emailBody },
     ]) {
-      const { error } = await supabase
-        .from("site_config")
+      const { error } = await (supabase.from("site_config" as any) as any)
         .upsert({ ...entry, updated_at: new Date().toISOString() }, { onConflict: "key" });
       if (error) {
         toast.error("Unable to save Website settings.");
