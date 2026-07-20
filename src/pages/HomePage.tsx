@@ -306,14 +306,16 @@ export default function HomePage() {
             </div>
 
             <div className="lg:col-span-5">
-              {/* IMAGE PLACEHOLDER: replace with an optimized, founder-led systems-change image. */}
-              <VisualPlaceholder
-                label="Homepage hero image placeholder"
-                guidance="Recommended: a cinematic, founder-led image communicating resolve, leadership, and the work of rebuilding veteran and family care pathways."
-                tone="evergreen"
-                aspectClass="aspect-[4/5] lg:aspect-[5/6]"
-              />
+              <div className="overflow-hidden rounded-2xl border border-border shadow-sm aspect-[4/5] lg:aspect-[5/6]">
+                <img
+                  src={homepageHero.url}
+                  alt="ValorWell — We're rebuilding veteran mental health care together."
+                  className="h-full w-full object-cover"
+                  loading="eager"
+                />
+              </div>
             </div>
+
           </div>
         </section>
 
