@@ -401,12 +401,14 @@ export default function HomePage() {
         >
           <div className="container-wide grid items-center gap-14 py-20 md:py-28 lg:grid-cols-12">
             <div className="lg:col-span-6">
-              {/* IMAGE PLACEHOLDER: replace with a broad community-action visual. */}
-              <VisualPlaceholder
-                label="Beyond The Yellow image placeholder"
-                guidance="Recommended: a wide, human image showing people and organizations taking visible action across communities—not a ribbon-only visual."
-                tone="yellow"
-              />
+              <div className="overflow-hidden rounded-2xl border border-border shadow-sm">
+                <img
+                  src={btyHomepage.url}
+                  alt="Beyond The Yellow — Support should be felt. See what real action looks like."
+                  className="h-full w-full object-cover"
+                  loading="lazy"
+                />
+              </div>
             </div>
 
             <div className="lg:col-span-6">
