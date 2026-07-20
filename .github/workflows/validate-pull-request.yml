@@ -20,19 +20,21 @@ jobs:
           ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
           fetch-depth: 0
 
-      - name: Apply BTY guest flow refinements
+      - name: Capture typecheck diagnostics
         if: github.event_name == 'pull_request' && github.actor != 'github-actions[bot]'
         run: |
-          python scripts/update-bty-guest-flow.py
           npm ci
-          npx prettier --write src/pages/BeyondTheYellowPage.tsx src/components/intake/UnifiedBtyForm.tsx
+          set +e
+          npm run typecheck > bty-typecheck-output.txt 2>&1
+          status=$?
+          set -e
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/pages/BeyondTheYellowPage.tsx src/components/intake/UnifiedBtyForm.tsx
-          git diff --cached --quiet && exit 0
-          git commit -m "Refine Beyond The Yellow guest interest flow"
+          git add bty-typecheck-output.txt
+          git diff --cached --quiet || git commit -m "Capture BTY typecheck output"
           git push origin HEAD:${{ github.event.pull_request.head.ref }}
+          exit $status
 
       - uses: actions/setup-node@v4
         with:
