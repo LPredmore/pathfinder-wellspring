@@ -6,7 +6,6 @@ import {
   CircleAlert,
   CircleDot,
   HeartHandshake,
-  Image as ImageIcon,
   ShieldCheck,
 } from "lucide-react";
 import { Layout } from "@/components/layout/Layout";
@@ -22,6 +21,7 @@ import { trackHomeEvent } from "@/lib/tracking";
 import homepageHero from "@/assets/homepage-hero.png.asset.json";
 import btyHomepage from "@/assets/bty-homepage.png.asset.json";
 import ocsHomepage from "@/assets/operation-claims-success-homepage.png.asset.json";
+import valorwellClinic from "@/assets/valorwell-clinic.png.asset.json";
 
 
 
@@ -142,55 +142,6 @@ function SectionLink({
   );
 }
 
-function VisualPlaceholder({
-  label,
-  guidance,
-  tone,
-  aspectClass = "aspect-[4/3]",
-}: {
-  label: string;
-  guidance: string;
-  tone: VisualTone;
-  aspectClass?: string;
-}) {
-  const toneClasses: Record<VisualTone, string> = {
-    evergreen: "from-primary/[0.16] via-primary/[0.08] to-transparent text-primary",
-    yellow:
-      "from-[hsl(42_71%_51%/0.24)] via-[hsl(42_71%_51%/0.1)] to-transparent text-[hsl(42_71%_30%)]",
-    ember: "from-accent/[0.18] via-accent/[0.08] to-transparent text-accent",
-    care: "from-[hsl(202_36%_42%/0.2)] via-[hsl(202_36%_42%/0.08)] to-transparent text-[hsl(202_36%_31%)]",
-  };
-
-  return (
-    <div
-      role="img"
-      aria-label={`${label}. ${guidance}`}
-      data-image-placeholder={label}
-      className={`relative overflow-hidden rounded-2xl border border-dashed border-foreground/25 bg-gradient-to-br ${toneClasses[tone]} ${aspectClass}`}
-    >
-      <div
-        className="absolute inset-0 opacity-[0.06]"
-        style={{
-          backgroundImage:
-            "linear-gradient(hsl(var(--foreground)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)",
-          backgroundSize: "40px 40px",
-        }}
-        aria-hidden="true"
-      />
-      <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center">
-        <div className="flex h-14 w-14 items-center justify-center rounded-full border border-current/20 bg-background/80 shadow-sm">
-          <ImageIcon className="h-6 w-6" aria-hidden="true" />
-        </div>
-        <p className="mt-5 max-w-sm text-base font-bold text-foreground">
-          {label}
-        </p>
-        <p className="mt-2 max-w-md text-sm leading-relaxed text-muted-foreground">
-          {guidance}
-        </p>
-      </div>
-    </div>
-  );
-}
 
 function CarePathAction({
   detail,
@@ -505,13 +456,14 @@ export default function HomePage() {
           <div className="container-wide py-20 md:py-28">
             <div className="grid items-start gap-14 lg:grid-cols-12">
               <div className="lg:col-span-5">
-                {/* IMAGE PLACEHOLDER: replace with authentic telehealth-care imagery. */}
-                <VisualPlaceholder
-                  label="ValorWell clinic image placeholder"
-                  guidance="Recommended: credible, human telehealth imagery involving licensed clinicians and veterans or family members. Avoid generic hospital or sad-person stock photography."
-                  tone="care"
-                  aspectClass="aspect-[4/5]"
-                />
+                <div className="overflow-hidden rounded-2xl border border-border shadow-sm">
+                  <img
+                    src={valorwellClinic.url}
+                    alt="ValorWell Mental Health Clinic — Real mental health care for veterans and families."
+                    className="h-auto w-full"
+                    loading="lazy"
+                  />
+                </div>
               </div>
 
               <div className="lg:col-span-7">
