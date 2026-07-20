@@ -21,6 +21,10 @@ import {
 import { trackHomeEvent } from "@/lib/tracking";
 import homepageHero from "@/assets/homepage-hero.png.asset.json";
 import btyHomepage from "@/assets/bty-homepage.png.asset.json";
+import ocsHomepage from "@/assets/operation-claims-success-homepage.png.asset.json";
+
+
+
 
 
 
