@@ -20,28 +20,26 @@ jobs:
           ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
           fetch-depth: 0
 
-      - name: Capture typecheck diagnostics
+      - name: Apply BTY guest test refinements
         if: github.event_name == 'pull_request' && github.actor != 'github-actions[bot]'
         run: |
+          python scripts/update-bty-guest-tests.py
           npm ci
-          set +e
-          npm run typecheck > bty-typecheck-output.txt 2>&1
-          status=$?
-          set -e
+          npx prettier --write src/components/intake/UnifiedBtyForm.test.tsx
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add bty-typecheck-output.txt
-          git diff --cached --quiet || git commit -m "Capture BTY typecheck output"
+          git add src/components/intake/UnifiedBtyForm.test.tsx
+          git diff --cached --quiet && exit 0
+          git commit -m "Align BTY guest form tests"
           git push origin HEAD:${{ github.event.pull_request.head.ref }}
-          exit $status
 
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
       - run: npm ci
-      - run: npx eslint src/pages/BeyondTheYellowPage.tsx src/components/intake/UnifiedBtyForm.tsx
+      - run: npx eslint src/pages/BeyondTheYellowPage.tsx src/components/intake/UnifiedBtyForm.tsx src/components/intake/UnifiedBtyForm.test.tsx
       - run: npm run typecheck
       - run: npm test
       - run: npm run build
