@@ -1,0 +1,5 @@
+
+> vite_react_shadcn_ts@0.0.0 typecheck
+> tsc --noEmit --project tsconfig.app.json
+
+src/components/intake/UnifiedBtyForm.test.tsx(43,88): error TS2322: Type '"supporter"' is not assignable to type '"funder" | "creator" | "bty_promoter" | "general_mission_interest"'.
