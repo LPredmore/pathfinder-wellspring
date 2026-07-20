@@ -20,6 +20,9 @@ import {
 } from "@/components/ui/dialog";
 import { trackHomeEvent } from "@/lib/tracking";
 import homepageHero from "@/assets/homepage-hero.png.asset.json";
+import btyHomepage from "@/assets/bty-homepage.png.asset.json";
+
+
 
 
 type CarePath = "champva" | "vaccn" | "tricare" | "unsure";
