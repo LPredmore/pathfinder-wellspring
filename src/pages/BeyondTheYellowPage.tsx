@@ -583,12 +583,6 @@ export default function BeyondTheYellowPage() {
             </div>
 
             <div className="mx-auto mt-8 max-w-4xl">
-              <div className="mb-5 rounded-xl border border-border bg-background px-5 py-4 text-sm text-muted-foreground">
-                Beyond The Yellow is curated. An invitation or submission does not
-                guarantee recording, publication, partnership, funding, endorsement,
-                or audience reach. There is no fee to apply or participate as an
-                editorial guest.
-              </div>
               {selectedLane === "nominate" ? (
                 <BtyNominationForm key="nominate" />
               ) : (
