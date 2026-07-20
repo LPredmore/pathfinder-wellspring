@@ -19,6 +19,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { trackHomeEvent } from "@/lib/tracking";
+import homepageHero from "@/assets/homepage-hero.png.asset.json";
+
 
 type CarePath = "champva" | "vaccn" | "tricare" | "unsure";
 type VisualTone = "evergreen" | "yellow" | "ember" | "care";
