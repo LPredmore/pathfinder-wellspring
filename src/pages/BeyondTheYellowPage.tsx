@@ -443,46 +443,6 @@ export default function BeyondTheYellowPage() {
         </section>
 
 
-        <section className="border-b border-border bg-[hsl(var(--navy))] py-20 text-white md:py-28">
-          <div className="mx-auto grid max-w-6xl gap-14 px-4 lg:grid-cols-12 lg:items-center">
-            <div className="lg:col-span-5">
-              <Eyebrow>What the feature can become</Eyebrow>
-              <h2 className="mt-4 text-3xl font-bold leading-tight md:text-4xl lg:text-5xl">
-                One real conversation. Multiple ways for the story to travel.
-              </h2>
-              <p className="mt-6 text-lg leading-relaxed text-white/75">
-                The long-form conversation is the source. The strongest moments can
-                then be shaped for the places where people actually discover and share
-                stories.
-              </p>
-              <div className="mt-8 space-y-4">
-                {[
-                  [Video, "Long-form conversation"],
-                  [Share2, "Short-form clips"],
-                  [Megaphone, "Quotes and social assets"],
-                  [Building2, "Written feature or guest profile"],
-                ].map(([Icon, label]) => (
-                  <div key={String(label)} className="flex items-center gap-3">
-                    <Icon
-                      className="h-5 w-5 text-[hsl(var(--gold-accent))]"
-                      aria-hidden="true"
-                    />
-                    <span className="font-semibold">{String(label)}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="lg:col-span-7">
-              <VisualPlaceholder
-                label="Beyond The Yellow content-package placeholder"
-                guidance="Recommended: a designed mockup showing one future guest across a long-form episode frame, vertical clip, quote card, and written story card. Clearly label it as a sample format until real episodes exist."
-                aspectClass="aspect-[4/3]"
-                dark
-              />
-            </div>
-          </div>
-        </section>
-
         <section className="border-b border-border py-20 md:py-28">
           <div className="mx-auto max-w-5xl px-4 text-center">
             <Eyebrow tone="navy">The honest launch-stage opportunity</Eyebrow>
