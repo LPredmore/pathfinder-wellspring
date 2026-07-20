@@ -9,13 +9,33 @@ on:
       - main
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
+          fetch-depth: 0
+
+      - name: Capture BTY lint diagnostics
+        if: github.event_name == 'pull_request' && github.actor != 'github-actions[bot]'
+        run: |
+          npm ci
+          set +e
+          npx eslint src/pages/BeyondTheYellowPage.tsx > bty-lint-output.txt 2>&1
+          status=$?
+          set -e
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add bty-lint-output.txt
+          git diff --cached --quiet || git commit -m "Capture BTY lint output"
+          git push origin HEAD:${{ github.event.pull_request.head.ref }}
+          exit $status
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
