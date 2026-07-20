@@ -66,7 +66,9 @@ function Eyebrow({
         : "text-[hsl(var(--gold-accent))]";
 
   return (
-    <p className={`text-xs font-bold uppercase tracking-[0.22em] ${toneClass}`}>
+    <p
+      className={`text-xs font-bold uppercase tracking-[0.22em] ${toneClass}`}
+    >
       {children}
     </p>
   );
@@ -194,7 +196,8 @@ const faqs = [
 ];
 
 export default function BeyondTheYellowPage() {
-  const [selectedLane, setSelectedLane] = useState<LaneValue>("share-story");
+  const [selectedLane, setSelectedLane] =
+    useState<LaneValue>("share-story");
   const [showSticky, setShowSticky] = useState(false);
 
   useEffect(() => {
@@ -240,10 +243,7 @@ export default function BeyondTheYellowPage() {
         />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
-        <link
-          rel="canonical"
-          href="https://www.valorwell.org/beyondtheyellow"
-        />
+        <link rel="canonical" href="https://www.valorwell.org/beyondtheyellow" />
       </Helmet>
 
       <Header />
@@ -261,14 +261,14 @@ export default function BeyondTheYellowPage() {
             <div className="lg:col-span-7">
               <Eyebrow>The first guest invitations are going out now</Eyebrow>
               <h1 className="mt-5 text-4xl font-extrabold leading-[1.03] tracking-tight md:text-6xl lg:text-7xl">
-                You are already doing the work. Let&apos;s help more people
-                understand why it matters.
+                You are already doing the work. Let&apos;s help more people understand
+                why it matters.
               </h1>
               <p className="mt-7 max-w-3xl text-lg leading-relaxed text-white/85 md:text-xl">
                 Beyond The Yellow is a new conversation series for creators,
-                founders, organizers, and community leaders whose support
-                produces something real. We are inviting the first guests
-                now—before the first episode has been recorded.
+                founders, organizers, and community leaders whose support produces
+                something real. We are inviting the first guests now—before the
+                first episode has been recorded.
               </p>
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
                 <button
@@ -281,16 +281,17 @@ export default function BeyondTheYellowPage() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => chooseLane("nominate", "bty_hero_nominate")}
+                  onClick={() =>
+                    chooseLane("nominate", "bty_hero_nominate")
+                  }
                   className="inline-flex items-center justify-center gap-2 rounded-md border border-white/30 px-6 py-3.5 text-sm font-bold text-white transition hover:border-white/60 hover:bg-white/10"
                 >
                   Nominate Someone
                 </button>
               </div>
               <p className="mt-5 max-w-2xl text-sm leading-relaxed text-white/60">
-                No published episodes yet. No inflated audience claims. No fee
-                to participate. The first guests will help establish what this
-                becomes.
+                No published episodes yet. No inflated audience claims. No fee to
+                participate. The first guests will help establish what this becomes.
               </p>
             </div>
 
@@ -308,18 +309,9 @@ export default function BeyondTheYellowPage() {
         <section className="border-b border-border bg-[hsl(var(--section-alt))] py-8">
           <div className="mx-auto grid max-w-6xl gap-4 px-4 md:grid-cols-3">
             {[
-              [
-                "A new series",
-                "The first conversations have not been recorded.",
-              ],
-              [
-                "A curated launch group",
-                "Guest fit matters more than follower count.",
-              ],
-              [
-                "A real story platform",
-                "The work—not manufactured controversy—is the point.",
-              ],
+              ["A new series", "The first conversations have not been recorded."],
+              ["A curated launch group", "Guest fit matters more than follower count."],
+              ["A real story platform", "The work—not manufactured controversy—is the point."],
             ].map(([title, body]) => (
               <div key={title} className="flex items-start gap-3 py-3">
                 <CheckCircle2
@@ -341,14 +333,13 @@ export default function BeyondTheYellowPage() {
               <div className="lg:col-span-7">
                 <Eyebrow tone="navy">Why this may be worth your time</Eyebrow>
                 <SectionHeading>
-                  Your community may know what you do. Most people still do not
-                  know the story that made you do it.
+                  Your community may know what you do. Most people still do not know
+                  the story that made you do it.
                 </SectionHeading>
               </div>
               <p className="text-lg leading-relaxed text-muted-foreground lg:col-span-5">
-                Beyond The Yellow is designed to give useful work more context
-                than a short caption, fundraising post, or thirty-second clip
-                can carry.
+                Beyond The Yellow is designed to give useful work more context than a
+                short caption, fundraising post, or thirty-second clip can carry.
               </p>
             </div>
 
@@ -393,9 +384,9 @@ export default function BeyondTheYellowPage() {
             </div>
 
             <p className="mt-8 rounded-xl border border-border bg-muted/30 px-5 py-4 text-sm text-muted-foreground">
-              ValorWell will agree on the production plan before recording.
-              Selection does not guarantee a particular audience size, reach,
-              publication date, or number of promotional assets.
+              ValorWell will agree on the production plan before recording. Selection
+              does not guarantee a particular audience size, reach, publication date,
+              or number of promotional assets.
             </p>
           </div>
         </section>
@@ -416,9 +407,9 @@ export default function BeyondTheYellowPage() {
                 worth knowing about.
               </SectionHeading>
               <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
-                Small and mid-size creators often have the closest relationship
-                to the people and communities they serve. That proximity is an
-                advantage—not something you need to apologize for.
+                Small and mid-size creators often have the closest relationship to the
+                people and communities they serve. That proximity is an advantage—not
+                something you need to apologize for.
               </p>
               <div className="mt-8 grid gap-4 sm:grid-cols-2">
                 {[
@@ -466,26 +457,10 @@ export default function BeyondTheYellowPage() {
 
             <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
               {[
-                [
-                  "01",
-                  "What did you see?",
-                  "The problem, need, or gap that became impossible for you to ignore.",
-                ],
-                [
-                  "02",
-                  "Why did you act?",
-                  "The personal experience, conviction, or moment that moved you from concern to action.",
-                ],
-                [
-                  "03",
-                  "What do you actually do?",
-                  "The real work, who it reaches, what is difficult, and what changes because it exists.",
-                ],
-                [
-                  "04",
-                  "How can people help?",
-                  "The next step your audience and ours can take without turning the feature into an advertisement.",
-                ],
+                ["01", "What did you see?", "The problem, need, or gap that became impossible for you to ignore."],
+                ["02", "Why did you act?", "The personal experience, conviction, or moment that moved you from concern to action."],
+                ["03", "What do you actually do?", "The real work, who it reaches, what is difficult, and what changes because it exists."],
+                ["04", "How can people help?", "The next step your audience and ours can take without turning the feature into an advertisement."],
               ].map(([number, title, body]) => (
                 <article
                   key={number}
@@ -522,9 +497,9 @@ export default function BeyondTheYellowPage() {
                 One real conversation. Multiple ways for the story to travel.
               </h2>
               <p className="mt-6 text-lg leading-relaxed text-white/75">
-                The long-form conversation is the source. The strongest moments
-                can then be shaped for the places where people actually discover
-                and share stories.
+                The long-form conversation is the source. The strongest moments can
+                then be shaped for the places where people actually discover and share
+                stories.
               </p>
               <div className="mt-8 space-y-4">
                 {[
@@ -558,28 +533,19 @@ export default function BeyondTheYellowPage() {
           <div className="mx-auto max-w-5xl px-4 text-center">
             <Eyebrow tone="navy">The honest launch-stage opportunity</Eyebrow>
             <SectionHeading>
-              Joining now is not about borrowing an established audience. It is
-              about helping establish what the audience will come for.
+              Joining now is not about borrowing an established audience. It is about
+              helping establish what the audience will come for.
             </SectionHeading>
             <p className="mx-auto mt-6 max-w-3xl text-lg leading-relaxed text-muted-foreground">
-              There are no published episodes to point to yet. The advantage is
-              that the first guests will not be squeezed into a format someone
-              else already defined. Their conversations will help define it.
+              There are no published episodes to point to yet. The advantage is that
+              the first guests will not be squeezed into a format someone else already
+              defined. Their conversations will help define it.
             </p>
             <div className="mt-10 grid gap-5 text-left md:grid-cols-3">
               {[
-                [
-                  "Shape the standard",
-                  "Help show what meaningful community action looks like without reducing it to a slogan.",
-                ],
-                [
-                  "Shape the format",
-                  "Give honest feedback on the conversation, guest experience, clips, and presentation while the system is still flexible.",
-                ],
-                [
-                  "Be part of the first chapter",
-                  "Early guests will remain part of the launch record as Beyond The Yellow develops.",
-                ],
+                ["Shape the standard", "Help show what meaningful community action looks like without reducing it to a slogan."],
+                ["Shape the format", "Give honest feedback on the conversation, guest experience, clips, and presentation while the system is still flexible."],
+                ["Be part of the first chapter", "Early guests will remain part of the launch record as Beyond The Yellow develops."],
               ].map(([title, body]) => (
                 <div
                   key={title}
@@ -606,8 +572,8 @@ export default function BeyondTheYellowPage() {
                 Were you invited—or does your work belong in this conversation?
               </SectionHeading>
               <p className="mt-5 text-lg text-muted-foreground">
-                Tell us enough to understand you, the work, and what people
-                should know. You do not need a polished media pitch.
+                Tell us enough to understand you, the work, and what people should
+                know. You do not need a polished media pitch.
               </p>
             </div>
 
@@ -658,10 +624,10 @@ export default function BeyondTheYellowPage() {
 
             <div className="mx-auto mt-8 max-w-4xl">
               <div className="mb-5 rounded-xl border border-border bg-background px-5 py-4 text-sm text-muted-foreground">
-                Beyond The Yellow is curated. An invitation or submission does
-                not guarantee recording, publication, partnership, funding,
-                endorsement, or audience reach. There is no fee to apply or
-                participate as an editorial guest.
+                Beyond The Yellow is curated. An invitation or submission does not
+                guarantee recording, publication, partnership, funding, endorsement,
+                or audience reach. There is no fee to apply or participate as an
+                editorial guest.
               </div>
               {selectedLane === "nominate" ? (
                 <BtyNominationForm key="nominate" />
@@ -680,26 +646,10 @@ export default function BeyondTheYellowPage() {
             </div>
             <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
               {[
-                [
-                  "01",
-                  "We review the work",
-                  "We look at what is actually being done, who benefits, and whether the work fits the series.",
-                ],
-                [
-                  "02",
-                  "We review the story",
-                  "We consider whether the conversation can be clear, useful, honest, and meaningful to viewers.",
-                ],
-                [
-                  "03",
-                  "We confirm the guest",
-                  "Selected people receive a direct conversation about fit, expectations, recording, and production.",
-                ],
-                [
-                  "04",
-                  "We build the feature",
-                  "The prerecorded conversation becomes the source for the agreed episode and supporting content.",
-                ],
+                ["01", "We review the work", "We look at what is actually being done, who benefits, and whether the work fits the series."],
+                ["02", "We review the story", "We consider whether the conversation can be clear, useful, honest, and meaningful to viewers."],
+                ["03", "We confirm the guest", "Selected people receive a direct conversation about fit, expectations, recording, and production."],
+                ["04", "We build the feature", "The prerecorded conversation becomes the source for the agreed episode and supporting content."],
               ].map(([number, title, body]) => (
                 <div
                   key={number}
@@ -762,8 +712,8 @@ export default function BeyondTheYellowPage() {
               stories behind it.
             </h2>
             <p className="mx-auto mt-6 max-w-3xl text-lg text-white/75 md:text-xl">
-              An enormous following is not required. A real story, real action,
-              and a willingness to have an honest conversation are.
+              An enormous following is not required. A real story, real action, and a
+              willingness to have an honest conversation are.
             </p>
             <button
               type="button"
