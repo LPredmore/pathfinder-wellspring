@@ -32,23 +32,25 @@ export default function AdminDashboard() {
     if (authLoading || roleLoading || !isAdmin) return;
     let cancelled = false;
     setLoading(true);
-    supabase
-      .from("site_config")
+    (supabase
+      .from("site_config" as any)
       .select("key, value")
-      .in("key", ["welcome_email_subject", "welcome_email_body"])
-      .then(({ data, error }) => {
-        if (cancelled) return;
-        if (error) {
-          toast.error("Unable to load Website settings.");
-          setLoading(false);
-          return;
-        }
-        for (const row of data ?? []) {
-          if (row.key === "welcome_email_subject") setEmailSubject(row.value);
-          if (row.key === "welcome_email_body") setEmailBody(row.value);
-        }
+      .in("key", ["welcome_email_subject", "welcome_email_body"]) as Promise<{
+      data: { key: string; value: string }[] | null;
+      error: Error | null;
+    }>).then(({ data, error }) => {
+      if (cancelled) return;
+      if (error) {
+        toast.error("Unable to load Website settings.");
         setLoading(false);
-      });
+        return;
+      }
+      for (const row of data ?? []) {
+        if (row.key === "welcome_email_subject") setEmailSubject(row.value);
+        if (row.key === "welcome_email_body") setEmailBody(row.value);
+      }
+      setLoading(false);
+    });
     return () => { cancelled = true; };
   }, [authLoading, isAdmin, roleLoading]);
 
