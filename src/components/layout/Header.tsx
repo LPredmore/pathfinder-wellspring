@@ -8,7 +8,6 @@ const primary = [
   { name: "Mission", href: "/mission" },
   { name: "Operation Claims Success", href: "/operation-claims-success" },
   { name: "Beyond The Yellow", href: "/beyondtheyellow" },
-  { name: "Watch", href: "/watch" },
 ];
 
 const getInvolved = [
