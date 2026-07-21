@@ -12,7 +12,6 @@ import {
   ReceiptText,
   Route,
   Stethoscope,
-  UsersRound,
 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -103,12 +102,6 @@ const lanes = [
     line: "Find the mental-health care or veteran pathway that fits your situation.",
     href: "/get-care",
     event: "mission_lane_get_care",
-  },
-  {
-    title: "See the Mission in Motion",
-    line: "Watch the stories, ideas, and people moving the work forward.",
-    href: "/watch",
-    event: "mission_lane_watch",
   },
 ] as const;
 
@@ -551,19 +544,15 @@ export default function MissionPage() {
             </p>
           </div>
 
-          <div className="mt-14 grid gap-6 md:grid-cols-3">
-            {lanes.map((lane, index) => (
+          <div className="mt-14 grid gap-6 md:grid-cols-2">
+            {lanes.map((lane) => (
               <Link
                 key={lane.title}
                 to={lane.href}
                 onClick={() => track(lane.event)}
                 className="lane-card block rounded-lg border-2 border-[hsl(var(--mission-paper))]/20 bg-[hsl(var(--mission-paper))]/8 p-8 focus:outline-none focus-visible:border-[hsl(var(--mission-gold))]"
               >
-                {index === 0 ? (
-                  <HeartHandshake className="h-8 w-8 text-[hsl(var(--mission-gold))]" />
-                ) : (
-                  <UsersRound className="h-8 w-8 text-[hsl(var(--mission-gold))]" />
-                )}
+                <HeartHandshake className="h-8 w-8 text-[hsl(var(--mission-gold))]" />
                 <h3 className="mt-6 text-2xl font-bold">{lane.title}</h3>
                 <p className="mt-4 text-[hsl(var(--mission-paper))]/72">{lane.line}</p>
                 <span className="mt-8 inline-flex items-center gap-2 text-sm font-bold text-[hsl(var(--mission-gold))]">
