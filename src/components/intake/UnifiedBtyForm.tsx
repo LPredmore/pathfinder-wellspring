@@ -11,13 +11,8 @@ import {
 
 export const CREATOR_INTEREST_ROLE_OPTIONS = [
   ["creator", "Creator or influencer"],
-  ["bty_promoter", "Beyond The Yellow promoter or participant"],
-  ["storyteller", "Storyteller"],
-  ["bty_story_submitter", "Share a Beyond The Yellow story"],
-  ["podcaster", "Podcaster"],
-  ["connector", "Connector or introduction source"],
+  ["bty_promoter", "Be a BTY Guest"],
   ["funder", "Fundraising or funding interest"],
-  ["supporter", "Supporter"],
   ["general_mission_interest", "Community, collaboration, or other mission interest"],
 ] as const;
 
@@ -263,7 +258,7 @@ type InitialLane = "share-story";
 export function UnifiedBtyForm({ initialLane }: { initialLane?: InitialLane }) {
   const seededState = useMemo(() => {
     const state = initialState();
-    if (initialLane === "share-story") state.roleCodes = ["storyteller", "bty_story_submitter"];
+    if (initialLane === "share-story") state.roleCodes = ["bty_promoter"];
     return state;
   }, [initialLane]);
   const [form, setForm] = useState<CreatorInterestFormState>(seededState);
@@ -273,7 +268,7 @@ export function UnifiedBtyForm({ initialLane }: { initialLane?: InitialLane }) {
 
   useEffect(() => {
     if (initialLane !== "share-story") return;
-    const preset: RoleCode[] = ["storyteller", "bty_story_submitter"];
+    const preset: RoleCode[] = ["bty_promoter"];
     setForm((current) => ({
       ...current,
       roleCodes: Array.from(new Set([...current.roleCodes, ...preset])),
@@ -350,7 +345,7 @@ export function UnifiedBtyForm({ initialLane }: { initialLane?: InitialLane }) {
   return (
     <form noValidate onSubmit={submit} className="space-y-8 rounded-2xl border border-border bg-card p-5 shadow-sm sm:p-6 md:p-8">
       <div>
-        <h3 className="text-2xl font-bold text-foreground">Creator, promoter and community interest</h3>
+        <h3 className="text-2xl font-bold text-foreground">Beyond The Yellow guest interest</h3>
         <p className="mt-2 text-sm text-muted-foreground">
           This form does not create an account. Share only what ValorWell needs to understand how you would like to participate.
         </p>

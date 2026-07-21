@@ -278,7 +278,7 @@ export default function BeyondTheYellowPage() {
                   onClick={() => apply("bty_hero_guest")}
                   className="inline-flex items-center justify-center gap-2 rounded-md bg-[hsl(var(--gold-accent))] px-6 py-3.5 text-sm font-bold text-[hsl(var(--navy))] shadow-lg transition hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
                 >
-                  I Was Invited / I Want to Be a Guest
+                  I Want to Be a Guest on BTY
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </button>
                 <button
@@ -291,10 +291,6 @@ export default function BeyondTheYellowPage() {
                   Nominate Someone
                 </button>
               </div>
-              <p className="mt-5 max-w-2xl text-sm leading-relaxed text-white/60">
-                No published episodes yet. No inflated audience claims. No fee to
-                participate. The first guests will help establish what this becomes.
-              </p>
             </div>
 
             <div className="lg:col-span-5">
@@ -310,9 +306,9 @@ export default function BeyondTheYellowPage() {
         <section className="border-b border-border bg-[hsl(var(--section-alt))] py-8">
           <div className="mx-auto grid max-w-6xl gap-4 px-4 md:grid-cols-3">
             {[
-              ["A new series", "The first conversations have not been recorded."],
-              ["A curated launch group", "Guest fit matters more than follower count."],
-              ["A real story platform", "The work—not manufactured controversy—is the point."],
+              ["Visibility for growing movements", "Give meaningful work the attention and context it deserves."],
+              ["A larger community", "Reach people who may support, share, volunteer, donate, refer, buy, or participate."],
+              ["Action-oriented connections", "Connect with community changemakers who understand the work and may help move it forward."],
             ].map(([title, body]) => (
               <div key={title} className="flex items-start gap-3 py-3">
                 <CheckCircle2
@@ -330,60 +326,54 @@ export default function BeyondTheYellowPage() {
 
         <section className="border-b border-border py-20 md:py-28">
           <div className="mx-auto max-w-6xl px-4">
-            <div className="grid gap-12 lg:grid-cols-12 lg:items-end">
-              <div className="lg:col-span-7">
-                <Eyebrow tone="navy">Why this may be worth your time</Eyebrow>
-                <SectionHeading>
-                  Your community may know what you do. Most people still do not know
-                  the story that made you do it.
-                </SectionHeading>
-              </div>
-              <p className="text-lg leading-relaxed text-muted-foreground lg:col-span-5">
-                Beyond The Yellow is designed to give useful work more context than a
-                short caption, fundraising post, or thirty-second clip can carry.
+            <div className="mx-auto max-w-4xl text-center">
+              <Eyebrow tone="navy">A simple gut check</Eyebrow>
+              <SectionHeading>Do I qualify to be on BTY?</SectionHeading>
+              <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
+                Ask yourself:
               </p>
             </div>
 
-            <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
               {[
                 {
-                  icon: Mic2,
-                  title: "Tell the full story",
-                  body: "Explain the problem, the turning point, the work, the people affected, and what you have learned along the way.",
+                  icon: HeartHandshake,
+                  question: "Are you making a real, positive impact in your community?",
                 },
                 {
-                  icon: Share2,
-                  title: "Create useful content",
-                  body: "A selected conversation may support edited clips, quotes, written features, and assets you can share with your own audience.",
-                },
-                {
-                  icon: Megaphone,
-                  title: "Give people a next step",
-                  body: "Invite people to follow, volunteer, donate, participate, buy, refer, or otherwise help the work continue.",
+                  icon: BadgeCheck,
+                  question: "Are there people who would say that you or your organization helped them?",
                 },
                 {
                   icon: Sparkles,
-                  title: "Help shape the beginning",
-                  body: "The first guests will influence the tone, standards, questions, and kinds of action the series becomes known for.",
+                  question: "Did you see a problem and decide to do something about it?",
+                },
+                {
+                  icon: Megaphone,
+                  question: "Do you want more people to know your organization, mission, or work exists?",
+                },
+                {
+                  icon: Users,
+                  question: "Would the right supporters, volunteers, donors, customers, or partners help you do more?",
+                },
+                {
+                  icon: Handshake,
+                  question: "Do you want to connect with other action-oriented people who understand the work?",
                 },
               ].map((item) => (
                 <article
-                  key={item.title}
+                  key={item.question}
                   className="rounded-2xl border border-border bg-card p-6 shadow-sm"
                 >
                   <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[hsl(var(--gold-accent))]/15 text-[hsl(var(--navy))]">
                     <item.icon className="h-5 w-5" aria-hidden="true" />
                   </div>
-                  <h3 className="mt-5 text-xl font-bold text-foreground">
-                    {item.title}
+                  <h3 className="mt-5 text-xl font-bold leading-snug text-foreground">
+                    {item.question}
                   </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                    {item.body}
-                  </p>
                 </article>
               ))}
             </div>
-
           </div>
         </section>
 
@@ -399,22 +389,20 @@ export default function BeyondTheYellowPage() {
             <div className="lg:col-span-6">
               <Eyebrow tone="navy">Who belongs here</Eyebrow>
               <SectionHeading>
-                We are not looking for the biggest name. We are looking for work
-                worth knowing about.
+                BTY is for the people building change before anyone hands them a spotlight.
               </SectionHeading>
               <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
-                Small and mid-size creators often have the closest relationship to the
-                people and communities they serve. That proximity is an advantage—not
-                something you need to apologize for.
+                It is for people and organizations doing the work in real communities—solving problems,
+                creating access, opening doors, and making life better in ways the people they serve can describe.
               </p>
               <div className="mt-8 grid gap-4 sm:grid-cols-2">
                 {[
-                  [Users, "Local creators and storytellers"],
-                  [HeartHandshake, "Community builders and volunteers"],
-                  [Building2, "Mission-driven founders and organizations"],
-                  [BadgeCheck, "Veteran and military-family advocates"],
-                  [Megaphone, "Educators and issue-focused creators"],
-                  [Handshake, "Businesses creating measurable local good"],
+                  [HeartHandshake, "Community organizers turning concern into action"],
+                  [Building2, "Nonprofit leaders delivering direct, measurable help"],
+                  [Sparkles, "Mission-driven founders building practical solutions"],
+                  [BadgeCheck, "Veteran and military-family advocates creating access"],
+                  [Users, "Educators, mentors, and program builders"],
+                  [Handshake, "Businesses investing directly in community outcomes"],
                 ].map(([Icon, label]) => (
                   <div
                     key={String(label)}
@@ -431,7 +419,7 @@ export default function BeyondTheYellowPage() {
                 ))}
               </div>
               <p className="mt-6 font-semibold text-[hsl(var(--navy))]">
-                The category does not qualify you. The action and the story do.
+                You do not need to be famous. You need to be responsible for work that would be missed if it stopped.
               </p>
             </div>
           </div>
@@ -491,7 +479,7 @@ export default function BeyondTheYellowPage() {
                 {
                   lane: "share-story" as const,
                   icon: Mic2,
-                  title: "I was invited or want to be a guest",
+                  title: "I want to be a guest on BTY",
                   body: "I am doing the work or represent the person or organization responsible for it.",
                 },
                 {
@@ -637,7 +625,7 @@ export default function BeyondTheYellowPage() {
             onClick={() => apply("bty_sticky_guest")}
             className="flex w-full items-center justify-center gap-2 rounded-md bg-[hsl(var(--gold-accent))] px-5 py-3 text-sm font-bold text-[hsl(var(--navy))]"
           >
-            I Want to Be a Guest
+            I Want to Be a Guest on BTY
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </button>
         </div>

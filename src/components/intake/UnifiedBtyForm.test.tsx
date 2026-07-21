@@ -40,7 +40,7 @@ describe("UnifiedBtyForm", () => {
       firstName: " Test ", lastName: " Person ", preferredName: "", email: " PERSON@EXAMPLE.COM ", phone: "",
       state: "TX", veteranAffiliation: "none", veteranConnection: "", motivation: "A useful motivation",
       participationPreferences: "A useful participation plan", willingToShare: "not_sure", comfortLevel: "not_sure",
-      personalMission: "", fundraisingGoal: "", additionalInformation: "", roleCodes: ["supporter"], socials: [], consent: true,
+      personalMission: "", fundraisingGoal: "", additionalInformation: "", roleCodes: ["bty_promoter"], socials: [], consent: true,
     };
     const payload = buildCreatorInterestPayload(state, "submission-fixed");
     expect(Object.keys(payload).sort()).toEqual([
@@ -48,7 +48,7 @@ describe("UnifiedBtyForm", () => {
       "relationship_types", "social_profiles", "source_page", "state", "submission_key", "user_agent",
       "veteran_affiliation", "willing_to_share",
     ].sort());
-    expect(payload).toMatchObject({ email: "person@example.com", participation: "A useful participation plan", relationship_types: ["supporter"] });
+    expect(payload).toMatchObject({ email: "person@example.com", participation: "A useful participation plan", relationship_types: ["bty_promoter"] });
     expect(payload).not.toHaveProperty("password");
     expect(payload).not.toHaveProperty("avatar");
     expect(payload).not.toHaveProperty("competition");
@@ -56,7 +56,7 @@ describe("UnifiedBtyForm", () => {
 
   it("renders an anonymous interest form without account or avatar fields", () => {
     render(<UnifiedBtyForm />);
-    expect(screen.getByRole("heading", { name: /Creator, promoter and community interest/ })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /Beyond The Yellow guest interest/ })).toBeInTheDocument();
     expect(screen.getByText(/does not create an account/)).toBeInTheDocument();
     expect(screen.queryByLabelText(/password/i)).not.toBeInTheDocument();
     expect(screen.queryByLabelText(/avatar|photo|upload/i)).not.toBeInTheDocument();
