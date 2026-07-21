@@ -13,15 +13,9 @@ import { Layout } from "@/components/layout";
 import { SEO, BreadcrumbSchema } from "@/components/SEO";
 import { DonateButton } from "@/components/DonateButton";
 
-function Eyebrow({ children, light = false }: { children: ReactNode; light?: boolean }) {
+function Eyebrow({ children }: { children: ReactNode }) {
   return (
-    <p
-      className={`text-[11px] font-bold uppercase tracking-[0.22em] md:text-xs ${
-        light
-          ? "text-[color:var(--cl-ember)]"
-          : "text-[color:var(--cl-ember)]"
-      }`}
-    >
+    <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[color:var(--cl-ember)] md:text-xs">
       {children}
     </p>
   );
@@ -128,7 +122,7 @@ export default function Partner() {
     <Layout>
       <SEO
         title="Support the ValorWell Mission | Help Build the Next Step"
-        description="Help ValorWell expand real mental-health care, legitimate veteran pathways, provider capacity, and community action. Support the mission through a tracked donation campaign."
+        description="Help ValorWell expand real mental-health care, legitimate veteran pathways, provider capacity, and community action. Support the mission and help keep the next step open."
         canonical="/partner"
       />
       <BreadcrumbSchema
@@ -181,10 +175,6 @@ export default function Partner() {
                   <ArrowDown className="h-4 w-4" aria-hidden="true" />
                 </a>
               </div>
-              <p className="mt-5 max-w-2xl text-sm leading-relaxed text-[color:var(--cl-ink)]/60">
-                Every donation action on this page continues through ValorWell’s
-                existing tracked donation route before opening Givebutter.
-              </p>
             </div>
 
             <div className="lg:col-span-5">
@@ -260,7 +250,7 @@ export default function Partner() {
             </div>
 
             <div className="lg:col-span-7 lg:pl-8">
-              <Eyebrow light>The Moment That Matters</Eyebrow>
+              <Eyebrow>The Moment That Matters</Eyebrow>
               <h2 className="mt-6 max-w-4xl text-3xl font-bold leading-tight md:text-5xl">
                 The moment someone says, “I’m ready,” matters.
               </h2>
@@ -305,9 +295,9 @@ export default function Partner() {
               momentum you want to help create.
             </h2>
             <p className="mt-6 max-w-3xl text-lg leading-relaxed text-[color:var(--cl-ink)]/72">
-              These campaign paths all continue through the same tracked
-              ValorWell donation route. Campaign language identifies the reason
-              you chose to act; ValorWell applies support where it can most
+              One-time support can help move an immediate next step. Recurring
+              support helps maintain the capacity before the next person asks for
+              help. ValorWell applies contributions where they can most
               effectively expand care, access, and mission capacity.
             </p>
 
@@ -328,16 +318,19 @@ export default function Partner() {
                 </p>
 
                 <div className="mt-8 grid grid-cols-2 gap-px bg-[color:var(--cl-canvas)]/15">
-                  {["$75 · One session equivalent", "$150 · Two session equivalents", "$300 · Four session equivalents", "$900 · Twelve session equivalents"].map(
-                    (amount) => (
-                      <div
-                        key={amount}
-                        className="bg-[color:var(--cl-evergreen)] p-4 text-sm font-semibold leading-snug"
-                      >
-                        {amount}
-                      </div>
-                    ),
-                  )}
+                  {[
+                    "$75 · One session equivalent",
+                    "$150 · Two session equivalents",
+                    "$300 · Four session equivalents",
+                    "$900 · Twelve session equivalents",
+                  ].map((amount) => (
+                    <div
+                      key={amount}
+                      className="bg-[color:var(--cl-evergreen)] p-4 text-sm font-semibold leading-snug"
+                    >
+                      {amount}
+                    </div>
+                  ))}
                 </div>
                 <p className="mt-4 text-xs leading-relaxed text-[color:var(--cl-canvas)]/55">
                   Session equivalents use ValorWell’s current $75 completed-session
@@ -431,7 +424,7 @@ export default function Partner() {
           <div className="container-wide py-20 md:py-28">
             <div className="grid gap-12 lg:grid-cols-12 lg:items-start">
               <div className="lg:col-span-7">
-                <Eyebrow light>Support Without Buying Control</Eyebrow>
+                <Eyebrow>Support Without Buying Control</Eyebrow>
                 <h2 className="mt-6 max-w-4xl text-3xl font-bold leading-tight md:text-5xl">
                   Your contribution helps move the mission. It does not purchase
                   the mission.
