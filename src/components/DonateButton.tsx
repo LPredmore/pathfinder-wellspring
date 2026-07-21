@@ -15,6 +15,7 @@ interface DonateButtonProps {
   withIcon?: boolean;
   utmMedium?: string;
   utmCampaign?: string;
+  utmContent?: string;
 }
 
 /**
@@ -31,20 +32,26 @@ export function DonateButton({
   withIcon = false,
   utmMedium = "site",
   utmCampaign = "ocs",
+  utmContent,
 }: DonateButtonProps) {
   const params = new URLSearchParams({
     utm_source: source,
     utm_medium: utmMedium,
     utm_campaign: utmCampaign,
   });
+
+  if (utmContent) {
+    params.set("utm_content", utmContent);
+  }
+
   const href = `/donate?${params.toString()}`;
 
   const sizeCls =
     size === "sm"
       ? "px-3 py-1.5 text-xs"
       : size === "lg"
-      ? "px-6 py-3.5 text-base"
-      : "px-4 py-2 text-sm";
+        ? "px-6 py-3.5 text-base"
+        : "px-4 py-2 text-sm";
 
   const base =
     "inline-flex items-center gap-2 rounded-md font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 whitespace-nowrap";
@@ -53,8 +60,8 @@ export function DonateButton({
     variant === "outline"
       ? "border border-primary/40 text-primary bg-transparent hover:bg-primary hover:text-primary-foreground"
       : variant === "link"
-      ? "text-primary hover:text-foreground underline-offset-4 hover:underline p-0"
-      : "bg-accent text-accent-foreground shadow-sm hover:brightness-95";
+        ? "text-primary hover:text-foreground underline-offset-4 hover:underline p-0"
+        : "bg-accent text-accent-foreground shadow-sm hover:brightness-95";
 
   return (
     <Link
