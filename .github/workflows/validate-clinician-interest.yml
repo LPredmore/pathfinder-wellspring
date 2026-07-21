@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - agent/simplify-clinician-interest-flow
+  pull_request:
+    branches:
+      - main
 
 permissions:
   contents: read
