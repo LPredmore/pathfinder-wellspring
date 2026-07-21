@@ -24,7 +24,7 @@ describe("Partner donor journey", () => {
 
     expect(
       screen.getByRole("heading", {
-        name: /the next word should not be “wait”/i,
+        name: /next word should not be/i,
       }),
     ).toBeInTheDocument();
 
