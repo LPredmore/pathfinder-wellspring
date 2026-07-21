@@ -194,9 +194,11 @@ export default function Partner() {
             </div>
 
             <div className="lg:col-span-5">
-              <ImagePlaceholder
-                title="Complete the missing section"
-                direction="A dark, interrupted pathway moving toward a warm open doorway, with one missing section being placed into position. Editorial, cinematic, grounded, and human. Avoid generic therapy, handshake, waiting-room, or flag-draped stock imagery."
+              <img
+                src={partnerBridgeAsset.url}
+                alt="A crane lowers the final section of a bridge into place, connecting a dark interrupted pathway to a warm, lit doorway on the other side."
+                className="h-auto w-full rounded-lg border border-[color:var(--cl-evergreen)]/20 object-contain"
+                loading="eager"
               />
             </div>
           </div>
