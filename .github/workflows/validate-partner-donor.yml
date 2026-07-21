@@ -17,7 +17,8 @@ jobs:
         with:
           node-version: 20
           cache: npm
-      - run: npm ci
+      - run: npm ci --silent
+      - run: npm test -- src/pages/Partner.test.tsx --reporter=verbose
       - run: npx eslint src/pages/Partner.tsx src/pages/Partner.test.tsx src/App.tsx src/components/layout/Header.tsx src/components/layout/Footer.tsx
       - run: npx tsc --noEmit
       - run: npm test
