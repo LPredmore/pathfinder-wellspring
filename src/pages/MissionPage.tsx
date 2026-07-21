@@ -8,19 +8,16 @@ import {
   HeartHandshake,
   Megaphone,
   Network,
-  Play,
   ReceiptText,
   Route,
   Stethoscope,
 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { ClickToLoadYouTubeShort } from "@/components/ClickToLoadYouTubeShort";
 import { trackHomeEvent } from "@/lib/tracking";
 import missionCoverAsset from "@/assets/mission-cover-new.png.asset.json";
 
-const FOUNDER_VIDEO_ID = "seviqJeC6FI";
-const FOUNDER_VIDEO_COVER: string | null = missionCoverAsset.url;
+const FOUNDER_COVER: string | null = missionCoverAsset.url;
 
 const track = (name: string, params: Record<string, unknown> = {}) =>
   trackHomeEvent(name, { page: "mission", ...params });
