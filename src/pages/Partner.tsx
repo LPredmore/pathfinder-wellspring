@@ -17,6 +17,7 @@ import { Layout } from "@/components/layout";
 import { SEO, BreadcrumbSchema } from "@/components/SEO";
 import { DonateButton } from "@/components/DonateButton";
 import partnerBridgeAsset from "@/assets/partner-bridge.png.asset.json";
+import partnerReadinessAsset from "@/assets/partner-readiness.png.asset.json";
 
 function Eyebrow({ children, light = false }: { children: ReactNode; light?: boolean }) {
   return (
@@ -259,10 +260,11 @@ export default function Partner() {
         <section className="bg-[color:var(--cl-ink)] text-[color:var(--cl-canvas)]">
           <div className="container-wide grid gap-12 py-20 md:py-28 lg:grid-cols-12 lg:items-center">
             <div className="lg:col-span-6">
-              <ImagePlaceholder
-                dark
-                title="Readiness should meet a reachable next step"
-                direction="A single illuminated appointment card or open calendar space surrounded by fragmented dates, disconnected lines, and administrative forms fading into darkness. Symbolic rather than literal."
+              <img
+                src={partnerReadinessAsset.url}
+                alt="A person stands before a wall of fragmented panels, forms, and disconnected lines, facing a warmly lit open doorway that represents a reachable next step."
+                className="h-auto w-full rounded-lg border border-[color:var(--cl-canvas)]/20 object-contain"
+                loading="lazy"
               />
             </div>
 
