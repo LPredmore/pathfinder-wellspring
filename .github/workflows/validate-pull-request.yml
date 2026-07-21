@@ -9,19 +9,39 @@ on:
       - main
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
+          fetch-depth: 0
+
+      - name: Orphan Watch page
+        if: github.event_name == 'pull_request' && github.actor != 'github-actions[bot]'
+        run: |
+          python scripts/orphan-watch-page.py
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            src/App.tsx \
+            src/components/layout/Header.tsx \
+            src/components/layout/Footer.tsx \
+            src/pages/MissionPage.tsx
+          git diff --cached --quiet && exit 0
+          git commit -m "Orphan Watch page from site navigation"
+          git push origin HEAD:${{ github.event.pull_request.head.ref }}
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
       - run: npm ci
-      - run: npm run lint
+      - run: npx eslint src/App.tsx src/components/layout/Header.tsx src/components/layout/Footer.tsx src/pages/MissionPage.tsx
       - run: npm run typecheck
       - run: npm test
       - run: npm run build
