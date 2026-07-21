@@ -16,6 +16,7 @@ import {
 import { Layout } from "@/components/layout";
 import { SEO, BreadcrumbSchema } from "@/components/SEO";
 import { DonateButton } from "@/components/DonateButton";
+import partnerBridgeAsset from "@/assets/partner-bridge.png.asset.json";
 
 function Eyebrow({ children, light = false }: { children: ReactNode; light?: boolean }) {
   return (
