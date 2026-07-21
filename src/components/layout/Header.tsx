@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { ChevronDown, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { DonateButton } from "@/components/DonateButton";
 
@@ -12,7 +12,7 @@ const primary = [
 
 const getInvolved = [
   { name: "Clinicians", href: "/clinicians" },
-  { name: "Partner / Support", href: "/partner" },
+  { name: "Support the Mission", href: "/partner" },
   { name: "Share a Beyond The Yellow Story", href: "/beyondtheyellow" },
   { name: "Contact", href: "/contact" },
 ];
@@ -39,20 +39,22 @@ export function Header() {
   }, [location.pathname]);
 
   useEffect(() => {
-    function onDown(e: MouseEvent) {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+    function onDown(event: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setMenuOpen(false);
       }
-      if (loginRef.current && !loginRef.current.contains(e.target as Node)) {
+      if (loginRef.current && !loginRef.current.contains(event.target as Node)) {
         setLoginOpen(false);
       }
     }
-    function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") {
+
+    function onKey(event: KeyboardEvent) {
+      if (event.key === "Escape") {
         setMenuOpen(false);
         setLoginOpen(false);
       }
     }
+
     document.addEventListener("mousedown", onDown);
     document.addEventListener("keydown", onKey);
     return () => {
@@ -99,14 +101,14 @@ export function Header() {
           <div className="relative" ref={menuRef}>
             <button
               type="button"
-              onClick={() => setMenuOpen((v) => !v)}
+              onClick={() => setMenuOpen((value) => !value)}
               aria-haspopup="menu"
               aria-expanded={menuOpen}
               className="inline-flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground"
             >
               Get Involved <ChevronDown className="h-4 w-4" aria-hidden />
             </button>
-            {menuOpen && (
+            {menuOpen ? (
               <div
                 role="menu"
                 className="absolute right-0 top-full mt-2 w-64 rounded-md border border-border bg-popover p-1 shadow-lg"
@@ -122,7 +124,7 @@ export function Header() {
                   </Link>
                 ))}
               </div>
-            )}
+            ) : null}
           </div>
 
           <Link
@@ -137,14 +139,14 @@ export function Header() {
           <div className="relative" ref={loginRef}>
             <button
               type="button"
-              onClick={() => setLoginOpen((v) => !v)}
+              onClick={() => setLoginOpen((value) => !value)}
               aria-haspopup="menu"
               aria-expanded={loginOpen}
-              className="inline-flex items-center gap-1 rounded-md border border-primary/30 bg-transparent px-4 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
+              className="inline-flex items-center gap-1 rounded-md border border-primary/30 bg-transparent px-4 py-2 text-sm font-semibold text-primary hover:bg-primary hover:text-primary-foreground"
             >
               Login <ChevronDown className="h-4 w-4" aria-hidden />
             </button>
-            {loginOpen && (
+            {loginOpen ? (
               <div
                 role="menu"
                 className="absolute right-0 top-full mt-2 w-48 rounded-md border border-border bg-popover p-1 shadow-lg"
@@ -160,14 +162,14 @@ export function Header() {
                   </a>
                 ))}
               </div>
-            )}
+            ) : null}
           </div>
         </div>
 
         <button
           type="button"
           className="-m-2 rounded-md p-2 text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring lg:hidden"
-          onClick={() => setOpen((v) => !v)}
+          onClick={() => setOpen((value) => !value)}
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
           aria-controls="mobile-menu"
@@ -176,7 +178,7 @@ export function Header() {
         </button>
       </nav>
 
-      {open && (
+      {open ? (
         <div id="mobile-menu" className="border-t border-border bg-background lg:hidden">
           <div className="container-wide space-y-1 py-4">
             {primary.map((item) => (
@@ -188,9 +190,10 @@ export function Header() {
                 {item.name}
               </Link>
             ))}
+
             <button
               type="button"
-              onClick={() => setMobileGI((v) => !v)}
+              onClick={() => setMobileGI((value) => !value)}
               aria-expanded={mobileGI}
               className="flex w-full items-center justify-between rounded-md px-3 py-3 text-base font-medium text-foreground hover:bg-muted"
             >
@@ -203,7 +206,8 @@ export function Header() {
                 aria-hidden
               />
             </button>
-            {mobileGI && (
+
+            {mobileGI ? (
               <div className="pl-3">
                 {getInvolved.map((item) => (
                   <Link
@@ -215,21 +219,24 @@ export function Header() {
                   </Link>
                 ))}
               </div>
-            )}
+            ) : null}
+
             <Link
               to="/get-care"
               className="mt-3 block rounded-md border border-primary/30 px-3 py-3 text-center text-base font-semibold text-primary hover:bg-primary hover:text-primary-foreground"
             >
               Get Care
             </Link>
+
             <DonateButton
               source="header-mobile"
               size="lg"
               className="mt-2 w-full justify-center"
             />
+
             <button
               type="button"
-              onClick={() => setMobileLogin((v) => !v)}
+              onClick={() => setMobileLogin((value) => !value)}
               aria-expanded={mobileLogin}
               className="mt-1 flex w-full items-center justify-between rounded-md border border-primary/30 px-3 py-3 text-base font-semibold text-primary hover:bg-primary hover:text-primary-foreground"
             >
@@ -242,7 +249,8 @@ export function Header() {
                 aria-hidden
               />
             </button>
-            {mobileLogin && (
+
+            {mobileLogin ? (
               <div className="pl-3">
                 {loginLinks.map((item) => (
                   <a
@@ -254,10 +262,10 @@ export function Header() {
                   </a>
                 ))}
               </div>
-            )}
+            ) : null}
           </div>
         </div>
-      )}
+      ) : null}
     </header>
   );
 }
