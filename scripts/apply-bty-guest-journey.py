@@ -6,13 +6,22 @@ page = page_path.read_text()
 
 for old, new in {
     "I Was Invited / I Want to Be a Guest": "I Want to Be a Guest on BTY",
-    "I Want to Be a Guest": "I Want to Be a Guest on BTY",
     'title: "I was invited or want to be a guest",': 'title: "I want to be a guest on BTY",',
 }.items():
     count = page.count(old)
     if count != 1:
         raise SystemExit(f"Expected one page match for {old!r}, found {count}")
     page = page.replace(old, new)
+
+sticky_cta = '''            I Want to Be a Guest
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />'''
+if page.count(sticky_cta) != 1:
+    raise SystemExit("Expected one mobile sticky guest CTA")
+page = page.replace(
+    sticky_cta,
+    '''            I Want to Be a Guest on BTY
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />''',
+)
 
 hero_disclaimer = '''              <p className="mt-5 max-w-2xl text-sm leading-relaxed text-white/60">
                 No published episodes yet. No inflated audience claims. No fee to
