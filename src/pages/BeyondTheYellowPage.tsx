@@ -478,7 +478,7 @@ export default function BeyondTheYellowPage() {
             <div className="mx-auto max-w-4xl text-center">
               <Eyebrow tone="navy">Guest interest</Eyebrow>
               <SectionHeading>
-                Were you invited—or does your work belong in this conversation?
+                Does your work belong in this conversation?
               </SectionHeading>
               <p className="mt-5 text-lg text-muted-foreground">
                 Tell us enough to understand you, the work, and what people should
