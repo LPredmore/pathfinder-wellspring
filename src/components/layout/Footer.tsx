@@ -14,7 +14,7 @@ const groups: { title: string; links: { name: string; href: string }[] }[] = [
     links: [
       { name: "Get Care", href: "/get-care" },
       { name: "Clinicians", href: "/clinicians" },
-      { name: "Partner / Support", href: "/partner" },
+      { name: "Support the Mission", href: "/partner" },
       { name: "Contact", href: "/contact" },
     ],
   },
@@ -25,7 +25,7 @@ const groups: { title: string; links: { name: string; href: string }[] }[] = [
         name: "Donate",
         href: "/donate?utm_source=footer&utm_medium=site&utm_campaign=ocs",
       },
-      { name: "Partner / Support", href: "/partner" },
+      { name: "Support the Mission", href: "/partner" },
       { name: "Share a Beyond The Yellow Story", href: "/beyondtheyellow" },
       { name: "Contact", href: "/contact" },
     ],
