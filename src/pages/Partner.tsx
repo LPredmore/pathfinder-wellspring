@@ -18,6 +18,7 @@ import { SEO, BreadcrumbSchema } from "@/components/SEO";
 import { DonateButton } from "@/components/DonateButton";
 import partnerBridgeAsset from "@/assets/partner-bridge.png.asset.json";
 import partnerReadinessAsset from "@/assets/partner-readiness.png.asset.json";
+import partnerCareAccessCommunityAsset from "@/assets/partner-care-access-community.png.asset.json";
 
 function Eyebrow({ children, light = false }: { children: ReactNode; light?: boolean }) {
   return (
@@ -471,10 +472,11 @@ export default function Partner() {
             </div>
 
             <div className="mt-14">
-              <ImagePlaceholder
-                dark
-                title="Care, access, and community connected around one person"
-                direction="A clean editorial system diagram showing three connected paths—Care, Access, and Community—converging around a single person rather than operating as disconnected programs."
+              <img
+                src={partnerCareAccessCommunityAsset.url}
+                alt="A person walks a warmly lit stone pathway through a hillside community at dusk, where care, access, and gathering spaces connect around one reachable next step."
+                className="h-auto w-full rounded-lg border border-[color:var(--cl-canvas)]/20 object-contain"
+                loading="lazy"
               />
             </div>
           </div>
