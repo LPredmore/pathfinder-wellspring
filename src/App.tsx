@@ -17,9 +17,9 @@ import OcsBillingHubPage from "./pages/OcsBillingHubPage";
 import BtyBillingHubPage from "./pages/BtyBillingHubPage";
 import Clinicians from "./pages/Clinicians";
 import GetCare from "./pages/GetCare";
+import Partner from "./pages/Partner";
 import Contact from "./pages/Contact";
 import Privacy from "./pages/Privacy";
-import { PartnerPageWithClinicianHandoff } from "./pages/PathwayPageWrappers";
 import AuthorityResources from "./pages/authority/Resources";
 import AuthorityFamilySystems from "./pages/authority/FamilySystems";
 import AuthorityMilitaryFamilyTherapy from "./pages/authority/MilitaryFamilyTherapy";
@@ -45,7 +45,7 @@ const legacyRedirects: { from: string; to: string }[] = [
   { from: "/sponsor-care", to: "/partner" },
   { from: "/monthly-supporters", to: "/partner" },
   { from: "/funders", to: "/partner" },
-  { from: "/referral-partners", to: "/partner" },
+  { from: "/referral-partners", to: "/clinicians" },
   { from: "/mission-one-pager", to: "/partner" },
   { from: "/faq", to: "/contact" },
   { from: "/urgent-help", to: "/get-care" },
@@ -88,10 +88,7 @@ const App = () => (
               element={<Navigate to="/clinicians" replace />}
             />
             <Route path="/get-care" element={<GetCare />} />
-            <Route
-              path="/partner"
-              element={<PartnerPageWithClinicianHandoff />}
-            />
+            <Route path="/partner" element={<Partner />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/privacy" element={<Privacy />} />
 
