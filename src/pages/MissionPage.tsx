@@ -375,13 +375,11 @@ export default function MissionPage() {
               <div className="rise-in">
                 <div className="relative mx-auto max-w-sm">
                   <div className="absolute -inset-4 rotate-2 border border-[hsl(var(--mission-gold))]/45" aria-hidden="true" />
-                  {FOUNDER_VIDEO_ID ? (
-                    <ClickToLoadYouTubeShort
-                      videoId={FOUNDER_VIDEO_ID}
-                      title="ValorWell — Why this exists. From the founder."
-                      coverImage={FOUNDER_VIDEO_COVER ?? undefined}
-                      maxWidthClassName=""
-                      playerClassName="relative h-[55vh] md:h-[65vh] !w-auto rounded-sm border-2 border-[hsl(var(--mission-ink))] shadow-2xl"
+                  {FOUNDER_COVER ? (
+                    <img
+                      src={FOUNDER_COVER}
+                      alt="ValorWell founder with the mission: rebuilding veteran mental health care together."
+                      className="relative h-auto w-full rounded-sm border-2 border-[hsl(var(--mission-ink))] shadow-2xl"
                     />
                   ) : (
                     <div
@@ -389,9 +387,6 @@ export default function MissionPage() {
                       style={{ aspectRatio: "9 / 16" }}
                     >
                       <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
-                        <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-[hsl(var(--mission-gold))] text-[hsl(var(--mission-ink))]">
-                          <Play className="h-7 w-7" fill="currentColor" />
-                        </div>
                         <p className="text-lg font-bold uppercase tracking-[0.2em] text-[hsl(var(--mission-gold))]">
                           Why ValorWell Exists
                         </p>
