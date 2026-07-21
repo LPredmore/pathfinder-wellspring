@@ -12,7 +12,7 @@ const primary = [
 
 const getInvolved = [
   { name: "Clinicians", href: "/clinicians" },
-  { name: "Partner / Support", href: "/partner" },
+  { name: "Support the Mission", href: "/partner" },
   { name: "Share a Beyond The Yellow Story", href: "/beyondtheyellow" },
   { name: "Contact", href: "/contact" },
 ];
