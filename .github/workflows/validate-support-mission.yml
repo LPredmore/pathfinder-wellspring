@@ -1,0 +1,24 @@
+name: Validate Support Mission
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npx eslint src/pages/Partner.tsx src/pages/Partner.test.tsx src/components/DonateButton.tsx src/components/layout/Header.tsx src/components/layout/Footer.tsx src/App.tsx
+      - run: npx tsc --noEmit
+      - run: npm test
+      - run: npm run build
