@@ -977,6 +977,7 @@ export default function OperationClaimsSuccessPage() {
           </div>
         </section>
 
+        <section className="border-b border-[#3B5147]/10 bg-white py-20 md:py-28">
           <div className="mx-auto max-w-6xl px-4">
             <Eyebrow>The difference</Eyebrow>
             <Heading>Transaction-first versus care-connected.</Heading>
