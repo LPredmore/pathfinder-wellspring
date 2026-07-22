@@ -90,68 +90,58 @@ const replacements = [
 
 type Mount = { host: HTMLElement; body: ReactNode };
 
+function replaceTriggerLabel(trigger: HTMLButtonElement, title: string) {
+  const textNode = Array.from(trigger.childNodes).find((node) => node.nodeType === Node.TEXT_NODE);
+  if (!textNode) return null;
+  const original = textNode.nodeValue ?? "";
+  textNode.nodeValue = title;
+  return () => {
+    textNode.nodeValue = original;
+  };
+}
+
 export function OcsIndustryCopyEnhancements() {
   const [mounts, setMounts] = useState<Mount[]>([]);
 
   useEffect(() => {
     const cleanups: Array<() => void> = [];
+    const nextMounts: Mount[] = [];
 
-    const install = () => {
-      const nextMounts: Mount[] = [];
+    for (const replacement of replacements) {
+      const trigger = Array.from(document.querySelectorAll<HTMLButtonElement>("button")).find(
+        (button) => button.textContent?.trim() === replacement.currentTitle,
+      );
+      if (!trigger) continue;
 
-      for (const replacement of replacements) {
-        const trigger = Array.from(document.querySelectorAll<HTMLButtonElement>("button")).find(
-          (button) => button.textContent?.trim() === replacement.currentTitle,
-        );
+      const restoreLabel = replaceTriggerLabel(trigger, replacement.title);
+      if (restoreLabel) cleanups.push(restoreLabel);
 
-        if (!trigger) continue;
+      const item = trigger.parentElement?.parentElement;
+      const content = item?.querySelector<HTMLElement>("[role=region]");
+      const inner = content?.firstElementChild as HTMLElement | null;
+      if (!content || !inner) continue;
 
-        const originalTitle = trigger.textContent ?? "";
-        trigger.textContent = replacement.title;
-        cleanups.push(() => {
-          trigger.textContent = originalTitle;
-        });
+      const originalDisplay = inner.style.display;
+      inner.style.display = "none";
 
-        const item = trigger.closest("[data-radix-collection-item]") ?? trigger.parentElement?.parentElement;
-        const content = item?.querySelector<HTMLElement>("[data-state][role=region]") ?? item?.querySelector<HTMLElement>("[data-state]");
-        const inner = content?.firstElementChild as HTMLElement | null;
-        if (!inner) continue;
+      const host = document.createElement("div");
+      host.dataset.ocsIndustryCopy = replacement.title;
+      host.className = "pb-7";
+      content.appendChild(host);
+      nextMounts.push({ host, body: replacement.body });
 
-        const originalDisplay = inner.style.display;
-        inner.style.display = "none";
+      cleanups.push(() => {
+        inner.style.display = originalDisplay;
+        host.remove();
+      });
+    }
 
-        const host = document.createElement("div");
-        host.dataset.ocsIndustryCopy = replacement.title;
-        host.className = "pb-7";
-        content?.appendChild(host);
-        nextMounts.push({ host, body: replacement.body });
-
-        cleanups.push(() => {
-          inner.style.display = originalDisplay;
-          host.remove();
-        });
-      }
-
-      setMounts(nextMounts);
-    };
-
-    install();
-    const observer = new MutationObserver(() => {
-      if (mounts.length === replacements.length) return;
-      install();
-    });
-    observer.observe(document.body, { childList: true, subtree: true });
+    setMounts(nextMounts);
 
     return () => {
-      observer.disconnect();
       cleanups.reverse().forEach((cleanup) => cleanup());
-      setMounts([]);
     };
   }, []);
 
-  return (
-    <>
-      {mounts.map(({ host, body }) => createPortal(body, host))}
-    </>
-  );
+  return <>{mounts.map(({ host, body }) => createPortal(body, host))}</>;
 }
