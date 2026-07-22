@@ -11993,6 +11993,402 @@ export type Database = {
           },
         ]
       }
+      relationship_campaign_enrollments: {
+        Row: {
+          campaign_id: string
+          contact_id: string
+          created_at: string
+          created_by_profile_id: string | null
+          current_step_position: number | null
+          delivery_enabled: boolean
+          eligibility_snapshot: Json
+          enrolled_by_profile_id: string | null
+          id: string
+          metadata: Json
+          next_scheduled_at: string | null
+          opportunity_id: string | null
+          organization_id: string | null
+          personalization_context: Json
+          recipient_email: string
+          recipient_name: string | null
+          responded_at: string | null
+          safety_status: string
+          source_language_mode: string
+          status: string
+          stopped_reason: string | null
+          tenant_id: string
+          updated_at: string
+          updated_by_profile_id: string | null
+          version: number
+        }
+        Insert: {
+          campaign_id: string
+          contact_id: string
+          created_at?: string
+          created_by_profile_id?: string | null
+          current_step_position?: number | null
+          delivery_enabled?: boolean
+          eligibility_snapshot?: Json
+          enrolled_by_profile_id?: string | null
+          id?: string
+          metadata?: Json
+          next_scheduled_at?: string | null
+          opportunity_id?: string | null
+          organization_id?: string | null
+          personalization_context?: Json
+          recipient_email: string
+          recipient_name?: string | null
+          responded_at?: string | null
+          safety_status?: string
+          source_language_mode?: string
+          status?: string
+          stopped_reason?: string | null
+          tenant_id: string
+          updated_at?: string
+          updated_by_profile_id?: string | null
+          version?: number
+        }
+        Update: {
+          campaign_id?: string
+          contact_id?: string
+          created_at?: string
+          created_by_profile_id?: string | null
+          current_step_position?: number | null
+          delivery_enabled?: boolean
+          eligibility_snapshot?: Json
+          enrolled_by_profile_id?: string | null
+          id?: string
+          metadata?: Json
+          next_scheduled_at?: string | null
+          opportunity_id?: string | null
+          organization_id?: string | null
+          personalization_context?: Json
+          recipient_email?: string
+          recipient_name?: string | null
+          responded_at?: string | null
+          safety_status?: string
+          source_language_mode?: string
+          status?: string
+          stopped_reason?: string | null
+          tenant_id?: string
+          updated_at?: string
+          updated_by_profile_id?: string | null
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "relationship_campaign_enrollments_created_by_profile_id_fkey"
+            columns: ["created_by_profile_id"]
+            isOneToOne: false
+            referencedRelation: "client_journey_exception_owner_options"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "relationship_campaign_enrollments_created_by_profile_id_fkey"
+            columns: ["created_by_profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_campaign_enrollments_enrolled_by_profile_id_fkey"
+            columns: ["enrolled_by_profile_id"]
+            isOneToOne: false
+            referencedRelation: "client_journey_exception_owner_options"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "relationship_campaign_enrollments_enrolled_by_profile_id_fkey"
+            columns: ["enrolled_by_profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_campaign_enrollments_tenant_campaign_fkey"
+            columns: ["tenant_id", "campaign_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_campaigns"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_campaign_enrollments_tenant_contact_fkey"
+            columns: ["tenant_id", "contact_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_contacts"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_campaign_enrollments_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_campaign_enrollments_tenant_opportunity_fkey"
+            columns: ["tenant_id", "opportunity_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_opportunities"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_campaign_enrollments_tenant_organization_fkey"
+            columns: ["tenant_id", "organization_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_organizations"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_campaign_enrollments_updated_by_profile_id_fkey"
+            columns: ["updated_by_profile_id"]
+            isOneToOne: false
+            referencedRelation: "client_journey_exception_owner_options"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "relationship_campaign_enrollments_updated_by_profile_id_fkey"
+            columns: ["updated_by_profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      relationship_campaign_steps: {
+        Row: {
+          body_template: string
+          campaign_id: string
+          created_at: string
+          created_by_profile_id: string | null
+          delay_days: number
+          id: string
+          is_active: boolean
+          metadata: Json
+          position: number
+          stop_on_reply: boolean
+          subject_template: string
+          tenant_id: string
+          updated_at: string
+          updated_by_profile_id: string | null
+        }
+        Insert: {
+          body_template: string
+          campaign_id: string
+          created_at?: string
+          created_by_profile_id?: string | null
+          delay_days?: number
+          id?: string
+          is_active?: boolean
+          metadata?: Json
+          position: number
+          stop_on_reply?: boolean
+          subject_template: string
+          tenant_id: string
+          updated_at?: string
+          updated_by_profile_id?: string | null
+        }
+        Update: {
+          body_template?: string
+          campaign_id?: string
+          created_at?: string
+          created_by_profile_id?: string | null
+          delay_days?: number
+          id?: string
+          is_active?: boolean
+          metadata?: Json
+          position?: number
+          stop_on_reply?: boolean
+          subject_template?: string
+          tenant_id?: string
+          updated_at?: string
+          updated_by_profile_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "relationship_campaign_steps_created_by_profile_id_fkey"
+            columns: ["created_by_profile_id"]
+            isOneToOne: false
+            referencedRelation: "client_journey_exception_owner_options"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "relationship_campaign_steps_created_by_profile_id_fkey"
+            columns: ["created_by_profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_campaign_steps_tenant_campaign_fkey"
+            columns: ["tenant_id", "campaign_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_campaigns"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_campaign_steps_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_campaign_steps_updated_by_profile_id_fkey"
+            columns: ["updated_by_profile_id"]
+            isOneToOne: false
+            referencedRelation: "client_journey_exception_owner_options"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "relationship_campaign_steps_updated_by_profile_id_fkey"
+            columns: ["updated_by_profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      relationship_campaigns: {
+        Row: {
+          activated_at: string | null
+          archived_at: string | null
+          brief: Json
+          completed_at: string | null
+          created_at: string
+          created_by_profile_id: string | null
+          default_timezone: string
+          execution_enabled: boolean
+          id: string
+          initiative: string | null
+          marketing_lifecycle_stage: string
+          metadata: Json
+          name: string
+          owner_profile_id: string | null
+          purpose: string
+          send_window_end: string | null
+          send_window_start: string | null
+          sender_email: string
+          sender_name: string
+          source: string
+          source_record_key: string | null
+          status: string
+          tenant_id: string
+          updated_at: string
+          updated_by_profile_id: string | null
+          version: number
+          weekdays_only: boolean
+        }
+        Insert: {
+          activated_at?: string | null
+          archived_at?: string | null
+          brief?: Json
+          completed_at?: string | null
+          created_at?: string
+          created_by_profile_id?: string | null
+          default_timezone?: string
+          execution_enabled?: boolean
+          id?: string
+          initiative?: string | null
+          marketing_lifecycle_stage?: string
+          metadata?: Json
+          name: string
+          owner_profile_id?: string | null
+          purpose: string
+          send_window_end?: string | null
+          send_window_start?: string | null
+          sender_email: string
+          sender_name: string
+          source?: string
+          source_record_key?: string | null
+          status?: string
+          tenant_id: string
+          updated_at?: string
+          updated_by_profile_id?: string | null
+          version?: number
+          weekdays_only?: boolean
+        }
+        Update: {
+          activated_at?: string | null
+          archived_at?: string | null
+          brief?: Json
+          completed_at?: string | null
+          created_at?: string
+          created_by_profile_id?: string | null
+          default_timezone?: string
+          execution_enabled?: boolean
+          id?: string
+          initiative?: string | null
+          marketing_lifecycle_stage?: string
+          metadata?: Json
+          name?: string
+          owner_profile_id?: string | null
+          purpose?: string
+          send_window_end?: string | null
+          send_window_start?: string | null
+          sender_email?: string
+          sender_name?: string
+          source?: string
+          source_record_key?: string | null
+          status?: string
+          tenant_id?: string
+          updated_at?: string
+          updated_by_profile_id?: string | null
+          version?: number
+          weekdays_only?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "relationship_campaigns_created_by_profile_id_fkey"
+            columns: ["created_by_profile_id"]
+            isOneToOne: false
+            referencedRelation: "client_journey_exception_owner_options"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "relationship_campaigns_created_by_profile_id_fkey"
+            columns: ["created_by_profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_campaigns_owner_profile_id_fkey"
+            columns: ["owner_profile_id"]
+            isOneToOne: false
+            referencedRelation: "client_journey_exception_owner_options"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "relationship_campaigns_owner_profile_id_fkey"
+            columns: ["owner_profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_campaigns_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_campaigns_updated_by_profile_id_fkey"
+            columns: ["updated_by_profile_id"]
+            isOneToOne: false
+            referencedRelation: "client_journey_exception_owner_options"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "relationship_campaigns_updated_by_profile_id_fkey"
+            columns: ["updated_by_profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       relationship_contact_organizations: {
         Row: {
           contact_id: string
@@ -12241,6 +12637,77 @@ export type Database = {
             columns: ["updated_by_profile_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      relationship_enrollment_events: {
+        Row: {
+          actor_profile_id: string | null
+          created_at: string
+          enrollment_id: string
+          event_type: string
+          from_status: string | null
+          id: string
+          metadata: Json
+          occurred_at: string
+          reason: string | null
+          tenant_id: string
+          to_status: string | null
+        }
+        Insert: {
+          actor_profile_id?: string | null
+          created_at?: string
+          enrollment_id: string
+          event_type: string
+          from_status?: string | null
+          id?: string
+          metadata?: Json
+          occurred_at?: string
+          reason?: string | null
+          tenant_id: string
+          to_status?: string | null
+        }
+        Update: {
+          actor_profile_id?: string | null
+          created_at?: string
+          enrollment_id?: string
+          event_type?: string
+          from_status?: string | null
+          id?: string
+          metadata?: Json
+          occurred_at?: string
+          reason?: string | null
+          tenant_id?: string
+          to_status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "relationship_enrollment_events_actor_profile_id_fkey"
+            columns: ["actor_profile_id"]
+            isOneToOne: false
+            referencedRelation: "client_journey_exception_owner_options"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "relationship_enrollment_events_actor_profile_id_fkey"
+            columns: ["actor_profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_enrollment_events_tenant_enrollment_fkey"
+            columns: ["tenant_id", "enrollment_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_campaign_enrollments"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_enrollment_events_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
             referencedColumns: ["id"]
           },
         ]
@@ -17536,9 +18003,22 @@ export type Database = {
         }
         Returns: Json
       }
+      enroll_relationship_targets: {
+        Args: {
+          p_campaign_id: string
+          p_expected_campaign_version: number
+          p_idempotency_key: string
+          p_targets: Json
+        }
+        Returns: Json
+      }
       evaluate_intake_screening: {
         Args: { p_client_id: string }
         Returns: undefined
+      }
+      evaluate_relationship_campaign_eligibility: {
+        Args: { p_campaign_id: string; p_targets: Json }
+        Returns: Json
       }
       execute_payroll_payment: {
         Args: { p_client_action_id: string; p_payroll_run_id: string }
@@ -17879,6 +18359,10 @@ export type Database = {
       }
       get_provider_readiness_view: {
         Args: { p_staff_id: string }
+        Returns: Json
+      }
+      get_relationship_campaign: {
+        Args: { p_campaign_id: string }
         Returns: Json
       }
       get_relationship_import_preview: {
@@ -18391,6 +18875,16 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      save_relationship_campaign: {
+        Args: {
+          p_campaign: Json
+          p_campaign_id: string
+          p_expected_version: number
+          p_idempotency_key: string
+          p_steps: Json
+        }
+        Returns: Json
+      }
       select_therapist_for_client:
         | { Args: { p_client_id: string; p_staff_id: string }; Returns: Json }
         | { Args: { p_staff_id: string }; Returns: Json }
@@ -18690,6 +19184,26 @@ export type Database = {
             }
             Returns: Json
           }
+      transition_relationship_campaign: {
+        Args: {
+          p_campaign_id: string
+          p_expected_version: number
+          p_idempotency_key: string
+          p_reason?: string
+          p_to_status: string
+        }
+        Returns: Json
+      }
+      transition_relationship_campaign_enrollment: {
+        Args: {
+          p_enrollment_id: string
+          p_expected_version: number
+          p_idempotency_key: string
+          p_reason?: string
+          p_to_status: string
+        }
+        Returns: Json
+      }
       transition_relationship_opportunity_status: {
         Args: {
           p_changed_at?: string
