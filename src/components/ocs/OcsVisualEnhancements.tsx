@@ -1,5 +1,6 @@
 import { useEffect, useState, type ComponentType } from "react";
 import { createPortal } from "react-dom";
+import ocsSystemCapacity from "@/assets/ocs-system-capacity.png.asset.json";
 import {
   ArrowDown,
   Check,
