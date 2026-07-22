@@ -21,5 +21,5 @@ jobs:
       - run: npx eslint src/components/ocs/OcsVisualEnhancements.tsx src/components/ocs/OcsVisualEnhancements.test.tsx src/pages/OcsBillingHubPage.tsx
       - run: npx tsc --noEmit
       - run: npx vitest run src/components/ocs/OcsVisualEnhancements.test.tsx
-      - run: npm test
+      - run: npm test -- --reporter=dot
       - run: npm run build
