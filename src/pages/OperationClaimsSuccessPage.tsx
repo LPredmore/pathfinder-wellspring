@@ -31,6 +31,37 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
+const companyCategories: Array<{ title: string; body: string[] }> = [
+  {
+    title: "VA Accredited Attorneys",
+    body: [
+      "Veterans sometimes need legal representation. The structural problem is that when payment is calculated from past-due benefits, a larger retroactive award can produce a larger fee.",
+      "This does not prove every attorney intentionally delays cases. It does mean the veteran needs speed while the fee can grow as the case takes longer.",
+    ],
+  },
+  {
+    title: "Ratings Coaching Companies",
+    body: [
+      "When a company is paid based on an increase, the incentive can shift from what is supported to what symptoms or claims produce the largest award.",
+      "Exaggerated or unsupported claims expose veterans to fraud concerns, reductions, overpayments, clawbacks, and tighter controls for everyone who comes next.",
+    ],
+  },
+  {
+    title: "Nexus Letter Factories",
+    body: [
+      "A one-time private evaluation is not automatically worthless. The predatory model appears when the desired conclusion is marketed in advance, the veteran pays thousands for one document, and the company disappears when the evidence is questioned.",
+      "A document without ongoing clinical responsibility is a transaction. OCS is building a clinical relationship and a complete support system.",
+    ],
+  },
+];
 import { trackHomeEvent } from "@/lib/tracking";
 
 const FORM = "ocs-routing-form";
@@ -855,22 +886,6 @@ export default function OperationClaimsSuccessPage() {
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
-            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <button
-                type="button"
-                onClick={() => go(FORM, "ocs_region_signup")}
-                className="inline-flex items-center gap-2 rounded-md bg-[#3B5147] px-7 py-3.5 text-sm font-bold text-white"
-              >
-                Check My State <ArrowRight className="h-4 w-4" />
-              </button>
-              <Link
-                to="/clinicians"
-                onClick={() => track("ocs_region_clinician_link")}
-                className="inline-flex items-center gap-2 rounded-md border border-[#3B5147] px-7 py-3.5 text-sm font-bold text-[#3B5147]"
-              >
-                Clinician Participation Information
-              </Link>
-            </div>
           </div>
         </section>
 
@@ -880,12 +895,49 @@ export default function OperationClaimsSuccessPage() {
               <Eyebrow alert>The question everyone should ask</Eyebrow>
               <Heading>Aren't there already companies that do this?</Heading>
               <p className="mt-6 text-lg text-[#111814]/72">
-                Some companies help pursue claims. They do not build the connected treatment,
-                education, evidence, documentation, and continued-support system OCS is
-                building—and many profit from the gaps it closes.
+                There are companies that help pursue claims. And they usually fall into 3 categories.
               </p>
             </div>
-            <Accordion type="single" collapsible className="mt-10 space-y-4">
+            <div className="mt-10 grid gap-6 md:grid-cols-3">
+              {companyCategories.map((cat) => (
+                <Dialog key={cat.title}>
+                  <DialogTrigger asChild>
+                    <button
+                      type="button"
+                      className="group relative block overflow-hidden rounded-2xl border border-[#3B5147]/15 bg-white text-left focus:outline-none focus:ring-2 focus:ring-[#3B5147]/40"
+                    >
+                      {/* TODO: replace this placeholder div with <img src={...} alt="..." className="aspect-[4/3] w-full object-cover" /> */}
+                      <div className="flex aspect-[4/3] w-full items-center justify-center bg-[#F4F1E8] text-[#3B5147]/40">
+                        <span className="text-xs font-extrabold uppercase tracking-[0.2em]">
+                          Image placeholder
+                        </span>
+                      </div>
+                      <div className="p-5">
+                        <h3 className="text-lg font-bold text-[#111814]">{cat.title}</h3>
+                      </div>
+                      <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-[#111814]/0 opacity-0 transition-all duration-300 group-hover:bg-[#111814]/60 group-hover:opacity-100 group-focus:bg-[#111814]/60 group-focus:opacity-100">
+                        <span className="inline-flex items-center gap-2 rounded-md bg-white px-5 py-2.5 text-sm font-bold text-[#111814]">
+                          Click to Read More <ArrowRight className="h-4 w-4" />
+                        </span>
+                      </div>
+                    </button>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-2xl">
+                    <DialogHeader>
+                      <DialogTitle className="text-2xl font-bold text-[#111814]">
+                        {cat.title}
+                      </DialogTitle>
+                    </DialogHeader>
+                    <div className="space-y-4 text-[#111814]/75">
+                      {cat.body.map((para, i) => (
+                        <p key={i}>{para}</p>
+                      ))}
+                    </div>
+                  </DialogContent>
+                </Dialog>
+              ))}
+            </div>
+            <Accordion type="single" collapsible className="mt-10">
               <AccordionItem
                 value="shame"
                 className="rounded-2xl border border-[#3B5147]/15 bg-white px-5"
@@ -905,64 +957,6 @@ export default function OperationClaimsSuccessPage() {
                   <p className="font-semibold text-[#111814]">
                     Our criticism is aimed at the business models that monetized
                     desperation—not at veterans who did what they had to do.
-                  </p>
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem
-                value="attorneys"
-                className="rounded-2xl border border-[#3B5147]/15 bg-white px-5"
-              >
-                <AccordionTrigger className="py-6 text-left text-xl font-bold hover:no-underline">
-                  Back-pay attorneys and accredited agents
-                </AccordionTrigger>
-                <AccordionContent className="space-y-4 pb-7 text-[#111814]/72">
-                  <p>
-                    Veterans sometimes need legal representation. The structural problem is
-                    that when payment is calculated from past-due benefits, a larger
-                    retroactive award can produce a larger fee.
-                  </p>
-                  <p>
-                    This does not prove every attorney intentionally delays cases. It does mean
-                    the veteran needs speed while the fee can grow as the case takes longer.
-                  </p>
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem
-                value="ratings"
-                className="rounded-2xl border border-[#3B5147]/15 bg-white px-5"
-              >
-                <AccordionTrigger className="py-6 text-left text-xl font-bold hover:no-underline">
-                  Rating-increase and claims-strategy companies
-                </AccordionTrigger>
-                <AccordionContent className="space-y-4 pb-7 text-[#111814]/72">
-                  <p>
-                    When a company is paid based on an increase, the incentive can shift from
-                    what is supported to what symptoms or claims produce the largest award.
-                  </p>
-                  <p>
-                    Exaggerated or unsupported claims expose veterans to fraud concerns,
-                    reductions, overpayments, clawbacks, and tighter controls for everyone who
-                    comes next.
-                  </p>
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem
-                value="factories"
-                className="rounded-2xl border border-[#3B5147]/15 bg-white px-5"
-              >
-                <AccordionTrigger className="py-6 text-left text-xl font-bold hover:no-underline">
-                  DBQ and Nexus-letter factories
-                </AccordionTrigger>
-                <AccordionContent className="space-y-4 pb-7 text-[#111814]/72">
-                  <p>
-                    A one-time private evaluation is not automatically worthless. The
-                    predatory model appears when the desired conclusion is marketed in
-                    advance, the veteran pays thousands for one document, and the company
-                    disappears when the evidence is questioned.
-                  </p>
-                  <p>
-                    A document without ongoing clinical responsibility is a transaction. OCS
-                    is building a clinical relationship and a complete support system.
                   </p>
                 </AccordionContent>
               </AccordionItem>
