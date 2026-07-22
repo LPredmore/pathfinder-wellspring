@@ -12012,6 +12012,10 @@ export type Database = {
           recipient_email: string
           recipient_name: string | null
           responded_at: string | null
+          safety_blocked_at: string | null
+          safety_evaluated_at: string | null
+          safety_ready_at: string | null
+          safety_snapshot: Json
           safety_status: string
           source_language_mode: string
           status: string
@@ -12039,6 +12043,10 @@ export type Database = {
           recipient_email: string
           recipient_name?: string | null
           responded_at?: string | null
+          safety_blocked_at?: string | null
+          safety_evaluated_at?: string | null
+          safety_ready_at?: string | null
+          safety_snapshot?: Json
           safety_status?: string
           source_language_mode?: string
           status?: string
@@ -12066,6 +12074,10 @@ export type Database = {
           recipient_email?: string
           recipient_name?: string | null
           responded_at?: string | null
+          safety_blocked_at?: string | null
+          safety_evaluated_at?: string | null
+          safety_ready_at?: string | null
+          safety_snapshot?: Json
           safety_status?: string
           source_language_mode?: string
           status?: string
@@ -13865,6 +13877,200 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
+          },
+        ]
+      }
+      relationship_suppressions: {
+        Row: {
+          campaign_id: string | null
+          contact_id: string | null
+          created_at: string
+          created_by_profile_id: string | null
+          effective_at: string
+          email: string | null
+          expires_at: string | null
+          id: string
+          metadata: Json
+          organization_id: string | null
+          reason: string
+          revoked_at: string | null
+          revoked_by_profile_id: string | null
+          scope: string
+          source: string
+          source_record_key: string | null
+          tenant_id: string
+          updated_at: string
+          updated_by_profile_id: string | null
+          version: number
+        }
+        Insert: {
+          campaign_id?: string | null
+          contact_id?: string | null
+          created_at?: string
+          created_by_profile_id?: string | null
+          effective_at?: string
+          email?: string | null
+          expires_at?: string | null
+          id?: string
+          metadata?: Json
+          organization_id?: string | null
+          reason: string
+          revoked_at?: string | null
+          revoked_by_profile_id?: string | null
+          scope: string
+          source?: string
+          source_record_key?: string | null
+          tenant_id: string
+          updated_at?: string
+          updated_by_profile_id?: string | null
+          version?: number
+        }
+        Update: {
+          campaign_id?: string | null
+          contact_id?: string | null
+          created_at?: string
+          created_by_profile_id?: string | null
+          effective_at?: string
+          email?: string | null
+          expires_at?: string | null
+          id?: string
+          metadata?: Json
+          organization_id?: string | null
+          reason?: string
+          revoked_at?: string | null
+          revoked_by_profile_id?: string | null
+          scope?: string
+          source?: string
+          source_record_key?: string | null
+          tenant_id?: string
+          updated_at?: string
+          updated_by_profile_id?: string | null
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "relationship_suppressions_created_by_profile_id_fkey"
+            columns: ["created_by_profile_id"]
+            isOneToOne: false
+            referencedRelation: "client_journey_exception_owner_options"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "relationship_suppressions_created_by_profile_id_fkey"
+            columns: ["created_by_profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_suppressions_revoked_by_profile_id_fkey"
+            columns: ["revoked_by_profile_id"]
+            isOneToOne: false
+            referencedRelation: "client_journey_exception_owner_options"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "relationship_suppressions_revoked_by_profile_id_fkey"
+            columns: ["revoked_by_profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_suppressions_tenant_campaign_fkey"
+            columns: ["tenant_id", "campaign_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_campaigns"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_suppressions_tenant_contact_fkey"
+            columns: ["tenant_id", "contact_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_contacts"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_suppressions_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_suppressions_tenant_org_fkey"
+            columns: ["tenant_id", "organization_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_organizations"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_suppressions_updated_by_profile_id_fkey"
+            columns: ["updated_by_profile_id"]
+            isOneToOne: false
+            referencedRelation: "client_journey_exception_owner_options"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "relationship_suppressions_updated_by_profile_id_fkey"
+            columns: ["updated_by_profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      relationship_unsubscribe_requests: {
+        Row: {
+          created_at: string
+          email: string | null
+          id: string
+          metadata: Json
+          outcome: string
+          processed_at: string | null
+          suppression_id: string | null
+          tenant_id: string | null
+          token_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          metadata?: Json
+          outcome: string
+          processed_at?: string | null
+          suppression_id?: string | null
+          tenant_id?: string | null
+          token_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          metadata?: Json
+          outcome?: string
+          processed_at?: string | null
+          suppression_id?: string | null
+          tenant_id?: string | null
+          token_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "relationship_unsubscribe_requests_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_unsubscribe_requests_tenant_suppression_fkey"
+            columns: ["tenant_id", "suppression_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_suppressions"
+            referencedColumns: ["tenant_id", "id"]
           },
         ]
       }
@@ -17355,6 +17561,10 @@ export type Database = {
       advance_client_intake_if_ready:
         | { Args: never; Returns: Json }
         | { Args: { p_client_id: string }; Returns: Json }
+      apply_relationship_suppression: {
+        Args: { p_idempotency_key: string; p_payload: Json }
+        Returns: Json
+      }
       approve_payroll_line_item: {
         Args: {
           p_dispute_reason?: string
@@ -18018,6 +18228,10 @@ export type Database = {
       }
       evaluate_relationship_campaign_eligibility: {
         Args: { p_campaign_id: string; p_targets: Json }
+        Returns: Json
+      }
+      evaluate_relationship_enrollment_safety: {
+        Args: { p_enrollment_id: string }
         Returns: Json
       }
       execute_payroll_payment: {
@@ -18688,6 +18902,10 @@ export type Database = {
         Args: { p_document_id: string }
         Returns: Json
       }
+      process_relationship_unsubscribe: {
+        Args: { p_token: string }
+        Returns: Json
+      }
       provision_website_clinician_interest: {
         Args: { p_auth_user_id: string; p_payload: Json }
         Returns: Json
@@ -18845,6 +19063,15 @@ export type Database = {
         }
         Returns: Json
       }
+      revalidate_relationship_enrollment_safety: {
+        Args: {
+          p_enrollment_id: string
+          p_expected_version: number
+          p_idempotency_key: string
+          p_reason?: string
+        }
+        Returns: Json
+      }
       revoke_relationship_referral: {
         Args: { p_note?: string; p_referral_id: string; p_revoked_at?: string }
         Returns: {
@@ -18874,6 +19101,15 @@ export type Database = {
           isOneToOne: true
           isSetofReturn: false
         }
+      }
+      revoke_relationship_suppression: {
+        Args: {
+          p_expected_version: number
+          p_idempotency_key: string
+          p_reason?: string
+          p_suppression_id: string
+        }
+        Returns: Json
       }
       save_relationship_campaign: {
         Args: {
