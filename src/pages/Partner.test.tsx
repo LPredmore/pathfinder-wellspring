@@ -73,13 +73,21 @@ describe("Partner support mission page", () => {
     expect(screen.queryByText(/Tell Us What You're Building/i)).not.toBeInTheDocument();
   });
 
-  it("retains explicit planned visual spaces", () => {
+  it("renders the three approved campaign visuals", () => {
     render(
       <MemoryRouter>
         <Partner />
       </MemoryRouter>,
     );
 
-    expect(screen.getAllByText("Planned visual space")).toHaveLength(3);
+    expect(
+      screen.getByAltText(/crane lowers the final section of a bridge/i),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByAltText(/person stands before a wall of fragmented panels/i),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByAltText(/person walks a warmly lit stone pathway/i),
+    ).toBeInTheDocument();
   });
 });
