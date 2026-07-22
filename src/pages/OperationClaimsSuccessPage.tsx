@@ -31,6 +31,37 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
+const companyCategories: Array<{ title: string; body: string[] }> = [
+  {
+    title: "VA Accredited Attorneys",
+    body: [
+      "Veterans sometimes need legal representation. The structural problem is that when payment is calculated from past-due benefits, a larger retroactive award can produce a larger fee.",
+      "This does not prove every attorney intentionally delays cases. It does mean the veteran needs speed while the fee can grow as the case takes longer.",
+    ],
+  },
+  {
+    title: "Ratings Coaching Companies",
+    body: [
+      "When a company is paid based on an increase, the incentive can shift from what is supported to what symptoms or claims produce the largest award.",
+      "Exaggerated or unsupported claims expose veterans to fraud concerns, reductions, overpayments, clawbacks, and tighter controls for everyone who comes next.",
+    ],
+  },
+  {
+    title: "Nexus Letter Factories",
+    body: [
+      "A one-time private evaluation is not automatically worthless. The predatory model appears when the desired conclusion is marketed in advance, the veteran pays thousands for one document, and the company disappears when the evidence is questioned.",
+      "A document without ongoing clinical responsibility is a transaction. OCS is building a clinical relationship and a complete support system.",
+    ],
+  },
+];
 import { trackHomeEvent } from "@/lib/tracking";
 
 const FORM = "ocs-routing-form";
