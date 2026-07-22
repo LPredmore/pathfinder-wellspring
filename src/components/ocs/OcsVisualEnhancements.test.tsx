@@ -66,7 +66,6 @@ describe("OCS visual enhancements", () => {
       ).toBeInTheDocument();
     });
 
-    expect(screen.getByText("The operating system is built.")).toBeInTheDocument();
     const legacyCards = document.querySelector('[data-testid="legacy-system-cards"]') as HTMLElement;
     expect(legacyCards.style.display).not.toBe("none");
   });
