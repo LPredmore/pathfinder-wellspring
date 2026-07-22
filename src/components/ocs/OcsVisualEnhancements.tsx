@@ -6,6 +6,7 @@ import {
   ArrowDown,
   Check,
   ClipboardCheck,
+  Compass,
   FileSearch,
   FileText,
   GitBranch,
