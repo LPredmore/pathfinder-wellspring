@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import ocsHeroImage from "@/assets/operation-claims-success-hero.png.asset.json";
 import disconnectedSystemsImage from "@/assets/disconnected-veteran-systems.png.asset.json";
+import vaAccreditedAttorneysImage from "@/assets/va-accredited-attorneys.png.asset.json";
 import {
   ArrowRight,
   Check,
@@ -776,43 +777,55 @@ export default function OperationClaimsSuccessPage() {
               </p>
             </div>
             <div className="mt-10 grid gap-6 md:grid-cols-3">
-              {companyCategories.map((cat) => (
-                <Dialog key={cat.title}>
-                  <DialogTrigger asChild>
-                    <button
-                      type="button"
-                      className="group relative block overflow-hidden rounded-2xl border border-[#3B5147]/15 bg-white text-left focus:outline-none focus:ring-2 focus:ring-[#3B5147]/40"
-                    >
-                      {/* TODO: replace this placeholder div with <img src={...} alt="..." className="aspect-[4/3] w-full object-cover" /> */}
-                      <div className="flex aspect-[4/3] w-full items-center justify-center bg-[#F4F1E8] text-[#3B5147]/40">
-                        <span className="text-xs font-extrabold uppercase tracking-[0.2em]">
-                          Image placeholder
-                        </span>
+              {companyCategories.map((cat) => {
+                const isAttorneys = cat.title === "VA Accredited Attorneys";
+                return (
+                  <Dialog key={cat.title}>
+                    <DialogTrigger asChild>
+                      <button
+                        type="button"
+                        className="group relative block overflow-hidden rounded-2xl border border-[#3B5147]/15 bg-white text-left focus:outline-none focus:ring-2 focus:ring-[#3B5147]/40"
+                      >
+                        {isAttorneys ? (
+                          <img
+                            src={vaAccreditedAttorneysImage.url}
+                            alt="VA Accredited Attorneys"
+                            className="aspect-[4/3] w-full object-cover"
+                          />
+                        ) : (
+                          <>
+                            <div className="flex aspect-[4/3] w-full items-center justify-center bg-[#F4F1E8] text-[#3B5147]/40">
+                              <span className="text-xs font-extrabold uppercase tracking-[0.2em]">
+                                Image placeholder
+                              </span>
+                            </div>
+                            <div className="p-5">
+                              <h3 className="text-lg font-bold text-[#111814]">{cat.title}</h3>
+                            </div>
+                          </>
+                        )}
+                        <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-[#111814]/0 opacity-0 transition-all duration-300 group-hover:bg-[#111814]/60 group-hover:opacity-100 group-focus:bg-[#111814]/60 group-focus:opacity-100">
+                          <span className="inline-flex items-center gap-2 rounded-md bg-white px-5 py-2.5 text-sm font-bold text-[#111814]">
+                            Click to Read More <ArrowRight className="h-4 w-4" />
+                          </span>
+                        </div>
+                      </button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-2xl">
+                      <DialogHeader>
+                        <DialogTitle className="text-2xl font-bold text-[#111814]">
+                          {cat.title}
+                        </DialogTitle>
+                      </DialogHeader>
+                      <div className="space-y-4 text-[#111814]/75">
+                        {cat.body.map((para, i) => (
+                          <p key={i}>{para}</p>
+                        ))}
                       </div>
-                      <div className="p-5">
-                        <h3 className="text-lg font-bold text-[#111814]">{cat.title}</h3>
-                      </div>
-                      <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-[#111814]/0 opacity-0 transition-all duration-300 group-hover:bg-[#111814]/60 group-hover:opacity-100 group-focus:bg-[#111814]/60 group-focus:opacity-100">
-                        <span className="inline-flex items-center gap-2 rounded-md bg-white px-5 py-2.5 text-sm font-bold text-[#111814]">
-                          Click to Read More <ArrowRight className="h-4 w-4" />
-                        </span>
-                      </div>
-                    </button>
-                  </DialogTrigger>
-                  <DialogContent className="max-w-2xl">
-                    <DialogHeader>
-                      <DialogTitle className="text-2xl font-bold text-[#111814]">
-                        {cat.title}
-                      </DialogTitle>
-                    </DialogHeader>
-                    <div className="space-y-4 text-[#111814]/75">
-                      {cat.body.map((para, i) => (
-                        <p key={i}>{para}</p>
-                      ))}
-                    </div>
-                  </DialogContent>
-                </Dialog>
-              ))}
+                    </DialogContent>
+                  </Dialog>
+                );
+              })}
             </div>
             <Accordion type="single" collapsible className="mt-10">
               <AccordionItem
