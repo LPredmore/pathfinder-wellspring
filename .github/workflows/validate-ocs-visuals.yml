@@ -18,19 +18,8 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
-      - run: npx eslint src/components/ocs/OcsVisualEnhancements.tsx src/components/ocs/OcsVisualEnhancements.test.tsx src/pages/OcsBillingHubPage.tsx
+      - run: npx eslint src/components/ocs/OcsVisualEnhancements.tsx src/components/ocs/OcsVisualEnhancements.test.tsx src/pages/OcsBillingHubPage.tsx src/pages/Partner.test.tsx
       - run: npx tsc --noEmit
       - run: npx vitest run src/components/ocs/OcsVisualEnhancements.test.tsx
-      - name: Run full suite and capture report
-        id: full-tests
-        continue-on-error: true
-        run: npx vitest run --reporter=json --outputFile=vitest-results.json
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: ocs-vitest-results
-          path: vitest-results.json
+      - run: npm test
       - run: npm run build
-      - name: Fail when full suite failed
-        if: steps.full-tests.outcome == 'failure'
-        run: exit 1
