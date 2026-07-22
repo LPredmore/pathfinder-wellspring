@@ -1,0 +1,21 @@
+name: Audit Donate Links
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: List every donate reference
+        run: |
+          echo '=== ALL /donate REFERENCES ==='
+          grep -RIn --exclude-dir=node_modules --exclude-dir=.git -- '/donate' . || true
+          echo '=== NON-PARTNER /donate REFERENCES ==='
+          grep -RIn --exclude-dir=node_modules --exclude-dir=.git --exclude='Partner.tsx' --exclude='Partner.test.tsx' -- '/donate' . || true
