@@ -3,7 +3,6 @@ import { createPortal } from "react-dom";
 
 const replacements = [
   {
-    currentTitle: "Back-pay attorneys and accredited agents",
     title: "VA Accredited Attorneys",
     body: (
       <div className="space-y-5 text-[#111814]/72">
@@ -26,7 +25,6 @@ const replacements = [
     ),
   },
   {
-    currentTitle: "Rating-increase and claims-strategy companies",
     title: "Ratings Coaching Companies",
     body: (
       <div className="space-y-5 text-[#111814]/72">
@@ -57,7 +55,6 @@ const replacements = [
     ),
   },
   {
-    currentTitle: "DBQ and Nexus-letter factories",
     title: "Nexus Letter Factories",
     body: (
       <div className="space-y-5 text-[#111814]/72">
@@ -88,58 +85,101 @@ const replacements = [
   },
 ] as const;
 
-type Mount = { host: HTMLElement; body: ReactNode };
+type Mount = {
+  host: HTMLElement;
+  body: ReactNode;
+};
 
-function replaceTriggerLabel(trigger: HTMLButtonElement, title: string) {
-  const textNode = Array.from(trigger.childNodes).find((node) => node.nodeType === Node.TEXT_NODE);
-  if (!textNode) return null;
-  const original = textNode.nodeValue ?? "";
-  textNode.nodeValue = title;
-  return () => {
-    textNode.nodeValue = original;
-  };
+type EnhancedDialog = Mount & {
+  dialog: HTMLElement;
+  legacyBody: HTMLElement;
+  originalDisplay: string;
+};
+
+function findReplacement(dialog: HTMLElement) {
+  const heading = Array.from(
+    dialog.querySelectorAll<HTMLElement>("h1, h2, h3, [role='heading']"),
+  ).find((element) =>
+    replacements.some((replacement) => replacement.title === element.textContent?.trim()),
+  );
+
+  if (!heading) return null;
+
+  const replacement = replacements.find(
+    (candidate) => candidate.title === heading.textContent?.trim(),
+  );
+
+  return replacement ? { heading, replacement } : null;
+}
+
+function findLegacyBody(dialog: HTMLElement, heading: HTMLElement) {
+  return Array.from(dialog.children).find(
+    (child): child is HTMLElement =>
+      child instanceof HTMLElement &&
+      !child.contains(heading) &&
+      child.dataset.ocsIndustryCopy === undefined &&
+      child.querySelector("p") !== null,
+  );
 }
 
 export function OcsIndustryCopyEnhancements() {
   const [mounts, setMounts] = useState<Mount[]>([]);
 
   useEffect(() => {
-    const cleanups: Array<() => void> = [];
-    const nextMounts: Mount[] = [];
+    const enhanced = new Map<HTMLElement, EnhancedDialog>();
 
-    for (const replacement of replacements) {
-      const trigger = Array.from(document.querySelectorAll<HTMLButtonElement>("button")).find(
-        (button) => button.textContent?.trim() === replacement.currentTitle,
-      );
-      if (!trigger) continue;
+    const syncDialogs = () => {
+      for (const [dialog, entry] of enhanced) {
+        if (dialog.isConnected) continue;
+        entry.legacyBody.style.display = entry.originalDisplay;
+        entry.host.remove();
+        enhanced.delete(dialog);
+      }
 
-      const restoreLabel = replaceTriggerLabel(trigger, replacement.title);
-      if (restoreLabel) cleanups.push(restoreLabel);
+      document.querySelectorAll<HTMLElement>("[role='dialog']").forEach((dialog) => {
+        if (enhanced.has(dialog)) return;
 
-      const item = trigger.parentElement?.parentElement;
-      const content = item?.querySelector<HTMLElement>("[role=region]");
-      const inner = content?.firstElementChild as HTMLElement | null;
-      if (!content || !inner) continue;
+        const match = findReplacement(dialog);
+        if (!match) return;
 
-      const originalDisplay = inner.style.display;
-      inner.style.display = "none";
+        const legacyBody = findLegacyBody(dialog, match.heading);
+        if (!legacyBody) return;
 
-      const host = document.createElement("div");
-      host.dataset.ocsIndustryCopy = replacement.title;
-      host.className = "pb-7";
-      content.appendChild(host);
-      nextMounts.push({ host, body: replacement.body });
+        const host = document.createElement("div");
+        host.dataset.ocsIndustryCopy = match.replacement.title;
 
-      cleanups.push(() => {
-        inner.style.display = originalDisplay;
-        host.remove();
+        const originalDisplay = legacyBody.style.display;
+        legacyBody.style.display = "none";
+        legacyBody.insertAdjacentElement("afterend", host);
+
+        enhanced.set(dialog, {
+          dialog,
+          legacyBody,
+          originalDisplay,
+          host,
+          body: match.replacement.body,
+        });
       });
-    }
 
-    setMounts(nextMounts);
+      const nextMounts = Array.from(enhanced.values()).map(({ host, body }) => ({ host, body }));
+      setMounts((current) =>
+        current.length === nextMounts.length &&
+        current.every((mount, index) => mount.host === nextMounts[index]?.host)
+          ? current
+          : nextMounts,
+      );
+    };
+
+    const observer = new MutationObserver(syncDialogs);
+    observer.observe(document.body, { childList: true, subtree: true });
+    syncDialogs();
 
     return () => {
-      cleanups.reverse().forEach((cleanup) => cleanup());
+      observer.disconnect();
+      for (const entry of enhanced.values()) {
+        entry.legacyBody.style.display = entry.originalDisplay;
+        entry.host.remove();
+      }
     };
   }, []);
 
