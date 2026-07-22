@@ -53,22 +53,14 @@ const Support = () => {
           </div>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Button asChild size="lg" onClick={() => trackDonateConversion()}>
-              <a
-                href="https://valorwell.org/donate"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <Link to="/partner?utm_source=support-hero-session&utm_medium=site&utm_campaign=bridge-the-wait">
                 Sponsor a Session
-              </a>
+              </Link>
             </Button>
             <Button asChild size="lg" variant="outline" onClick={() => trackDonateConversion()}>
-              <a
-                href="https://valorwell.org/donate"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <Link to="/partner?utm_source=support-hero-monthly&utm_medium=site&utm_campaign=monthly-support">
                 Become a Monthly Sponsor
-              </a>
+              </Link>
             </Button>
           </div>
         </div>
@@ -157,13 +149,9 @@ const Support = () => {
           </ul>
 
           <Button asChild size="lg" onClick={() => trackDonateConversion()}>
-            <a
-              href="https://valorwell.org/donate"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <Link to="/partner?utm_source=support-session-tiers&utm_medium=site&utm_campaign=bridge-the-wait">
               Sponsor Sessions Now
-            </a>
+            </Link>
           </Button>
         </div>
       </section>
