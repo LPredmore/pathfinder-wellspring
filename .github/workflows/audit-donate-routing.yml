@@ -1,0 +1,33 @@
+name: Audit Donate Routing
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Audit donate references
+        shell: bash
+        run: |
+          set -euo pipefail
+          {
+            echo '=== ALL DONATE REFERENCES IN SRC ==='
+            grep -RIn --exclude-dir=node_modules --include='*.ts' --include='*.tsx' --include='*.js' --include='*.jsx' --include='*.json' -i 'donate' src || true
+            echo
+            echo '=== LITERAL /donate REFERENCES ==='
+            grep -RIn --exclude-dir=node_modules --include='*.ts' --include='*.tsx' --include='*.js' --include='*.jsx' '/donate' src || true
+            echo
+            echo '=== DonateButton USAGES ==='
+            grep -RIn --exclude-dir=node_modules --include='*.ts' --include='*.tsx' 'DonateButton' src || true
+          } | tee donate-routing-audit.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: donate-routing-audit
+          path: donate-routing-audit.txt
