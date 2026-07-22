@@ -12,15 +12,19 @@ vi.mock("@/components/SEO", () => ({
   BreadcrumbSchema: () => null,
 }));
 
+function renderPartner() {
+  return render(
+    <MemoryRouter initialEntries={["/partner"]}>
+      <Partner />
+    </MemoryRouter>,
+  );
+}
+
 describe("Partner support mission page", () => {
   afterEach(cleanup);
 
   it("leads with the donor case for support", () => {
-    render(
-      <MemoryRouter>
-        <Partner />
-      </MemoryRouter>,
-    );
+    renderPartner();
 
     expect(
       screen.getByRole("heading", {
@@ -33,11 +37,7 @@ describe("Partner support mission page", () => {
   });
 
   it("routes donor CTAs through the tracked donate passthrough", () => {
-    render(
-      <MemoryRouter>
-        <Partner />
-      </MemoryRouter>,
-    );
+    renderPartner();
 
     const heroCta = screen.getByRole("link", {
       name: "Help Keep the Bridge Open",
@@ -57,11 +57,7 @@ describe("Partner support mission page", () => {
   });
 
   it("keeps organizational collaboration secondary", () => {
-    render(
-      <MemoryRouter>
-        <Partner />
-      </MemoryRouter>,
-    );
+    renderPartner();
 
     expect(
       screen.getByText("Represent an organization that wants to work with ValorWell?"),
@@ -74,11 +70,7 @@ describe("Partner support mission page", () => {
   });
 
   it("renders the three approved campaign visuals", () => {
-    render(
-      <MemoryRouter>
-        <Partner />
-      </MemoryRouter>,
-    );
+    renderPartner();
 
     expect(
       screen.getByAltText(/crane lowers the final section of a bridge/i),
