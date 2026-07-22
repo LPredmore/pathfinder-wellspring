@@ -16,7 +16,7 @@ import {
   Users,
 } from "lucide-react";
 
-type Icon = ComponentType<{ className?: string; "aria-hidden"?: boolean }>;
+type Icon = ComponentType<{ className?: string; "aria-hidden"?: boolean | "true" | "false" }>;
 
 type PortalMounts = {
   path: HTMLElement | null;
@@ -272,57 +272,12 @@ function ConnectedPathway() {
 
 function SystemCapacityPlaceholder() {
   return (
-    <div className="mt-12 grid gap-7 lg:grid-cols-12 lg:items-center" data-ocs-visual="system-capacity">
-      <div
-        role="img"
-        aria-label="Image placeholder for a cinematic visualization of the completed Operation Claims Success operating system expanding state by state."
-        data-image-placeholder="ocs-system-capacity"
-        className="relative flex aspect-[2/1] min-h-[280px] items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed border-white/25 bg-white/[0.055] p-6 text-center lg:col-span-7"
-      >
-        <div className="pointer-events-none absolute inset-0" aria-hidden>
-          <div className="absolute left-[12%] top-1/2 h-24 w-24 -translate-y-1/2 rounded-full border border-[#D7A92E]/40" />
-          <div className="absolute left-[26%] top-[24%] h-3 w-3 rounded-full bg-[#D7A92E]/60" />
-          <div className="absolute left-[28%] bottom-[24%] h-3 w-3 rounded-full bg-[#D7A92E]/40" />
-          <div className="absolute right-[15%] top-[28%] h-3 w-3 rounded-full bg-white/35" />
-          <div className="absolute right-[24%] bottom-[22%] h-3 w-3 rounded-full bg-white/20" />
-          <div className="absolute inset-x-[20%] top-1/2 h-px bg-gradient-to-r from-[#D7A92E]/60 via-white/20 to-transparent" />
-        </div>
-        <div className="relative max-w-xl">
-          <Network className="mx-auto h-9 w-9 text-[#D7A92E]" aria-hidden />
-          <p className="mt-4 text-xs font-extrabold uppercase tracking-[0.2em] text-[#D7A92E]">
-            Image placeholder · 2:1
-          </p>
-          <p className="mt-3 text-2xl font-bold text-white">The operating system is built.</p>
-          <p className="mt-3 text-sm leading-relaxed text-white/68">
-            Replace with a cinematic editorial image showing a complete central network of care,
-            evidence review, documentation, provider coordination, and follow-up expanding into a
-            geographic network. Some state nodes should be active and illuminated while others
-            await clinician capacity. No embedded text, dashboards, flags, uniforms, or corporate
-            flowchart styling.
-          </p>
-        </div>
-      </div>
-
-      <div className="lg:col-span-5">
-        <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#D7A92E]">
-          What the image must communicate
-        </p>
-        <div className="mt-5 space-y-4">
-          {[
-            [ShieldCheck, "The clinical and documentation foundation already operates."],
-            [Network, "Care, evidence, and follow-up are connected—not separate purchases."],
-            [Users, "Geographic reach grows as qualified provider capacity comes online."],
-          ].map(([Icon, text]) => {
-            const VisualIcon = Icon as Icon;
-            return (
-              <div key={text as string} className="flex gap-3 rounded-xl border border-white/10 bg-white/[0.045] p-4">
-                <VisualIcon className="mt-0.5 h-5 w-5 shrink-0 text-[#D7A92E]" aria-hidden />
-                <p className="text-sm leading-relaxed text-white/72">{text as string}</p>
-              </div>
-            );
-          })}
-        </div>
-      </div>
+    <div className="mt-12" data-ocs-visual="system-capacity">
+      <img
+        src={ocsSystemCapacity.url}
+        alt="Cinematic visualization of the Operation Claims Success operating system: a working command center overlooking a connected national care network at sunset."
+        className="h-auto w-full rounded-2xl border border-white/10"
+      />
     </div>
   );
 }
