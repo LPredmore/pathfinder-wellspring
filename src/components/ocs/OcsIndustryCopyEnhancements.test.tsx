@@ -1,70 +1,83 @@
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 import { OcsIndustryCopyEnhancements } from "./OcsIndustryCopyEnhancements";
 
-const originalSections = [
-  ["Back-pay attorneys and accredited agents", "Original attorney copy"],
-  ["Rating-increase and claims-strategy companies", "Original coaching copy"],
-  ["DBQ and Nexus-letter factories", "Original Nexus copy"],
+const dialogs = [
+  ["VA Accredited Attorneys", "Original attorney copy"],
+  ["Ratings Coaching Companies", "Original coaching copy"],
+  ["Nexus Letter Factories", "Original Nexus copy"],
 ] as const;
 
-function LegacyIndustryAccordions() {
-  return (
-    <div>
-      {originalSections.map(([title, body]) => (
-        <div key={title} data-testid={`item-${title}`}>
-          <div>
-            <button type="button">{title}</button>
-          </div>
-          <div role="region">
-            <div data-testid={`legacy-${title}`}>{body}</div>
-          </div>
-        </div>
-      ))}
-      <OcsIndustryCopyEnhancements />
-    </div>
-  );
+function appendDialog(title: string, originalBody: string) {
+  const dialog = document.createElement("div");
+  dialog.setAttribute("role", "dialog");
+  dialog.dataset.testIndustryDialog = title;
+
+  const header = document.createElement("div");
+  const heading = document.createElement("h2");
+  heading.textContent = title;
+  header.appendChild(heading);
+
+  const body = document.createElement("div");
+  body.dataset.testid = `legacy-${title}`;
+  const paragraph = document.createElement("p");
+  paragraph.textContent = originalBody;
+  body.appendChild(paragraph);
+
+  dialog.append(header, body);
+  document.body.appendChild(dialog);
+
+  return { dialog, body };
 }
 
 describe("OcsIndustryCopyEnhancements", () => {
-  afterEach(cleanup);
-
-  it("replaces all three legacy accordion titles", () => {
-    render(<LegacyIndustryAccordions />);
-
-    expect(screen.getByRole("button", { name: "VA Accredited Attorneys" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Ratings Coaching Companies" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Nexus Letter Factories" })).toBeInTheDocument();
-
-    expect(
-      screen.queryByRole("button", { name: "Back-pay attorneys and accredited agents" }),
-    ).not.toBeInTheDocument();
-    expect(
-      screen.queryByRole("button", { name: "Rating-increase and claims-strategy companies" }),
-    ).not.toBeInTheDocument();
-    expect(
-      screen.queryByRole("button", { name: "DBQ and Nexus-letter factories" }),
-    ).not.toBeInTheDocument();
+  afterEach(() => {
+    cleanup();
+    document.querySelectorAll("[data-test-industry-dialog]").forEach((element) => element.remove());
   });
 
-  it("hides the legacy bodies and mounts the approved replacement copy", () => {
-    render(<LegacyIndustryAccordions />);
+  it("replaces dialog copy when the industry modal mounts", async () => {
+    render(<OcsIndustryCopyEnhancements />);
 
-    for (const [title] of originalSections) {
-      expect(screen.getByTestId(`legacy-${title}`)).toHaveStyle({ display: "none" });
+    const mountedDialogs = dialogs.map(([title, originalBody]) =>
+      appendDialog(title, originalBody),
+    );
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(
+          "The veteran lives with the consequences while the backpay meter keeps running.",
+        ),
+      ).toBeInTheDocument();
+      expect(screen.getByText("That is not advocacy. It is ratings engineering.")).toBeInTheDocument();
+      expect(
+        screen.getByText("That is not a continuum of care. It is a document supply chain."),
+      ).toBeInTheDocument();
+    });
+
+    for (const { body } of mountedDialogs) {
+      expect(body).toHaveStyle({ display: "none" });
     }
 
-    expect(
-      screen.getByText("The veteran lives with the consequences while the backpay meter keeps running."),
-    ).toBeInTheDocument();
-    expect(screen.getByText("That is not advocacy. It is ratings engineering.")).toBeInTheDocument();
-    expect(
-      screen.getByText("That is not a continuum of care. It is a document supply chain."),
-    ).toBeInTheDocument();
     expect(
       screen.getByText(
         "A clinician who disappears after selling the letter was never responsible for the veteran—only the transaction.",
       ),
     ).toBeInTheDocument();
+  });
+
+  it("handles dialogs that are already mounted", async () => {
+    const { body } = appendDialog("VA Accredited Attorneys", "Original attorney copy");
+
+    render(<OcsIndustryCopyEnhancements />);
+
+    await waitFor(() => {
+      expect(body).toHaveStyle({ display: "none" });
+      expect(
+        screen.getByText(
+          "The veteran lives with the consequences while the backpay meter keeps running.",
+        ),
+      ).toBeInTheDocument();
+    });
   });
 });
