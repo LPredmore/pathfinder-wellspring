@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -6,7 +6,7 @@ type Variant = "solid" | "outline" | "link";
 type Size = "sm" | "md" | "lg";
 
 interface DonateButtonProps {
-  /** Placement identifier — forwarded as utm_source so /donate can attribute conversions. */
+  /** Placement identifier forwarded as utm_source for attribution. */
   source: string;
   variant?: Variant;
   size?: Size;
@@ -19,9 +19,11 @@ interface DonateButtonProps {
 }
 
 /**
- * Single source of truth for all Donate CTAs.
- * Routes to /donate, which redirects to Givebutter via the donate-go edge function
- * and forwards utm_* params for per-placement attribution.
+ * Single source of truth for donation CTAs.
+ *
+ * Site-wide CTAs first route visitors to /partner so they can understand the
+ * mission and available campaigns. Buttons already rendered on /partner retain
+ * the tracked /donate passthrough to Givebutter.
  */
 export function DonateButton({
   source,
@@ -34,6 +36,7 @@ export function DonateButton({
   utmCampaign = "ocs",
   utmContent,
 }: DonateButtonProps) {
+  const location = useLocation();
   const params = new URLSearchParams({
     utm_source: source,
     utm_medium: utmMedium,
@@ -44,7 +47,8 @@ export function DonateButton({
     params.set("utm_content", utmContent);
   }
 
-  const href = `/donate?${params.toString()}`;
+  const destination = location.pathname === "/partner" ? "/donate" : "/partner";
+  const href = `${destination}?${params.toString()}`;
 
   const sizeCls =
     size === "sm"

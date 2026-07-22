@@ -23,7 +23,7 @@ const groups: { title: string; links: { name: string; href: string }[] }[] = [
     links: [
       {
         name: "Donate",
-        href: "/donate?utm_source=footer&utm_medium=site&utm_campaign=ocs",
+        href: "/partner?utm_source=footer&utm_medium=site&utm_campaign=ocs",
       },
       { name: "Support the Mission", href: "/partner" },
       { name: "Share a Beyond The Yellow Story", href: "/beyondtheyellow" },
