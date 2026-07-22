@@ -67,20 +67,22 @@ describe("OCS visual enhancements", () => {
     expect(legacyCards.style.display).not.toBe("none");
   });
 
-  it("replaces the regional placeholder with an interactive, state-accurate explorer", async () => {
+  it("replaces the regional placeholder with the VA Community Care regional map", async () => {
     render(<OcsVisualEnhancements />);
 
     await waitFor(() => {
-      expect(screen.getByText("VA Community Care region explorer")).toBeInTheDocument();
+      expect(screen.getByText("Regional availability")).toBeInTheDocument();
     });
 
     const legacyRegionMap = document.querySelector('[data-testid="legacy-region-map"]') as HTMLElement;
     expect(legacyRegionMap.style.display).toBe("none");
 
-    fireEvent.click(screen.getByRole("button", { name: /Region 4 West \+ Southwest/i }));
-    expect(screen.getByText("Managed by TriWest Healthcare Alliance")).toBeInTheDocument();
-    expect(screen.getByText("Texas")).toBeInTheDocument();
-    expect(screen.getByText("Guam")).toBeInTheDocument();
+    expect(
+      screen.getByAltText(
+        /VA Community Care regional map showing the five Veteran Community Care Network regions/i,
+      ),
+    ).toBeInTheDocument();
+    expect(screen.getByText("Veterans nationwide can sign up. Availability changes by state.")).toBeInTheDocument();
   });
 
   it("adds a two-lane visual before preserving the detailed comparison", async () => {
