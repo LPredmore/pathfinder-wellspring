@@ -1,8 +1,15 @@
+import { useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { AuthProvider } from "@/contexts/AuthContext";
 
@@ -32,6 +39,18 @@ import AuthorityResourcesVACommunityCare from "./pages/authority/ResourcesVAComm
 import AuthorityResourcesVeteranMentalHealth from "./pages/authority/ResourcesVeteranMentalHealth";
 
 const queryClient = new QueryClient();
+
+function PartnerScrollReset() {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname === "/partner") {
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    }
+  }, [location.key, location.pathname]);
+
+  return null;
+}
 
 // Legacy path aliases → new approved paths.
 const legacyRedirects: { from: string; to: string }[] = [
@@ -73,6 +92,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <PartnerScrollReset />
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/watch" element={<WatchPage />} />
