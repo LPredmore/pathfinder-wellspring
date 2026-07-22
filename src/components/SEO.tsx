@@ -308,7 +308,7 @@ export function DonateActionSchema() {
     },
     target: {
       "@type": "EntryPoint",
-      urlTemplate: `${SITE_URL}/donate`,
+      urlTemplate: `${SITE_URL}/partner`,
       actionPlatform: [
         "http://schema.org/DesktopWebPlatform",
         "http://schema.org/MobileWebPlatform",
