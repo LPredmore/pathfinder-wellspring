@@ -1,4 +1,4 @@
-name: Audit Donate Links
+name: Apply and Audit Donate Routing
 
 on:
   pull_request:
@@ -6,20 +6,161 @@ on:
       - main
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  audit:
+  route:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Write donate reference audit
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: Apply routing changes
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          def replace_exact(path: str, old: str, new: str, expected: int = 1) -> None:
+              file = Path(path)
+              text = file.read_text()
+              count = text.count(old)
+              if count not in (0, expected):
+                  raise SystemExit(f"{path}: expected {expected} matches, found {count}")
+              if count:
+                  file.write_text(text.replace(old, new))
+
+          donate = Path("src/components/DonateButton.tsx")
+          text = donate.read_text()
+          replacements = [
+              (
+                  "  utmContent?: string;\n}",
+                  "  utmContent?: string;\n  directToDonate?: boolean;\n}",
+              ),
+              (
+                  " * Single source of truth for all Donate CTAs.\n * Routes to /donate, which redirects to Givebutter via the donate-go edge function\n * and forwards utm_* params for per-placement attribution.",
+                  " * Single source of truth for all Donate CTAs.\n * Defaults to the /partner donor journey. Only CTAs authored on the Partner page\n * opt into the tracked /donate passthrough to Givebutter.",
+              ),
+              (
+                  "  utmContent,\n}: DonateButtonProps)",
+                  "  utmContent,\n  directToDonate = false,\n}: DonateButtonProps)",
+              ),
+              (
+                  "  const href = `/donate?${params.toString()}`;",
+                  "  const href = `${directToDonate ? \"/donate\" : \"/partner\"}?${params.toString()}`;",
+              ),
+          ]
+          for old, new in replacements:
+              if old in text:
+                  text = text.replace(old, new)
+          donate.write_text(text)
+
+          partner = Path("src/pages/Partner.tsx")
+          text = partner.read_text()
+          if "directToDonate" not in text:
+              text, count = re.subn(
+                  r"(<DonateButton\n)(\s+)",
+                  r"\1\2directToDonate\n\2",
+                  text,
+              )
+              if count != 6:
+                  raise SystemExit(f"Partner.tsx: expected 6 DonateButton instances, found {count}")
+              partner.write_text(text)
+
+          footer = Path("src/components/layout/Footer.tsx")
+          text = footer.read_text()
+          old = 'href: "/donate?utm_source=footer&utm_medium=site&utm_campaign=ocs"'
+          new = 'href: "/partner?utm_source=footer&utm_medium=site&utm_campaign=ocs"'
+          if old in text:
+              text = text.replace(old, new)
+          footer.write_text(text)
+
+          support = Path("src/pages/Support.tsx")
+          text = support.read_text()
+          if "https://valorwell.org/donate" in text:
+              if text.count("https://valorwell.org/donate") != 3:
+                  raise SystemExit("Support.tsx: expected 3 legacy donate URLs")
+              text = text.replace("<a\n", "<Link\n")
+              text = text.replace('href="https://valorwell.org/donate"', 'to="/partner"')
+              text = re.sub(r"\n\s+target=\"_blank\"\n\s+rel=\"noopener noreferrer\"", "", text)
+              text = text.replace("</a>", "</Link>")
+              support.write_text(text)
+
+          seo = Path("src/components/SEO.tsx")
+          text = seo.read_text()
+          text = text.replace("urlTemplate: `${SITE_URL}/donate`", "urlTemplate: `${SITE_URL}/partner`")
+          seo.write_text(text)
+
+          test = Path("src/components/DonateButton.test.tsx")
+          if not test.exists():
+              test.write_text('''import { cleanup, render, screen } from "@testing-library/react";
+import { afterEach, describe, expect, it } from "vitest";
+import { MemoryRouter } from "react-router-dom";
+import { DonateButton } from "./DonateButton";
+
+describe("DonateButton routing", () => {
+  afterEach(cleanup);
+
+  it("routes shared donation calls to the Partner donor journey", () => {
+    render(
+      <MemoryRouter>
+        <DonateButton source="test-source">Support the Mission</DonateButton>
+      </MemoryRouter>,
+    );
+
+    expect(screen.getByRole("link", { name: "Support the Mission" })).toHaveAttribute(
+      "href",
+      "/partner?utm_source=test-source&utm_medium=site&utm_campaign=ocs",
+    );
+  });
+
+  it("allows Partner-page calls to use the tracked donation passthrough", () => {
+    render(
+      <MemoryRouter>
+        <DonateButton source="partner-test" directToDonate utmCampaign="bridge-the-wait">
+          Donate Now
+        </DonateButton>
+      </MemoryRouter>,
+    );
+
+    expect(screen.getByRole("link", { name: "Donate Now" })).toHaveAttribute(
+      "href",
+      "/donate?utm_source=partner-test&utm_medium=site&utm_campaign=bridge-the-wait",
+    );
+  });
+});
+''')
+          PY
+      - name: Validate changes
+        run: |
+          npm ci
+          npx eslint src/components/DonateButton.tsx src/components/DonateButton.test.tsx src/components/layout/Footer.tsx src/pages/Partner.tsx src/pages/Support.tsx src/components/SEO.tsx
+          npx tsc --noEmit
+          npx vitest run src/components/DonateButton.test.tsx src/pages/Partner.test.tsx
+          npm test
+          npm run build
+      - name: Commit applied changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/components/DonateButton.tsx src/components/DonateButton.test.tsx src/components/layout/Footer.tsx src/pages/Partner.tsx src/pages/Support.tsx src/components/SEO.tsx
+          if git diff --cached --quiet; then
+            echo "No routing changes remain to commit."
+          else
+            git commit -m "Route donation entry points through partner page"
+            git push
+          fi
+      - name: Write final route audit
         run: |
           {
             echo '=== ALL /donate REFERENCES ==='
-            grep -RIn --exclude-dir=node_modules --exclude-dir=.git -- '/donate' . || true
-            echo '=== NON-PARTNER /donate REFERENCES ==='
-            grep -RIn --exclude-dir=node_modules --exclude-dir=.git --exclude='Partner.tsx' --exclude='Partner.test.tsx' -- '/donate' . || true
+            grep -RIn --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.github -- '/donate' src || true
+            echo '=== NON-PARTNER DIRECT /donate REFERENCES ==='
+            grep -RIn --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=.github --exclude='Partner.tsx' --exclude='Partner.test.tsx' -- '/donate' src || true
           } > donate-links.txt
       - uses: actions/upload-artifact@v4
         with:
