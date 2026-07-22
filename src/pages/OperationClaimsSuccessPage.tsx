@@ -855,22 +855,6 @@ export default function OperationClaimsSuccessPage() {
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
-            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <button
-                type="button"
-                onClick={() => go(FORM, "ocs_region_signup")}
-                className="inline-flex items-center gap-2 rounded-md bg-[#3B5147] px-7 py-3.5 text-sm font-bold text-white"
-              >
-                Check My State <ArrowRight className="h-4 w-4" />
-              </button>
-              <Link
-                to="/clinicians"
-                onClick={() => track("ocs_region_clinician_link")}
-                className="inline-flex items-center gap-2 rounded-md border border-[#3B5147] px-7 py-3.5 text-sm font-bold text-[#3B5147]"
-              >
-                Clinician Participation Information
-              </Link>
-            </div>
           </div>
         </section>
 
