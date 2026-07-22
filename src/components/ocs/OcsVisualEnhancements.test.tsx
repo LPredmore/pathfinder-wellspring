@@ -55,11 +55,15 @@ describe("OCS visual enhancements", () => {
     expect(screen.getByText("Help assemble the evidence package")).toBeInTheDocument();
   });
 
-  it("adds the system image placeholder without removing the credibility cards", async () => {
+  it("adds the system capacity image without removing the credibility cards", async () => {
     render(<OcsVisualEnhancements />);
 
     await waitFor(() => {
-      expect(document.querySelector('[data-image-placeholder="ocs-system-capacity"]')).toBeInTheDocument();
+      expect(
+        screen.getByAltText(
+          /Cinematic visualization of the Operation Claims Success operating system/i,
+        ),
+      ).toBeInTheDocument();
     });
 
     expect(screen.getByText("The operating system is built.")).toBeInTheDocument();
