@@ -1,5 +1,6 @@
 import { useEffect, useState, type ComponentType } from "react";
 import { createPortal } from "react-dom";
+import ccnRegionalMap from "@/assets/ccn-regional-map.jpg.asset.json";
 import ocsSystemCapacity from "@/assets/ocs-system-capacity.png.asset.json";
 import {
   ArrowDown,
@@ -9,9 +10,7 @@ import {
   FileSearch,
   FileText,
   GitBranch,
-  MapPinned,
   Network,
-  ShieldCheck,
   Stethoscope,
   Users,
 } from "lucide-react";
@@ -83,102 +82,6 @@ const pathwaySteps: Array<{
   },
 ];
 
-const regions = [
-  {
-    id: 1,
-    label: "East",
-    administrator: "Optum Serve",
-    states: [
-      "Connecticut",
-      "Delaware",
-      "District of Columbia",
-      "Maine",
-      "Maryland",
-      "Massachusetts",
-      "New Hampshire",
-      "New Jersey",
-      "New York",
-      "North Carolina",
-      "Pennsylvania",
-      "Rhode Island",
-      "Vermont",
-      "Virginia",
-      "West Virginia",
-    ],
-    placement: "lg:col-start-4 lg:row-start-1",
-  },
-  {
-    id: 2,
-    label: "Midwest",
-    administrator: "Optum Serve",
-    states: [
-      "Illinois",
-      "Indiana",
-      "Iowa",
-      "Kansas",
-      "Kentucky",
-      "Michigan",
-      "Minnesota",
-      "Missouri",
-      "Nebraska",
-      "North Dakota",
-      "Ohio",
-      "South Dakota",
-      "Wisconsin",
-    ],
-    placement: "lg:col-start-3 lg:row-start-1",
-  },
-  {
-    id: 3,
-    label: "Southeast + Caribbean",
-    administrator: "Optum Serve",
-    states: [
-      "Alabama",
-      "Arkansas",
-      "Florida",
-      "Georgia",
-      "Louisiana",
-      "Mississippi",
-      "Oklahoma",
-      "Puerto Rico",
-      "South Carolina",
-      "Tennessee",
-      "U.S. Virgin Islands",
-    ],
-    placement: "lg:col-span-2 lg:col-start-3 lg:row-start-2",
-  },
-  {
-    id: 4,
-    label: "West + Southwest",
-    administrator: "TriWest Healthcare Alliance",
-    states: [
-      "American Samoa",
-      "Arizona",
-      "California",
-      "Colorado",
-      "Guam",
-      "Hawaii",
-      "Idaho",
-      "Montana",
-      "New Mexico",
-      "Nevada",
-      "Northern Mariana Islands",
-      "Oregon",
-      "Texas",
-      "Utah",
-      "Washington",
-      "Wyoming",
-    ],
-    placement: "lg:col-span-2 lg:col-start-1 lg:row-start-1",
-  },
-  {
-    id: 5,
-    label: "Alaska",
-    administrator: "TriWest Healthcare Alliance",
-    states: ["Alaska"],
-    placement: "lg:col-start-1 lg:row-start-2",
-  },
-] as const;
 
 const transactionLane = [
   "Desired rating or document",
@@ -283,83 +186,29 @@ function SystemCapacityPlaceholder() {
 }
 
 function RegionalExplorer() {
-  const [selectedId, setSelectedId] = useState(2);
-  const selected = regions.find((region) => region.id === selectedId) ?? regions[0];
-
   return (
     <div className="mt-10" data-ocs-visual="regional-explorer">
       <div className="rounded-2xl border border-[#3B5147]/15 bg-[#F4F1E8] p-5 sm:p-7">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <div className="flex items-center gap-2 text-[#3B5147]">
-              <MapPinned className="h-5 w-5" aria-hidden />
-              <p className="text-xs font-extrabold uppercase tracking-[0.18em]">
-                VA Community Care region explorer
-              </p>
-            </div>
-            <h3 className="mt-3 text-2xl font-bold">Select a region to see its states and administrator.</h3>
-          </div>
-          <p className="max-w-md text-sm leading-relaxed text-[#111814]/65">
-            Region explains the network structure. It does not confirm that an appropriate
-            clinician is available today.
+        <div>
+          <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#3B5147]/55">
+            Regional availability
+          </p>
+          <h3 className="mt-3 text-2xl font-bold text-[#111814]">
+            Veterans nationwide can sign up. Availability changes by state.
+          </h3>
+          <p className="mt-4 max-w-3xl text-sm leading-relaxed text-[#111814]/65">
+            The regional map helps explain the broader VA Community Care environment. It does not
+            determine whether a specific clinician is available today. ValorWell checks the
+            current path after the veteran signs up.
           </p>
         </div>
 
-        <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-4 lg:grid-rows-2" aria-label="Community Care regions">
-          {regions.map((region) => {
-            const active = selected.id === region.id;
-            return (
-              <button
-                key={region.id}
-                type="button"
-                onClick={() => setSelectedId(region.id)}
-                aria-pressed={active}
-                className={`${region.placement} min-h-28 rounded-xl border p-4 text-left transition ${
-                  active
-                    ? "border-[#3B5147] bg-[#3B5147] text-white shadow-lg"
-                    : "border-[#3B5147]/15 bg-white text-[#111814] hover:border-[#3B5147]/45"
-                }`}
-              >
-                <span className={`text-xs font-extrabold uppercase tracking-[0.16em] ${active ? "text-[#D7A92E]" : "text-[#3B5147]/55"}`}>
-                  Region {region.id}
-                </span>
-                <span className="mt-2 block text-lg font-bold">{region.label}</span>
-                <span className={`mt-2 block text-xs ${active ? "text-white/68" : "text-[#111814]/58"}`}>
-                  {region.states.length} {region.states.length === 1 ? "state" : "states / territories"}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-
-        <div className="mt-6 rounded-2xl bg-white p-5 sm:p-6" aria-live="polite">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#3B5147]/55">
-                Region {selected.id} · {selected.label}
-              </p>
-              <h4 className="mt-2 text-xl font-bold">Managed by {selected.administrator}</h4>
-            </div>
-            <span className="inline-flex w-fit items-center gap-2 rounded-full bg-[#3B5147]/8 px-3 py-1.5 text-xs font-bold text-[#3B5147]">
-              <ShieldCheck className="h-4 w-4" aria-hidden /> Current path requires review
-            </span>
-          </div>
-          <div className="mt-5 flex flex-wrap gap-2">
-            {selected.states.map((state) => (
-              <span key={state} className="rounded-full border border-[#3B5147]/15 bg-[#F4F1E8] px-3 py-1.5 text-xs font-medium text-[#111814]/72">
-                {state}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        <div className="mt-5 flex gap-3 rounded-xl border-l-4 border-[#3B5147] bg-white px-5 py-4 text-sm leading-relaxed text-[#111814]/72">
-          <Compass className="mt-0.5 h-5 w-5 shrink-0 text-[#3B5147]" aria-hidden />
-          <p>
-            Veterans do not need to determine the payment or provider pathway before signing up.
-            ValorWell checks the state, current capacity, and appropriate next step after the
-            routing form is submitted.
-          </p>
+        <div className="mt-7">
+          <img
+            src={ccnRegionalMap.url}
+            alt="VA Community Care regional map showing the five Veteran Community Care Network regions managed by Optum Serve and TriWest Healthcare Alliance."
+            className="h-auto w-full rounded-2xl border border-[#3B5147]/15 bg-white"
+          />
         </div>
       </div>
     </div>
