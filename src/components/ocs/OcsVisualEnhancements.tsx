@@ -1,17 +1,15 @@
 import { useEffect, useState, type ComponentType } from "react";
 import { createPortal } from "react-dom";
+import ccnRegionalMap from "@/assets/ccn-regional-map.jpg.asset.json";
 import ocsSystemCapacity from "@/assets/ocs-system-capacity.png.asset.json";
 import {
   ArrowDown,
   Check,
   ClipboardCheck,
-  Compass,
   FileSearch,
   FileText,
   GitBranch,
-  MapPinned,
   Network,
-  ShieldCheck,
   Stethoscope,
   Users,
 } from "lucide-react";
