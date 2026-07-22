@@ -13,9 +13,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: List every donate reference
+      - name: Write donate reference audit
         run: |
-          echo '=== ALL /donate REFERENCES ==='
-          grep -RIn --exclude-dir=node_modules --exclude-dir=.git -- '/donate' . || true
-          echo '=== NON-PARTNER /donate REFERENCES ==='
-          grep -RIn --exclude-dir=node_modules --exclude-dir=.git --exclude='Partner.tsx' --exclude='Partner.test.tsx' -- '/donate' . || true
+          {
+            echo '=== ALL /donate REFERENCES ==='
+            grep -RIn --exclude-dir=node_modules --exclude-dir=.git -- '/donate' . || true
+            echo '=== NON-PARTNER /donate REFERENCES ==='
+            grep -RIn --exclude-dir=node_modules --exclude-dir=.git --exclude='Partner.tsx' --exclude='Partner.test.tsx' -- '/donate' . || true
+          } > donate-links.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: donate-link-audit
+          path: donate-links.txt
