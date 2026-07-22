@@ -1,6 +1,7 @@
 import OperationClaimsSuccessPage from "./OperationClaimsSuccessPage";
 import { LegacyFormPortal } from "@/components/intake/LegacyFormPortal";
 import { UnifiedOcsRoutingForm } from "@/components/intake/UnifiedOcsRoutingForm";
+import { OcsIndustryCopyEnhancements } from "@/components/ocs/OcsIndustryCopyEnhancements";
 import { OcsVisualEnhancements } from "@/components/ocs/OcsVisualEnhancements";
 import "@/components/ocs/ocs-visual-enhancements.css";
 
@@ -9,6 +10,7 @@ export default function OcsBillingHubPage() {
     <>
       <OperationClaimsSuccessPage />
       <OcsVisualEnhancements />
+      <OcsIndustryCopyEnhancements />
       <LegacyFormPortal targetId="ocs-routing-form">
         <UnifiedOcsRoutingForm />
       </LegacyFormPortal>
