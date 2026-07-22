@@ -1,0 +1,25 @@
+name: Validate OCS Visuals
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npx eslint src/components/ocs/OcsVisualEnhancements.tsx src/components/ocs/OcsVisualEnhancements.test.tsx src/pages/OcsBillingHubPage.tsx
+      - run: npx tsc --noEmit
+      - run: npx vitest run src/components/ocs/OcsVisualEnhancements.test.tsx
+      - run: npm test
+      - run: npm run build
