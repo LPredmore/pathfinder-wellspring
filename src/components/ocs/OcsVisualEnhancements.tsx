@@ -1,0 +1,522 @@
+import { useEffect, useState, type ComponentType } from "react";
+import { createPortal } from "react-dom";
+import {
+  ArrowDown,
+  Check,
+  ClipboardCheck,
+  Compass,
+  FileSearch,
+  FileText,
+  GitBranch,
+  MapPinned,
+  Network,
+  ShieldCheck,
+  Stethoscope,
+  Users,
+} from "lucide-react";
+
+type Icon = ComponentType<{ className?: string; "aria-hidden"?: boolean }>;
+
+type PortalMounts = {
+  path: HTMLElement | null;
+  system: HTMLElement | null;
+  regions: HTMLElement | null;
+  comparison: HTMLElement | null;
+};
+
+const emptyMounts: PortalMounts = {
+  path: null,
+  system: null,
+  regions: null,
+  comparison: null,
+};
+
+const pathwaySteps: Array<{
+  number: string;
+  phase: string;
+  title: string;
+  body: string;
+  icon: Icon;
+}> = [
+  {
+    number: "01",
+    phase: "Clarity",
+    title: "Understand the claim",
+    body: "Review current conditions and ratings, identify potentially overlooked direct or secondary conditions, explain rating criteria, and identify missing evidence.",
+    icon: FileSearch,
+  },
+  {
+    number: "02",
+    phase: "Clarity",
+    title: "Find the available care path",
+    body: "ValorWell checks the veteran's state and current availability, then determines whether care can be provided directly or through an eligible outside mental-health provider.",
+    icon: Compass,
+  },
+  {
+    number: "03",
+    phase: "Care + clinical understanding",
+    title: "Build clinical understanding",
+    body: "Treatment creates longitudinal context for veterans with no diagnosis, limited prior care, or an extensive treatment history.",
+    icon: Stethoscope,
+  },
+  {
+    number: "04",
+    phase: "Care + clinical understanding",
+    title: "Examine every legitimate connection",
+    body: "Consider direct connection, secondary connection, aggravation, delayed recognition, lay evidence, and credible explanations for missing military records.",
+    icon: GitBranch,
+  },
+  {
+    number: "05",
+    phase: "Documentation + evidence",
+    title: "Prepare the documentation",
+    body: "When clinically appropriate, complete DBQs, prepare Nexus opinions, review records, and provide follow-up or appeal-related responses.",
+    icon: ClipboardCheck,
+  },
+  {
+    number: "06",
+    phase: "Documentation + evidence",
+    title: "Help assemble the evidence package",
+    body: "Organize the medical support for a well-supported claim while the veteran or chosen representative remains responsible for filing and management.",
+    icon: FileText,
+  },
+];
+
+const regions = [
+  {
+    id: 1,
+    label: "East",
+    administrator: "Optum Serve",
+    states: [
+      "Connecticut",
+      "Delaware",
+      "District of Columbia",
+      "Maine",
+      "Maryland",
+      "Massachusetts",
+      "New Hampshire",
+      "New Jersey",
+      "New York",
+      "North Carolina",
+      "Pennsylvania",
+      "Rhode Island",
+      "Vermont",
+      "Virginia",
+      "West Virginia",
+    ],
+    placement: "lg:col-start-4 lg:row-start-1",
+  },
+  {
+    id: 2,
+    label: "Midwest",
+    administrator: "Optum Serve",
+    states: [
+      "Illinois",
+      "Indiana",
+      "Iowa",
+      "Kansas",
+      "Kentucky",
+      "Michigan",
+      "Minnesota",
+      "Missouri",
+      "Nebraska",
+      "North Dakota",
+      "Ohio",
+      "South Dakota",
+      "Wisconsin",
+    ],
+    placement: "lg:col-start-3 lg:row-start-1",
+  },
+  {
+    id: 3,
+    label: "Southeast + Caribbean",
+    administrator: "Optum Serve",
+    states: [
+      "Alabama",
+      "Arkansas",
+      "Florida",
+      "Georgia",
+      "Louisiana",
+      "Mississippi",
+      "Oklahoma",
+      "Puerto Rico",
+      "South Carolina",
+      "Tennessee",
+      "U.S. Virgin Islands",
+    ],
+    placement: "lg:col-span-2 lg:col-start-3 lg:row-start-2",
+  },
+  {
+    id: 4,
+    label: "West + Southwest",
+    administrator: "TriWest Healthcare Alliance",
+    states: [
+      "American Samoa",
+      "Arizona",
+      "California",
+      "Colorado",
+      "Guam",
+      "Hawaii",
+      "Idaho",
+      "Montana",
+      "New Mexico",
+      "Nevada",
+      "Northern Mariana Islands",
+      "Oregon",
+      "Texas",
+      "Utah",
+      "Washington",
+      "Wyoming",
+    ],
+    placement: "lg:col-span-2 lg:col-start-1 lg:row-start-1",
+  },
+  {
+    id: 5,
+    label: "Alaska",
+    administrator: "TriWest Healthcare Alliance",
+    states: ["Alaska"],
+    placement: "lg:col-start-1 lg:row-start-2",
+  },
+] as const;
+
+const transactionLane = [
+  "Desired rating or document",
+  "One-time evaluation",
+  "Purchased deliverable",
+  "Document delivered",
+  "Relationship ends",
+];
+
+const careLane = [
+  "Veteran's condition and history",
+  "Evaluation and real care",
+  "Longitudinal clinical understanding",
+  "Evidence and responsible documentation",
+  "Continued treatment and support",
+];
+
+function createMount(
+  anchor: Element | null,
+  name: keyof PortalMounts,
+  options: { hideAnchor?: boolean } = {},
+) {
+  if (!(anchor instanceof HTMLElement) || !anchor.parentElement) return null;
+
+  const host = document.createElement("div");
+  host.dataset.ocsVisualMount = name;
+  anchor.parentElement.insertBefore(host, anchor);
+
+  const previousDisplay = anchor.style.display;
+  if (options.hideAnchor) anchor.style.display = "none";
+
+  return {
+    host,
+    cleanup: () => {
+      if (options.hideAnchor) anchor.style.display = previousDisplay;
+      host.remove();
+    },
+  };
+}
+
+function ConnectedPathway() {
+  return (
+    <div className="mt-12" data-ocs-visual="connected-pathway">
+      <div className="grid gap-3 rounded-2xl border border-[#3B5147]/15 bg-white p-4 sm:grid-cols-3 sm:p-5">
+        {[
+          ["01–02", "Clarity"],
+          ["03–04", "Care + clinical understanding"],
+          ["05–06", "Documentation + evidence"],
+        ].map(([range, phase]) => (
+          <div key={phase} className="rounded-xl bg-[#F4F1E8] px-4 py-3 text-center">
+            <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#3B5147]/55">
+              Steps {range}
+            </p>
+            <p className="mt-1 font-bold text-[#3B5147]">{phase}</p>
+          </div>
+        ))}
+      </div>
+
+      <ol className="relative mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div
+          className="pointer-events-none absolute left-6 top-8 hidden h-[calc(100%-4rem)] w-px bg-[#3B5147]/20 md:block lg:left-0 lg:top-9 lg:h-px lg:w-full"
+          aria-hidden
+        />
+        {pathwaySteps.map(({ number, phase, title, body, icon: Icon }) => (
+          <li
+            key={number}
+            className="relative rounded-2xl border border-[#3B5147]/15 bg-white p-6 shadow-[0_12px_40px_-32px_rgba(17,24,20,0.45)]"
+          >
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#3B5147] text-sm font-extrabold text-white ring-8 ring-[#F4F1E8]">
+                {number}
+              </div>
+              <Icon className="h-6 w-6 text-[#D7A92E]" aria-hidden />
+            </div>
+            <p className="mt-5 text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#3B5147]/55">
+              {phase}
+            </p>
+            <h3 className="mt-2 text-xl font-bold text-[#111814]">{title}</h3>
+            <p className="mt-3 text-sm leading-relaxed text-[#111814]/70">{body}</p>
+          </li>
+        ))}
+      </ol>
+
+      <div className="mt-6 flex items-center justify-center gap-3 text-sm font-bold text-[#3B5147]">
+        <Check className="h-5 w-5 text-[#D7A92E]" aria-hidden />
+        One connected journey—not six disconnected transactions.
+      </div>
+    </div>
+  );
+}
+
+function SystemCapacityPlaceholder() {
+  return (
+    <div className="mt-12 grid gap-7 lg:grid-cols-12 lg:items-center" data-ocs-visual="system-capacity">
+      <div
+        role="img"
+        aria-label="Image placeholder for a cinematic visualization of the completed Operation Claims Success operating system expanding state by state."
+        data-image-placeholder="ocs-system-capacity"
+        className="relative flex aspect-[2/1] min-h-[280px] items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed border-white/25 bg-white/[0.055] p-6 text-center lg:col-span-7"
+      >
+        <div className="pointer-events-none absolute inset-0" aria-hidden>
+          <div className="absolute left-[12%] top-1/2 h-24 w-24 -translate-y-1/2 rounded-full border border-[#D7A92E]/40" />
+          <div className="absolute left-[26%] top-[24%] h-3 w-3 rounded-full bg-[#D7A92E]/60" />
+          <div className="absolute left-[28%] bottom-[24%] h-3 w-3 rounded-full bg-[#D7A92E]/40" />
+          <div className="absolute right-[15%] top-[28%] h-3 w-3 rounded-full bg-white/35" />
+          <div className="absolute right-[24%] bottom-[22%] h-3 w-3 rounded-full bg-white/20" />
+          <div className="absolute inset-x-[20%] top-1/2 h-px bg-gradient-to-r from-[#D7A92E]/60 via-white/20 to-transparent" />
+        </div>
+        <div className="relative max-w-xl">
+          <Network className="mx-auto h-9 w-9 text-[#D7A92E]" aria-hidden />
+          <p className="mt-4 text-xs font-extrabold uppercase tracking-[0.2em] text-[#D7A92E]">
+            Image placeholder · 2:1
+          </p>
+          <p className="mt-3 text-2xl font-bold text-white">The operating system is built.</p>
+          <p className="mt-3 text-sm leading-relaxed text-white/68">
+            Replace with a cinematic editorial image showing a complete central network of care,
+            evidence review, documentation, provider coordination, and follow-up expanding into a
+            geographic network. Some state nodes should be active and illuminated while others
+            await clinician capacity. No embedded text, dashboards, flags, uniforms, or corporate
+            flowchart styling.
+          </p>
+        </div>
+      </div>
+
+      <div className="lg:col-span-5">
+        <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#D7A92E]">
+          What the image must communicate
+        </p>
+        <div className="mt-5 space-y-4">
+          {[
+            [ShieldCheck, "The clinical and documentation foundation already operates."],
+            [Network, "Care, evidence, and follow-up are connected—not separate purchases."],
+            [Users, "Geographic reach grows as qualified provider capacity comes online."],
+          ].map(([Icon, text]) => {
+            const VisualIcon = Icon as Icon;
+            return (
+              <div key={text as string} className="flex gap-3 rounded-xl border border-white/10 bg-white/[0.045] p-4">
+                <VisualIcon className="mt-0.5 h-5 w-5 shrink-0 text-[#D7A92E]" aria-hidden />
+                <p className="text-sm leading-relaxed text-white/72">{text as string}</p>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function RegionalExplorer() {
+  const [selectedId, setSelectedId] = useState(2);
+  const selected = regions.find((region) => region.id === selectedId) ?? regions[0];
+
+  return (
+    <div className="mt-10" data-ocs-visual="regional-explorer">
+      <div className="rounded-2xl border border-[#3B5147]/15 bg-[#F4F1E8] p-5 sm:p-7">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <div className="flex items-center gap-2 text-[#3B5147]">
+              <MapPinned className="h-5 w-5" aria-hidden />
+              <p className="text-xs font-extrabold uppercase tracking-[0.18em]">
+                VA Community Care region explorer
+              </p>
+            </div>
+            <h3 className="mt-3 text-2xl font-bold">Select a region to see its states and administrator.</h3>
+          </div>
+          <p className="max-w-md text-sm leading-relaxed text-[#111814]/65">
+            Region explains the network structure. It does not confirm that an appropriate
+            clinician is available today.
+          </p>
+        </div>
+
+        <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-4 lg:grid-rows-2" aria-label="Community Care regions">
+          {regions.map((region) => {
+            const active = selected.id === region.id;
+            return (
+              <button
+                key={region.id}
+                type="button"
+                onClick={() => setSelectedId(region.id)}
+                aria-pressed={active}
+                className={`${region.placement} min-h-28 rounded-xl border p-4 text-left transition ${
+                  active
+                    ? "border-[#3B5147] bg-[#3B5147] text-white shadow-lg"
+                    : "border-[#3B5147]/15 bg-white text-[#111814] hover:border-[#3B5147]/45"
+                }`}
+              >
+                <span className={`text-xs font-extrabold uppercase tracking-[0.16em] ${active ? "text-[#D7A92E]" : "text-[#3B5147]/55"}`}>
+                  Region {region.id}
+                </span>
+                <span className="mt-2 block text-lg font-bold">{region.label}</span>
+                <span className={`mt-2 block text-xs ${active ? "text-white/68" : "text-[#111814]/58"}`}>
+                  {region.states.length} {region.states.length === 1 ? "state" : "states / territories"}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="mt-6 rounded-2xl bg-white p-5 sm:p-6" aria-live="polite">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-[#3B5147]/55">
+                Region {selected.id} · {selected.label}
+              </p>
+              <h4 className="mt-2 text-xl font-bold">Managed by {selected.administrator}</h4>
+            </div>
+            <span className="inline-flex w-fit items-center gap-2 rounded-full bg-[#3B5147]/8 px-3 py-1.5 text-xs font-bold text-[#3B5147]">
+              <ShieldCheck className="h-4 w-4" aria-hidden /> Current path requires review
+            </span>
+          </div>
+          <div className="mt-5 flex flex-wrap gap-2">
+            {selected.states.map((state) => (
+              <span key={state} className="rounded-full border border-[#3B5147]/15 bg-[#F4F1E8] px-3 py-1.5 text-xs font-medium text-[#111814]/72">
+                {state}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-5 flex gap-3 rounded-xl border-l-4 border-[#3B5147] bg-white px-5 py-4 text-sm leading-relaxed text-[#111814]/72">
+          <Compass className="mt-0.5 h-5 w-5 shrink-0 text-[#3B5147]" aria-hidden />
+          <p>
+            Veterans do not need to determine the payment or provider pathway before signing up.
+            ValorWell checks the state, current capacity, and appropriate next step after the
+            routing form is submitted.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Lane({
+  title,
+  eyebrow,
+  steps,
+  positive,
+}: {
+  title: string;
+  eyebrow: string;
+  steps: string[];
+  positive?: boolean;
+}) {
+  return (
+    <div className={`rounded-2xl border p-5 sm:p-6 ${positive ? "border-[#3B5147]/25 bg-[#3B5147] text-white" : "border-[#B24A3A]/20 bg-[#F4F1E8]"}`}>
+      <p className={`text-xs font-extrabold uppercase tracking-[0.18em] ${positive ? "text-[#D7A92E]" : "text-[#B24A3A]"}`}>
+        {eyebrow}
+      </p>
+      <h3 className="mt-2 text-2xl font-bold">{title}</h3>
+      <ol className="mt-6 space-y-3">
+        {steps.map((step, index) => (
+          <li key={step}>
+            <div className={`flex items-center gap-3 rounded-xl border px-4 py-3 ${positive ? "border-white/10 bg-white/[0.055]" : "border-[#3B5147]/12 bg-white"}`}>
+              <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-extrabold ${positive ? "bg-[#D7A92E] text-[#111814]" : "bg-[#B24A3A]/10 text-[#B24A3A]"}`}>
+                {index + 1}
+              </span>
+              <span className={`text-sm font-semibold ${positive ? "text-white/88" : "text-[#111814]/76"}`}>{step}</span>
+            </div>
+            {index < steps.length - 1 && (
+              <ArrowDown className={`mx-auto my-1 h-4 w-4 ${positive ? "text-[#D7A92E]/70" : "text-[#B24A3A]/45"}`} aria-hidden />
+            )}
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+}
+
+function ModelComparisonVisual() {
+  return (
+    <div className="mt-10" data-ocs-visual="model-comparison">
+      <div className="grid gap-5 lg:grid-cols-2">
+        <Lane eyebrow="A deliverable ends the relationship" title="Transaction-first model" steps={transactionLane} />
+        <Lane eyebrow="The veteran remains at the center" title="Care-connected OCS model" steps={careLane} positive />
+      </div>
+      <p className="mx-auto mt-5 max-w-3xl text-center text-sm leading-relaxed text-[#111814]/62">
+        The detailed comparison below preserves the important clinical, financial, and ethical
+        distinctions behind these two pathways.
+      </p>
+    </div>
+  );
+}
+
+export function OcsVisualEnhancements() {
+  const [mounts, setMounts] = useState<PortalMounts>(emptyMounts);
+
+  useEffect(() => {
+    const cleanups: Array<() => void> = [];
+    const nextMounts: PortalMounts = { ...emptyMounts };
+
+    const pathSection = document.getElementById("ocs-legitimate-path");
+    const pathList = pathSection?.querySelector("ol") ?? null;
+    const pathMount = createMount(pathList, "path", { hideAnchor: true });
+    if (pathMount) {
+      nextMounts.path = pathMount.host;
+      cleanups.push(pathMount.cleanup);
+    }
+
+    const systemSection = pathSection?.nextElementSibling ?? null;
+    const systemCards = systemSection?.querySelector(".mt-12.grid") ?? null;
+    const systemMount = createMount(systemCards, "system");
+    if (systemMount) {
+      nextMounts.system = systemMount.host;
+      cleanups.push(systemMount.cleanup);
+    }
+
+    const regionSection = document.getElementById("ocs-regional-path");
+    const legacyRegionAccordion =
+      regionSection?.querySelector('[data-orientation="vertical"]') ??
+      regionSection?.querySelector(".mt-10") ??
+      null;
+    const regionMount = createMount(legacyRegionAccordion, "regions", { hideAnchor: true });
+    if (regionMount) {
+      nextMounts.regions = regionMount.host;
+      cleanups.push(regionMount.cleanup);
+    }
+
+    const companiesSection = document.getElementById("ocs-existing-companies");
+    const comparisonSection = companiesSection?.nextElementSibling ?? null;
+    const comparisonTable = comparisonSection?.querySelector(".mt-10.overflow-hidden") ?? null;
+    const comparisonMount = createMount(comparisonTable, "comparison");
+    if (comparisonMount) {
+      nextMounts.comparison = comparisonMount.host;
+      cleanups.push(comparisonMount.cleanup);
+    }
+
+    setMounts(nextMounts);
+
+    return () => {
+      cleanups.reverse().forEach((cleanup) => cleanup());
+    };
+  }, []);
+
+  return (
+    <>
+      {mounts.path && createPortal(<ConnectedPathway />, mounts.path)}
+      {mounts.system && createPortal(<SystemCapacityPlaceholder />, mounts.system)}
+      {mounts.regions && createPortal(<RegionalExplorer />, mounts.regions)}
+      {mounts.comparison && createPortal(<ModelComparisonVisual />, mounts.comparison)}
+    </>
+  );
+}
