@@ -17,3 +17,6 @@ verify_jwt = false
 
 [functions.r2-sign-urls]
 verify_jwt = false
+
+[functions.register-clinician-interest]
+verify_jwt = false
