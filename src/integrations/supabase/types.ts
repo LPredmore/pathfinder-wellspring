@@ -4783,6 +4783,90 @@ export type Database = {
           },
         ]
       }
+      client_statement_links: {
+        Row: {
+          client_id: string
+          created_at: string
+          created_by_profile_id: string | null
+          expires_at: string
+          id: string
+          last_viewed_at: string | null
+          revoked_at: string | null
+          statement_number: string
+          statement_snapshot: Json
+          tenant_id: string
+          token_hash: string
+          version: number
+          view_count: number
+        }
+        Insert: {
+          client_id: string
+          created_at?: string
+          created_by_profile_id?: string | null
+          expires_at: string
+          id?: string
+          last_viewed_at?: string | null
+          revoked_at?: string | null
+          statement_number: string
+          statement_snapshot: Json
+          tenant_id: string
+          token_hash: string
+          version?: number
+          view_count?: number
+        }
+        Update: {
+          client_id?: string
+          created_at?: string
+          created_by_profile_id?: string | null
+          expires_at?: string
+          id?: string
+          last_viewed_at?: string | null
+          revoked_at?: string | null
+          statement_number?: string
+          statement_snapshot?: Json
+          tenant_id?: string
+          token_hash?: string
+          version?: number
+          view_count?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "client_statement_links_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "client_statement_links_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "v_client_canonical_state"
+            referencedColumns: ["client_id"]
+          },
+          {
+            foreignKeyName: "client_statement_links_created_by_profile_id_fkey"
+            columns: ["created_by_profile_id"]
+            isOneToOne: false
+            referencedRelation: "client_journey_exception_owner_options"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "client_statement_links_created_by_profile_id_fkey"
+            columns: ["created_by_profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "client_statement_links_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       client_status_history: {
         Row: {
           changed_at: string
@@ -5530,51 +5614,75 @@ export type Database = {
       crm_bulk_send_logs: {
         Row: {
           body_html: string
+          body_text: string | null
           completed_at: string | null
+          content_mode: string | null
           created_at: string
           created_by_profile_id: string
+          editor_document: Json | null
+          editor_schema_version: number | null
           failed_count: number
           heartbeat_at: string | null
           id: string
+          preheader: string | null
           recipient_count: number
           recipient_type: string
+          render_hash: string | null
           sent_count: number
           status: string
           subject: string
           template_id: string | null
+          template_version_id: string | null
           tenant_id: string
+          theme_key: string | null
         }
         Insert: {
           body_html: string
+          body_text?: string | null
           completed_at?: string | null
+          content_mode?: string | null
           created_at?: string
           created_by_profile_id: string
+          editor_document?: Json | null
+          editor_schema_version?: number | null
           failed_count?: number
           heartbeat_at?: string | null
           id?: string
+          preheader?: string | null
           recipient_count?: number
           recipient_type?: string
+          render_hash?: string | null
           sent_count?: number
           status?: string
           subject: string
           template_id?: string | null
+          template_version_id?: string | null
           tenant_id: string
+          theme_key?: string | null
         }
         Update: {
           body_html?: string
+          body_text?: string | null
           completed_at?: string | null
+          content_mode?: string | null
           created_at?: string
           created_by_profile_id?: string
+          editor_document?: Json | null
+          editor_schema_version?: number | null
           failed_count?: number
           heartbeat_at?: string | null
           id?: string
+          preheader?: string | null
           recipient_count?: number
           recipient_type?: string
+          render_hash?: string | null
           sent_count?: number
           status?: string
           subject?: string
           template_id?: string | null
+          template_version_id?: string | null
           tenant_id?: string
+          theme_key?: string | null
         }
         Relationships: [
           {
@@ -5592,11 +5700,11 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "crm_bulk_send_logs_template_id_fkey"
-            columns: ["template_id"]
+            foreignKeyName: "crm_bulk_send_logs_template_version_fkey"
+            columns: ["tenant_id", "template_version_id"]
             isOneToOne: false
-            referencedRelation: "crm_email_templates"
-            referencedColumns: ["id"]
+            referencedRelation: "crm_email_template_versions"
+            referencedColumns: ["tenant_id", "id"]
           },
           {
             foreignKeyName: "crm_bulk_send_logs_tenant_id_fkey"
@@ -5605,12 +5713,22 @@ export type Database = {
             referencedRelation: "tenants"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "crm_bulk_send_logs_tenant_template_fkey"
+            columns: ["tenant_id", "template_id"]
+            isOneToOne: false
+            referencedRelation: "crm_email_templates"
+            referencedColumns: ["tenant_id", "id"]
+          },
         ]
       }
       crm_bulk_send_recipients: {
         Row: {
           bulk_send_id: string
+          claim_token: string | null
+          claimed_at: string | null
           client_id: string
+          email_message_id: string | null
           error_message: string | null
           id: string
           sent_at: string | null
@@ -5619,7 +5737,10 @@ export type Database = {
         }
         Insert: {
           bulk_send_id: string
+          claim_token?: string | null
+          claimed_at?: string | null
           client_id: string
+          email_message_id?: string | null
           error_message?: string | null
           id?: string
           sent_at?: string | null
@@ -5628,7 +5749,10 @@ export type Database = {
         }
         Update: {
           bulk_send_id?: string
+          claim_token?: string | null
+          claimed_at?: string | null
           client_id?: string
+          email_message_id?: string | null
           error_message?: string | null
           id?: string
           sent_at?: string | null
@@ -5658,6 +5782,13 @@ export type Database = {
             referencedColumns: ["client_id"]
           },
           {
+            foreignKeyName: "crm_bulk_send_recipients_email_message_id_fkey"
+            columns: ["email_message_id"]
+            isOneToOne: false
+            referencedRelation: "crm_email_messages"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "crm_bulk_send_recipients_tenant_id_fkey"
             columns: ["tenant_id"]
             isOneToOne: false
@@ -5669,7 +5800,10 @@ export type Database = {
       crm_bulk_send_staff_recipients: {
         Row: {
           bulk_send_id: string
+          claim_token: string | null
+          claimed_at: string | null
           created_at: string | null
+          email_message_id: string | null
           error_message: string | null
           id: string
           sent_at: string | null
@@ -5679,7 +5813,10 @@ export type Database = {
         }
         Insert: {
           bulk_send_id: string
+          claim_token?: string | null
+          claimed_at?: string | null
           created_at?: string | null
+          email_message_id?: string | null
           error_message?: string | null
           id?: string
           sent_at?: string | null
@@ -5689,7 +5826,10 @@ export type Database = {
         }
         Update: {
           bulk_send_id?: string
+          claim_token?: string | null
+          claimed_at?: string | null
           created_at?: string | null
+          email_message_id?: string | null
           error_message?: string | null
           id?: string
           sent_at?: string | null
@@ -5703,6 +5843,13 @@ export type Database = {
             columns: ["bulk_send_id"]
             isOneToOne: false
             referencedRelation: "crm_bulk_send_logs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_bulk_send_staff_recipients_email_message_id_fkey"
+            columns: ["email_message_id"]
+            isOneToOne: false
+            referencedRelation: "crm_email_messages"
             referencedColumns: ["id"]
           },
           {
@@ -6008,6 +6155,7 @@ export type Database = {
           error_message: string | null
           helpscout_conversation_id: string | null
           id: string
+          resend_email_id: string | null
           scheduled_for: string
           sent_at: string | null
           skip_reason: string | null
@@ -6027,6 +6175,7 @@ export type Database = {
           error_message?: string | null
           helpscout_conversation_id?: string | null
           id?: string
+          resend_email_id?: string | null
           scheduled_for: string
           sent_at?: string | null
           skip_reason?: string | null
@@ -6046,6 +6195,7 @@ export type Database = {
           error_message?: string | null
           helpscout_conversation_id?: string | null
           id?: string
+          resend_email_id?: string | null
           scheduled_for?: string
           sent_at?: string | null
           skip_reason?: string | null
@@ -6100,7 +6250,15 @@ export type Database = {
           delay_days: number
           delay_hours: number
           email_body_html: string | null
+          email_body_text: string | null
+          email_content_mode: string | null
+          email_editor_document: Json | null
+          email_editor_schema_version: number | null
+          email_preheader: string | null
+          email_render_hash: string | null
           email_subject: string | null
+          email_template_version_id: string | null
+          email_theme_key: string | null
           id: string
           is_active: boolean
           signature_id: string | null
@@ -6116,7 +6274,15 @@ export type Database = {
           delay_days?: number
           delay_hours?: number
           email_body_html?: string | null
+          email_body_text?: string | null
+          email_content_mode?: string | null
+          email_editor_document?: Json | null
+          email_editor_schema_version?: number | null
+          email_preheader?: string | null
+          email_render_hash?: string | null
           email_subject?: string | null
+          email_template_version_id?: string | null
+          email_theme_key?: string | null
           id?: string
           is_active?: boolean
           signature_id?: string | null
@@ -6132,7 +6298,15 @@ export type Database = {
           delay_days?: number
           delay_hours?: number
           email_body_html?: string | null
+          email_body_text?: string | null
+          email_content_mode?: string | null
+          email_editor_document?: Json | null
+          email_editor_schema_version?: number | null
+          email_preheader?: string | null
+          email_render_hash?: string | null
           email_subject?: string | null
+          email_template_version_id?: string | null
+          email_theme_key?: string | null
           id?: string
           is_active?: boolean
           signature_id?: string | null
@@ -6148,6 +6322,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "crm_campaigns"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_campaign_steps_email_template_version_fkey"
+            columns: ["tenant_id", "email_template_version_id"]
+            isOneToOne: false
+            referencedRelation: "crm_email_template_versions"
+            referencedColumns: ["tenant_id", "id"]
           },
           {
             foreignKeyName: "crm_campaign_steps_signature_id_fkey"
@@ -6604,44 +6785,80 @@ export type Database = {
       }
       crm_domain_contracts: {
         Row: {
+          acceptance_evidence: Json
+          accepted_at: string | null
+          activation_blockers: Json
+          activation_status: string
           canonical_application: string
           canonical_database: string
+          capability_manifest: Json
           clinical_campaign_boundary_enforced: boolean
           clinical_campaign_lane: string
+          contract_version: number
           created_at: string
           domain_key: string
           effective_at: string
+          generated_type_hash: string | null
+          grant_manifest: Json
           implementation_status: string
           inbound_lane: string
+          object_inventory: Json
           outbound_lane: string
+          release_status: string
+          rpc_signatures: Json
+          schema_fingerprint: string | null
           terminology: Json
           updated_at: string
         }
         Insert: {
+          acceptance_evidence?: Json
+          accepted_at?: string | null
+          activation_blockers?: Json
+          activation_status?: string
           canonical_application: string
           canonical_database: string
+          capability_manifest?: Json
           clinical_campaign_boundary_enforced?: boolean
           clinical_campaign_lane: string
+          contract_version?: number
           created_at?: string
           domain_key: string
           effective_at?: string
+          generated_type_hash?: string | null
+          grant_manifest?: Json
           implementation_status?: string
           inbound_lane: string
+          object_inventory?: Json
           outbound_lane: string
+          release_status?: string
+          rpc_signatures?: Json
+          schema_fingerprint?: string | null
           terminology?: Json
           updated_at?: string
         }
         Update: {
+          acceptance_evidence?: Json
+          accepted_at?: string | null
+          activation_blockers?: Json
+          activation_status?: string
           canonical_application?: string
           canonical_database?: string
+          capability_manifest?: Json
           clinical_campaign_boundary_enforced?: boolean
           clinical_campaign_lane?: string
+          contract_version?: number
           created_at?: string
           domain_key?: string
           effective_at?: string
+          generated_type_hash?: string | null
+          grant_manifest?: Json
           implementation_status?: string
           inbound_lane?: string
+          object_inventory?: Json
           outbound_lane?: string
+          release_status?: string
+          rpc_signatures?: Json
+          schema_fingerprint?: string | null
           terminology?: Json
           updated_at?: string
         }
@@ -6708,9 +6925,233 @@ export type Database = {
           },
         ]
       }
+      crm_email_events: {
+        Row: {
+          created_at: string
+          email_message_id: string
+          event_type: string
+          id: string
+          occurred_at: string
+          payload: Json
+          provider: string
+          provider_event_id: string
+          tenant_id: string
+        }
+        Insert: {
+          created_at?: string
+          email_message_id: string
+          event_type: string
+          id?: string
+          occurred_at: string
+          payload?: Json
+          provider?: string
+          provider_event_id: string
+          tenant_id: string
+        }
+        Update: {
+          created_at?: string
+          email_message_id?: string
+          event_type?: string
+          id?: string
+          occurred_at?: string
+          payload?: Json
+          provider?: string
+          provider_event_id?: string
+          tenant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_email_events_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_email_events_tenant_message_fkey"
+            columns: ["tenant_id", "email_message_id"]
+            isOneToOne: false
+            referencedRelation: "crm_email_messages"
+            referencedColumns: ["tenant_id", "id"]
+          },
+        ]
+      }
+      crm_email_messages: {
+        Row: {
+          body_html: string | null
+          body_text: string | null
+          bulk_send_id: string | null
+          campaign_id: string | null
+          client_id: string | null
+          created_at: string
+          created_by_profile_id: string | null
+          delivered_at: string | null
+          direction: string
+          error_code: string | null
+          error_message: string | null
+          failed_at: string | null
+          id: string
+          in_reply_to_message_id: string | null
+          message_class: string | null
+          metadata: Json
+          occurred_at: string
+          preheader: string | null
+          provider: string
+          provider_message_id: string | null
+          provider_thread_id: string | null
+          received_at: string | null
+          recipient_email: string
+          render_hash: string | null
+          reply_to_email: string | null
+          sender_email: string
+          sent_at: string | null
+          source: string
+          status: string
+          subject: string | null
+          template_version_id: string | null
+          tenant_id: string
+          updated_at: string
+        }
+        Insert: {
+          body_html?: string | null
+          body_text?: string | null
+          bulk_send_id?: string | null
+          campaign_id?: string | null
+          client_id?: string | null
+          created_at?: string
+          created_by_profile_id?: string | null
+          delivered_at?: string | null
+          direction: string
+          error_code?: string | null
+          error_message?: string | null
+          failed_at?: string | null
+          id?: string
+          in_reply_to_message_id?: string | null
+          message_class?: string | null
+          metadata?: Json
+          occurred_at?: string
+          preheader?: string | null
+          provider?: string
+          provider_message_id?: string | null
+          provider_thread_id?: string | null
+          received_at?: string | null
+          recipient_email: string
+          render_hash?: string | null
+          reply_to_email?: string | null
+          sender_email: string
+          sent_at?: string | null
+          source?: string
+          status?: string
+          subject?: string | null
+          template_version_id?: string | null
+          tenant_id: string
+          updated_at?: string
+        }
+        Update: {
+          body_html?: string | null
+          body_text?: string | null
+          bulk_send_id?: string | null
+          campaign_id?: string | null
+          client_id?: string | null
+          created_at?: string
+          created_by_profile_id?: string | null
+          delivered_at?: string | null
+          direction?: string
+          error_code?: string | null
+          error_message?: string | null
+          failed_at?: string | null
+          id?: string
+          in_reply_to_message_id?: string | null
+          message_class?: string | null
+          metadata?: Json
+          occurred_at?: string
+          preheader?: string | null
+          provider?: string
+          provider_message_id?: string | null
+          provider_thread_id?: string | null
+          received_at?: string | null
+          recipient_email?: string
+          render_hash?: string | null
+          reply_to_email?: string | null
+          sender_email?: string
+          sent_at?: string | null
+          source?: string
+          status?: string
+          subject?: string | null
+          template_version_id?: string | null
+          tenant_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_email_messages_bulk_send_id_fkey"
+            columns: ["bulk_send_id"]
+            isOneToOne: false
+            referencedRelation: "crm_bulk_send_logs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_email_messages_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "crm_campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_email_messages_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_email_messages_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "v_client_canonical_state"
+            referencedColumns: ["client_id"]
+          },
+          {
+            foreignKeyName: "crm_email_messages_created_by_profile_id_fkey"
+            columns: ["created_by_profile_id"]
+            isOneToOne: false
+            referencedRelation: "client_journey_exception_owner_options"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "crm_email_messages_created_by_profile_id_fkey"
+            columns: ["created_by_profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_email_messages_template_version_fkey"
+            columns: ["tenant_id", "template_version_id"]
+            isOneToOne: false
+            referencedRelation: "crm_email_template_versions"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "crm_email_messages_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_email_messages_tenant_reply_fkey"
+            columns: ["tenant_id", "in_reply_to_message_id"]
+            isOneToOne: false
+            referencedRelation: "crm_email_messages"
+            referencedColumns: ["tenant_id", "id"]
+          },
+        ]
+      }
       crm_email_signatures: {
         Row: {
           body_html: string | null
+          body_text: string | null
           created_at: string
           created_by_profile_id: string | null
           id: string
@@ -6723,6 +7164,7 @@ export type Database = {
         }
         Insert: {
           body_html?: string | null
+          body_text?: string | null
           created_at?: string
           created_by_profile_id?: string | null
           id?: string
@@ -6735,6 +7177,7 @@ export type Database = {
         }
         Update: {
           body_html?: string | null
+          body_text?: string | null
           created_at?: string
           created_by_profile_id?: string | null
           id?: string
@@ -6769,39 +7212,170 @@ export type Database = {
           },
         ]
       }
+      crm_email_template_versions: {
+        Row: {
+          change_summary: string | null
+          content_mode: string
+          content_scope: string
+          created_at: string
+          editor_document: Json
+          editor_schema_version: number
+          id: string
+          preheader: string | null
+          published_at: string
+          published_by_profile_id: string
+          render_hash: string
+          rendered_html: string
+          rendered_text: string
+          subject: string
+          template_id: string
+          tenant_id: string
+          theme_key: string
+          version_number: number
+        }
+        Insert: {
+          change_summary?: string | null
+          content_mode: string
+          content_scope: string
+          created_at?: string
+          editor_document: Json
+          editor_schema_version: number
+          id?: string
+          preheader?: string | null
+          published_at?: string
+          published_by_profile_id: string
+          render_hash: string
+          rendered_html: string
+          rendered_text: string
+          subject: string
+          template_id: string
+          tenant_id: string
+          theme_key: string
+          version_number: number
+        }
+        Update: {
+          change_summary?: string | null
+          content_mode?: string
+          content_scope?: string
+          created_at?: string
+          editor_document?: Json
+          editor_schema_version?: number
+          id?: string
+          preheader?: string | null
+          published_at?: string
+          published_by_profile_id?: string
+          render_hash?: string
+          rendered_html?: string
+          rendered_text?: string
+          subject?: string
+          template_id?: string
+          tenant_id?: string
+          theme_key?: string
+          version_number?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_email_template_versions_published_by_profile_id_fkey"
+            columns: ["published_by_profile_id"]
+            isOneToOne: false
+            referencedRelation: "client_journey_exception_owner_options"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "crm_email_template_versions_published_by_profile_id_fkey"
+            columns: ["published_by_profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_email_template_versions_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_email_template_versions_tenant_template_fkey"
+            columns: ["tenant_id", "template_id"]
+            isOneToOne: false
+            referencedRelation: "crm_email_templates"
+            referencedColumns: ["tenant_id", "id"]
+          },
+        ]
+      }
       crm_email_templates: {
         Row: {
+          archived_at: string | null
           body_html: string
+          body_text: string | null
+          content_mode: string
+          content_scope: string
           created_at: string
           created_by_profile_id: string
+          current_published_version_id: string | null
+          description: string | null
+          editor_document: Json | null
+          editor_schema_version: number | null
           id: string
           is_active: boolean
           name: string
+          preheader: string | null
+          render_hash: string | null
+          status: string
           subject: string
           tenant_id: string
+          theme_key: string
           updated_at: string
+          updated_by_profile_id: string | null
         }
         Insert: {
+          archived_at?: string | null
           body_html: string
+          body_text?: string | null
+          content_mode?: string
+          content_scope?: string
           created_at?: string
           created_by_profile_id: string
+          current_published_version_id?: string | null
+          description?: string | null
+          editor_document?: Json | null
+          editor_schema_version?: number | null
           id?: string
           is_active?: boolean
           name: string
+          preheader?: string | null
+          render_hash?: string | null
+          status?: string
           subject: string
           tenant_id: string
+          theme_key?: string
           updated_at?: string
+          updated_by_profile_id?: string | null
         }
         Update: {
+          archived_at?: string | null
           body_html?: string
+          body_text?: string | null
+          content_mode?: string
+          content_scope?: string
           created_at?: string
           created_by_profile_id?: string
+          current_published_version_id?: string | null
+          description?: string | null
+          editor_document?: Json | null
+          editor_schema_version?: number | null
           id?: string
           is_active?: boolean
           name?: string
+          preheader?: string | null
+          render_hash?: string | null
+          status?: string
           subject?: string
           tenant_id?: string
+          theme_key?: string
           updated_at?: string
+          updated_by_profile_id?: string | null
         }
         Relationships: [
           {
@@ -6819,10 +7393,31 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "crm_email_templates_current_version_fkey"
+            columns: ["tenant_id", "id", "current_published_version_id"]
+            isOneToOne: false
+            referencedRelation: "crm_email_template_versions"
+            referencedColumns: ["tenant_id", "template_id", "id"]
+          },
+          {
             foreignKeyName: "crm_email_templates_tenant_id_fkey"
             columns: ["tenant_id"]
             isOneToOne: false
             referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_email_templates_updated_by_profile_id_fkey"
+            columns: ["updated_by_profile_id"]
+            isOneToOne: false
+            referencedRelation: "client_journey_exception_owner_options"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "crm_email_templates_updated_by_profile_id_fkey"
+            columns: ["updated_by_profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
@@ -7192,6 +7787,53 @@ export type Database = {
             foreignKeyName: "crm_notes_tenant_id_fkey"
             columns: ["tenant_id"]
             isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      crm_resend_email_settings: {
+        Row: {
+          connection_status: string
+          created_at: string
+          from_email: string | null
+          from_name: string | null
+          inbound_email: string | null
+          last_verified_at: string | null
+          postal_address: string | null
+          reply_to_email: string | null
+          tenant_id: string
+          updated_at: string
+        }
+        Insert: {
+          connection_status?: string
+          created_at?: string
+          from_email?: string | null
+          from_name?: string | null
+          inbound_email?: string | null
+          last_verified_at?: string | null
+          postal_address?: string | null
+          reply_to_email?: string | null
+          tenant_id: string
+          updated_at?: string
+        }
+        Update: {
+          connection_status?: string
+          created_at?: string
+          from_email?: string | null
+          from_name?: string | null
+          inbound_email?: string | null
+          last_verified_at?: string | null
+          postal_address?: string | null
+          reply_to_email?: string | null
+          tenant_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_resend_email_settings_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: true
             referencedRelation: "tenants"
             referencedColumns: ["id"]
           },
@@ -12120,7 +12762,21 @@ export type Database = {
             foreignKeyName: "relationship_campaign_enrollments_tenant_campaign_fkey"
             columns: ["tenant_id", "campaign_id"]
             isOneToOne: false
+            referencedRelation: "relationship_campaign_summary_v"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_campaign_enrollments_tenant_campaign_fkey"
+            columns: ["tenant_id", "campaign_id"]
+            isOneToOne: false
             referencedRelation: "relationship_campaigns"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_campaign_enrollments_tenant_contact_fkey"
+            columns: ["tenant_id", "contact_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_contact_directory_v"
             referencedColumns: ["tenant_id", "id"]
           },
           {
@@ -12142,6 +12798,20 @@ export type Database = {
             columns: ["tenant_id", "opportunity_id"]
             isOneToOne: false
             referencedRelation: "relationship_opportunities"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_campaign_enrollments_tenant_opportunity_fkey"
+            columns: ["tenant_id", "opportunity_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_opportunity_pipeline_v"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_campaign_enrollments_tenant_organization_fkey"
+            columns: ["tenant_id", "organization_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_organization_directory_v"
             referencedColumns: ["tenant_id", "id"]
           },
           {
@@ -12169,50 +12839,77 @@ export type Database = {
       }
       relationship_campaign_steps: {
         Row: {
+          body_html_template: string | null
           body_template: string
+          body_text_template: string | null
           campaign_id: string
+          content_mode: string | null
           created_at: string
           created_by_profile_id: string | null
           delay_days: number
+          editor_document: Json | null
+          editor_schema_version: number | null
           id: string
           is_active: boolean
           metadata: Json
           position: number
+          preheader_template: string | null
+          render_hash: string | null
           stop_on_reply: boolean
           subject_template: string
+          template_version_id: string | null
           tenant_id: string
+          theme_key: string | null
           updated_at: string
           updated_by_profile_id: string | null
         }
         Insert: {
+          body_html_template?: string | null
           body_template: string
+          body_text_template?: string | null
           campaign_id: string
+          content_mode?: string | null
           created_at?: string
           created_by_profile_id?: string | null
           delay_days?: number
+          editor_document?: Json | null
+          editor_schema_version?: number | null
           id?: string
           is_active?: boolean
           metadata?: Json
           position: number
+          preheader_template?: string | null
+          render_hash?: string | null
           stop_on_reply?: boolean
           subject_template: string
+          template_version_id?: string | null
           tenant_id: string
+          theme_key?: string | null
           updated_at?: string
           updated_by_profile_id?: string | null
         }
         Update: {
+          body_html_template?: string | null
           body_template?: string
+          body_text_template?: string | null
           campaign_id?: string
+          content_mode?: string | null
           created_at?: string
           created_by_profile_id?: string | null
           delay_days?: number
+          editor_document?: Json | null
+          editor_schema_version?: number | null
           id?: string
           is_active?: boolean
           metadata?: Json
           position?: number
+          preheader_template?: string | null
+          render_hash?: string | null
           stop_on_reply?: boolean
           subject_template?: string
+          template_version_id?: string | null
           tenant_id?: string
+          theme_key?: string | null
           updated_at?: string
           updated_by_profile_id?: string | null
         }
@@ -12230,6 +12927,20 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_campaign_steps_template_version_fkey"
+            columns: ["tenant_id", "template_version_id"]
+            isOneToOne: false
+            referencedRelation: "crm_email_template_versions"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_campaign_steps_tenant_campaign_fkey"
+            columns: ["tenant_id", "campaign_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_campaign_summary_v"
+            referencedColumns: ["tenant_id", "id"]
           },
           {
             foreignKeyName: "relationship_campaign_steps_tenant_campaign_fkey"
@@ -12278,6 +12989,7 @@ export type Database = {
           name: string
           owner_profile_id: string | null
           purpose: string
+          search_document: unknown
           send_window_end: string | null
           send_window_start: string | null
           sender_email: string
@@ -12307,6 +13019,7 @@ export type Database = {
           name: string
           owner_profile_id?: string | null
           purpose: string
+          search_document?: unknown
           send_window_end?: string | null
           send_window_start?: string | null
           sender_email: string
@@ -12336,6 +13049,7 @@ export type Database = {
           name?: string
           owner_profile_id?: string | null
           purpose?: string
+          search_document?: unknown
           send_window_end?: string | null
           send_window_start?: string | null
           sender_email?: string
@@ -12401,6 +13115,287 @@ export type Database = {
           },
         ]
       }
+      relationship_communication_events: {
+        Row: {
+          communication_id: string
+          created_at: string
+          event_type: string
+          id: string
+          occurred_at: string
+          payload: Json
+          provider: string
+          provider_event_id: string | null
+          tenant_id: string
+        }
+        Insert: {
+          communication_id: string
+          created_at?: string
+          event_type: string
+          id?: string
+          occurred_at: string
+          payload?: Json
+          provider: string
+          provider_event_id?: string | null
+          tenant_id: string
+        }
+        Update: {
+          communication_id?: string
+          created_at?: string
+          event_type?: string
+          id?: string
+          occurred_at?: string
+          payload?: Json
+          provider?: string
+          provider_event_id?: string | null
+          tenant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "relationship_communication_events_tenant_communication_fkey"
+            columns: ["tenant_id", "communication_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_communications"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_communication_events_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      relationship_communications: {
+        Row: {
+          campaign_id: string | null
+          campaign_step_id: string | null
+          channel: string
+          contact_id: string | null
+          created_at: string
+          created_by_profile_id: string | null
+          delivered_at: string | null
+          direction: string
+          enrollment_id: string | null
+          error_code: string | null
+          error_message: string | null
+          failed_at: string | null
+          id: string
+          metadata: Json
+          occurred_at: string
+          opportunity_id: string | null
+          organization_id: string | null
+          provider: string | null
+          provider_message_id: string | null
+          provider_thread_id: string | null
+          recipient_email: string
+          render_hash: string | null
+          rendered_body: string | null
+          rendered_html: string | null
+          rendered_preheader: string | null
+          rendered_text: string | null
+          scheduled_for: string | null
+          sender_email: string
+          sent_at: string | null
+          status: string
+          subject: string | null
+          template_version_id: string | null
+          tenant_id: string
+          updated_at: string
+          updated_by_profile_id: string | null
+          work_item_id: string | null
+        }
+        Insert: {
+          campaign_id?: string | null
+          campaign_step_id?: string | null
+          channel?: string
+          contact_id?: string | null
+          created_at?: string
+          created_by_profile_id?: string | null
+          delivered_at?: string | null
+          direction: string
+          enrollment_id?: string | null
+          error_code?: string | null
+          error_message?: string | null
+          failed_at?: string | null
+          id?: string
+          metadata?: Json
+          occurred_at?: string
+          opportunity_id?: string | null
+          organization_id?: string | null
+          provider?: string | null
+          provider_message_id?: string | null
+          provider_thread_id?: string | null
+          recipient_email: string
+          render_hash?: string | null
+          rendered_body?: string | null
+          rendered_html?: string | null
+          rendered_preheader?: string | null
+          rendered_text?: string | null
+          scheduled_for?: string | null
+          sender_email: string
+          sent_at?: string | null
+          status: string
+          subject?: string | null
+          template_version_id?: string | null
+          tenant_id: string
+          updated_at?: string
+          updated_by_profile_id?: string | null
+          work_item_id?: string | null
+        }
+        Update: {
+          campaign_id?: string | null
+          campaign_step_id?: string | null
+          channel?: string
+          contact_id?: string | null
+          created_at?: string
+          created_by_profile_id?: string | null
+          delivered_at?: string | null
+          direction?: string
+          enrollment_id?: string | null
+          error_code?: string | null
+          error_message?: string | null
+          failed_at?: string | null
+          id?: string
+          metadata?: Json
+          occurred_at?: string
+          opportunity_id?: string | null
+          organization_id?: string | null
+          provider?: string | null
+          provider_message_id?: string | null
+          provider_thread_id?: string | null
+          recipient_email?: string
+          render_hash?: string | null
+          rendered_body?: string | null
+          rendered_html?: string | null
+          rendered_preheader?: string | null
+          rendered_text?: string | null
+          scheduled_for?: string | null
+          sender_email?: string
+          sent_at?: string | null
+          status?: string
+          subject?: string | null
+          template_version_id?: string | null
+          tenant_id?: string
+          updated_at?: string
+          updated_by_profile_id?: string | null
+          work_item_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "relationship_communications_created_by_profile_id_fkey"
+            columns: ["created_by_profile_id"]
+            isOneToOne: false
+            referencedRelation: "client_journey_exception_owner_options"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "relationship_communications_created_by_profile_id_fkey"
+            columns: ["created_by_profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_communications_template_version_fkey"
+            columns: ["tenant_id", "template_version_id"]
+            isOneToOne: false
+            referencedRelation: "crm_email_template_versions"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_communications_tenant_campaign_fkey"
+            columns: ["tenant_id", "campaign_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_campaign_summary_v"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_communications_tenant_campaign_fkey"
+            columns: ["tenant_id", "campaign_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_campaigns"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_communications_tenant_contact_fkey"
+            columns: ["tenant_id", "contact_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_contact_directory_v"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_communications_tenant_contact_fkey"
+            columns: ["tenant_id", "contact_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_contacts"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_communications_tenant_enrollment_fkey"
+            columns: ["tenant_id", "enrollment_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_campaign_enrollments"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_communications_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_communications_tenant_opportunity_fkey"
+            columns: ["tenant_id", "opportunity_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_opportunities"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_communications_tenant_opportunity_fkey"
+            columns: ["tenant_id", "opportunity_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_opportunity_pipeline_v"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_communications_tenant_organization_fkey"
+            columns: ["tenant_id", "organization_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_organization_directory_v"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_communications_tenant_organization_fkey"
+            columns: ["tenant_id", "organization_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_organizations"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_communications_tenant_step_fkey"
+            columns: ["tenant_id", "campaign_step_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_campaign_steps"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_communications_updated_by_profile_id_fkey"
+            columns: ["updated_by_profile_id"]
+            isOneToOne: false
+            referencedRelation: "client_journey_exception_owner_options"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "relationship_communications_updated_by_profile_id_fkey"
+            columns: ["updated_by_profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       relationship_contact_organizations: {
         Row: {
           contact_id: string
@@ -12437,7 +13432,21 @@ export type Database = {
             foreignKeyName: "relationship_contact_organizations_contact_id_fkey"
             columns: ["contact_id"]
             isOneToOne: false
+            referencedRelation: "relationship_contact_directory_v"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_contact_organizations_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
             referencedRelation: "relationship_contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_contact_organizations_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_organization_directory_v"
             referencedColumns: ["id"]
           },
           {
@@ -12489,6 +13498,13 @@ export type Database = {
             foreignKeyName: "relationship_contact_roles_contact_id_fkey"
             columns: ["contact_id"]
             isOneToOne: false
+            referencedRelation: "relationship_contact_directory_v"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_contact_roles_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
             referencedRelation: "relationship_contacts"
             referencedColumns: ["id"]
           },
@@ -12527,6 +13543,7 @@ export type Database = {
           preferred_name: string | null
           profile_id: string | null
           relationship_stage: string
+          search_document: unknown
           source: string
           source_record_key: string | null
           state: string | null
@@ -12553,6 +13570,7 @@ export type Database = {
           preferred_name?: string | null
           profile_id?: string | null
           relationship_stage?: string
+          search_document?: unknown
           source?: string
           source_record_key?: string | null
           state?: string | null
@@ -12579,6 +13597,7 @@ export type Database = {
           preferred_name?: string | null
           profile_id?: string | null
           relationship_stage?: string
+          search_document?: unknown
           source?: string
           source_record_key?: string | null
           state?: string | null
@@ -12781,6 +13800,13 @@ export type Database = {
             foreignKeyName: "relationship_import_rows_tenant_contact_fkey"
             columns: ["tenant_id", "committed_contact_id"]
             isOneToOne: false
+            referencedRelation: "relationship_contact_directory_v"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_import_rows_tenant_contact_fkey"
+            columns: ["tenant_id", "committed_contact_id"]
+            isOneToOne: false
             referencedRelation: "relationship_contacts"
             referencedColumns: ["tenant_id", "id"]
           },
@@ -12803,6 +13829,20 @@ export type Database = {
             columns: ["tenant_id", "committed_opportunity_id"]
             isOneToOne: false
             referencedRelation: "relationship_opportunities"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_import_rows_tenant_opportunity_fkey"
+            columns: ["tenant_id", "committed_opportunity_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_opportunity_pipeline_v"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_import_rows_tenant_organization_fkey"
+            columns: ["tenant_id", "committed_organization_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_organization_directory_v"
             referencedColumns: ["tenant_id", "id"]
           },
           {
@@ -13003,6 +14043,13 @@ export type Database = {
             foreignKeyName: "relationship_influencer_profiles_contact_id_fkey"
             columns: ["contact_id"]
             isOneToOne: true
+            referencedRelation: "relationship_contact_directory_v"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_influencer_profiles_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: true
             referencedRelation: "relationship_contacts"
             referencedColumns: ["id"]
           },
@@ -13066,6 +14113,13 @@ export type Database = {
             foreignKeyName: "relationship_interactions_contact_id_fkey"
             columns: ["contact_id"]
             isOneToOne: false
+            referencedRelation: "relationship_contact_directory_v"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_interactions_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
             referencedRelation: "relationship_contacts"
             referencedColumns: ["id"]
           },
@@ -13087,8 +14141,22 @@ export type Database = {
             foreignKeyName: "relationship_interactions_organization_id_fkey"
             columns: ["organization_id"]
             isOneToOne: false
+            referencedRelation: "relationship_organization_directory_v"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_interactions_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
             referencedRelation: "relationship_organizations"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_interactions_tenant_contact_fkey"
+            columns: ["tenant_id", "contact_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_contact_directory_v"
+            referencedColumns: ["tenant_id", "id"]
           },
           {
             foreignKeyName: "relationship_interactions_tenant_contact_fkey"
@@ -13109,6 +14177,20 @@ export type Database = {
             columns: ["tenant_id", "opportunity_id"]
             isOneToOne: false
             referencedRelation: "relationship_opportunities"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_interactions_tenant_opportunity_fkey"
+            columns: ["tenant_id", "opportunity_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_opportunity_pipeline_v"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_interactions_tenant_organization_fkey"
+            columns: ["tenant_id", "organization_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_organization_directory_v"
             referencedColumns: ["tenant_id", "id"]
           },
           {
@@ -13150,6 +14232,7 @@ export type Database = {
           qualification: Json
           review_status: string
           risk_flags: string[]
+          search_document: unknown
           status: string
           status_changed_at: string
           tenant_id: string
@@ -13173,6 +14256,7 @@ export type Database = {
           qualification?: Json
           review_status?: string
           risk_flags?: string[]
+          search_document?: unknown
           status?: string
           status_changed_at?: string
           tenant_id: string
@@ -13196,6 +14280,7 @@ export type Database = {
           qualification?: Json
           review_status?: string
           risk_flags?: string[]
+          search_document?: unknown
           status?: string
           status_changed_at?: string
           tenant_id?: string
@@ -13237,6 +14322,13 @@ export type Database = {
             foreignKeyName: "relationship_opportunities_tenant_contact_fkey"
             columns: ["tenant_id", "primary_contact_id"]
             isOneToOne: false
+            referencedRelation: "relationship_contact_directory_v"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_opportunities_tenant_contact_fkey"
+            columns: ["tenant_id", "primary_contact_id"]
+            isOneToOne: false
             referencedRelation: "relationship_contacts"
             referencedColumns: ["tenant_id", "id"]
           },
@@ -13246,6 +14338,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "tenants"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_opportunities_tenant_organization_fkey"
+            columns: ["tenant_id", "organization_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_organization_directory_v"
+            referencedColumns: ["tenant_id", "id"]
           },
           {
             foreignKeyName: "relationship_opportunities_tenant_organization_fkey"
@@ -13359,6 +14458,13 @@ export type Database = {
             referencedRelation: "relationship_opportunities"
             referencedColumns: ["tenant_id", "id"]
           },
+          {
+            foreignKeyName: "relationship_opportunity_status_history_tenant_opportunity_fkey"
+            columns: ["tenant_id", "opportunity_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_opportunity_pipeline_v"
+            referencedColumns: ["tenant_id", "id"]
+          },
         ]
       }
       relationship_organization_roles: {
@@ -13390,6 +14496,13 @@ export type Database = {
           updated_at?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "relationship_organization_roles_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_organization_directory_v"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "relationship_organization_roles_organization_id_fkey"
             columns: ["organization_id"]
@@ -13428,6 +14541,7 @@ export type Database = {
           outreach_status: string
           owner_profile_id: string | null
           relationship_stage: string
+          search_document: unknown
           source: string
           source_record_key: string | null
           tenant_id: string
@@ -13450,6 +14564,7 @@ export type Database = {
           outreach_status?: string
           owner_profile_id?: string | null
           relationship_stage?: string
+          search_document?: unknown
           source?: string
           source_record_key?: string | null
           tenant_id: string
@@ -13472,6 +14587,7 @@ export type Database = {
           outreach_status?: string
           owner_profile_id?: string | null
           relationship_stage?: string
+          search_document?: unknown
           source?: string
           source_record_key?: string | null
           tenant_id?: string
@@ -13615,6 +14731,13 @@ export type Database = {
             foreignKeyName: "relationship_referrals_tenant_contact_fkey"
             columns: ["tenant_id", "contact_id"]
             isOneToOne: false
+            referencedRelation: "relationship_contact_directory_v"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_referrals_tenant_contact_fkey"
+            columns: ["tenant_id", "contact_id"]
+            isOneToOne: false
             referencedRelation: "relationship_contacts"
             referencedColumns: ["tenant_id", "id"]
           },
@@ -13624,6 +14747,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "tenants"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_referrals_tenant_organization_fkey"
+            columns: ["tenant_id", "organization_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_organization_directory_v"
+            referencedColumns: ["tenant_id", "id"]
           },
           {
             foreignKeyName: "relationship_referrals_tenant_organization_fkey"
@@ -13656,6 +14786,172 @@ export type Database = {
           {
             foreignKeyName: "relationship_referrals_verified_by_profile_id_fkey"
             columns: ["verified_by_profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      relationship_replies: {
+        Row: {
+          communication_id: string
+          contact_id: string | null
+          created_at: string
+          created_by_profile_id: string | null
+          enrollment_id: string | null
+          follow_up_due_at: string | null
+          id: string
+          metadata: Json
+          opportunity_id: string | null
+          organization_id: string | null
+          owner_profile_id: string | null
+          resolved_at: string | null
+          status: string
+          tenant_id: string
+          updated_at: string
+          updated_by_profile_id: string | null
+          version: number
+        }
+        Insert: {
+          communication_id: string
+          contact_id?: string | null
+          created_at?: string
+          created_by_profile_id?: string | null
+          enrollment_id?: string | null
+          follow_up_due_at?: string | null
+          id?: string
+          metadata?: Json
+          opportunity_id?: string | null
+          organization_id?: string | null
+          owner_profile_id?: string | null
+          resolved_at?: string | null
+          status?: string
+          tenant_id: string
+          updated_at?: string
+          updated_by_profile_id?: string | null
+          version?: number
+        }
+        Update: {
+          communication_id?: string
+          contact_id?: string | null
+          created_at?: string
+          created_by_profile_id?: string | null
+          enrollment_id?: string | null
+          follow_up_due_at?: string | null
+          id?: string
+          metadata?: Json
+          opportunity_id?: string | null
+          organization_id?: string | null
+          owner_profile_id?: string | null
+          resolved_at?: string | null
+          status?: string
+          tenant_id?: string
+          updated_at?: string
+          updated_by_profile_id?: string | null
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "relationship_replies_created_by_profile_id_fkey"
+            columns: ["created_by_profile_id"]
+            isOneToOne: false
+            referencedRelation: "client_journey_exception_owner_options"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "relationship_replies_created_by_profile_id_fkey"
+            columns: ["created_by_profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_replies_owner_profile_id_fkey"
+            columns: ["owner_profile_id"]
+            isOneToOne: false
+            referencedRelation: "client_journey_exception_owner_options"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "relationship_replies_owner_profile_id_fkey"
+            columns: ["owner_profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_replies_tenant_communication_fkey"
+            columns: ["tenant_id", "communication_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_communications"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_replies_tenant_contact_fkey"
+            columns: ["tenant_id", "contact_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_contact_directory_v"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_replies_tenant_contact_fkey"
+            columns: ["tenant_id", "contact_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_contacts"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_replies_tenant_enrollment_fkey"
+            columns: ["tenant_id", "enrollment_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_campaign_enrollments"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_replies_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_replies_tenant_opportunity_fkey"
+            columns: ["tenant_id", "opportunity_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_opportunities"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_replies_tenant_opportunity_fkey"
+            columns: ["tenant_id", "opportunity_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_opportunity_pipeline_v"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_replies_tenant_organization_fkey"
+            columns: ["tenant_id", "organization_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_organization_directory_v"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_replies_tenant_organization_fkey"
+            columns: ["tenant_id", "organization_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_organizations"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_replies_updated_by_profile_id_fkey"
+            columns: ["updated_by_profile_id"]
+            isOneToOne: false
+            referencedRelation: "client_journey_exception_owner_options"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "relationship_replies_updated_by_profile_id_fkey"
+            columns: ["updated_by_profile_id"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
@@ -13749,7 +15045,21 @@ export type Database = {
             foreignKeyName: "relationship_social_profiles_contact_id_fkey"
             columns: ["contact_id"]
             isOneToOne: false
+            referencedRelation: "relationship_contact_directory_v"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_social_profiles_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
             referencedRelation: "relationship_contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_social_profiles_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_organization_directory_v"
             referencedColumns: ["id"]
           },
           {
@@ -13819,6 +15129,13 @@ export type Database = {
             foreignKeyName: "relationship_stage_history_contact_id_fkey"
             columns: ["contact_id"]
             isOneToOne: false
+            referencedRelation: "relationship_contact_directory_v"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_stage_history_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
             referencedRelation: "relationship_contacts"
             referencedColumns: ["id"]
           },
@@ -13840,8 +15157,22 @@ export type Database = {
             foreignKeyName: "relationship_stage_history_organization_id_fkey"
             columns: ["organization_id"]
             isOneToOne: false
+            referencedRelation: "relationship_organization_directory_v"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_stage_history_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
             referencedRelation: "relationship_organizations"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_stage_history_tenant_contact_fkey"
+            columns: ["tenant_id", "contact_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_contact_directory_v"
+            referencedColumns: ["tenant_id", "id"]
           },
           {
             foreignKeyName: "relationship_stage_history_tenant_contact_fkey"
@@ -13856,6 +15187,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "tenants"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_stage_history_tenant_organization_fkey"
+            columns: ["tenant_id", "organization_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_organization_directory_v"
+            referencedColumns: ["tenant_id", "id"]
           },
           {
             foreignKeyName: "relationship_stage_history_tenant_organization_fkey"
@@ -13980,7 +15318,21 @@ export type Database = {
             foreignKeyName: "relationship_suppressions_tenant_campaign_fkey"
             columns: ["tenant_id", "campaign_id"]
             isOneToOne: false
+            referencedRelation: "relationship_campaign_summary_v"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_suppressions_tenant_campaign_fkey"
+            columns: ["tenant_id", "campaign_id"]
+            isOneToOne: false
             referencedRelation: "relationship_campaigns"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_suppressions_tenant_contact_fkey"
+            columns: ["tenant_id", "contact_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_contact_directory_v"
             referencedColumns: ["tenant_id", "id"]
           },
           {
@@ -13996,6 +15348,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "tenants"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_suppressions_tenant_org_fkey"
+            columns: ["tenant_id", "organization_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_organization_directory_v"
+            referencedColumns: ["tenant_id", "id"]
           },
           {
             foreignKeyName: "relationship_suppressions_tenant_org_fkey"
@@ -16607,7 +17966,21 @@ export type Database = {
             foreignKeyName: "website_submissions_contact_id_fkey"
             columns: ["contact_id"]
             isOneToOne: false
+            referencedRelation: "relationship_contact_directory_v"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "website_submissions_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
             referencedRelation: "relationship_contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "website_submissions_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_organization_directory_v"
             referencedColumns: ["id"]
           },
           {
@@ -16628,7 +18001,21 @@ export type Database = {
             foreignKeyName: "website_submissions_subject_contact_id_fkey"
             columns: ["subject_contact_id"]
             isOneToOne: false
+            referencedRelation: "relationship_contact_directory_v"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "website_submissions_subject_contact_id_fkey"
+            columns: ["subject_contact_id"]
+            isOneToOne: false
             referencedRelation: "relationship_contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "website_submissions_subject_organization_id_fkey"
+            columns: ["subject_organization_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_organization_directory_v"
             referencedColumns: ["id"]
           },
           {
@@ -17236,6 +18623,367 @@ export type Database = {
           },
         ]
       }
+      relationship_campaign_summary_v: {
+        Row: {
+          activated_at: string | null
+          active_count: number | null
+          active_suppression_count: number | null
+          bounced_count: number | null
+          completed_at: string | null
+          completed_count: number | null
+          created_at: string | null
+          delivered_count: number | null
+          enrollment_count: number | null
+          execution_enabled: boolean | null
+          failed_communication_count: number | null
+          failed_enrollment_count: number | null
+          id: string | null
+          initiative: string | null
+          marketing_lifecycle_stage: string | null
+          name: string | null
+          owner_profile_id: string | null
+          pending_count: number | null
+          purpose: string | null
+          reply_count: number | null
+          responded_count: number | null
+          sender_email: string | null
+          sender_name: string | null
+          sent_count: number | null
+          status: string | null
+          step_count: number | null
+          tenant_id: string | null
+          updated_at: string | null
+          version: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "relationship_campaigns_owner_profile_id_fkey"
+            columns: ["owner_profile_id"]
+            isOneToOne: false
+            referencedRelation: "client_journey_exception_owner_options"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "relationship_campaigns_owner_profile_id_fkey"
+            columns: ["owner_profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_campaigns_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      relationship_contact_directory_v: {
+        Row: {
+          contact_kind: string | null
+          created_at: string | null
+          display_name: string | null
+          do_not_contact: boolean | null
+          email: string | null
+          first_name: string | null
+          id: string | null
+          last_contact_at: string | null
+          last_interaction_at: string | null
+          last_name: string | null
+          next_action: string | null
+          next_action_due_at: string | null
+          organization_count: number | null
+          outreach_status: string | null
+          owner_profile_id: string | null
+          phone: string | null
+          preferred_name: string | null
+          primary_organization_id: string | null
+          primary_organization_name: string | null
+          relationship_stage: string | null
+          source: string | null
+          state: string | null
+          tenant_id: string | null
+          updated_at: string | null
+          veteran_affiliation: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "relationship_contact_organizations_organization_id_fkey"
+            columns: ["primary_organization_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_organization_directory_v"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_contact_organizations_organization_id_fkey"
+            columns: ["primary_organization_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_contacts_owner_profile_id_fkey"
+            columns: ["owner_profile_id"]
+            isOneToOne: false
+            referencedRelation: "client_journey_exception_owner_options"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "relationship_contacts_owner_profile_id_fkey"
+            columns: ["owner_profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_contacts_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      relationship_opportunity_pipeline_v: {
+        Row: {
+          cause_area: string | null
+          closed_at: string | null
+          created_at: string | null
+          id: string | null
+          last_interaction_at: string | null
+          next_action: string | null
+          next_action_due_at: string | null
+          organization_id: string | null
+          organization_name: string | null
+          owner_profile_id: string | null
+          primary_contact_email: string | null
+          primary_contact_id: string | null
+          primary_contact_name: string | null
+          review_status: string | null
+          risk_flags: string[] | null
+          status: string | null
+          status_changed_at: string | null
+          tenant_id: string | null
+          updated_at: string | null
+          version: number | null
+          veteran_priority: boolean | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "relationship_opportunities_owner_profile_id_fkey"
+            columns: ["owner_profile_id"]
+            isOneToOne: false
+            referencedRelation: "client_journey_exception_owner_options"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "relationship_opportunities_owner_profile_id_fkey"
+            columns: ["owner_profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_opportunities_tenant_contact_fkey"
+            columns: ["tenant_id", "primary_contact_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_contact_directory_v"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_opportunities_tenant_contact_fkey"
+            columns: ["tenant_id", "primary_contact_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_contacts"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_opportunities_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_opportunities_tenant_organization_fkey"
+            columns: ["tenant_id", "organization_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_organization_directory_v"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_opportunities_tenant_organization_fkey"
+            columns: ["tenant_id", "organization_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_organizations"
+            referencedColumns: ["tenant_id", "id"]
+          },
+        ]
+      }
+      relationship_organization_directory_v: {
+        Row: {
+          contact_count: number | null
+          created_at: string | null
+          do_not_contact: boolean | null
+          id: string | null
+          last_contact_at: string | null
+          last_interaction_at: string | null
+          name: string | null
+          next_action: string | null
+          next_action_due_at: string | null
+          open_opportunity_count: number | null
+          opportunity_count: number | null
+          organization_kind: string | null
+          outreach_status: string | null
+          owner_profile_id: string | null
+          relationship_stage: string | null
+          source: string | null
+          tenant_id: string | null
+          updated_at: string | null
+          veteran_affiliated: boolean | null
+          website: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "relationship_organizations_owner_profile_id_fkey"
+            columns: ["owner_profile_id"]
+            isOneToOne: false
+            referencedRelation: "client_journey_exception_owner_options"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "relationship_organizations_owner_profile_id_fkey"
+            columns: ["owner_profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_organizations_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      relationship_reply_queue_v: {
+        Row: {
+          body: string | null
+          campaign_id: string | null
+          campaign_name: string | null
+          communication_id: string | null
+          contact_id: string | null
+          contact_name: string | null
+          created_at: string | null
+          enrollment_id: string | null
+          follow_up_due_at: string | null
+          id: string | null
+          opportunity_id: string | null
+          organization_id: string | null
+          organization_name: string | null
+          owner_profile_id: string | null
+          received_at: string | null
+          recipient_email: string | null
+          resolved_at: string | null
+          sender_email: string | null
+          status: string | null
+          subject: string | null
+          tenant_id: string | null
+          updated_at: string | null
+          version: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "relationship_replies_owner_profile_id_fkey"
+            columns: ["owner_profile_id"]
+            isOneToOne: false
+            referencedRelation: "client_journey_exception_owner_options"
+            referencedColumns: ["profile_id"]
+          },
+          {
+            foreignKeyName: "relationship_replies_owner_profile_id_fkey"
+            columns: ["owner_profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_replies_tenant_communication_fkey"
+            columns: ["tenant_id", "communication_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_communications"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_replies_tenant_contact_fkey"
+            columns: ["tenant_id", "contact_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_contact_directory_v"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_replies_tenant_contact_fkey"
+            columns: ["tenant_id", "contact_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_contacts"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_replies_tenant_enrollment_fkey"
+            columns: ["tenant_id", "enrollment_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_campaign_enrollments"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_replies_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "relationship_replies_tenant_opportunity_fkey"
+            columns: ["tenant_id", "opportunity_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_opportunities"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_replies_tenant_opportunity_fkey"
+            columns: ["tenant_id", "opportunity_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_opportunity_pipeline_v"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_replies_tenant_organization_fkey"
+            columns: ["tenant_id", "organization_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_organization_directory_v"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "relationship_replies_tenant_organization_fkey"
+            columns: ["tenant_id", "organization_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_organizations"
+            referencedColumns: ["tenant_id", "id"]
+          },
+        ]
+      }
+      relationship_report_metrics_v: {
+        Row: {
+          label: string | null
+          measured_at: string | null
+          metric_key: string | null
+          metric_value: number | null
+          tenant_id: string | null
+        }
+        Relationships: []
+      }
       v_client_canonical_state: {
         Row: {
           assigned_therapist_id: string | null
@@ -17618,6 +19366,15 @@ export type Database = {
         }
         Returns: Json
       }
+      cancel_client_appointment: {
+        Args: {
+          p_appointment_id: string
+          p_client_action_id: string
+          p_expected_version: number
+          p_reason?: string
+        }
+        Returns: Json
+      }
       cancel_recurring_appointment_series: {
         Args: {
           p_client_action_id: string
@@ -17666,6 +19423,14 @@ export type Database = {
           step_id: string
           tenant_id: string
         }[]
+      }
+      claim_relationship_campaign_work: {
+        Args: {
+          p_lease_seconds?: number
+          p_limit?: number
+          p_worker_id: string
+        }
+        Returns: Json
       }
       client_closure:
         | {
@@ -17940,6 +19705,10 @@ export type Database = {
               isSetofReturn: false
             }
           }
+      create_client_statement_link: {
+        Args: { p_expires_in_days?: number }
+        Returns: Json
+      }
       create_corrected_claim: {
         Args: { p_client_action_id: string; p_original_claim_id: string }
         Returns: Json
@@ -18015,6 +19784,24 @@ export type Database = {
         }
         Returns: Json
       }
+      crm_claim_bulk_client_recipients: {
+        Args: { p_bulk_send_id: string; p_limit?: number; p_tenant_id: string }
+        Returns: {
+          claim_token: string
+          client_id: string
+          email_message_id: string
+          id: string
+        }[]
+      }
+      crm_claim_bulk_staff_recipients: {
+        Args: { p_bulk_send_id: string; p_limit?: number; p_tenant_id: string }
+        Returns: {
+          claim_token: string
+          email_message_id: string
+          id: string
+          staff_id: string
+        }[]
+      }
       crm_close_client: {
         Args: {
           p_client_id: string
@@ -18023,6 +19810,61 @@ export type Database = {
           p_disposition_reason: string
           p_idempotency_key?: string
           p_reason: string
+        }
+        Returns: Json
+      }
+      crm_create_bulk_newsletter: {
+        Args: {
+          p_client_ids: string[]
+          p_content: Json
+          p_subject: string
+          p_template_id?: string
+          p_template_version_id?: string
+          p_tenant_id: string
+        }
+        Returns: Json
+      }
+      crm_create_bulk_staff_broadcast: {
+        Args: {
+          p_content: Json
+          p_staff_ids: string[]
+          p_subject: string
+          p_tenant_id: string
+        }
+        Returns: Json
+      }
+      crm_email_studio_context: { Args: never; Returns: Json }
+      crm_email_template_archive: {
+        Args: { p_template_id: string }
+        Returns: Json
+      }
+      crm_email_template_copy: {
+        Args: { p_name: string; p_template_id: string }
+        Returns: Json
+      }
+      crm_email_template_publish: {
+        Args: { p_change_summary: string; p_template_id: string }
+        Returns: Json
+      }
+      crm_email_template_reopen_draft: {
+        Args: { p_template_id: string }
+        Returns: Json
+      }
+      crm_email_template_save_draft: {
+        Args: {
+          p_body_html: string
+          p_body_text: string
+          p_content_mode: string
+          p_content_scope: string
+          p_description: string
+          p_editor_document: Json
+          p_editor_schema_version: number
+          p_name: string
+          p_preheader: string
+          p_render_hash: string
+          p_subject: string
+          p_template_id: string
+          p_theme_key: string
         }
         Returns: Json
       }
@@ -18050,6 +19892,15 @@ export type Database = {
             Returns: boolean
           }
         | { Args: { _tenant_id: string; _user_id: string }; Returns: boolean }
+      crm_issue_client_unsubscribe_token: {
+        Args: {
+          p_bulk_send_id: string
+          p_client_id: string
+          p_recipient_id: string
+          p_tenant_id: string
+        }
+        Returns: string
+      }
       crm_mark_enrollment_responded: {
         Args: {
           p_enrollment_id: string
@@ -18064,6 +19915,10 @@ export type Database = {
           p_idempotency_key?: string
           p_reason: string
         }
+        Returns: Json
+      }
+      crm_process_client_unsubscribe: {
+        Args: { p_token: string }
         Returns: Json
       }
       crm_reopen_client: {
@@ -18101,7 +19956,15 @@ export type Database = {
           delay_days: number
           delay_hours: number
           email_body_html: string | null
+          email_body_text: string | null
+          email_content_mode: string | null
+          email_editor_document: Json | null
+          email_editor_schema_version: number | null
+          email_preheader: string | null
+          email_render_hash: string | null
           email_subject: string | null
+          email_template_version_id: string | null
+          email_theme_key: string | null
           id: string
           is_active: boolean
           signature_id: string | null
@@ -18323,6 +20186,10 @@ export type Database = {
         Args: { p_claim_line_id: string }
         Returns: Json
       }
+      get_client_appointment_management_context: {
+        Args: { p_appointment_id: string }
+        Returns: Json
+      }
       get_client_appointments_display:
         | {
             Args: {
@@ -18507,7 +20374,18 @@ export type Database = {
               tenant_id: string
             }[]
           }
+      get_client_reschedule_slots: {
+        Args: { p_appointment_id: string; p_target_date: string }
+        Returns: {
+          display_date: string
+          display_end_time: string
+          display_time: string
+          slot_end_utc: string
+          slot_start_utc: string
+        }[]
+      }
       get_crm_operating_context: { Args: never; Returns: Json }
+      get_current_client_statement_link: { Args: never; Returns: Json }
       get_documented_session_status: {
         Args: { p_appointment_id: string }
         Returns: Json
@@ -18575,12 +20453,21 @@ export type Database = {
         Args: { p_staff_id: string }
         Returns: Json
       }
+      get_public_client_statement: { Args: { p_token: string }; Returns: Json }
       get_relationship_campaign: {
+        Args: { p_campaign_id: string }
+        Returns: Json
+      }
+      get_relationship_delivery_readiness: {
         Args: { p_campaign_id: string }
         Returns: Json
       }
       get_relationship_import_preview: {
         Args: { p_import_id: string }
+        Returns: Json
+      }
+      get_relationship_report_metrics: {
+        Args: { p_period?: Json }
         Returns: Json
       }
       get_revenue_report:
@@ -18820,6 +20707,34 @@ export type Database = {
         Args: { p_bundle: Json; p_token: string }
         Returns: Json
       }
+      ingest_relationship_inbound_reply: {
+        Args: {
+          p_body: string
+          p_from_email: string
+          p_in_reply_to_provider_message_id: string
+          p_occurred_at: string
+          p_outbound_communication_id: string
+          p_payload?: Json
+          p_provider: string
+          p_provider_event_id: string
+          p_provider_message_id: string
+          p_provider_thread_id: string
+          p_subject: string
+          p_to_email: string
+        }
+        Returns: Json
+      }
+      ingest_relationship_provider_event: {
+        Args: {
+          p_event_type: string
+          p_occurred_at: string
+          p_payload?: Json
+          p_provider: string
+          p_provider_event_id: string
+          p_provider_message_id: string
+        }
+        Returns: Json
+      }
       is_staff_or_admin: { Args: { _user_id: string }; Returns: boolean }
       is_tenant_admin: {
         Args: { _tenant_id: string; _user_id: string }
@@ -18829,6 +20744,15 @@ export type Database = {
         Args: { _tenant_id: string; _user_id: string }
         Returns: boolean
       }
+      list_relationship_communication_events: {
+        Args: { p_communication_id: string }
+        Returns: Json
+      }
+      list_relationship_communications: {
+        Args: { p_subject?: Json }
+        Returns: Json
+      }
+      list_relationship_replies: { Args: { p_filters?: Json }; Returns: Json }
       manual_match_champva_row: {
         Args: { p_claim_line_id: string; p_row_id: string }
         Returns: Json
@@ -18902,6 +20826,15 @@ export type Database = {
         Args: { p_document_id: string }
         Returns: Json
       }
+      prepare_relationship_campaign_delivery: {
+        Args: {
+          p_claim_token: string
+          p_idempotency_key: string
+          p_unsubscribe_base_url: string
+          p_work_item_id: string
+        }
+        Returns: Json
+      }
       process_relationship_unsubscribe: {
         Args: { p_token: string }
         Returns: Json
@@ -18957,6 +20890,20 @@ export type Database = {
           p_new_status: string
           p_proxy_content_type: string
           p_proxy_http_status: number
+        }
+        Returns: Json
+      }
+      record_relationship_delivery_result: {
+        Args: {
+          p_claim_token: string
+          p_communication_id: string
+          p_error_code?: string
+          p_error_message?: string
+          p_idempotency_key: string
+          p_outcome: string
+          p_provider_message_id?: string
+          p_provider_thread_id?: string
+          p_retry_at?: string
         }
         Returns: Json
       }
@@ -19017,6 +20964,17 @@ export type Database = {
         }
         Returns: Json
       }
+      reschedule_client_appointment: {
+        Args: {
+          p_appointment_id: string
+          p_client_action_id: string
+          p_expected_version: number
+          p_new_end_at: string
+          p_new_start_at: string
+          p_reason?: string
+        }
+        Returns: Json
+      }
       reserve_claim_batch: {
         Args: {
           p_claim_ids: string[]
@@ -19072,6 +21030,10 @@ export type Database = {
         }
         Returns: Json
       }
+      revoke_client_statement_link: {
+        Args: { p_statement_id: string }
+        Returns: Json
+      }
       revoke_relationship_referral: {
         Args: { p_note?: string; p_referral_id: string; p_revoked_at?: string }
         Returns: {
@@ -19118,6 +21080,15 @@ export type Database = {
           p_expected_version: number
           p_idempotency_key: string
           p_steps: Json
+        }
+        Returns: Json
+      }
+      search_relationships: {
+        Args: {
+          p_kinds?: string[]
+          p_page?: number
+          p_page_size?: number
+          p_query: string
         }
         Returns: Json
       }
@@ -19254,6 +21225,20 @@ export type Database = {
             }
             Returns: Json
           }
+      set_relationship_campaign_execution: {
+        Args: {
+          p_campaign_id: string
+          p_enabled: boolean
+          p_expected_version: number
+          p_idempotency_key: string
+          p_reason?: string
+        }
+        Returns: Json
+      }
+      set_relationship_delivery_provider_config: {
+        Args: { p_payload: Json; p_tenant_id: string }
+        Returns: Json
+      }
       set_staff_care_pathway_readiness: {
         Args: {
           p_evidence?: Json
@@ -19463,6 +21448,7 @@ export type Database = {
           qualification: Json
           review_status: string
           risk_flags: string[]
+          search_document: unknown
           status: string
           status_changed_at: string
           tenant_id: string
@@ -19606,6 +21592,18 @@ export type Database = {
           p_prior_version: number
           p_reason: string
           p_series_id: string
+        }
+        Returns: Json
+      }
+      update_relationship_reply: {
+        Args: {
+          p_expected_version: number
+          p_follow_up_due_at?: string
+          p_idempotency_key?: string
+          p_owner_profile_id?: string
+          p_reason?: string
+          p_reply_id: string
+          p_status?: string
         }
         Returns: Json
       }
