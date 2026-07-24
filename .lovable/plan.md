@@ -1,36 +1,52 @@
-# Diagnose the clinician signup 403
+## Diagnosis (confirmed)
 
-## What I know now
+- The clinician form calls edge function `register-clinician-interest` on the Billing Hub project (`ahqauomkgflopxgnlndd`).
+- The deployed version returns `403 {"ok":false}` and logs `Clinician interest provisioning failed: [object Object]` — internal exception, opaque body, no CORS allowance for the Lovable preview origin.
+- Its source is not in this repo, so we can't patch it in place.
 
-- Auth is fine — the request reaches the function (key fix from last turn worked).
-- The function returns `403 {"ok":false}` with no `message`, so the client's fallback copy shows.
-- Server logs show `ERROR Clinician interest provisioning failed: [object Object]` — the function caught an internal exception but logged it unhelpfully.
-- The function source lives on the Billing Hub project, not in this repo (`supabase/functions/` doesn't contain it), so I can't edit its handler from here.
+## What I'll do (Option A: reimplement)
 
-The single blocker is: **we don't know what the exception is.** Guessing at the payload shape or DB state without seeing the real error will burn turns.
+Create a new edge function in **this repo** at `supabase/functions/register-clinician-interest/index.ts` and let Lovable deploy it to project `ahqauomkgflopxgnlndd`, replacing the failing version. No client-side changes to the form's happy path.
 
-## Plan: add one-shot client-side debug capture, then read it back
+### Function contract (matches what the form already sends)
 
-### Step 1 — Instrument `ClinicianInterestForm.tsx`
-When the invoke fails, currently we throw away everything except `response?.message`. Change the catch path to also:
+Request body:
+```
+{ firstName, lastName, email, communicationConsent, company, submissionKey }
+```
 
-- `console.error` the raw `error` object, `error.name`, `error.message`, and (for `FunctionsHttpError`) `await error.context.text()` — this is the actual response body the edge function returned before the SDK stripped it down to `{ok:false}`.
-- `console.error` the raw `response` if present.
-- Keep the user-facing message unchanged.
+Behavior:
+1. **CORS**: allow any origin (`*`) with the headers Supabase JS actually sends (`authorization, apikey, content-type, x-client-info, x-supabase-*`). Handle `OPTIONS` preflight. Every response — success and error — carries CORS headers.
+2. **Validation** via Zod: names 1–100, valid email ≤255, `communicationConsent === true`, `company` and `submissionKey` optional strings. On failure → `400 { ok:false, message }` with CORS headers.
+3. **Honeypot**: if `company` is non-empty, return `200 { ok:true, lifecycle:"invite_sent" }` without writing anything (silent drop of bots).
+4. **Insert** one row into `public.website_submissions` using the service-role client:
+   - `tenant_id = '00000000-0000-0000-0000-000000000001'` (matches existing rows)
+   - `submission_type = 'clinician_interest'`
+   - `normalized_lane = 'provider_recruiting'`
+   - `source_system = 'website'`
+   - `source_record_key = submissionKey` (dedupes retries)
+   - `consent = communicationConsent`
+   - `payload = { first_name, last_name, email, source: 'clinician_interest_form' }`
+   - Use `upsert` on `source_record_key` (or catch unique-violation and treat as success) so a double-click doesn't 500.
+5. **Return** `200 { ok:true, lifecycle:"invite_sent" }` on success. On unexpected error, `500 { ok:false, message:"..." }` **and** log the full stack with `console.error("register-clinician-interest failed", err)` — no more `[object Object]`.
 
-That's ~10 lines inside the existing `if (error || response?.ok !== true)` block. No behavior change for successful submissions, no schema change, no new dependencies.
+### Auth / config
 
-### Step 2 — User reproduces once
-Ask the user to submit the form one more time from the preview. The console output will land in the next turn's `<console-logs>` context automatically.
+- Function config: `verify_jwt = false` (public intake form). Add `[functions.register-clinician-interest]` block to `supabase/config.toml`.
+- Uses `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` from the platform-provided env (no new secrets required).
 
-### Step 3 — Diagnose from the real error text
-With the actual response body in hand, one of three things will be true:
+### Client cleanup (small, no logic change)
 
-1. It names a validation problem (duplicate email, honeypot, missing field, RLS on a Billing Hub table). Fix on our side if it's a client payload issue; otherwise report exactly what needs changing on the Billing Hub function.
-2. It's a downstream service failure (auth admin, email send, third-party). Report and hand back to the owner of that function.
-3. It's opaque even in the body. Then I'll pull the function source from the Billing Hub project directly (via `supabase--read_query` on `supabase_functions` metadata / `curl` probes) and propose either a redeploy of a fixed version or a workaround.
+- Remove the temporary `console.error` debug block added in the last turn to `src/components/forms/ClinicianInterestForm.tsx`. Keep everything else as-is.
 
 ## Out of scope
-- Changing the edge function itself (source not in this repo).
-- Any UI, copy, styling, or route changes.
-- Touching the legacy Supabase client.
+
+- No changes to Billing Hub tables, RLS, or downstream provisioning (invite email, auth user creation). If a follow-up "send invite email" step is required, we add it in a second pass once we confirm submissions land in `website_submissions`.
+- No UI, copy, route, or styling changes.
+- No touching the legacy Supabase client or any other function.
+
+## Verification after deploy
+
+1. `supabase--curl_edge_functions` POST with a valid payload → expect `200 { ok:true, ... }`.
+2. `supabase--read_query` on `website_submissions` → new row with `submission_type='clinician_interest'`.
+3. Submit the form once from the preview → success screen renders, no console errors.
