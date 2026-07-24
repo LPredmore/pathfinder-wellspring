@@ -64,6 +64,21 @@ export function ClinicianInterestForm() {
     );
 
     if (error || response?.ok !== true) {
+      console.error("[ClinicianInterestForm] invoke failed", { error, response });
+      if (error) {
+        console.error("[ClinicianInterestForm] error.name:", (error as { name?: string })?.name);
+        console.error("[ClinicianInterestForm] error.message:", (error as { message?: string })?.message);
+        const ctx = (error as { context?: Response })?.context;
+        if (ctx && typeof ctx.text === "function") {
+          try {
+            const bodyText = await ctx.clone().text();
+            console.error("[ClinicianInterestForm] response body:", bodyText);
+          } catch (readErr) {
+            console.error("[ClinicianInterestForm] could not read response body:", readErr);
+          }
+          console.error("[ClinicianInterestForm] response status:", ctx.status);
+        }
+      }
       setSubmitError(
         response?.message ??
           "We could not register your interest right now. Please try again.",
