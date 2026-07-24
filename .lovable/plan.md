@@ -1,37 +1,36 @@
-# Diagnosis
+# Diagnose the clinician signup 403
 
-## 1. Google tag coverage — already global
-`index.html` loads `gtag.js` (AW-11339741081) and fires `config` calls for both Google Ads accounts (AW-11339741081, AW-16798905432) and both GA4 properties (G-TZMBM6V5DW, G-H5X3D2DGKB) in `<head>`. Because ValorWell is a single-page React app, this script executes once and stays active on every route (`/`, `/mission`, `/operation-claims-success`, `/beyondtheyellow`, `/partner`, `/clinicians`, `/get-care`, `/contact`, `/privacy`, `/faq`, `/support`, `/videos`, authority pages, etc.). No per-page tag installation is needed. Nothing to change here.
+## What I know now
 
-Caveat (not part of this fix): the site does not currently push a `page_view` on SPA route changes, so GA4 reports one pageview per session instead of per route. Flagging only — not fixing unless you ask.
+- Auth is fine — the request reaches the function (key fix from last turn worked).
+- The function returns `403 {"ok":false}` with no `message`, so the client's fallback copy shows.
+- Server logs show `ERROR Clinician interest provisioning failed: [object Object]` — the function caught an internal exception but logged it unhelpfully.
+- The function source lives on the Billing Hub project, not in this repo (`supabase/functions/` doesn't contain it), so I can't edit its handler from here.
 
-## 2. Clinician signup failure — root cause confirmed
-The form `ClinicianInterestForm` posts to the Billing Hub edge function `register-clinician-interest` using `billingHubSupabase` from `src/integrations/supabase/client.ts`. That client is constructed with a **hardcoded** publishable key:
+The single blocker is: **we don't know what the exception is.** Guessing at the payload shape or DB state without seeing the real error will burn turns.
 
-```
-BILLING_HUB_PUBLISHABLE_KEY = "sb_publishable_VVcb2HRrfnMm-T1Y0i7Gtw_qLhuPMYT"
-```
+## Plan: add one-shot client-side debug capture, then read it back
 
-I reproduced the failure against the Billing Hub project directly:
+### Step 1 — Instrument `ClinicianInterestForm.tsx`
+When the invoke fails, currently we throw away everything except `response?.message`. Change the catch path to also:
 
-- With the hardcoded `sb_publishable_...` key → **HTTP 401** `{"message":"Invalid API key","hint":"...This API key might also be owned by another Supabase project."}` — the request never reaches the function.
-- With the current anon key from `.env` (`VITE_SUPABASE_PUBLISHABLE_KEY`, JWT format, `ref=ahqauomkgflopxgnlndd`) → request reaches the function and returns 200/403 from function logic, not an auth error.
+- `console.error` the raw `error` object, `error.name`, `error.message`, and (for `FunctionsHttpError`) `await error.context.text()` — this is the actual response body the edge function returned before the SDK stripped it down to `{ok:false}`.
+- `console.error` the raw `response` if present.
+- Keep the user-facing message unchanged.
 
-So the hardcoded `sb_publishable_...` key is stale/invalid for the current Billing Hub project. Every clinician submission from the live site fails at the Supabase edge before the function ever executes, which is why nothing shows in the function logs.
+That's ~10 lines inside the existing `if (error || response?.ok !== true)` block. No behavior change for successful submissions, no schema change, no new dependencies.
 
-# Fix
+### Step 2 — User reproduces once
+Ask the user to submit the form one more time from the preview. The console output will land in the next turn's `<console-logs>` context automatically.
 
-Single, surgical edit to `src/integrations/supabase/client.ts`:
+### Step 3 — Diagnose from the real error text
+With the actual response body in hand, one of three things will be true:
 
-1. Replace both hardcoded Billing Hub constants with values read from Vite env:
-   - `BILLING_HUB_URL` → `import.meta.env.VITE_SUPABASE_URL`
-   - `BILLING_HUB_PUBLISHABLE_KEY` → `import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY`
-   (The `.env` values already point at the Billing Hub project `ahqauomkgflopxgnlndd`, so this makes the client use the currently valid anon key and stays in sync with Lovable Cloud's auto-populated env.)
-2. Leave the legacy client (`supabase`) untouched — it still needs its own hardcoded legacy URL/key because `.env` is bound to the Billing Hub project.
-
-## Verification
-- Rebuild, submit the clinician form from the preview, confirm the response is `{ok:true}` and the success state renders.
-- If the function still returns `{ok:false}` after the auth fix, that is a separate function-side issue (validation, duplicate email, honeypot, etc.) on the Billing Hub project — I'll surface the exact reason from the function response and we can decide next steps then. Not touching function code in this change.
+1. It names a validation problem (duplicate email, honeypot, missing field, RLS on a Billing Hub table). Fix on our side if it's a client payload issue; otherwise report exactly what needs changing on the Billing Hub function.
+2. It's a downstream service failure (auth admin, email send, third-party). Report and hand back to the owner of that function.
+3. It's opaque even in the body. Then I'll pull the function source from the Billing Hub project directly (via `supabase--read_query` on `supabase_functions` metadata / `curl` probes) and propose either a redeploy of a fixed version or a workaround.
 
 ## Out of scope
-- No changes to routes, copy, styling, analytics, forms other than the client key, or the legacy Supabase client.
+- Changing the edge function itself (source not in this repo).
+- Any UI, copy, styling, or route changes.
+- Touching the legacy Supabase client.
