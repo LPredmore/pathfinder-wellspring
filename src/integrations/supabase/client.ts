@@ -8,8 +8,8 @@ import type { Database } from "./types";
 const LEGACY_SUPABASE_URL = "https://asjhkidpuhqodryczuth.supabase.co";
 const LEGACY_SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFzamhraWRwdWhxb2RyeWN6dXRoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAyNzIzNDYsImV4cCI6MjA4NTg0ODM0Nn0.kb_iP02Fu-NNJtemRnLh7DhwaAybUEMUYQFaFWNxDOA";
 
-const BILLING_HUB_URL = "https://ahqauomkgflopxgnlndd.supabase.co";
-const BILLING_HUB_PUBLISHABLE_KEY = "sb_publishable_VVcb2HRrfnMm-T1Y0i7Gtw_qLhuPMYT";
+const BILLING_HUB_URL = import.meta.env.VITE_SUPABASE_URL;
+const BILLING_HUB_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
 export const supabase = createClient<Database>(
   LEGACY_SUPABASE_URL,
