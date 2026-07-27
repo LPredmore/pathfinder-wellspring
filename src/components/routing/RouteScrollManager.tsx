@@ -4,6 +4,7 @@ import {
   alignElementIfOutsideSafeViewport,
   scrollToPageElement,
 } from "@/lib/pageScroll";
+import "./route-scroll.css";
 
 const BTY_SCROLL_TRIGGERS = [
   "i want to be a guest on bty",
