@@ -1,9 +1,9 @@
 name: Apply Same Page Fix
 
 on:
-  pull_request:
+  push:
     branches:
-      - main
+      - agent/fix-same-page-scroll-alignment
 
 permissions:
   contents: write
@@ -13,18 +13,11 @@ jobs:
     if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout PR branch
-        env:
-          GH_TOKEN: ${{ github.token }}
-          HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
-        run: |
-          git init -q
-          git remote add origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-          git fetch -q origin "${HEAD_BRANCH}"
-          git checkout -q -B "${HEAD_BRANCH}" FETCH_HEAD
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/fix-same-page-scroll-alignment
+          fetch-depth: 0
       - name: Apply verified source patch
-        env:
-          HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
         run: |
           git apply --check .github/same-page-fix.patch
           git apply .github/same-page-fix.patch
@@ -36,4 +29,4 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
           git commit -m "Fix same-page navigation and form confirmation alignment"
-          git push origin HEAD:"${HEAD_BRANCH}"
+          git push origin HEAD:agent/fix-same-page-scroll-alignment
