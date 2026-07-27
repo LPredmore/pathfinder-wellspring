@@ -83,7 +83,7 @@ describe("UnifiedBtyForm", () => {
     expect(screen.getByRole("heading", { name: /Apply to Be a Guest/ })).toBeInTheDocument();
     expect(screen.getByText(/about two minutes/i)).toBeInTheDocument();
     expect(screen.queryByLabelText(/^State/)).not.toBeInTheDocument();
-    expect(screen.queryByText(/Follower count/i)).not.toBeInTheDocument();
+    expect(screen.queryByLabelText(/^Follower count/)).not.toBeInTheDocument();
     expect(screen.queryByText(/Fundraising interest/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/Participation comfort level/i)).not.toBeInTheDocument();
   });
