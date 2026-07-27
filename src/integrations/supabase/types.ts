@@ -19829,6 +19829,8 @@ export type Database = {
           p_content: Json
           p_staff_ids: string[]
           p_subject: string
+          p_template_id?: string
+          p_template_version_id?: string
           p_tenant_id: string
         }
         Returns: Json
