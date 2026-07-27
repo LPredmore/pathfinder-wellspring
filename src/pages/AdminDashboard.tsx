@@ -11,6 +11,36 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 
+type SiteConfigRow = {
+  key: string;
+  value: string;
+};
+
+type SiteConfigResult = {
+  data: SiteConfigRow[] | null;
+  error: { message: string } | null;
+};
+
+type SiteConfigMutationResult = {
+  error: { message: string } | null;
+};
+
+type SiteConfigTable = {
+  select: (columns: string) => {
+    in: (column: string, values: string[]) => PromiseLike<SiteConfigResult>;
+  };
+  upsert: (
+    value: SiteConfigRow & { updated_at: string },
+    options: { onConflict: string },
+  ) => PromiseLike<SiteConfigMutationResult>;
+};
+
+type SiteConfigClient = {
+  from: (table: "site_config") => SiteConfigTable;
+};
+
+const siteConfigClient = supabase as unknown as SiteConfigClient;
+
 /**
  * Source-project site configuration remains available to authorized Website
  * admins. Legacy influencer/contact management was intentionally removed; the
@@ -33,7 +63,8 @@ export default function AdminDashboard() {
     let cancelled = false;
     setLoading(true);
     const load = async () => {
-      const { data, error } = await (supabase.from("site_config" as any) as any)
+      const { data, error } = await siteConfigClient
+        .from("site_config")
         .select("key, value")
         .in("key", ["welcome_email_subject", "welcome_email_body"]);
       if (cancelled) return;
@@ -42,7 +73,7 @@ export default function AdminDashboard() {
         setLoading(false);
         return;
       }
-      for (const row of (data ?? []) as { key: string; value: string }[]) {
+      for (const row of data ?? []) {
         if (row.key === "welcome_email_subject") setEmailSubject(row.value);
         if (row.key === "welcome_email_body") setEmailBody(row.value);
       }
@@ -58,8 +89,12 @@ export default function AdminDashboard() {
       { key: "welcome_email_subject", value: emailSubject },
       { key: "welcome_email_body", value: emailBody },
     ]) {
-      const { error } = await (supabase.from("site_config" as any) as any)
-        .upsert({ ...entry, updated_at: new Date().toISOString() }, { onConflict: "key" });
+      const { error } = await siteConfigClient
+        .from("site_config")
+        .upsert(
+          { ...entry, updated_at: new Date().toISOString() },
+          { onConflict: "key" },
+        );
       if (error) {
         toast.error("Unable to save Website settings.");
         setSaving(false);
