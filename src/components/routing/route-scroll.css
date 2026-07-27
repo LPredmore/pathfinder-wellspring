@@ -1,0 +1,4 @@
+/* Keep native hash links and scrollIntoView targets below the sticky site header. */
+[id] {
+  scroll-margin-top: 5rem;
+}
