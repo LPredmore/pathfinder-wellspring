@@ -30,7 +30,7 @@ jobs:
           git apply .github/same-page-fix.patch
           git diff --check
           rm .github/same-page-fix.patch
-          rm .github/pr-trigger-note.txt
+          rm -f .github/pr-trigger-note.txt .github/pr-description.md .github/pr-open-marker.txt
           rm .github/workflows/apply-same-page-fix.yml
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
