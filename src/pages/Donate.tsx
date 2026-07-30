@@ -1,16 +1,22 @@
-import { useEffect } from "react";
-import { trackDonateConversion } from "@/lib/tracking";
+import { useEffect, useRef, useState } from "react";
+import { trackDonateConversionAndRedirect } from "@/lib/tracking";
 
 const DONATE_GO_URL = "https://asjhkidpuhqodryczuth.functions.supabase.co/donate-go";
 const GIVEBUTTER_FALLBACK = "https://givebutter.com/valorwellhelp";
 
 export default function Donate() {
-  useEffect(() => {
-    let didRedirect = false;
+  const [destinationUrl, setDestinationUrl] = useState(GIVEBUTTER_FALLBACK);
+  const hasStartedRedirect = useRef(false);
 
-    // Fire tracking before any redirect. gtag only auto-fires page_view on a
-    // hard page load, so client-side navigations to /donate need an explicit
-    // beacon. transport_type: "beacon" survives the navigation away.
+  const startTrackedRedirect = (url: string) => {
+    if (hasStartedRedirect.current) return;
+    hasStartedRedirect.current = true;
+    trackDonateConversionAndRedirect(url);
+  };
+
+  useEffect(() => {
+    // gtag only auto-fires page_view on a hard page load, so client-side
+    // navigations to /donate need an explicit page-view beacon.
     const gtagFn = typeof window !== "undefined" ? window.gtag : undefined;
     if (typeof gtagFn === "function") {
       gtagFn("event", "page_view", {
@@ -19,23 +25,6 @@ export default function Donate() {
         transport_type: "beacon",
       });
     }
-    trackDonateConversion();
-
-    // Minimum dwell so tag beacons (and Tag Assistant) can complete before we
-    // navigate off-domain.
-    const MIN_DWELL_MS = 800;
-    const startedAt = Date.now();
-
-    const redirect = (url: string) => {
-      if (didRedirect) return;
-      didRedirect = true;
-      const wait = Math.max(0, MIN_DWELL_MS - (Date.now() - startedAt));
-      window.setTimeout(() => window.location.replace(url), wait);
-    };
-
-    // Hard timeout fallback so users never get stuck
-    const timeout = window.setTimeout(() => redirect(GIVEBUTTER_FALLBACK), 4000);
-
 
     (async () => {
       try {
@@ -62,19 +51,18 @@ export default function Donate() {
         const data = await res.json().catch(() => ({}));
 
         if (!res.ok || !data.redirect_url) {
-          redirect(GIVEBUTTER_FALLBACK);
+          setDestinationUrl(GIVEBUTTER_FALLBACK);
+          startTrackedRedirect(GIVEBUTTER_FALLBACK);
           return;
         }
 
-        redirect(data.redirect_url);
+        setDestinationUrl(data.redirect_url);
+        startTrackedRedirect(data.redirect_url);
       } catch {
-        redirect(GIVEBUTTER_FALLBACK);
-      } finally {
-        window.clearTimeout(timeout);
+        setDestinationUrl(GIVEBUTTER_FALLBACK);
+        startTrackedRedirect(GIVEBUTTER_FALLBACK);
       }
     })();
-
-    return () => window.clearTimeout(timeout);
   }, []);
 
   return (
@@ -92,7 +80,14 @@ export default function Donate() {
         </div>
         <p className="mt-6 text-xs text-muted-foreground">
           Not redirected?{" "}
-          <a href={GIVEBUTTER_FALLBACK} className="underline text-primary">
+          <a
+            href={destinationUrl}
+            className="underline text-primary"
+            onClick={(event) => {
+              event.preventDefault();
+              startTrackedRedirect(destinationUrl);
+            }}
+          >
             Continue to Givebutter
           </a>
         </p>
