@@ -17,6 +17,55 @@ export function trackDonateConversion(value: number = 1.0, currency: string = "U
 }
 
 /**
+ * Sends the donation conversion and leaves the page only after Google reports
+ * that it has processed the event. A bounded fallback keeps the visitor from
+ * being stranded when gtag is blocked or unavailable.
+ */
+export function trackDonateConversionAndRedirect(
+  destinationUrl: string,
+  value: number = 1.0,
+  currency: string = "USD",
+) {
+  if (typeof window === "undefined") return;
+
+  let didRedirect = false;
+  let didSend = false;
+
+  const redirect = () => {
+    if (didRedirect) return;
+    didRedirect = true;
+    window.location.replace(destinationUrl);
+  };
+
+  const fallbackTimeout = window.setTimeout(redirect, 3000);
+
+  const sendConversion = () => {
+    if (didSend || didRedirect) return;
+
+    const gtagFn = window.gtag;
+    if (typeof gtagFn !== "function") {
+      window.setTimeout(sendConversion, 50);
+      return;
+    }
+
+    didSend = true;
+    gtagFn("event", "conversion", {
+      send_to: "AW-16798905432/2XDvCITusvcbENjoq8o-",
+      value,
+      currency,
+      transport_type: "beacon",
+      event_callback: () => {
+        window.clearTimeout(fallbackTimeout);
+        redirect();
+      },
+      event_timeout: 2500,
+    });
+  };
+
+  sendConversion();
+}
+
+/**
  * Fires the Google Ads conversion event for creator application submissions.
  */
 export function trackCreatorApplicationConversion() {
