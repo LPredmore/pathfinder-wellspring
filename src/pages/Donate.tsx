@@ -21,10 +21,16 @@ export default function Donate() {
     }
     trackDonateConversion();
 
+    // Minimum dwell so tag beacons (and Tag Assistant) can complete before we
+    // navigate off-domain.
+    const MIN_DWELL_MS = 800;
+    const startedAt = Date.now();
+
     const redirect = (url: string) => {
       if (didRedirect) return;
       didRedirect = true;
-      window.location.replace(url);
+      const wait = Math.max(0, MIN_DWELL_MS - (Date.now() - startedAt));
+      window.setTimeout(() => window.location.replace(url), wait);
     };
 
     // Hard timeout fallback so users never get stuck
@@ -72,8 +78,26 @@ export default function Donate() {
   }, []);
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <p className="text-lg text-muted-foreground">Redirecting to donation page…</p>
+    <div className="min-h-screen flex items-center justify-center bg-background px-6">
+      <div className="max-w-md text-center">
+        <p className="text-xs uppercase tracking-[0.2em] text-primary/70">ValorWell</p>
+        <h1 className="mt-3 text-2xl font-semibold text-foreground">
+          Taking you to our secure donation page
+        </h1>
+        <p className="mt-3 text-sm text-muted-foreground">
+          Your gift funds Operation Claims Success and care for veterans and their families.
+        </p>
+        <div className="mx-auto mt-6 h-1 w-40 overflow-hidden rounded-full bg-primary/15">
+          <div className="h-full w-1/3 animate-[pulse_1.2s_ease-in-out_infinite] rounded-full bg-primary" />
+        </div>
+        <p className="mt-6 text-xs text-muted-foreground">
+          Not redirected?{" "}
+          <a href={GIVEBUTTER_FALLBACK} className="underline text-primary">
+            Continue to Givebutter
+          </a>
+        </p>
+      </div>
     </div>
   );
 }
+
