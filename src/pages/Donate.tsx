@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { trackDonateConversion } from "@/lib/tracking";
 
 const DONATE_GO_URL = "https://asjhkidpuhqodryczuth.functions.supabase.co/donate-go";
 const GIVEBUTTER_FALLBACK = "https://givebutter.com/valorwellhelp";
@@ -6,6 +7,19 @@ const GIVEBUTTER_FALLBACK = "https://givebutter.com/valorwellhelp";
 export default function Donate() {
   useEffect(() => {
     let didRedirect = false;
+
+    // Fire tracking before any redirect. gtag only auto-fires page_view on a
+    // hard page load, so client-side navigations to /donate need an explicit
+    // beacon. transport_type: "beacon" survives the navigation away.
+    const gtagFn = typeof window !== "undefined" ? window.gtag : undefined;
+    if (typeof gtagFn === "function") {
+      gtagFn("event", "page_view", {
+        page_path: "/donate",
+        page_title: "Donate",
+        transport_type: "beacon",
+      });
+    }
+    trackDonateConversion();
 
     const redirect = (url: string) => {
       if (didRedirect) return;
@@ -15,6 +29,7 @@ export default function Donate() {
 
     // Hard timeout fallback so users never get stuck
     const timeout = window.setTimeout(() => redirect(GIVEBUTTER_FALLBACK), 4000);
+
 
     (async () => {
       try {
