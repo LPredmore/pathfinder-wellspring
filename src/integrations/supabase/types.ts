@@ -7727,6 +7727,7 @@ export type Database = {
           is_pinned: boolean
           note_content: string
           note_type: string
+          relationship_contact_id: string | null
           tenant_id: string
           updated_at: string
         }
@@ -7739,6 +7740,7 @@ export type Database = {
           is_pinned?: boolean
           note_content: string
           note_type?: string
+          relationship_contact_id?: string | null
           tenant_id: string
           updated_at?: string
         }
@@ -7751,6 +7753,7 @@ export type Database = {
           is_pinned?: boolean
           note_content?: string
           note_type?: string
+          relationship_contact_id?: string | null
           tenant_id?: string
           updated_at?: string
         }
@@ -7782,6 +7785,20 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_notes_relationship_contact_id_fkey"
+            columns: ["tenant_id", "relationship_contact_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_contact_directory_v"
+            referencedColumns: ["tenant_id", "id"]
+          },
+          {
+            foreignKeyName: "crm_notes_relationship_contact_id_fkey"
+            columns: ["tenant_id", "relationship_contact_id"]
+            isOneToOne: false
+            referencedRelation: "relationship_contacts"
+            referencedColumns: ["tenant_id", "id"]
           },
           {
             foreignKeyName: "crm_notes_tenant_id_fkey"
@@ -13543,6 +13560,7 @@ export type Database = {
           preferred_name: string | null
           profile_id: string | null
           relationship_stage: string
+          review_state: string | null
           search_document: unknown
           source: string
           source_record_key: string | null
@@ -13570,6 +13588,7 @@ export type Database = {
           preferred_name?: string | null
           profile_id?: string | null
           relationship_stage?: string
+          review_state?: string | null
           search_document?: unknown
           source?: string
           source_record_key?: string | null
@@ -13597,6 +13616,7 @@ export type Database = {
           preferred_name?: string | null
           profile_id?: string | null
           relationship_stage?: string
+          review_state?: string | null
           search_document?: unknown
           source?: string
           source_record_key?: string | null
@@ -15375,6 +15395,77 @@ export type Database = {
             columns: ["updated_by_profile_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      relationship_target_cities: {
+        Row: {
+          city_name: string
+          city_rank: number
+          created_at: string
+          id: string
+          is_active: boolean
+          last_researched_at: string | null
+          population_estimate: number
+          population_year: number
+          research_notes: string | null
+          research_status: string
+          search_label: string | null
+          source_city_label: string
+          source_name: string
+          source_url: string
+          state_code: string
+          state_name: string
+          tenant_id: string
+          updated_at: string
+        }
+        Insert: {
+          city_name: string
+          city_rank: number
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          last_researched_at?: string | null
+          population_estimate: number
+          population_year?: number
+          research_notes?: string | null
+          research_status?: string
+          search_label?: string | null
+          source_city_label: string
+          source_name?: string
+          source_url?: string
+          state_code: string
+          state_name: string
+          tenant_id: string
+          updated_at?: string
+        }
+        Update: {
+          city_name?: string
+          city_rank?: number
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          last_researched_at?: string | null
+          population_estimate?: number
+          population_year?: number
+          research_notes?: string | null
+          research_status?: string
+          search_label?: string | null
+          source_city_label?: string
+          source_name?: string
+          source_url?: string
+          state_code?: string
+          state_name?: string
+          tenant_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "relationship_target_cities_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
             referencedColumns: ["id"]
           },
         ]
@@ -18745,6 +18836,47 @@ export type Database = {
           },
         ]
       }
+      relationship_interest_submission_conflicts: {
+        Row: {
+          id: string | null
+          payload: Json | null
+          source_page: string | null
+          source_record_key: string | null
+          status: string | null
+          submitted_at: string | null
+          tenant_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string | null
+          payload?: Json | null
+          source_page?: string | null
+          source_record_key?: string | null
+          status?: string | null
+          submitted_at?: string | null
+          tenant_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string | null
+          payload?: Json | null
+          source_page?: string | null
+          source_record_key?: string | null
+          status?: string | null
+          submitted_at?: string | null
+          tenant_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "website_submissions_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       relationship_opportunity_pipeline_v: {
         Row: {
           cause_area: string | null
@@ -20472,6 +20604,10 @@ export type Database = {
         Args: { p_period?: Json }
         Returns: Json
       }
+      get_relationship_webhook_runtime: {
+        Args: { p_tenant_id: string }
+        Returns: Json
+      }
       get_revenue_report:
         | {
             Args: {
@@ -20746,6 +20882,10 @@ export type Database = {
         Args: { _tenant_id: string; _user_id: string }
         Returns: boolean
       }
+      list_relationship_campaign_candidates: {
+        Args: { p_filters?: Json }
+        Returns: Json
+      }
       list_relationship_communication_events: {
         Args: { p_communication_id: string }
         Returns: Json
@@ -20921,6 +21061,10 @@ export type Database = {
       refresh_client_ages: { Args: never; Returns: number }
       relationship_stage_transition_allowed: {
         Args: { p_from_stage: string; p_to_stage: string }
+        Returns: boolean
+      }
+      relationship_worker_token_valid: {
+        Args: { p_tenant_id: string; p_token: string }
         Returns: boolean
       }
       release_campaign_step_claim: {
@@ -21373,11 +21517,27 @@ export type Database = {
         Args: { p_payload: Json }
         Returns: Json
       }
+      submit_website_bty_contact_nomination: {
+        Args: { p_payload: Json }
+        Returns: Json
+      }
+      submit_website_bty_guest_application: {
+        Args: { p_payload: Json }
+        Returns: Json
+      }
+      submit_website_bty_nomination: {
+        Args: { p_payload: Json }
+        Returns: Json
+      }
       submit_website_bty_submission: {
         Args: { p_payload: Json }
         Returns: Json
       }
       submit_website_clinician_application: {
+        Args: { p_payload: Json }
+        Returns: Json
+      }
+      submit_website_creator_interest: {
         Args: { p_payload: Json }
         Returns: Json
       }
@@ -21560,6 +21720,15 @@ export type Database = {
           p_note: string
           p_prior_version: number
           p_review_due_at: string
+        }
+        Returns: Json
+      }
+      update_creator_interest_record: {
+        Args: {
+          p_contact_changes: Json
+          p_contact_id: string
+          p_profile_changes: Json
+          p_tenant_id: string
         }
         Returns: Json
       }
