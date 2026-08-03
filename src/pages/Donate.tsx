@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { trackDonateConversionAndRedirect } from "@/lib/tracking";
 
-const DONATE_GO_URL = "https://asjhkidpuhqodryczuth.functions.supabase.co/donate-go";
+const DONATE_GO_URL = "https://ahqauomkgflopxgnlndd.functions.supabase.co/donate-go";
 const GIVEBUTTER_FALLBACK = "https://givebutter.com/valorwellhelp";
 
 export default function Donate() {
@@ -95,4 +95,3 @@ export default function Donate() {
     </div>
   );
 }
-
