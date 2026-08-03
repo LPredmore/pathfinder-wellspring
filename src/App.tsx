@@ -10,11 +10,9 @@ import {
   Navigate,
 } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
-import { AuthProvider } from "@/contexts/AuthContext";
 
 // Preserved functional (non-shell) routes
 import Donate from "./pages/Donate";
-import AdminDashboard from "./pages/AdminDashboard";
 import NotFound from "./pages/NotFound";
 import HomePage from "./pages/HomePage";
 import WatchPage from "./pages/WatchPage";
@@ -145,17 +143,7 @@ const App = () => (
               />
             ))}
 
-            {/* Preserved functional routes (not in public nav) */}
             <Route path="/donate" element={<Donate />} />
-            <Route
-              path="/admin"
-              element={
-                <AuthProvider>
-                  <AdminDashboard />
-                </AuthProvider>
-              }
-            />
-
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
