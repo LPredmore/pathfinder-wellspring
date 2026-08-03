@@ -1,17 +1,7 @@
-project_id = "asjhkidpuhqodryczuth"
+project_id = "ahqauomkgflopxgnlndd"
 
-[functions.create-mission-partner]
-verify_jwt = true
-
-[functions.send-welcome-email]
-verify_jwt = true
-
-[functions.backfill-competitor-auth]
-verify_jwt = true
-
-[functions.send-bulk-welcome]
-verify_jwt = true
-
+# This repository owns only public website support functions deployed to
+# Billing Hub. Database migrations and retired CRM functions belong elsewhere.
 [functions.notify-make-youtube-published]
 verify_jwt = false
 
