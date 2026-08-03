@@ -24,7 +24,7 @@ Recorded read-only on 2026-07-17 before the Website cutover.
 | Staff/provider image URLs | 9 |
 | Staff images in `relationship-avatars` | 0 |
 
-The historical source is `therapist_crm_interest_migration`; the migration key is `therapist-crm-interest-migration-2026-07-17`. The historical transfer must not be replayed unless a verified mismatch is found.
+The historical source is `legacy_relationship_import`; the migration key is `legacy-relationship-import-2026-07-17`. The completed transfer must not be replayed unless a verified mismatch is found.
 
 ## Website dependency audit
 

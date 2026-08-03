@@ -8,19 +8,17 @@ guard_path='.github/scripts/check-retired-supabase-references.sh'
 # is the retired project reference as it appears inside legacy anon JWTs.
 retired_identifier_pattern='asjhkidpuhqodryczuth|YXNqaGtpZHB1aHFvZHJ5Y3p1dGg|LEGACY_SUPABASE_URL|LEGACY_SUPABASE_ANON_KEY|LEGACY_SUPABASE_PUBLISHABLE_KEY|valorwell-backend|therapist-crm-retirement-(import|check)'
 
-if git grep -n -I -E "$retired_identifier_pattern" -- . \
+if git grep -n -I -i -E "$retired_identifier_pattern" -- . \
   ":(exclude)$guard_path"; then
   echo "Retired Supabase project or repository identifier detected." >&2
   exit 1
 fi
 
-# The former display name is also prohibited in executable and deployment
-# surfaces. Historical discussion may remain in Git history, but not in the
-# current website runtime or delivery configuration.
-if git grep -n -I -E 'Therapist[[:space:]-]+CRM' -- \
-  src supabase .env .github package.json vite.config.ts wrangler.jsonc \
-  ":(exclude)$guard_path" 2>/dev/null; then
-  echo "Retired project display name detected in a website runtime surface." >&2
+# Catch human-readable, slug, and database-source variants such as spaces,
+# hyphens, or underscores. Historical references remain available in Git history.
+if git grep -n -I -i -E 'therapist[[:space:]_-]*crm' -- . \
+  ":(exclude)$guard_path"; then
+  echo "Retired project name detected in the current website tree." >&2
   exit 1
 fi
 
