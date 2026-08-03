@@ -1,19 +1,37 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-retired_pattern='asjhkidpuhqodryczuth|LEGACY_SUPABASE_URL|LEGACY_SUPABASE_PUBLISHABLE_KEY'
-scan_paths=(
-  src
-  supabase
-  .env
-  .github/workflows
-  package.json
-  vite.config.ts
-  wrangler.jsonc
-)
+billing_hub_ref='ahqauomkgflopxgnlndd'
+guard_path='.github/scripts/check-retired-supabase-references.sh'
 
-if git grep -n -I -E "$retired_pattern" -- "${scan_paths[@]}"; then
-  echo "Retired Therapist CRM infrastructure reference detected." >&2
+# Scan every tracked text file, not only runtime directories. The encoded value
+# is the retired project reference as it appears inside legacy anon JWTs.
+retired_identifier_pattern='asjhkidpuhqodryczuth|YXNqaGtpZHB1aHFvZHJ5Y3p1dGg|LEGACY_SUPABASE_URL|LEGACY_SUPABASE_ANON_KEY|LEGACY_SUPABASE_PUBLISHABLE_KEY|valorwell-backend|therapist-crm-retirement-(import|check)'
+
+if git grep -n -I -E "$retired_identifier_pattern" -- . \
+  ":(exclude)$guard_path"; then
+  echo "Retired Supabase project or repository identifier detected." >&2
+  exit 1
+fi
+
+# The former display name is also prohibited in executable and deployment
+# surfaces. Historical discussion may remain in Git history, but not in the
+# current website runtime or delivery configuration.
+if git grep -n -I -E 'Therapist[[:space:]-]+CRM' -- \
+  src supabase .env .github package.json vite.config.ts wrangler.jsonc \
+  ":(exclude)$guard_path" 2>/dev/null; then
+  echo "Retired project display name detected in a website runtime surface." >&2
+  exit 1
+fi
+
+unexpected_urls="$({
+  git grep -n -I -E 'https://[a-z0-9]+\.(functions\.)?supabase\.co' -- . \
+    ":(exclude)$guard_path" 2>/dev/null || true
+} | grep -v "$billing_hub_ref" || true)"
+
+if [[ -n "$unexpected_urls" ]]; then
+  echo "A Supabase project URL outside Billing Hub was detected:" >&2
+  echo "$unexpected_urls" >&2
   exit 1
 fi
 
@@ -37,8 +55,16 @@ for path in "${retired_function_paths[@]}"; do
   fi
 done
 
-if ! grep -qx 'project_id = "ahqauomkgflopxgnlndd"' supabase/config.toml; then
+if ! grep -qx "project_id = \"$billing_hub_ref\"" supabase/config.toml; then
   echo "Website Supabase configuration must identify Billing Hub." >&2
+  exit 1
+fi
+
+project_id_lines="$(grep -RIn --include='*.toml' -E '^[[:space:]]*project_id[[:space:]]*=' . 2>/dev/null || true)"
+unexpected_project_ids="$(printf '%s\n' "$project_id_lines" | grep -v "$billing_hub_ref" || true)"
+if [[ -n "$unexpected_project_ids" ]]; then
+  echo "A non-Billing-Hub Supabase project_id was detected:" >&2
+  echo "$unexpected_project_ids" >&2
   exit 1
 fi
 
