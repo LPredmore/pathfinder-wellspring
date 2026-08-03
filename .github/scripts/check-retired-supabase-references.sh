@@ -14,13 +14,11 @@ if git grep -n -I -E "$retired_identifier_pattern" -- . \
   exit 1
 fi
 
-# The former display name is also prohibited in executable and deployment
-# surfaces. Historical discussion may remain in Git history, but not in the
-# current website runtime or delivery configuration.
-if git grep -n -I -E 'Therapist[[:space:]-]+CRM' -- \
-  src supabase .env .github package.json vite.config.ts wrangler.jsonc \
-  ":(exclude)$guard_path" 2>/dev/null; then
-  echo "Retired project display name detected in a website runtime surface." >&2
+# Current tracked files must not refer to the former project by its display
+# name. Historical references remain available in Git history instead.
+if git grep -n -I -E 'Therapist[[:space:]-]+CRM' -- . \
+  ":(exclude)$guard_path"; then
+  echo "Retired project display name detected in the current website tree." >&2
   exit 1
 fi
 
