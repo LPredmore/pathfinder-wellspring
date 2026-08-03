@@ -1,19 +1,22 @@
-// The Website still uses the legacy project for unrelated media, donations,
-// publishing, and site configuration. Public intake forms call Billing Hub
-// RPCs explicitly; no browser-side compatibility routing or direct intake-table
-// writes remain here.
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "./types";
 
-const LEGACY_SUPABASE_URL = "https://asjhkidpuhqodryczuth.supabase.co";
-const LEGACY_SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFzamhraWRwdWhxb2RyeWN6dXRoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAyNzIzNDYsImV4cCI6MjA4NTg0ODM0Nn0.kb_iP02Fu-NNJtemRnLh7DhwaAybUEMUYQFaFWNxDOA";
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
-const BILLING_HUB_URL = import.meta.env.VITE_SUPABASE_URL;
-const BILLING_HUB_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
+  throw new Error(
+    "Missing Billing Hub configuration: VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY are required.",
+  );
+}
 
+/**
+ * Authenticated website client. Billing Hub is the website's only Supabase
+ * project; no legacy-project fallback or compatibility routing is permitted.
+ */
 export const supabase = createClient<Database>(
-  LEGACY_SUPABASE_URL,
-  LEGACY_SUPABASE_PUBLISHABLE_KEY,
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY,
   {
     auth: {
       storage: localStorage,
@@ -23,9 +26,13 @@ export const supabase = createClient<Database>(
   },
 );
 
+/**
+ * Sessionless client for anonymous public website submissions. It uses the
+ * same Billing Hub project while intentionally avoiding persisted auth state.
+ */
 export const billingHubSupabase = createClient(
-  BILLING_HUB_URL,
-  BILLING_HUB_PUBLISHABLE_KEY,
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY,
   {
     auth: {
       persistSession: false,
