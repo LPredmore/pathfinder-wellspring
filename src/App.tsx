@@ -2,6 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { RouteScrollManager } from "@/components/routing/RouteScrollManager";
+import { DonationAttributionManager } from "@/components/routing/DonationAttributionManager";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   BrowserRouter,
@@ -77,6 +78,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <DonationAttributionManager />
           <RouteScrollManager />
           <Routes>
             <Route path="/" element={<HomePage />} />
