@@ -1,26 +1,32 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
+  CLINICIAN_GOOGLE_ADS_CONVERSION_DESTINATION,
   resolveClinicianConversionDestination,
   trackClinicianInterestRegistered,
 } from "./clinicianConversionTracking";
 
 describe("resolveClinicianConversionDestination", () => {
-  it("accepts a complete destination for the canonical Google Ads account", () => {
+  it("accepts the exact Google Ads destination for Therapist Application Submitted", () => {
     expect(
       resolveClinicianConversionDestination(
-        " AW-11339741081/AbCdEf123_- ",
+        ` ${CLINICIAN_GOOGLE_ADS_CONVERSION_DESTINATION} `,
       ),
-    ).toBe("AW-11339741081/AbCdEf123_-");
+    ).toBe(CLINICIAN_GOOGLE_ADS_CONVERSION_DESTINATION);
   });
 
-  it("rejects an account-only ID, malformed label, or stale Ads account", () => {
-    expect(resolveClinicianConversionDestination("AW-11339741081")).toBeNull();
+  it("rejects account-only IDs, placeholders, and other conversion actions", () => {
+    expect(resolveClinicianConversionDestination("AW-16798905432")).toBeNull();
     expect(
-      resolveClinicianConversionDestination("AW-11339741081/<label>"),
+      resolveClinicianConversionDestination("AW-16798905432/<label>"),
     ).toBeNull();
     expect(
       resolveClinicianConversionDestination(
         "AW-16798905432/6RqRCJ2PnfMbENjoq8o-",
+      ),
+    ).toBeNull();
+    expect(
+      resolveClinicianConversionDestination(
+        "AW-11339741081/XWcdCMz27tscENjoq8o-",
       ),
     ).toBeNull();
   });
@@ -32,15 +38,12 @@ describe("trackClinicianInterestRegistered", () => {
     vi.restoreAllMocks();
   });
 
-  it("sends the analytics form event and canonical Ads conversion", () => {
+  it("sends the analytics event and verified Ads conversion by default", () => {
     const gtag = vi.fn();
     window.gtag = gtag;
 
     expect(
-      trackClinicianInterestRegistered(
-        "clinician-interest-123",
-        "AW-11339741081/AbCdEf123_-",
-      ),
+      trackClinicianInterestRegistered("clinician-interest-123"),
     ).toBe(true);
 
     expect(gtag).toHaveBeenNthCalledWith(1, "event", "form_submit", {
@@ -49,7 +52,7 @@ describe("trackClinicianInterestRegistered", () => {
       form_name: "clinician_interest",
     });
     expect(gtag).toHaveBeenNthCalledWith(2, "event", "conversion", {
-      send_to: "AW-11339741081/AbCdEf123_-",
+      send_to: CLINICIAN_GOOGLE_ADS_CONVERSION_DESTINATION,
       value: 1.0,
       currency: "USD",
       transaction_id: "clinician-interest-123",
@@ -57,7 +60,7 @@ describe("trackClinicianInterestRegistered", () => {
     });
   });
 
-  it("retains analytics but refuses to send a conversion to the stale account", () => {
+  it("retains analytics but refuses an unverified conversion destination", () => {
     const gtag = vi.fn();
     window.gtag = gtag;
 
@@ -78,10 +81,7 @@ describe("trackClinicianInterestRegistered", () => {
 
   it("does not throw or report success when gtag is unavailable", () => {
     expect(
-      trackClinicianInterestRegistered(
-        "clinician-interest-123",
-        "AW-11339741081/AbCdEf123_-",
-      ),
+      trackClinicianInterestRegistered("clinician-interest-123"),
     ).toBe(false);
   });
 });
