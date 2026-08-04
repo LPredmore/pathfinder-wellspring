@@ -20,25 +20,15 @@ export function trackDonationCheckoutStartAndRedirect(
 
   const redirect = () => window.location.assign(destinationUrl);
   const dedupeKey = `valorwell_donation_checkout:${handoffId}`;
-  if (window.sessionStorage.getItem(dedupeKey)) {
-    redirect();
-    return;
+  try {
+    if (window.sessionStorage.getItem(dedupeKey)) {
+      redirect();
+      return;
+    }
+    window.sessionStorage.setItem(dedupeKey, new Date().toISOString());
+  } catch {
+    // Conversion deduplication is best effort when browser storage is blocked.
   }
-  window.sessionStorage.setItem(dedupeKey, new Date().toISOString());
-
-  const gtagFn = window.gtag;
-  if (typeof gtagFn !== "function") {
-    redirect();
-    return;
-  }
-
-  gtagFn("event", "begin_donation", {
-    event_id: handoffId,
-    cta_source: metadata.source,
-    cta_campaign: metadata.campaign,
-    cta_content: metadata.content,
-    transport_type: "beacon",
-  });
 
   let didRedirect = false;
   const redirectOnce = () => {
@@ -48,18 +38,38 @@ export function trackDonationCheckoutStartAndRedirect(
   };
   const timeout = window.setTimeout(redirectOnce, 2500);
 
-  gtagFn("event", "conversion", {
-    send_to: DONATION_CHECKOUT_CONVERSION,
-    value: 1,
-    currency: "USD",
-    transaction_id: handoffId,
-    transport_type: "beacon",
-    event_timeout: 2000,
-    event_callback: () => {
-      window.clearTimeout(timeout);
-      redirectOnce();
-    },
-  });
+  const gtagFn = window.gtag;
+  if (typeof gtagFn !== "function") {
+    window.clearTimeout(timeout);
+    redirectOnce();
+    return;
+  }
+
+  try {
+    gtagFn("event", "begin_donation", {
+      event_id: handoffId,
+      cta_source: metadata.source,
+      cta_campaign: metadata.campaign,
+      cta_content: metadata.content,
+      transport_type: "beacon",
+    });
+
+    gtagFn("event", "conversion", {
+      send_to: DONATION_CHECKOUT_CONVERSION,
+      value: 1,
+      currency: "USD",
+      transaction_id: handoffId,
+      transport_type: "beacon",
+      event_timeout: 2000,
+      event_callback: () => {
+        window.clearTimeout(timeout);
+        redirectOnce();
+      },
+    });
+  } catch {
+    window.clearTimeout(timeout);
+    redirectOnce();
+  }
 }
 
 /**
