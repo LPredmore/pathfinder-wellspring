@@ -7,6 +7,7 @@ import {
   billingHubSupabase,
   createWebsiteSubmissionKey,
 } from "@/integrations/supabase/client";
+import { trackClinicianInterestRegistered } from "@/lib/clinicianConversionTracking";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -48,6 +49,7 @@ export function ClinicianInterestForm() {
 
   const onSubmit = async (data: FormData) => {
     setSubmitError(null);
+    const submissionKey = createWebsiteSubmissionKey();
 
     const { data: response, error } = await billingHubSupabase.functions.invoke(
       "register-clinician-interest",
@@ -58,7 +60,7 @@ export function ClinicianInterestForm() {
           email: data.email.trim().toLowerCase(),
           communicationConsent: data.communicationConsent,
           company: data.company?.trim() ?? "",
-          submissionKey: createWebsiteSubmissionKey(),
+          submissionKey,
         },
       },
     );
@@ -71,17 +73,7 @@ export function ClinicianInterestForm() {
       return;
     }
 
-    if (window.gtag) {
-      window.gtag("event", "form_submit", {
-        event_category: "clinician_interest",
-        event_label: "clinician_interest_registered",
-      });
-
-      window.gtag("event", "conversion", {
-        send_to: "AW-16798905432/6RqRCJ2PnfMbENjoq8o-",
-      });
-    }
-
+    trackClinicianInterestRegistered(submissionKey);
     setIsSubmitted(true);
   };
 
