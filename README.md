@@ -4,6 +4,10 @@
 
 Billing Hub is the canonical destination for creator, promoter, storyteller, supporter, connector, and community-interest submissions. The anonymous form at `/beyondtheyellow` calls a narrow Billing Hub RPC and does not create accounts or require login. See [the workflow, field map, security model, operations, and rollback guide](docs/creator-community-interest-workflow.md) and [the pre-change audit](docs/pre-change-interest-audit-2026-07-17.md).
 
+## Google Ads conversion tracking
+
+Successful clinician-interest registrations use a validated conversion destination for the canonical ValorWell Google Ads account. See [the clinician Google Ads conversion guide](docs/clinician-google-ads-conversion.md) before changing the Ads account, conversion label, or production build variable.
+
 ## Project info
 
 **Lovable project**: https://lovable.dev/projects/c758642f-82dd-4b2c-89f4-751876e059fc
@@ -24,7 +28,7 @@ Changes made via Lovable will be committed automatically to this repo.
 
 If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating-nvm)
 
 Follow these steps:
 
