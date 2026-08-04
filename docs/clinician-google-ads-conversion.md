@@ -1,16 +1,22 @@
 # Clinician Google Ads conversion
 
-## Canonical destination
+## Verified destination
 
-Successful clinician-interest registrations belong to the ValorWell Google Ads account `AW-11339741081`.
-
-The conversion action label is account- and action-specific. Configure the complete value supplied by Google Ads as a Vite build variable:
+Google Ads issued the following event destination for the `Therapist Application Submitted` conversion action:
 
 ```text
-VITE_GOOGLE_ADS_CLINICIAN_CONVERSION_SEND_TO=AW-11339741081/<CONVERSION_LABEL>
+AW-16798905432/XWcdCMz27tscENjoq8o-
 ```
 
-Do not reuse a conversion label from another Ads account. The website rejects missing, malformed, account-only, and noncanonical destinations.
+This identifier is public configuration, not a secret. The website keeps it in source control so the production build cannot omit the conversion through a missing environment variable.
+
+The shared Google tag in `index.html` already configures the required Ads account:
+
+```js
+gtag("config", "AW-16798905432");
+```
+
+Do not add another Google tag loader or paste the conversion snippet into `index.html`. The website is a React single-page application, and placing the snippet in the document head would record conversions on ordinary page loads rather than on successful applications.
 
 ## Trigger boundary
 
@@ -19,23 +25,26 @@ The conversion is emitted only after the Billing Hub `register-clinician-interes
 A successful registration emits:
 
 1. `form_submit` for analytics continuity.
-2. `conversion` to the configured Google Ads conversion action.
+2. `conversion` to `AW-16798905432/XWcdCMz27tscENjoq8o-`.
 
 The website submission key is passed as `transaction_id` so retries of the same accepted submission can be deduplicated by Google Ads.
 
-## Deployment
+## Enhanced conversions
 
-Set `VITE_GOOGLE_ADS_CLINICIAN_CONVERSION_SEND_TO` in the production build environment before publishing the website. This value is a public Google Ads identifier, not a secret.
+Enhanced conversions remain managed through the existing Google tag. The conversion event in this implementation supplies the required action trigger; the existing Google tag is responsible for any configured enhanced-conversion user-data handling.
 
-After deployment:
+## Deployment and verification
+
+After merging and publishing the website:
 
 1. Open Google Tag Assistant for `valorwell.org`.
-2. Submit the form at `/clinicians` with a valid test address.
-3. Confirm the Billing Hub registration succeeds and the thank-you state appears.
-4. Select `AW-11339741081` in Tag Assistant.
-5. Confirm a `Conversion` hit is listed with the exact configured `send_to` destination.
-6. Confirm no clinician conversion is sent to `AW-16798905432`.
+2. Navigate to `/clinicians`.
+3. Submit the form with a valid test address.
+4. Confirm the Billing Hub registration succeeds and the thank-you state appears.
+5. Select `AW-16798905432` in Tag Assistant.
+6. Confirm a `Conversion` hit is listed with `send_to` equal to `AW-16798905432/XWcdCMz27tscENjoq8o-`.
+7. Confirm the conversion does not fire merely from loading `/clinicians` or from a failed submission.
 
-## Failure behavior
+## Google Ads configuration
 
-If the variable is absent or invalid, the successful form event remains available to analytics, but the website deliberately does not send an Ads conversion to an uncertain destination. This prevents silent attribution to a retired or unrelated Ads account.
+The repository event should be paired with the manually coded `Therapist Application Submitted` conversion action. Any older URL-based conversion that counts a visit to `/clinicians` should remain secondary or be removed from account-default goals to prevent ordinary page visits from being treated as submitted applications.
