@@ -1,12 +1,14 @@
+import { useMemo, type MouseEvent } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { trackDonationCheckoutStartAndRedirect } from "@/lib/tracking";
 
 type Variant = "solid" | "outline" | "link";
 type Size = "sm" | "md" | "lg";
 
 interface DonateButtonProps {
-  /** Placement identifier forwarded as utm_source for attribution. */
+  /** Stable identifier for the CTA placement. */
   source: string;
   variant?: Variant;
   size?: Size;
@@ -21,9 +23,9 @@ interface DonateButtonProps {
 /**
  * Single source of truth for donation CTAs.
  *
- * Site-wide CTAs first route visitors to /partner so they can understand the
- * mission and available campaigns. Buttons already rendered on /partner retain
- * the tracked /donate passthrough to Givebutter.
+ * Internal CTA metadata uses vw_* parameters so it never overwrites the ad or
+ * referral UTMs captured when the visitor first arrived. Site-wide CTAs route
+ * through /partner; only the final click from /partner records checkout intent.
  */
 export function DonateButton({
   source,
@@ -37,18 +39,47 @@ export function DonateButton({
   utmContent,
 }: DonateButtonProps) {
   const location = useLocation();
-  const params = new URLSearchParams({
-    utm_source: source,
-    utm_medium: utmMedium,
-    utm_campaign: utmCampaign,
-  });
+  const handoffId = useMemo(() => crypto.randomUUID(), [location.key]);
+  const isPartnerPage = location.pathname === "/partner";
+  const currentParams = new URLSearchParams(location.search);
+  const params = new URLSearchParams();
 
-  if (utmContent) {
-    params.set("utm_content", utmContent);
+  if (isPartnerPage) {
+    for (const key of [
+      "vw_entry_source",
+      "vw_entry_medium",
+      "vw_entry_campaign",
+      "vw_entry_content",
+    ]) {
+      const value = currentParams.get(key);
+      if (value) params.set(key, value);
+    }
+    params.set("vw_checkout_source", source);
+    params.set("vw_checkout_medium", utmMedium);
+    params.set("vw_checkout_campaign", utmCampaign);
+    if (utmContent) params.set("vw_checkout_content", utmContent);
+    params.set("vw_handoff_id", handoffId);
+  } else {
+    params.set("vw_entry_source", source);
+    params.set("vw_entry_medium", utmMedium);
+    params.set("vw_entry_campaign", utmCampaign);
+    if (utmContent) params.set("vw_entry_content", utmContent);
   }
 
-  const destination = location.pathname === "/partner" ? "/donate" : "/partner";
+  const destination = isPartnerPage ? "/donate" : "/partner";
   const href = `${destination}?${params.toString()}`;
+
+  const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    if (!isPartnerPage || event.defaultPrevented || event.button !== 0) return;
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+    event.preventDefault();
+    trackDonationCheckoutStartAndRedirect(href, handoffId, {
+      source,
+      campaign: utmCampaign,
+      content: utmContent,
+    });
+  };
 
   const sizeCls =
     size === "sm"
@@ -72,6 +103,7 @@ export function DonateButton({
       to={href}
       data-donate-source={source}
       className={cn(base, variant !== "link" && sizeCls, variantCls, className)}
+      onClick={handleClick}
     >
       {withIcon && <Heart className="h-4 w-4" aria-hidden />}
       {children}
