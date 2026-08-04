@@ -6,7 +6,7 @@ Billing Hub is the canonical destination for creator, promoter, storyteller, sup
 
 ## Google Ads conversion tracking
 
-Successful clinician-interest registrations use a validated conversion destination for the canonical ValorWell Google Ads account. See [the clinician Google Ads conversion guide](docs/clinician-google-ads-conversion.md) before changing the Ads account, conversion label, or production build variable.
+Successful clinician-interest registrations use the verified `Therapist Application Submitted` Google Ads conversion action. See [the clinician Google Ads conversion guide](docs/clinician-google-ads-conversion.md) before changing the Ads account, conversion label, or success trigger.
 
 ## Project info
 
