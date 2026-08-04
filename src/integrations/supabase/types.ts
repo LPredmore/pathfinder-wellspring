@@ -331,6 +331,7 @@ export type Database = {
           duration_minutes: number
           id: string
           is_active: boolean
+          is_telehealth: boolean
           max_occurrences: number | null
           notes: string | null
           rrule: string
@@ -350,6 +351,7 @@ export type Database = {
           duration_minutes: number
           id?: string
           is_active?: boolean
+          is_telehealth?: boolean
           max_occurrences?: number | null
           notes?: string | null
           rrule: string
@@ -369,6 +371,7 @@ export type Database = {
           duration_minutes?: number
           id?: string
           is_active?: boolean
+          is_telehealth?: boolean
           max_occurrences?: number | null
           notes?: string | null
           rrule?: string
@@ -3722,6 +3725,7 @@ export type Database = {
           id: string
           paid_at: string | null
           status: string
+          stripe_account_id: string | null
           stripe_checkout_session_id: string | null
           stripe_customer_id: string | null
           stripe_payment_link_id: string
@@ -3741,6 +3745,7 @@ export type Database = {
           id?: string
           paid_at?: string | null
           status?: string
+          stripe_account_id?: string | null
           stripe_checkout_session_id?: string | null
           stripe_customer_id?: string | null
           stripe_payment_link_id: string
@@ -3760,6 +3765,7 @@ export type Database = {
           id?: string
           paid_at?: string | null
           status?: string
+          stripe_account_id?: string | null
           stripe_checkout_session_id?: string | null
           stripe_customer_id?: string | null
           stripe_payment_link_id?: string
@@ -3802,6 +3808,7 @@ export type Database = {
           id: string
           is_active: boolean | null
           is_default: boolean | null
+          stripe_account_id: string | null
           stripe_customer_id: string
           stripe_payment_method_id: string
           tenant_id: string
@@ -3817,6 +3824,7 @@ export type Database = {
           id?: string
           is_active?: boolean | null
           is_default?: boolean | null
+          stripe_account_id?: string | null
           stripe_customer_id: string
           stripe_payment_method_id: string
           tenant_id: string
@@ -3832,6 +3840,7 @@ export type Database = {
           id?: string
           is_active?: boolean | null
           is_default?: boolean | null
+          stripe_account_id?: string | null
           stripe_customer_id?: string
           stripe_payment_method_id?: string
           tenant_id?: string
@@ -3871,6 +3880,7 @@ export type Database = {
           id: string
           payment_date: string
           payment_method: string
+          stripe_account_id: string | null
           tenant_id: string
           updated_at: string
         }
@@ -3883,6 +3893,7 @@ export type Database = {
           id?: string
           payment_date?: string
           payment_method?: string
+          stripe_account_id?: string | null
           tenant_id: string
           updated_at?: string
         }
@@ -3895,6 +3906,7 @@ export type Database = {
           id?: string
           payment_date?: string
           payment_method?: string
+          stripe_account_id?: string | null
           tenant_id?: string
           updated_at?: string
         }
@@ -8059,10 +8071,22 @@ export type Database = {
       }
       donation_attribution: {
         Row: {
+          checkout_cta_campaign: string | null
+          checkout_cta_content: string | null
+          checkout_cta_medium: string | null
+          checkout_cta_source: string | null
+          client_captured_at: string | null
           created_at: string
+          entry_cta_campaign: string | null
+          entry_cta_content: string | null
+          entry_cta_medium: string | null
+          entry_cta_source: string | null
           gbraid: string | null
           gclid: string | null
+          landing_path: string | null
+          referrer: string | null
           token: string
+          updated_at: string
           utm_campaign: string | null
           utm_content: string | null
           utm_medium: string | null
@@ -8071,10 +8095,22 @@ export type Database = {
           wbraid: string | null
         }
         Insert: {
+          checkout_cta_campaign?: string | null
+          checkout_cta_content?: string | null
+          checkout_cta_medium?: string | null
+          checkout_cta_source?: string | null
+          client_captured_at?: string | null
           created_at?: string
+          entry_cta_campaign?: string | null
+          entry_cta_content?: string | null
+          entry_cta_medium?: string | null
+          entry_cta_source?: string | null
           gbraid?: string | null
           gclid?: string | null
+          landing_path?: string | null
+          referrer?: string | null
           token: string
+          updated_at?: string
           utm_campaign?: string | null
           utm_content?: string | null
           utm_medium?: string | null
@@ -8083,10 +8119,22 @@ export type Database = {
           wbraid?: string | null
         }
         Update: {
+          checkout_cta_campaign?: string | null
+          checkout_cta_content?: string | null
+          checkout_cta_medium?: string | null
+          checkout_cta_source?: string | null
+          client_captured_at?: string | null
           created_at?: string
+          entry_cta_campaign?: string | null
+          entry_cta_content?: string | null
+          entry_cta_medium?: string | null
+          entry_cta_source?: string | null
           gbraid?: string | null
           gclid?: string | null
+          landing_path?: string | null
+          referrer?: string | null
           token?: string
+          updated_at?: string
           utm_campaign?: string | null
           utm_content?: string | null
           utm_medium?: string | null
@@ -9099,6 +9147,7 @@ export type Database = {
       }
       givebutter_donations: {
         Row: {
+          ads_exported_at: string | null
           ads_upload_error: string | null
           ads_upload_status: string
           ads_uploaded_at: string | null
@@ -9110,6 +9159,7 @@ export type Database = {
           transaction_id: string
         }
         Insert: {
+          ads_exported_at?: string | null
           ads_upload_error?: string | null
           ads_upload_status?: string
           ads_uploaded_at?: string | null
@@ -9121,6 +9171,7 @@ export type Database = {
           transaction_id: string
         }
         Update: {
+          ads_exported_at?: string | null
           ads_upload_error?: string | null
           ads_upload_status?: string
           ads_uploaded_at?: string | null
@@ -9376,6 +9427,27 @@ export type Database = {
           metadata?: Json
           severity?: string
           task_id?: string | null
+        }
+        Relationships: []
+      }
+      legacy_relationship_system_archive: {
+        Row: {
+          archived_at: string
+          payload: Json
+          source_key: string
+          source_table: string
+        }
+        Insert: {
+          archived_at?: string
+          payload: Json
+          source_key: string
+          source_table: string
+        }
+        Update: {
+          archived_at?: string
+          payload?: Json
+          source_key?: string
+          source_table?: string
         }
         Relationships: []
       }
@@ -17124,6 +17196,51 @@ export type Database = {
           },
         ]
       }
+      stripe_webhook_events: {
+        Row: {
+          created_at: string
+          event_type: string
+          id: string
+          last_error: string | null
+          livemode: boolean
+          processed_at: string | null
+          processing_status: string
+          received_at: string
+          stripe_account_id: string
+          stripe_event_id: string
+          stripe_object_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          event_type: string
+          id?: string
+          last_error?: string | null
+          livemode: boolean
+          processed_at?: string | null
+          processing_status?: string
+          received_at?: string
+          stripe_account_id: string
+          stripe_event_id: string
+          stripe_object_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          event_type?: string
+          id?: string
+          last_error?: string | null
+          livemode?: boolean
+          processed_at?: string | null
+          processing_status?: string
+          received_at?: string
+          stripe_account_id?: string
+          stripe_event_id?: string
+          stripe_object_id?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       tenant_cpt_codes: {
         Row: {
           cpt_code_id: string
@@ -19445,6 +19562,10 @@ export type Database = {
         Args: { p_idempotency_key: string; p_payload: Json }
         Returns: Json
       }
+      appointment_provisioning_worker_token_valid: {
+        Args: { p_token: string }
+        Returns: boolean
+      }
       approve_payroll_line_item: {
         Args: {
           p_dispute_reason?: string
@@ -19542,6 +19663,24 @@ export type Database = {
       check_staff_availability: {
         Args: { p_end: string; p_staff_id: string; p_start: string }
         Returns: boolean
+      }
+      claim_appointment_provisioning_work: {
+        Args: {
+          p_appointment_id?: string
+          p_lease_seconds?: number
+          p_limit?: number
+          p_worker_id: string
+        }
+        Returns: {
+          action: string
+          appointment_id: string
+          appointment_snapshot: Json
+          attempt_count: number
+          claim_token: string
+          job_id: string
+          max_attempts: number
+          tenant_id: string
+        }[]
       }
       claim_pending_campaign_steps: {
         Args: { p_limit?: number }
@@ -20209,6 +20348,10 @@ export type Database = {
           p_prior_version: number
         }
         Returns: Json
+      }
+      enqueue_appointment_provisioning: {
+        Args: { p_action?: string; p_appointment_id: string }
+        Returns: string
       }
       enroll_relationship_targets: {
         Args: {
@@ -20977,6 +21120,16 @@ export type Database = {
         Args: { p_token: string }
         Returns: Json
       }
+      process_stripe_checkout_payment: {
+        Args: {
+          p_amount_cents: number
+          p_claim_line_ids?: string[]
+          p_client_charge_ids?: string[]
+          p_payment_intent_id: string
+          p_session_id: string
+        }
+        Returns: Json
+      }
       provision_website_clinician_interest: {
         Args: { p_auth_user_id: string; p_payload: Json }
         Returns: Json
@@ -20994,6 +21147,17 @@ export type Database = {
         Returns: Json
       }
       reconcile_stalled_bulk_jobs: { Args: never; Returns: undefined }
+      record_appointment_provisioning_result: {
+        Args: {
+          p_claim_token: string
+          p_error?: string
+          p_job_id: string
+          p_result?: Json
+          p_retry_after_seconds?: number
+          p_success: boolean
+        }
+        Returns: Json
+      }
       record_client_eligibility_result: {
         Args: {
           p_claimmd_eligibility_id?: string
