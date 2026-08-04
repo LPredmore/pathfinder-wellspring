@@ -1,4 +1,4 @@
-import { useMemo, type MouseEvent } from "react";
+import { useState, type MouseEvent } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -39,7 +39,7 @@ export function DonateButton({
   utmContent,
 }: DonateButtonProps) {
   const location = useLocation();
-  const handoffId = useMemo(() => crypto.randomUUID(), [location.key]);
+  const [handoffId] = useState(() => crypto.randomUUID());
   const isPartnerPage = location.pathname === "/partner";
   const currentParams = new URLSearchParams(location.search);
   const params = new URLSearchParams();
