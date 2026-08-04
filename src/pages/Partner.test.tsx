@@ -20,6 +20,17 @@ function renderPartner() {
   );
 }
 
+function checkoutUrl(name: string) {
+  const href = screen.getByRole("link", { name }).getAttribute("href");
+  expect(href).toBeTruthy();
+  const url = new URL(href!, "https://valorwell.org");
+  expect(url.pathname).toBe("/donate");
+  expect(url.searchParams.get("vw_handoff_id")).toMatch(
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
+  );
+  return url;
+}
+
 describe("Partner support mission page", () => {
   afterEach(cleanup);
 
@@ -39,21 +50,16 @@ describe("Partner support mission page", () => {
   it("routes donor CTAs through the tracked donate passthrough", () => {
     renderPartner();
 
-    const heroCta = screen.getByRole("link", {
-      name: "Help Keep the Bridge Open",
-    });
-    expect(heroCta).toHaveAttribute(
-      "href",
-      "/donate?utm_source=partner-hero&utm_medium=site&utm_campaign=bridge-the-wait&utm_content=hero",
-    );
+    const heroCta = checkoutUrl("Help Keep the Bridge Open");
+    expect(heroCta.searchParams.get("vw_checkout_source")).toBe("partner-hero");
+    expect(heroCta.searchParams.get("vw_checkout_medium")).toBe("site");
+    expect(heroCta.searchParams.get("vw_checkout_campaign")).toBe("bridge-the-wait");
+    expect(heroCta.searchParams.get("vw_checkout_content")).toBe("hero");
 
-    const monthlyCta = screen.getByRole("link", {
-      name: "Become a Monthly Supporter",
-    });
-    expect(monthlyCta).toHaveAttribute(
-      "href",
-      "/donate?utm_source=partner-campaign-monthly&utm_medium=site&utm_campaign=monthly-support&utm_content=campaign-card",
-    );
+    const monthlyCta = checkoutUrl("Become a Monthly Supporter");
+    expect(monthlyCta.searchParams.get("vw_checkout_source")).toBe("partner-campaign-monthly");
+    expect(monthlyCta.searchParams.get("vw_checkout_campaign")).toBe("monthly-support");
+    expect(monthlyCta.searchParams.get("vw_checkout_content")).toBe("campaign-card");
   });
 
   it("keeps organizational collaboration secondary", () => {

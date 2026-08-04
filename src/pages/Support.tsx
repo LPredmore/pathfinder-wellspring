@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Layout } from "@/components/layout";
 import { SEO, DonateActionSchema, BreadcrumbSchema } from "@/components/SEO";
-import { trackDonateConversion } from "@/lib/tracking";
 import { ContentSection } from "@/components/sections";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, BarChart3, TrendingUp, Trophy } from "lucide-react";
@@ -52,13 +51,13 @@ const Support = () => {
             $75 sponsors 1 therapy session
           </div>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button asChild size="lg" onClick={() => trackDonateConversion()}>
-              <Link to="/partner?utm_source=support-hero-session&utm_medium=site&utm_campaign=bridge-the-wait">
+            <Button asChild size="lg">
+              <Link to="/partner?vw_entry_source=support-hero-session&vw_entry_medium=site&vw_entry_campaign=bridge-the-wait">
                 Sponsor a Session
               </Link>
             </Button>
-            <Button asChild size="lg" variant="outline" onClick={() => trackDonateConversion()}>
-              <Link to="/partner?utm_source=support-hero-monthly&utm_medium=site&utm_campaign=monthly-support">
+            <Button asChild size="lg" variant="outline">
+              <Link to="/partner?vw_entry_source=support-hero-monthly&vw_entry_medium=site&vw_entry_campaign=monthly-support">
                 Become a Monthly Sponsor
               </Link>
             </Button>
@@ -148,8 +147,8 @@ const Support = () => {
              </li>
           </ul>
 
-          <Button asChild size="lg" onClick={() => trackDonateConversion()}>
-            <Link to="/partner?utm_source=support-session-tiers&utm_medium=site&utm_campaign=bridge-the-wait">
+          <Button asChild size="lg">
+            <Link to="/partner?vw_entry_source=support-session-tiers&vw_entry_medium=site&vw_entry_campaign=bridge-the-wait">
               Sponsor Sessions Now
             </Link>
           </Button>

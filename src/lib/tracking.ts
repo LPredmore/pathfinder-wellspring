@@ -1,68 +1,75 @@
-/**
- * Fires the Google Ads conversion event for donate/sponsor intent.
- */
-export function trackDonateConversion(value: number = 1.0, currency: string = "USD") {
-  if (typeof window === "undefined") return;
+const DONATION_CHECKOUT_CONVERSION = "AW-16798905432/2XDvCITusvcbENjoq8o-";
 
-  const gtagFn = window.gtag;
-  if (typeof gtagFn !== "function") return;
-
-  gtagFn("event", "conversion", {
-    send_to: "AW-16798905432/2XDvCITusvcbENjoq8o-",
-    value,
-    currency,
-    transport_type: "beacon",
-    event_callback: () => {},
-  });
+interface DonationCheckoutMetadata {
+  source: string;
+  campaign?: string;
+  content?: string;
 }
 
 /**
- * Sends the donation conversion and leaves the page only after Google reports
- * that it has processed the event. A bounded fallback keeps the visitor from
- * being stranded when gtag is blocked or unavailable.
+ * Records the final click from /partner into the donation checkout. The Ads
+ * action represents checkout intent only; completed gifts are imported from
+ * Givebutter with their actual values.
  */
-export function trackDonateConversionAndRedirect(
+export function trackDonationCheckoutStartAndRedirect(
   destinationUrl: string,
-  value: number = 1.0,
-  currency: string = "USD",
+  handoffId: string,
+  metadata: DonationCheckoutMetadata,
 ) {
   if (typeof window === "undefined") return;
 
-  let didRedirect = false;
-  let didSend = false;
-
-  const redirect = () => {
-    if (didRedirect) return;
-    didRedirect = true;
-    window.location.replace(destinationUrl);
-  };
-
-  const fallbackTimeout = window.setTimeout(redirect, 3000);
-
-  const sendConversion = () => {
-    if (didSend || didRedirect) return;
-
-    const gtagFn = window.gtag;
-    if (typeof gtagFn !== "function") {
-      window.setTimeout(sendConversion, 50);
+  const redirect = () => window.location.assign(destinationUrl);
+  const dedupeKey = `valorwell_donation_checkout:${handoffId}`;
+  try {
+    if (window.sessionStorage.getItem(dedupeKey)) {
+      redirect();
       return;
     }
+    window.sessionStorage.setItem(dedupeKey, new Date().toISOString());
+  } catch {
+    // Conversion deduplication is best effort when browser storage is blocked.
+  }
 
-    didSend = true;
-    gtagFn("event", "conversion", {
-      send_to: "AW-16798905432/2XDvCITusvcbENjoq8o-",
-      value,
-      currency,
-      transport_type: "beacon",
-      event_callback: () => {
-        window.clearTimeout(fallbackTimeout);
-        redirect();
-      },
-      event_timeout: 2500,
-    });
+  let didRedirect = false;
+  const redirectOnce = () => {
+    if (didRedirect) return;
+    didRedirect = true;
+    redirect();
   };
+  const timeout = window.setTimeout(redirectOnce, 2500);
 
-  sendConversion();
+  const gtagFn = window.gtag;
+  if (typeof gtagFn !== "function") {
+    window.clearTimeout(timeout);
+    redirectOnce();
+    return;
+  }
+
+  try {
+    gtagFn("event", "begin_donation", {
+      event_id: handoffId,
+      cta_source: metadata.source,
+      cta_campaign: metadata.campaign,
+      cta_content: metadata.content,
+      transport_type: "beacon",
+    });
+
+    gtagFn("event", "conversion", {
+      send_to: DONATION_CHECKOUT_CONVERSION,
+      value: 1,
+      currency: "USD",
+      transaction_id: handoffId,
+      transport_type: "beacon",
+      event_timeout: 2000,
+      event_callback: () => {
+        window.clearTimeout(timeout);
+        redirectOnce();
+      },
+    });
+  } catch {
+    window.clearTimeout(timeout);
+    redirectOnce();
+  }
 }
 
 /**

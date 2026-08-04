@@ -1,66 +1,91 @@
 import { useEffect, useRef, useState } from "react";
-import { trackDonateConversionAndRedirect } from "@/lib/tracking";
+import { getDonationAcquisition } from "@/lib/donationAttribution";
 
 const DONATE_GO_URL = "https://ahqauomkgflopxgnlndd.functions.supabase.co/donate-go";
 const GIVEBUTTER_FALLBACK = "https://givebutter.com/valorwellhelp";
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 export default function Donate() {
   const [destinationUrl, setDestinationUrl] = useState(GIVEBUTTER_FALLBACK);
   const hasStartedRedirect = useRef(false);
 
-  const startTrackedRedirect = (url: string) => {
+  const startRedirect = (url: string) => {
     if (hasStartedRedirect.current) return;
     hasStartedRedirect.current = true;
-    trackDonateConversionAndRedirect(url);
+    window.location.replace(url);
   };
 
   useEffect(() => {
-    // gtag only auto-fires page_view on a hard page load, so client-side
-    // navigations to /donate need an explicit page-view beacon.
     const gtagFn = typeof window !== "undefined" ? window.gtag : undefined;
     if (typeof gtagFn === "function") {
-      gtagFn("event", "page_view", {
-        page_path: "/donate",
-        page_title: "Donate",
-        transport_type: "beacon",
-      });
+      try {
+        gtagFn("event", "page_view", {
+          page_path: "/donate",
+          page_title: "Donate",
+          transport_type: "beacon",
+        });
+      } catch {
+        // Analytics is best effort and must never block the donation handoff.
+      }
     }
 
-    (async () => {
+    void (async () => {
       try {
         const params = new URLSearchParams(window.location.search);
+        const acquisition = getDonationAcquisition();
+        const requestedHandoffId = params.get("vw_handoff_id");
+        const handoffId = requestedHandoffId && UUID_RE.test(requestedHandoffId)
+          ? requestedHandoffId
+          : crypto.randomUUID();
 
         const payload = {
-          gclid: params.get("gclid"),
-          gbraid: params.get("gbraid"),
-          wbraid: params.get("wbraid"),
-          utm_source: params.get("utm_source"),
-          utm_medium: params.get("utm_medium"),
-          utm_campaign: params.get("utm_campaign"),
-          utm_term: params.get("utm_term"),
-          utm_content: params.get("utm_content"),
+          handoff_id: handoffId,
+          gclid: acquisition?.gclid ?? null,
+          gbraid: acquisition?.gbraid ?? null,
+          wbraid: acquisition?.wbraid ?? null,
+          utm_source: acquisition?.utm_source ?? null,
+          utm_medium: acquisition?.utm_medium ?? null,
+          utm_campaign: acquisition?.utm_campaign ?? null,
+          utm_term: acquisition?.utm_term ?? null,
+          utm_content: acquisition?.utm_content ?? null,
+          landing_path: acquisition?.landing_path ?? null,
+          referrer: acquisition?.referrer ?? null,
+          client_captured_at: acquisition?.client_captured_at ?? null,
+          entry_cta_source: params.get("vw_entry_source"),
+          entry_cta_medium: params.get("vw_entry_medium"),
+          entry_cta_campaign: params.get("vw_entry_campaign"),
+          entry_cta_content: params.get("vw_entry_content"),
+          checkout_cta_source: params.get("vw_checkout_source"),
+          checkout_cta_medium: params.get("vw_checkout_medium"),
+          checkout_cta_campaign: params.get("vw_checkout_campaign"),
+          checkout_cta_content: params.get("vw_checkout_content"),
         };
 
-        const res = await fetch(DONATE_GO_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          cache: "no-store",
-          body: JSON.stringify(payload),
-        });
-
-        const data = await res.json().catch(() => ({}));
-
-        if (!res.ok || !data.redirect_url) {
-          setDestinationUrl(GIVEBUTTER_FALLBACK);
-          startTrackedRedirect(GIVEBUTTER_FALLBACK);
-          return;
+        const controller = new AbortController();
+        const requestTimeout = window.setTimeout(() => controller.abort(), 4000);
+        let response: Response;
+        try {
+          response = await fetch(DONATE_GO_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            cache: "no-store",
+            signal: controller.signal,
+            body: JSON.stringify(payload),
+          });
+        } finally {
+          window.clearTimeout(requestTimeout);
         }
 
-        setDestinationUrl(data.redirect_url);
-        startTrackedRedirect(data.redirect_url);
+        const data = await response.json().catch(() => ({}));
+        const redirectUrl = response.ok && typeof data.redirect_url === "string"
+          ? data.redirect_url
+          : GIVEBUTTER_FALLBACK;
+
+        setDestinationUrl(redirectUrl);
+        startRedirect(redirectUrl);
       } catch {
         setDestinationUrl(GIVEBUTTER_FALLBACK);
-        startTrackedRedirect(GIVEBUTTER_FALLBACK);
+        startRedirect(GIVEBUTTER_FALLBACK);
       }
     })();
   }, []);
@@ -80,14 +105,7 @@ export default function Donate() {
         </div>
         <p className="mt-6 text-xs text-muted-foreground">
           Not redirected?{" "}
-          <a
-            href={destinationUrl}
-            className="underline text-primary"
-            onClick={(event) => {
-              event.preventDefault();
-              startTrackedRedirect(destinationUrl);
-            }}
-          >
+          <a href={destinationUrl} className="underline text-primary">
             Continue to Givebutter
           </a>
         </p>
