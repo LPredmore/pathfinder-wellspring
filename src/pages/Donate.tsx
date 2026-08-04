@@ -18,11 +18,15 @@ export default function Donate() {
   useEffect(() => {
     const gtagFn = typeof window !== "undefined" ? window.gtag : undefined;
     if (typeof gtagFn === "function") {
-      gtagFn("event", "page_view", {
-        page_path: "/donate",
-        page_title: "Donate",
-        transport_type: "beacon",
-      });
+      try {
+        gtagFn("event", "page_view", {
+          page_path: "/donate",
+          page_title: "Donate",
+          transport_type: "beacon",
+        });
+      } catch {
+        // Analytics is best effort and must never block the donation handoff.
+      }
     }
 
     void (async () => {
@@ -48,19 +52,30 @@ export default function Donate() {
           referrer: acquisition?.referrer ?? null,
           client_captured_at: acquisition?.client_captured_at ?? null,
           entry_cta_source: params.get("vw_entry_source"),
+          entry_cta_medium: params.get("vw_entry_medium"),
           entry_cta_campaign: params.get("vw_entry_campaign"),
           entry_cta_content: params.get("vw_entry_content"),
           checkout_cta_source: params.get("vw_checkout_source"),
+          checkout_cta_medium: params.get("vw_checkout_medium"),
           checkout_cta_campaign: params.get("vw_checkout_campaign"),
           checkout_cta_content: params.get("vw_checkout_content"),
         };
 
-        const response = await fetch(DONATE_GO_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          cache: "no-store",
-          body: JSON.stringify(payload),
-        });
+        const controller = new AbortController();
+        const requestTimeout = window.setTimeout(() => controller.abort(), 4000);
+        let response: Response;
+        try {
+          response = await fetch(DONATE_GO_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            cache: "no-store",
+            signal: controller.signal,
+            body: JSON.stringify(payload),
+          });
+        } finally {
+          window.clearTimeout(requestTimeout);
+        }
+
         const data = await response.json().catch(() => ({}));
         const redirectUrl = response.ok && typeof data.redirect_url === "string"
           ? data.redirect_url
