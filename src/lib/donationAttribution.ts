@@ -27,7 +27,12 @@ const MARKETING_KEYS = [
 ] as const;
 
 function isBrowser() {
-  return typeof window !== "undefined" && typeof window.localStorage !== "undefined";
+  if (typeof window === "undefined") return false;
+  try {
+    return typeof window.localStorage !== "undefined";
+  } catch {
+    return false;
+  }
 }
 
 function clean(value: string | null, maxLength = 512) {
@@ -56,7 +61,11 @@ export function getDonationAcquisition(): DonationAcquisition | null {
     }
     return parsed;
   } catch {
-    window.localStorage.removeItem(STORAGE_KEY);
+    try {
+      window.localStorage.removeItem(STORAGE_KEY);
+    } catch {
+      // Attribution is best effort when storage is unavailable.
+    }
     return null;
   }
 }
@@ -94,10 +103,19 @@ export function captureDonationAcquisition(
   const shouldReplace = !existing || hasClickId(candidate) || !hasClickId(existing);
   if (!shouldReplace) return existing;
 
-  window.localStorage.setItem(STORAGE_KEY, JSON.stringify(candidate));
-  return candidate;
+  try {
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(candidate));
+    return candidate;
+  } catch {
+    return existing;
+  }
 }
 
 export function clearDonationAcquisitionForTests() {
-  if (isBrowser()) window.localStorage.removeItem(STORAGE_KEY);
+  if (!isBrowser()) return;
+  try {
+    window.localStorage.removeItem(STORAGE_KEY);
+  } catch {
+    // Test cleanup mirrors production's best-effort storage behavior.
+  }
 }
