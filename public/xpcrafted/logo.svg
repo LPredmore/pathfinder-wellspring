@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-labelledby="title desc">
+  <title id="title">XP Crafted logo</title>
+  <desc id="desc">A colorful round handmade gamer-art badge reading XP Crafted.</desc>
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="40%" r="72%">
+      <stop offset="0" stop-color="#fff5a8"/>
+      <stop offset=".45" stop-color="#7ee787"/>
+      <stop offset=".78" stop-color="#6dd3ff"/>
+      <stop offset="1" stop-color="#8f56d9"/>
+    </radialGradient>
+    <filter id="rough" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="8" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.2" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="8" dy="9" stdDeviation="0" flood-color="#171717"/>
+    </filter>
+  </defs>
+
+  <circle cx="300" cy="300" r="278" fill="#fffaf0" stroke="#171717" stroke-width="18"/>
+  <circle cx="300" cy="300" r="250" fill="url(#bg)" stroke="#171717" stroke-width="9" filter="url(#rough)"/>
+
+  <g fill="none" stroke="#171717" stroke-linecap="square" stroke-linejoin="round" filter="url(#rough)">
+    <path d="M68 183l69-69 29 29-69 69-29 4z" fill="#6dd3ff" stroke-width="10"/>
+    <path d="M96 210l28-28 31 31-28 28z" fill="#75451f" stroke-width="9"/>
+    <path d="M442 120l65 24-9 24-64-24z" fill="#6dd3ff" stroke-width="9"/>
+    <path d="M471 151l-55 110" stroke="#75451f" stroke-width="16"/>
+    <path d="M123 448l99 0 0 62-99 0z" fill="#9a632c" stroke-width="9"/>
+    <path d="M123 448l99 0-18-30-65 0z" fill="#35c93f" stroke-width="9"/>
+    <path d="M387 449c36 1 69 19 89 49" stroke="#28a8ef" stroke-width="18"/>
+  </g>
+
+  <g filter="url(#shadow)" stroke="#171717" stroke-width="8" paint-order="stroke" stroke-linejoin="round" font-family="Trebuchet MS, Arial Rounded MT Bold, Arial, sans-serif" font-weight="900" text-anchor="middle">
+    <text x="300" y="287" font-size="196" fill="#35c93f" letter-spacing="-18">X<tspan fill="#ffbf24">P</tspan></text>
+    <text x="300" y="398" font-size="92" letter-spacing="-7">
+      <tspan fill="#ef3f49">C</tspan><tspan fill="#ff9f1c">r</tspan><tspan fill="#28a8ef">a</tspan><tspan fill="#8f56d9">f</tspan><tspan fill="#35c93f">t</tspan><tspan fill="#ffbf24">e</tspan><tspan fill="#28a8ef">d</tspan>
+    </text>
+  </g>
+
+  <g fill="#ffbf24" stroke="#171717" stroke-width="7" stroke-linejoin="round" filter="url(#rough)">
+    <path d="M458 297l12 24 27 4-20 19 5 27-24-13-24 13 5-27-20-19 27-4z"/>
+    <path d="M101 351l7 14 16 2-12 11 3 16-14-8-14 8 3-16-12-11 16-2z"/>
+  </g>
+
+  <g stroke="#171717" stroke-width="7" stroke-linejoin="round" filter="url(#rough)">
+    <path d="M170 461l-79 43 18-34 17-7z" fill="#ffbf24"/>
+    <path d="M91 504l-16 9 7-17z" fill="#ef3f49"/>
+    <path d="M429 446l78 55-28-4-66-42z" fill="#171717"/>
+    <path d="M507 501l19 13-24-2z" fill="#28a8ef"/>
+  </g>
+</svg>
