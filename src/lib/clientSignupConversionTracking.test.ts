@@ -9,6 +9,7 @@ import {
 describe("trackClientSignupSuccess", () => {
   afterEach(() => {
     delete window.gtag;
+    window.history.replaceState({}, "", "/");
     vi.restoreAllMocks();
   });
 
@@ -25,7 +26,7 @@ describe("trackClientSignupSuccess", () => {
       event_label: "client_account_created",
       form_id: CLIENT_SIGNUP_FORM_ID,
       form_name: CLIENT_SIGNUP_FORM_NAME,
-      form_destination: window.location.href,
+      form_destination: `${window.location.origin}/get-care`,
       form_submit_text: "Create Account and Email Instructions",
       signup_source: "valorwell_get_care",
       transport_type: "beacon",
@@ -77,5 +78,26 @@ describe("trackClientSignupSuccess", () => {
     expect(serializedCalls).not.toContain("first_name");
     expect(serializedCalls).not.toContain("last_name");
     expect(serializedCalls).not.toContain("user_data");
+  });
+
+  it("excludes query strings and fragments from the form destination", () => {
+    const gtag = vi.fn();
+    window.gtag = gtag;
+    window.history.replaceState(
+      {},
+      "",
+      "/get-care?email=patient@example.com#phone=555-0100",
+    );
+
+    expect(trackClientSignupSuccess("client-signup-private-url")).toBe(true);
+
+    const serializedCalls = JSON.stringify(gtag.mock.calls);
+    expect(serializedCalls).toContain(
+      `${window.location.origin}/get-care`,
+    );
+    expect(serializedCalls).not.toContain("patient@example.com");
+    expect(serializedCalls).not.toContain("555-0100");
+    expect(serializedCalls).not.toContain("?email=");
+    expect(serializedCalls).not.toContain("#phone=");
   });
 });
