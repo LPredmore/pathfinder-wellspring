@@ -19,11 +19,11 @@ The event contains only:
 
 - the generated website submission ID
 - stable form metadata
-- the current page URL
+- the page origin and pathname
 - the signup source
 
-It must never contain a name, email address, phone number, intake answer, or
-other user-provided value.
+The page destination excludes the URL query string and fragment. The event must
+not contain submitted form values or other user-provided values.
 
 A standard `form_submit` event is emitted at the same confirmed-success point
 for Google tag diagnostics and general form reporting. It is not the
@@ -62,9 +62,9 @@ secondary so page visits cannot be counted as leads.
 
 ## Sensitive-category requirement
 
-This conversion relates to a mental-health care signup. Enhanced conversions
-and any user-provided-data collection must be explicitly disabled for this
-conversion action. Standard conversion measurement may remain enabled.
+This conversion relates to a care signup. Enhanced conversions and any
+user-provided-data collection must be explicitly disabled for this conversion
+action. Standard conversion measurement may remain enabled.
 
 ## Production verification
 
@@ -75,7 +75,7 @@ integration:
 2. Open `/get-care` and submit one controlled successful signup.
 3. Confirm `client_signup_success` is sent to the current Google destinations.
 4. Confirm the event appears only after the backend response succeeds.
-5. Confirm the payload contains no submitted identity or contact values.
+5. Confirm the payload contains no submitted values, query string, or fragment.
 6. Repeat a failed signup and confirm no `client_signup_success` event appears.
 7. Confirm the conversion action is not triggered by merely loading `/get-care`.
 
