@@ -18,8 +18,8 @@ interface ClientSignupEventParameters {
 
 /**
  * Records the completed website signup only after the registration endpoint has
- * confirmed success. No name, email, phone number, or other user-provided form
- * value is included in either Google event.
+ * confirmed success. No name, email, phone number, URL query value, fragment,
+ * or other user-provided form value is included in either Google event.
  *
  * The unique event is the authoritative conversion signal. The standard
  * form_submit event is retained for Google tag diagnostics and form reporting.
@@ -40,7 +40,7 @@ export function trackClientSignupSuccess(submissionId: string): boolean {
     event_label: "client_account_created",
     form_id: CLIENT_SIGNUP_FORM_ID,
     form_name: CLIENT_SIGNUP_FORM_NAME,
-    form_destination: window.location.href,
+    form_destination: `${window.location.origin}${window.location.pathname}`,
     form_submit_text: "Create Account and Email Instructions",
     signup_source: "valorwell_get_care",
     transport_type: "beacon",
