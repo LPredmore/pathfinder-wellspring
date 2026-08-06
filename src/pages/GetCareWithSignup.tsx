@@ -9,6 +9,11 @@ import {
   billingHubSupabase,
   createWebsiteSubmissionKey,
 } from "@/integrations/supabase/client";
+import {
+  CLIENT_SIGNUP_FORM_ID,
+  CLIENT_SIGNUP_FORM_NAME,
+  trackClientSignupSuccess,
+} from "@/lib/clientSignupConversionTracking";
 
 const CLIENT_PORTAL_URL = "https://client.valorwell.org/auth";
 const CLIENT_PORTAL_HOSTS = new Set([
@@ -31,26 +36,6 @@ const initialForm: SignupFormState = {
   phone: "",
   website: "",
 };
-
-function emitSignupTag(submissionId: string) {
-  if (typeof window === "undefined") return;
-  const taggedWindow = window as Window & {
-    dataLayer?: unknown[];
-    gtag?: (...args: unknown[]) => void;
-  };
-
-  taggedWindow.dataLayer = taggedWindow.dataLayer ?? [];
-  taggedWindow.dataLayer.push({
-    event: "client_signup_success",
-    submission_id: submissionId,
-    signup_source: "valorwell_get_care",
-  });
-  taggedWindow.gtag?.("event", "client_signup_success", {
-    event_id: submissionId,
-    signup_source: "valorwell_get_care",
-    transport_type: "beacon",
-  });
-}
 
 export default function GetCareWithSignup() {
   const [open, setOpen] = useState(false);
@@ -137,7 +122,7 @@ export default function GetCareWithSignup() {
         );
       }
 
-      emitSignupTag(submissionId);
+      trackClientSignupSuccess(submissionId);
       setSubmitted(true);
     } catch (caughtError) {
       setError(
@@ -233,7 +218,12 @@ export default function GetCareWithSignup() {
                   intake inside the client portal.
                 </p>
 
-                <form onSubmit={submitSignup} className="mt-7 space-y-5">
+                <form
+                  id={CLIENT_SIGNUP_FORM_ID}
+                  name={CLIENT_SIGNUP_FORM_NAME}
+                  onSubmit={submitSignup}
+                  className="mt-7 space-y-5"
+                >
                   <div className="grid gap-5 sm:grid-cols-2">
                     <div className="space-y-2">
                       <Label htmlFor="signup-first-name">First name</Label>
