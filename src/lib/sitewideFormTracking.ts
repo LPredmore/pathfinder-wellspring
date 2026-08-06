@@ -85,15 +85,24 @@ export interface SuccessfulFormEventParameters {
   form_submit_text: string;
   form_context: PublicFormKey;
   success: true;
-  transport_type: "beacon";
+}
+
+function normalizePathname(pathname: string): string {
+  if (pathname.length > 1 && pathname.endsWith("/")) {
+    return pathname.replace(/\/+$/, "");
+  }
+
+  return pathname;
 }
 
 export function identifyPublicForm(
   form: HTMLFormElement,
   pathname = typeof window === "undefined" ? "" : window.location.pathname,
 ): PublicFormDefinition | null {
+  const normalizedPathname = normalizePathname(pathname);
+
   for (const definition of Object.values(PUBLIC_FORMS)) {
-    if (definition.pathname !== pathname) continue;
+    if (normalizePathname(definition.pathname) !== normalizedPathname) continue;
     if (definition.selectors.some((selector) => form.querySelector(selector))) {
       return definition;
     }
@@ -153,11 +162,10 @@ export function trackSuccessfulFormSubmission(
     event_label: definition.eventName,
     form_id: definition.id,
     form_name: definition.name,
-    form_destination: `${window.location.origin}${window.location.pathname}`,
+    form_destination: `${window.location.origin}${normalizePathname(window.location.pathname)}`,
     form_submit_text: definition.submitText,
     form_context: formKey,
     success: true,
-    transport_type: "beacon",
   };
 
   try {
