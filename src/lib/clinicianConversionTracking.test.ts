@@ -1,85 +1,59 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
-  CLINICIAN_GOOGLE_ADS_CONVERSION_DESTINATION,
-  resolveClinicianConversionDestination,
+  CLINICIAN_INTEREST_EVENT_NAME,
+  CLINICIAN_INTEREST_FORM_ID,
+  CLINICIAN_INTEREST_FORM_NAME,
   trackClinicianInterestRegistered,
 } from "./clinicianConversionTracking";
-
-describe("resolveClinicianConversionDestination", () => {
-  it("accepts the exact Google Ads destination for Therapist Application Submitted", () => {
-    expect(
-      resolveClinicianConversionDestination(
-        ` ${CLINICIAN_GOOGLE_ADS_CONVERSION_DESTINATION} `,
-      ),
-    ).toBe(CLINICIAN_GOOGLE_ADS_CONVERSION_DESTINATION);
-  });
-
-  it("rejects account-only IDs, placeholders, and other conversion actions", () => {
-    expect(resolveClinicianConversionDestination("AW-16798905432")).toBeNull();
-    expect(
-      resolveClinicianConversionDestination("AW-16798905432/<label>"),
-    ).toBeNull();
-    expect(
-      resolveClinicianConversionDestination(
-        "AW-16798905432/6RqRCJ2PnfMbENjoq8o-",
-      ),
-    ).toBeNull();
-    expect(
-      resolveClinicianConversionDestination(
-        "AW-11339741081/XWcdCMz27tscENjoq8o-",
-      ),
-    ).toBeNull();
-  });
-});
+import {
+  PUBLIC_FORMS,
+  clearTrackedFormSubmissionsForTests,
+} from "./sitewideFormTracking";
 
 describe("trackClinicianInterestRegistered", () => {
   afterEach(() => {
     delete window.gtag;
+    clearTrackedFormSubmissionsForTests();
     vi.restoreAllMocks();
   });
 
-  it("sends the analytics event and verified Ads conversion by default", () => {
+  it("uses the shared clinician form contract without an Ads label", () => {
+    expect(CLINICIAN_INTEREST_FORM_ID).toBe(
+      PUBLIC_FORMS.clinicianInterest.id,
+    );
+    expect(CLINICIAN_INTEREST_FORM_NAME).toBe(
+      PUBLIC_FORMS.clinicianInterest.name,
+    );
+    expect(CLINICIAN_INTEREST_EVENT_NAME).toBe(
+      PUBLIC_FORMS.clinicianInterest.eventName,
+    );
+
     const gtag = vi.fn();
     window.gtag = gtag;
 
     expect(
       trackClinicianInterestRegistered("clinician-interest-123"),
     ).toBe(true);
-
-    expect(gtag).toHaveBeenNthCalledWith(1, "event", "form_submit", {
-      event_category: "clinician_interest",
-      event_label: "clinician_interest_registered",
-      form_name: "clinician_interest",
-    });
-    expect(gtag).toHaveBeenNthCalledWith(2, "event", "conversion", {
-      send_to: CLINICIAN_GOOGLE_ADS_CONVERSION_DESTINATION,
-      value: 1.0,
-      currency: "USD",
-      transaction_id: "clinician-interest-123",
-      transport_type: "beacon",
-    });
+    expect(gtag).toHaveBeenCalledTimes(2);
+    expect(gtag).toHaveBeenNthCalledWith(
+      1,
+      "event",
+      "form_submit",
+      expect.objectContaining({
+        event_id: "clinician-interest-123",
+        form_id: CLINICIAN_INTEREST_FORM_ID,
+        form_name: CLINICIAN_INTEREST_FORM_NAME,
+      }),
+    );
+    expect(gtag).toHaveBeenNthCalledWith(
+      2,
+      "event",
+      CLINICIAN_INTEREST_EVENT_NAME,
+      expect.any(Object),
+    );
   });
 
-  it("retains analytics but refuses an unverified conversion destination", () => {
-    const gtag = vi.fn();
-    window.gtag = gtag;
-
-    expect(
-      trackClinicianInterestRegistered(
-        "clinician-interest-123",
-        "AW-16798905432/6RqRCJ2PnfMbENjoq8o-",
-      ),
-    ).toBe(false);
-
-    expect(gtag).toHaveBeenCalledOnce();
-    expect(gtag).toHaveBeenCalledWith("event", "form_submit", {
-      event_category: "clinician_interest",
-      event_label: "clinician_interest_registered",
-      form_name: "clinician_interest",
-    });
-  });
-
-  it("does not throw or report success when gtag is unavailable", () => {
+  it("fails closed when gtag is unavailable", () => {
     expect(
       trackClinicianInterestRegistered("clinician-interest-123"),
     ).toBe(false);
