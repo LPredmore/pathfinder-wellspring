@@ -1,5 +1,8 @@
 # Get Care Google Ads conversion contract
 
+This contract is intentionally event-based. URL and page-load rules are not an
+acceptable substitute for confirmed signup completion.
+
 ## Authoritative signal
 
 A completed website signup is represented by the event:
