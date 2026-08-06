@@ -21,7 +21,7 @@ import MissionPage from "./pages/MissionPage";
 import OcsBillingHubPage from "./pages/OcsBillingHubPage";
 import BtyBillingHubPage from "./pages/BtyBillingHubPage";
 import Clinicians from "./pages/Clinicians";
-import GetCare from "./pages/GetCare";
+import GetCareWithSignup from "./pages/GetCareWithSignup";
 import Partner from "./pages/Partner";
 import Contact from "./pages/Contact";
 import Privacy from "./pages/Privacy";
@@ -94,7 +94,7 @@ const App = () => (
               path="/therapists"
               element={<Navigate to="/clinicians" replace />}
             />
-            <Route path="/get-care" element={<GetCare />} />
+            <Route path="/get-care" element={<GetCareWithSignup />} />
             <Route path="/partner" element={<Partner />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/privacy" element={<Privacy />} />
