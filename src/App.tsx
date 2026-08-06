@@ -3,6 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { RouteScrollManager } from "@/components/routing/RouteScrollManager";
 import { DonationAttributionManager } from "@/components/routing/DonationAttributionManager";
+import { ClientIntakeRoutingManager } from "@/components/routing/ClientIntakeRoutingManager";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   BrowserRouter,
@@ -78,6 +79,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <ClientIntakeRoutingManager />
           <DonationAttributionManager />
           <RouteScrollManager />
           <Routes>
@@ -130,8 +132,7 @@ const App = () => (
             />
             <Route
               path="/authority/resources/va-community-care"
-              element={<AuthorityResourcesVACommunityCare />}
-            />
+              element={<AuthorityResourcesVACommunityCare />} />
             <Route
               path="/authority/resources/veteran-mental-health"
               element={<AuthorityResourcesVeteranMentalHealth />}
