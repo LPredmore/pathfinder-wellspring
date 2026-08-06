@@ -58,9 +58,51 @@
     ></script>
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
+      const processedLeadSubmissions = new Set();
+
+      function pushGoogleCommand() {
+        window.dataLayer.push(arguments);
       }
+
+      function gtag() {
+        pushGoogleCommand.apply(null, arguments);
+
+        if (
+          arguments[0] !== "event" ||
+          arguments[1] !== "client_signup_success"
+        ) {
+          return;
+        }
+
+        const sourceParameters =
+          arguments[2] && typeof arguments[2] === "object"
+            ? arguments[2]
+            : {};
+        const submissionId =
+          typeof sourceParameters.event_id === "string"
+            ? sourceParameters.event_id
+            : undefined;
+
+        if (submissionId && processedLeadSubmissions.has(submissionId)) {
+          return;
+        }
+        if (submissionId) processedLeadSubmissions.add(submissionId);
+
+        const eventParameters = {
+          send_to: "AW-16798905432",
+          event_id: submissionId,
+          form_id: "valorwell-get-care-signup",
+          form_name: "valorwell_get_care_signup",
+          form_destination: window.location.href,
+          form_submit_text: "Create Account and Email Instructions",
+          signup_source: "valorwell_get_care",
+          success: true,
+        };
+
+        pushGoogleCommand("event", "form_submit", eventParameters);
+        pushGoogleCommand("event", "generate_lead", eventParameters);
+      }
+
       gtag("js", new Date());
 
       gtag("config", "AW-11339741081");
