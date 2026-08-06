@@ -114,6 +114,15 @@ export default function GetCareWithSignup() {
         });
 
       if (functionError) throw functionError;
+
+      // Billing Hub is authoritative about whether this request created a new
+      // account. Existing accounts, repeated requests, and honeypot submissions
+      // may receive the same generic public success message but must not count
+      // as new Google Ads leads.
+      if (data?.conversionEligible === true) {
+        trackClientSignupSuccess(submissionId);
+      }
+
       if (!data?.ok) {
         throw new Error(
           typeof data?.error === "string"
@@ -122,7 +131,6 @@ export default function GetCareWithSignup() {
         );
       }
 
-      trackClientSignupSuccess(submissionId);
       setSubmitted(true);
     } catch (caughtError) {
       setError(
