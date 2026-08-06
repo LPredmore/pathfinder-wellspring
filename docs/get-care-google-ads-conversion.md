@@ -5,15 +5,34 @@ acceptable substitute for confirmed signup completion.
 
 ## Authoritative signal
 
-A completed website signup is represented by the event:
+A new website client account is represented by the event:
 
 ```text
 client_signup_success
 ```
 
-The event fires only after `register-client-website` returns `{ ok: true }`.
-It is not fired when the visitor opens the modal, starts the form, clicks the
-submit button, fails browser validation, or receives a backend error.
+The event fires only when `register-client-website` explicitly returns:
+
+```json
+{ "conversionEligible": true }
+```
+
+Billing Hub sets that field to `true` only when the canonical `register-client`
+function actually provisions a new account. It is `false` for:
+
+- an already-existing account
+- a repeated request suppressed by the website throttle
+- a honeypot or bot submission
+- a validation or provisioning failure
+
+If the new account is created but the access-email request fails, the response
+uses `ok: false` and `conversionEligible: true`. The one legitimate new-account
+lead is still recorded while the website displays the access-email error.
+
+The event is not fired when the visitor opens the modal, starts the form, clicks
+the submit button, fails browser validation, or receives an ineligible generic
+success response. If the backend omits `conversionEligible`, the website fails
+closed and does not record a conversion.
 
 The event contains only:
 
@@ -25,7 +44,7 @@ The event contains only:
 The page destination excludes the URL query string and fragment. The event must
 not contain submitted form values or other user-provided values.
 
-A standard `form_submit` event is emitted at the same confirmed-success point
+A standard `form_submit` event is emitted at the same conversion-eligible point
 for Google tag diagnostics and general form reporting. It is not the
 conversion-selection signal because other forms can legitimately use the same
 standard event name.
@@ -57,13 +76,13 @@ Create or select exactly one website conversion with these settings:
 - Existing event: **client_signup_success**
 - Count: **One**
 - Optimization: **Primary** for the client-acquisition campaigns that should bid
-  toward completed client signups
+  toward newly created client accounts
 - Attribution: **Data-driven**, when available
 
 Do not create a codeless form-submission rule for `/get-care`. The browser form
 uses an asynchronous registration request, so a generic form detector can
-observe a submission attempt before the backend confirms success. The explicit
-`client_signup_success` event is the authoritative completed-signup signal.
+observe a submission attempt before the backend confirms a new account. The
+explicit `client_signup_success` event is the authoritative new-account signal.
 
 The previous action named `Submit lead form (Page load
 www.valorwell.org/get-care)` must be removed from account-default goals or made
@@ -77,16 +96,19 @@ action. Standard conversion measurement may remain enabled.
 
 ## Production verification
 
-After publishing the current `main` branch through Lovable's Cloudflare
-integration:
+After deploying the Billing Hub function and publishing the corresponding
+website `main` branch through Cloudflare:
 
 1. Start Tag Assistant on `/get-care`.
-2. Submit one controlled successful signup.
+2. Submit one controlled signup using an email address that has never existed in
+   Billing Hub.
 3. Confirm `client_signup_success` is sent to `G-H5X3D2DGKB` and the connected
    Google destinations.
-4. Confirm the event appears only after the backend response succeeds.
-5. Confirm the payload contains no submitted values, query string, or fragment.
-6. Repeat a failed signup and confirm no `client_signup_success` event appears.
+4. Submit the same email again and confirm no new `client_signup_success` event
+   appears.
+5. Confirm the event payload contains no submitted values, query string, or
+   fragment.
+6. Confirm a failed or honeypot submission produces no conversion event.
 7. Confirm merely loading `/get-care` does not record a conversion.
 8. In Google Analytics, confirm the event is received and mark it as a key event
    if the Google Ads import workflow requires that status.
