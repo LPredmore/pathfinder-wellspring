@@ -55,7 +55,7 @@ npm run dev
 **Use GitHub Codespaces**
 
 - Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
+- Click on the "Code" button (green button) near the top right of the file view.
 - Select the "Codespaces" tab.
 - Click on "New codespace" to launch a new Codespace environment.
 - Edit files directly within the Codespace and commit and push your changes once you're done.
@@ -72,7 +72,9 @@ This project is built with:
 
 ## How can I deploy this project?
 
-Open the [ValorWell Website project](https://lovable.dev/projects/c758642f-82dd-4b2c-89f4-751876e059fc) and click Share -> Publish, then verify [valorwell.org](https://valorwell.org).
+Open the [ValorWell Website project](https://lovable.dev/projects/c758642f-82dd-4b2c-89f4-751876e059fc) and click **Share → Publish**, then verify [valorwell.org](https://valorwell.org).
+
+Production publishing and hosting are handled exclusively through Lovable's Cloudflare integration. Do not connect this repository to any alternate hosting or deploy-preview provider.
 
 ## Can I connect a custom domain to my Lovable project?
 
