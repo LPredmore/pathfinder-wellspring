@@ -64,7 +64,7 @@ export default function GetCareWithSignup() {
     const interceptPortalSignup = (event: MouseEvent) => {
       const target = event.target as HTMLElement | null;
       const anchor = target?.closest("a[href]") as HTMLAnchorElement | null;
-      if (!anchor) return;
+      if (!anchor || anchor.dataset.directPortal === "true") return;
 
       try {
         const destination = new URL(anchor.href, window.location.href);
@@ -204,7 +204,9 @@ export default function GetCareWithSignup() {
                     Return to Get Care
                   </Button>
                   <Button asChild>
-                    <a href={CLIENT_PORTAL_URL}>Go to Client Login</a>
+                    <a href={CLIENT_PORTAL_URL} data-direct-portal="true">
+                      Go to Client Login
+                    </a>
                   </Button>
                 </div>
               </div>
