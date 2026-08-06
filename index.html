@@ -67,6 +67,56 @@
       gtag("config", "AW-16798905432");
       gtag("config", "G-TZMBM6V5DW");
       gtag("config", "G-H5X3D2DGKB");
+
+      // The React signup flow emits client_signup_success only after the
+      // registration endpoint returns { ok: true }. Translate that confirmed
+      // success into Google's standard lead and form events so Google Ads can
+      // create a codeless "Submit lead form" conversion from the Google tag.
+      (() => {
+        const originalPush = window.dataLayer.push.bind(window.dataLayer);
+        const processedSubmissions = new Set();
+
+        window.dataLayer.push = function (...items) {
+          const result = originalPush(...items);
+
+          for (const item of items) {
+            if (
+              !item ||
+              typeof item !== "object" ||
+              Array.isArray(item) ||
+              item.event !== "client_signup_success"
+            ) {
+              continue;
+            }
+
+            const submissionId =
+              typeof item.submission_id === "string"
+                ? item.submission_id
+                : undefined;
+
+            if (submissionId && processedSubmissions.has(submissionId)) {
+              continue;
+            }
+            if (submissionId) processedSubmissions.add(submissionId);
+
+            const eventParameters = {
+              send_to: "AW-16798905432",
+              event_id: submissionId,
+              form_id: "valorwell-get-care-signup",
+              form_name: "valorwell_get_care_signup",
+              form_destination: window.location.href,
+              form_submit_text: "Create Account and Email Instructions",
+              signup_source: "valorwell_get_care",
+              success: true,
+            };
+
+            gtag("event", "form_submit", eventParameters);
+            gtag("event", "generate_lead", eventParameters);
+          }
+
+          return result;
+        };
+      })();
     </script>
   </head>
 
