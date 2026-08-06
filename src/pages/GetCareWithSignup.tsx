@@ -1,4 +1,5 @@
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import type { FormEvent } from "react";
 import { CheckCircle2, Loader2, Mail, ShieldCheck, X } from "lucide-react";
 import GetCare from "./GetCare";
 import { Button } from "@/components/ui/button";
@@ -44,7 +45,6 @@ function emitSignupTag(submissionId: string) {
     submission_id: submissionId,
     signup_source: "valorwell_get_care",
   });
-
   taggedWindow.gtag?.("event", "client_signup_success", {
     event_id: submissionId,
     signup_source: "valorwell_get_care",
@@ -61,10 +61,16 @@ export default function GetCareWithSignup() {
   const submissionId = useMemo(() => createWebsiteSubmissionKey(), [open]);
 
   useEffect(() => {
-    const interceptPortalSignup = (event: MouseEvent) => {
+    const interceptCareSignup = (event: MouseEvent) => {
       const target = event.target as HTMLElement | null;
       const anchor = target?.closest("a[href]") as HTMLAnchorElement | null;
-      if (!anchor || anchor.dataset.directPortal === "true") return;
+      if (
+        !anchor ||
+        anchor.dataset.directPortal === "true" ||
+        !anchor.closest(".clinicians-theme")
+      ) {
+        return;
+      }
 
       try {
         const destination = new URL(anchor.href, window.location.href);
@@ -77,8 +83,8 @@ export default function GetCareWithSignup() {
       }
     };
 
-    document.addEventListener("click", interceptPortalSignup);
-    return () => document.removeEventListener("click", interceptPortalSignup);
+    document.addEventListener("click", interceptCareSignup);
+    return () => document.removeEventListener("click", interceptCareSignup);
   }, []);
 
   useEffect(() => {
@@ -134,11 +140,11 @@ export default function GetCareWithSignup() {
       emitSignupTag(submissionId);
       setSubmitted(true);
     } catch (caughtError) {
-      const message =
+      setError(
         caughtError instanceof Error
           ? caughtError.message
-          : "We could not create your account. Please try again.";
-      setError(message);
+          : "We could not create your account. Please try again.",
+      );
     } finally {
       setSubmitting(false);
     }
@@ -151,7 +157,7 @@ export default function GetCareWithSignup() {
       <Button
         type="button"
         onClick={() => setOpen(true)}
-        className="fixed bottom-5 right-5 z-40 min-h-12 rounded-full bg-[color:var(--cl-ember)] px-6 font-bold text-[color:var(--cl-canvas)] shadow-2xl hover:bg-[color:var(--cl-ember)]/90"
+        className="fixed bottom-5 right-5 z-40 min-h-12 rounded-full px-6 font-bold shadow-2xl"
       >
         Start CHAMPVA Intake
       </Button>
@@ -212,7 +218,7 @@ export default function GetCareWithSignup() {
               </div>
             ) : (
               <>
-                <p className="text-xs font-bold uppercase tracking-[0.22em] text-[color:var(--cl-ember)]">
+                <p className="text-xs font-bold uppercase tracking-[0.22em] text-amber-700">
                   Secure initial signup
                 </p>
                 <h2
@@ -319,11 +325,7 @@ export default function GetCareWithSignup() {
                     </div>
                   </div>
 
-                  <Button
-                    type="submit"
-                    disabled={submitting}
-                    className="min-h-12 w-full bg-[color:var(--cl-ember)] font-bold text-[color:var(--cl-canvas)] hover:bg-[color:var(--cl-ember)]/90"
-                  >
+                  <Button type="submit" disabled={submitting} className="min-h-12 w-full font-bold">
                     {submitting ? (
                       <>
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden="true" />
