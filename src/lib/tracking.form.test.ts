@@ -36,7 +36,7 @@ describe("shared form routing from legacy website events", () => {
     expect(gtag).toHaveBeenNthCalledWith(
       2,
       "event",
-      "form_submit",
+      "vw_form_success",
       expect.objectContaining({
         event_id: `${formKey}-submission-1`,
         form_id: PUBLIC_FORMS[formKey].id,
@@ -60,7 +60,7 @@ describe("shared form routing from legacy website events", () => {
 
     expect(gtag).toHaveBeenCalledTimes(4);
     expect(
-      gtag.mock.calls.filter((call) => call[1] === "form_submit"),
+      gtag.mock.calls.filter((call) => call[1] === "vw_form_success"),
     ).toHaveLength(1);
     expect(
       gtag.mock.calls.filter(
@@ -78,7 +78,7 @@ describe("shared form routing from legacy website events", () => {
 
     expect(gtag).toHaveBeenCalledTimes(4);
     expect(
-      gtag.mock.calls.filter((call) => call[1] === "form_submit"),
+      gtag.mock.calls.filter((call) => call[1] === "vw_form_success"),
     ).toHaveLength(1);
   });
 

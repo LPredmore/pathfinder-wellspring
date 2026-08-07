@@ -96,7 +96,7 @@ describe("SitewideFormTrackingManager", () => {
     expect(gtag).toHaveBeenNthCalledWith(
       1,
       "event",
-      "form_submit",
+      "vw_form_success",
       expect.objectContaining({
         form_id: PUBLIC_FORMS.overflowReferral.id,
         form_name: PUBLIC_FORMS.overflowReferral.name,

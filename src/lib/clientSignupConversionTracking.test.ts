@@ -30,7 +30,7 @@ describe("trackClientSignupSuccess", () => {
     expect(gtag).toHaveBeenNthCalledWith(
       1,
       "event",
-      "form_submit",
+      "vw_form_success",
       expect.objectContaining({
         event_id: "client-signup-123",
         form_id: CLIENT_SIGNUP_FORM_ID,
