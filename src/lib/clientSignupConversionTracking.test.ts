@@ -1,8 +1,10 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
+  CLIENT_SIGNUP_ADS_CONVERSION,
   CLIENT_SIGNUP_EVENT_NAME,
   CLIENT_SIGNUP_FORM_ID,
   CLIENT_SIGNUP_FORM_NAME,
+  clearTrackedSignupConversionsForTests,
   trackClientSignupSuccess,
 } from "./clientSignupConversionTracking";
 import {
@@ -14,6 +16,7 @@ describe("trackClientSignupSuccess", () => {
   afterEach(() => {
     delete window.gtag;
     clearTrackedFormSubmissionsForTests();
+    clearTrackedSignupConversionsForTests();
     vi.restoreAllMocks();
   });
 
@@ -26,7 +29,7 @@ describe("trackClientSignupSuccess", () => {
     window.gtag = gtag;
 
     expect(trackClientSignupSuccess("client-signup-123")).toBe(true);
-    expect(gtag).toHaveBeenCalledTimes(2);
+    expect(gtag).toHaveBeenCalledTimes(3);
     expect(gtag).toHaveBeenNthCalledWith(
       1,
       "event",
@@ -43,5 +46,29 @@ describe("trackClientSignupSuccess", () => {
       CLIENT_SIGNUP_EVENT_NAME,
       expect.any(Object),
     );
+    expect(gtag).toHaveBeenNthCalledWith(
+      3,
+      "event",
+      "conversion",
+      expect.objectContaining({
+        send_to: CLIENT_SIGNUP_ADS_CONVERSION,
+        value: 1.0,
+        currency: "USD",
+        transaction_id: "client-signup-123",
+      }),
+    );
+  });
+
+  it("reports the Ads conversion only once per submission", () => {
+    const gtag = vi.fn();
+    window.gtag = gtag;
+
+    trackClientSignupSuccess("client-signup-dupe");
+    trackClientSignupSuccess("client-signup-dupe");
+
+    const conversionCalls = gtag.mock.calls.filter(
+      (call) => call[1] === "conversion",
+    );
+    expect(conversionCalls).toHaveLength(1);
   });
 });
