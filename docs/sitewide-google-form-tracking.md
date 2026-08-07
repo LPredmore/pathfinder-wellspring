@@ -12,20 +12,21 @@ public form submission emits:
 1. the standard event `form_submit`
 2. one stable event unique to that form
 
-Both events use the configured Google destinations. Neither event contains form
-field values, names, email addresses, phone numbers, query strings, fragments,
-or `user_data`.
+Both events use the configured Google destinations. They include stable form
+metadata such as `form_id` and `form_name`, but never submitted person names,
+email addresses, phone numbers, form-field values, query strings, fragments, or
+`user_data`.
 
 ## Registered forms
 
-| Form | Path | Stable HTML id | Stable event |
-| --- | --- | --- | --- |
-| Client account signup | `/get-care` | `valorwell-get-care-signup` | `client_signup_success` |
-| Clinician interest | `/clinicians` | `valorwell-clinician-interest` | `vw_form_submit_clinician` |
-| Overflow referral practice | `/clinicians` | `valorwell-overflow-referral` | `vw_form_submit_overflow` |
-| BTY guest application | `/beyondtheyellow` | `valorwell-bty-guest-application` | `vw_form_submit_bty_guest` |
-| BTY nomination | `/beyondtheyellow` | `valorwell-bty-nomination` | `vw_form_submit_bty_nomination` |
-| OCS routing | `/operation-claims-success` | `valorwell-ocs-routing` | `vw_form_submit_ocs` |
+| Form | Path | Stable HTML id | Stable HTML name | Stable event |
+| --- | --- | --- | --- | --- |
+| Client account signup | `/get-care` | `valorwell-get-care-signup` | `valorwell_get_care_signup` | `client_signup_success` |
+| Clinician interest | `/clinicians` | `valorwell-clinician-interest` | `valorwell_clinician_interest` | `vw_form_submit_clinician` |
+| Overflow referral practice | `/clinicians` | `valorwell-overflow-referral` | `valorwell_overflow_referral` | `vw_form_submit_overflow` |
+| BTY guest application | `/beyondtheyellow` | `valorwell-bty-guest-application` | `valorwell_bty_guest_application` | `vw_form_submit_bty_guest` |
+| BTY nomination | `/beyondtheyellow` | `valorwell-bty-nomination` | `valorwell_bty_nomination` | `vw_form_submit_bty_nomination` |
+| OCS routing | `/operation-claims-success` | `valorwell-ocs-routing` | `valorwell_ocs_routing` | `vw_form_submit_ocs` |
 
 `SitewideFormTrackingManager` assigns the same IDs and names to forms rendered
 later inside dialogs, conditional sections, or collapsible panels.
