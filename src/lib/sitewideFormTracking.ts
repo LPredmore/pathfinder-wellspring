@@ -73,6 +73,17 @@ export const PUBLIC_FORMS: Record<PublicFormKey, PublicFormDefinition> = {
   },
 };
 
+/**
+ * The website's own confirmed-success event.
+ *
+ * This is deliberately NOT named `form_submit`. The Google tag's automatic form
+ * interaction detection already emits its own `form_submit` on submit attempt,
+ * and Google Ads' guided conversion setup ("open the page, submit the form, and
+ * Ads detects it") is built on that automatic event. Using a distinct name here
+ * keeps the automatic signal unambiguous and prevents double counting.
+ */
+export const STANDARD_FORM_SUCCESS_EVENT = "vw_form_success";
+
 const trackedSubmissions = new Set<string>();
 
 export interface SuccessfulFormEventParameters {
