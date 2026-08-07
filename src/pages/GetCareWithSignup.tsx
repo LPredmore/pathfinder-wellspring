@@ -45,6 +45,15 @@ export default function GetCareWithSignup() {
   const [error, setError] = useState<string | null>(null);
   const submissionId = useMemo(() => createWebsiteSubmissionKey(), [open]);
 
+  // Direct entry point (/get-care?signup=1) so Google Ads' guided conversion
+  // setup can load the page with the signup form already open.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("signup") === "1" || params.get("form") === "signup") {
+      setOpen(true);
+    }
+  }, []);
+
   useEffect(() => {
     const interceptCareSignup = (event: MouseEvent) => {
       const target = event.target as HTMLElement | null;
