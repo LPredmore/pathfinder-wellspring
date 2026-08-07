@@ -38,11 +38,43 @@ export function SitewideFormTrackingManager() {
       delete container.dataset.pendingGoogleFormEventId;
     };
 
+    const slugifyPath = (pathname: string) => {
+      const slug = pathname.replace(/[^a-zA-Z0-9]+/g, "-").replace(/^-|-$/g, "");
+      return slug || "home";
+    };
+
     const normalizeForms = () => {
+      const routeSlug = slugifyPath(location.pathname);
+      let unregisteredIndex = 0;
+
       document.querySelectorAll<HTMLFormElement>("form").forEach((form) => {
         if (form.dataset.googleForm) return;
         const definition = identifyPublicForm(form, location.pathname);
-        if (definition) applyPublicFormMetadata(form, definition);
+        if (definition) {
+          applyPublicFormMetadata(form, definition);
+          return;
+        }
+
+        // Global safety net: any public form that is not registered in
+        // PUBLIC_FORMS still receives a stable id and name so Google Ads'
+        // automatic form detection can identify it consistently across loads.
+        unregisteredIndex += 1;
+        const suffix = unregisteredIndex > 1 ? `-${unregisteredIndex}` : "";
+        if (!form.id) form.id = `valorwell-${routeSlug}-form${suffix}`;
+        if (!form.getAttribute("name")) {
+          form.setAttribute(
+            "name",
+            `valorwell_${routeSlug.replace(/-/g, "_")}_form${suffix.replace(/-/g, "_")}`,
+          );
+        }
+        form.dataset.googleFormUnregistered = "true";
+
+        if (import.meta.env.DEV) {
+          console.warn(
+            `[form-tracking] Unregistered form on ${location.pathname} (id="${form.id}"). ` +
+              "Add it to PUBLIC_FORMS in src/lib/sitewideFormTracking.ts so its confirmed-success event is tracked.",
+          );
+        }
       });
     };
 
