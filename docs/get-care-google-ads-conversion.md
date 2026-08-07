@@ -5,7 +5,7 @@ Get Care uses the shared sitewide form tracking contract. See
 
 A newly created website client account emits:
 
-- `form_submit`
+- `vw_form_success`
 - `client_signup_success`
 
 The form has the stable HTML identity:
@@ -32,7 +32,7 @@ closed and emits no successful-form event.
 
 Do not paste a Google Ads event snippet into the Get Care form. Create or import
 the specific conversion from the existing `client_signup_success` event. Use the
-standard `form_submit` event only when the intended conversion is every
+standard `vw_form_success` event only when the intended conversion is every
 successful public form on the site.
 
 The conversion event contains stable form metadata and the page origin/pathname.
