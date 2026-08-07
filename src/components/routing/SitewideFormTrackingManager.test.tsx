@@ -33,6 +33,36 @@ describe("SitewideFormTrackingManager", () => {
     });
   });
 
+  it("does not track a status while the submitted form remains mounted", async () => {
+    const gtag = vi.fn();
+    window.gtag = gtag;
+
+    render(
+      <MemoryRouter initialEntries={["/clinicians"]}>
+        <SitewideFormTrackingManager />
+      </MemoryRouter>,
+    );
+
+    const container = document.createElement("div");
+    const form = document.createElement("form");
+    form.innerHTML = '<input id="overflow-practice-name" />';
+    container.append(form);
+    document.body.append(container);
+
+    await waitFor(() =>
+      expect(form.id).toBe(PUBLIC_FORMS.overflowReferral.id),
+    );
+
+    fireEvent.submit(form);
+    const status = document.createElement("div");
+    status.setAttribute("role", "status");
+    status.textContent = "The request could not be completed.";
+    container.append(status);
+
+    await waitFor(() => expect(status).toBeInTheDocument());
+    expect(gtag).not.toHaveBeenCalled();
+  });
+
   it("tracks the overflow form only after its confirmed status replaces it", async () => {
     const gtag = vi.fn();
     window.gtag = gtag;
