@@ -4714,12 +4714,18 @@ export type Database = {
       }
       client_staff_relationships: {
         Row: {
+          activated_by_profile_id: string | null
+          activation_evidence: Json
+          activation_source: string | null
           client_id: string
+          confirmation_state: Database["public"]["Enums"]["relationship_confirmation_state_enum"]
+          confirmed_at: string | null
           created_at: string
           end_reason: string | null
           ended_at: string | null
           first_scheduled_appointment_id: string | null
           id: string
+          match_id: string | null
           relationship_type: string
           scheduling_branch: string | null
           scheduling_expected_by: string | null
@@ -4729,14 +4735,21 @@ export type Database = {
           started_at: string
           tenant_id: string
           updated_at: string
+          version: number
         }
         Insert: {
+          activated_by_profile_id?: string | null
+          activation_evidence?: Json
+          activation_source?: string | null
           client_id: string
+          confirmation_state?: Database["public"]["Enums"]["relationship_confirmation_state_enum"]
+          confirmed_at?: string | null
           created_at?: string
           end_reason?: string | null
           ended_at?: string | null
           first_scheduled_appointment_id?: string | null
           id?: string
+          match_id?: string | null
           relationship_type?: string
           scheduling_branch?: string | null
           scheduling_expected_by?: string | null
@@ -4746,14 +4759,21 @@ export type Database = {
           started_at?: string
           tenant_id: string
           updated_at?: string
+          version?: number
         }
         Update: {
+          activated_by_profile_id?: string | null
+          activation_evidence?: Json
+          activation_source?: string | null
           client_id?: string
+          confirmation_state?: Database["public"]["Enums"]["relationship_confirmation_state_enum"]
+          confirmed_at?: string | null
           created_at?: string
           end_reason?: string | null
           ended_at?: string | null
           first_scheduled_appointment_id?: string | null
           id?: string
+          match_id?: string | null
           relationship_type?: string
           scheduling_branch?: string | null
           scheduling_expected_by?: string | null
@@ -4763,6 +4783,7 @@ export type Database = {
           started_at?: string
           tenant_id?: string
           updated_at?: string
+          version?: number
         }
         Relationships: [
           {
@@ -4785,6 +4806,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "v_client_canonical_state"
             referencedColumns: ["client_id"]
+          },
+          {
+            foreignKeyName: "client_staff_relationships_match_id_fkey"
+            columns: ["match_id"]
+            isOneToOne: false
+            referencedRelation: "client_therapist_matches"
+            referencedColumns: ["id"]
           },
           {
             foreignKeyName: "client_staff_relationships_staff_id_fkey"
@@ -4936,6 +4964,89 @@ export type Database = {
           },
         ]
       }
+      client_support_requests: {
+        Row: {
+          authority_snapshot: Json
+          category: string
+          client_id: string
+          created_at: string
+          created_by_profile_id: string
+          crm_task_id: string | null
+          id: string
+          idempotency_key: string
+          message: string
+          resolution_note: string | null
+          resolved_at: string | null
+          resolved_by_profile_id: string | null
+          status: string
+          tenant_id: string
+          updated_at: string
+        }
+        Insert: {
+          authority_snapshot?: Json
+          category: string
+          client_id: string
+          created_at?: string
+          created_by_profile_id: string
+          crm_task_id?: string | null
+          id?: string
+          idempotency_key: string
+          message: string
+          resolution_note?: string | null
+          resolved_at?: string | null
+          resolved_by_profile_id?: string | null
+          status?: string
+          tenant_id: string
+          updated_at?: string
+        }
+        Update: {
+          authority_snapshot?: Json
+          category?: string
+          client_id?: string
+          created_at?: string
+          created_by_profile_id?: string
+          crm_task_id?: string | null
+          id?: string
+          idempotency_key?: string
+          message?: string
+          resolution_note?: string | null
+          resolved_at?: string | null
+          resolved_by_profile_id?: string | null
+          status?: string
+          tenant_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "client_support_requests_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "client_support_requests_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "v_client_canonical_state"
+            referencedColumns: ["client_id"]
+          },
+          {
+            foreignKeyName: "client_support_requests_crm_task_id_fkey"
+            columns: ["crm_task_id"]
+            isOneToOne: false
+            referencedRelation: "crm_tasks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "client_support_requests_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       client_telehealth_consents: {
         Row: {
           client_id: string
@@ -5019,6 +5130,215 @@ export type Database = {
           },
           {
             foreignKeyName: "client_telehealth_consents_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      client_therapist_match_events: {
+        Row: {
+          actor_profile_id: string | null
+          client_id: string
+          correlation_id: string | null
+          created_at: string
+          event_type: string
+          evidence: Json
+          id: string
+          idempotency_key: string
+          match_id: string
+          new_state:
+            | Database["public"]["Enums"]["therapist_match_state_enum"]
+            | null
+          occurred_at: string
+          previous_state:
+            | Database["public"]["Enums"]["therapist_match_state_enum"]
+            | null
+          reason: string | null
+          source: string
+          staff_id: string
+          tenant_id: string
+        }
+        Insert: {
+          actor_profile_id?: string | null
+          client_id: string
+          correlation_id?: string | null
+          created_at?: string
+          event_type: string
+          evidence?: Json
+          id?: string
+          idempotency_key: string
+          match_id: string
+          new_state?:
+            | Database["public"]["Enums"]["therapist_match_state_enum"]
+            | null
+          occurred_at?: string
+          previous_state?:
+            | Database["public"]["Enums"]["therapist_match_state_enum"]
+            | null
+          reason?: string | null
+          source: string
+          staff_id: string
+          tenant_id: string
+        }
+        Update: {
+          actor_profile_id?: string | null
+          client_id?: string
+          correlation_id?: string | null
+          created_at?: string
+          event_type?: string
+          evidence?: Json
+          id?: string
+          idempotency_key?: string
+          match_id?: string
+          new_state?:
+            | Database["public"]["Enums"]["therapist_match_state_enum"]
+            | null
+          occurred_at?: string
+          previous_state?:
+            | Database["public"]["Enums"]["therapist_match_state_enum"]
+            | null
+          reason?: string | null
+          source?: string
+          staff_id?: string
+          tenant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "client_therapist_match_events_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "client_therapist_match_events_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "v_client_canonical_state"
+            referencedColumns: ["client_id"]
+          },
+          {
+            foreignKeyName: "client_therapist_match_events_match_id_fkey"
+            columns: ["match_id"]
+            isOneToOne: false
+            referencedRelation: "client_therapist_matches"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "client_therapist_match_events_staff_id_fkey"
+            columns: ["staff_id"]
+            isOneToOne: false
+            referencedRelation: "staff"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "client_therapist_match_events_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      client_therapist_matches: {
+        Row: {
+          activated_at: string | null
+          capacity_reserved: boolean
+          client_id: string
+          clinician_accepted_at: string | null
+          clinician_accepted_by_profile_id: string | null
+          created_at: string
+          eligibility_snapshot: Json
+          expires_at: string | null
+          id: string
+          idempotency_key: string
+          initiated_by_profile_id: string | null
+          initiation_source: string
+          policy_version: string
+          resolution_reason: string | null
+          resolved_at: string | null
+          scheduling_branch: string
+          selected_at: string
+          staff_id: string
+          state: Database["public"]["Enums"]["therapist_match_state_enum"]
+          tenant_id: string
+          updated_at: string
+          version: number
+        }
+        Insert: {
+          activated_at?: string | null
+          capacity_reserved?: boolean
+          client_id: string
+          clinician_accepted_at?: string | null
+          clinician_accepted_by_profile_id?: string | null
+          created_at?: string
+          eligibility_snapshot?: Json
+          expires_at?: string | null
+          id?: string
+          idempotency_key: string
+          initiated_by_profile_id?: string | null
+          initiation_source: string
+          policy_version?: string
+          resolution_reason?: string | null
+          resolved_at?: string | null
+          scheduling_branch: string
+          selected_at?: string
+          staff_id: string
+          state: Database["public"]["Enums"]["therapist_match_state_enum"]
+          tenant_id: string
+          updated_at?: string
+          version?: number
+        }
+        Update: {
+          activated_at?: string | null
+          capacity_reserved?: boolean
+          client_id?: string
+          clinician_accepted_at?: string | null
+          clinician_accepted_by_profile_id?: string | null
+          created_at?: string
+          eligibility_snapshot?: Json
+          expires_at?: string | null
+          id?: string
+          idempotency_key?: string
+          initiated_by_profile_id?: string | null
+          initiation_source?: string
+          policy_version?: string
+          resolution_reason?: string | null
+          resolved_at?: string | null
+          scheduling_branch?: string
+          selected_at?: string
+          staff_id?: string
+          state?: Database["public"]["Enums"]["therapist_match_state_enum"]
+          tenant_id?: string
+          updated_at?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "client_therapist_matches_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "client_therapist_matches_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "v_client_canonical_state"
+            referencedColumns: ["client_id"]
+          },
+          {
+            foreignKeyName: "client_therapist_matches_staff_id_fkey"
+            columns: ["staff_id"]
+            isOneToOne: false
+            referencedRelation: "staff"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "client_therapist_matches_tenant_id_fkey"
             columns: ["tenant_id"]
             isOneToOne: false
             referencedRelation: "tenants"
@@ -9147,7 +9467,14 @@ export type Database = {
       }
       givebutter_donations: {
         Row: {
+          ads_attempt_count: number
+          ads_diagnostics_checked_at: string | null
           ads_exported_at: string | null
+          ads_identifier_type: string | null
+          ads_last_attempt_at: string | null
+          ads_next_attempt_at: string | null
+          ads_request_id: string | null
+          ads_upload_details: Json
           ads_upload_error: string | null
           ads_upload_status: string
           ads_uploaded_at: string | null
@@ -9159,7 +9486,14 @@ export type Database = {
           transaction_id: string
         }
         Insert: {
+          ads_attempt_count?: number
+          ads_diagnostics_checked_at?: string | null
           ads_exported_at?: string | null
+          ads_identifier_type?: string | null
+          ads_last_attempt_at?: string | null
+          ads_next_attempt_at?: string | null
+          ads_request_id?: string | null
+          ads_upload_details?: Json
           ads_upload_error?: string | null
           ads_upload_status?: string
           ads_uploaded_at?: string | null
@@ -9171,7 +9505,14 @@ export type Database = {
           transaction_id: string
         }
         Update: {
+          ads_attempt_count?: number
+          ads_diagnostics_checked_at?: string | null
           ads_exported_at?: string | null
+          ads_identifier_type?: string | null
+          ads_last_attempt_at?: string | null
+          ads_next_attempt_at?: string | null
+          ads_request_id?: string | null
+          ads_upload_details?: Json
           ads_upload_error?: string | null
           ads_upload_status?: string
           ads_uploaded_at?: string | null
@@ -19520,12 +19861,24 @@ export type Database = {
         }[]
       }
       _require_current_client_id: { Args: never; Returns: string }
+      accept_therapist_match: {
+        Args: {
+          p_expected_version: number
+          p_idempotency_key: string
+          p_match_id: string
+        }
+        Returns: Json
+      }
       acknowledge_client_insurance_deferment:
         | {
             Args: { p_client_id: string; p_eligibility_check_id: string }
             Returns: Json
           }
         | { Args: { p_eligibility_check_id: string }; Returns: Json }
+      admin_apply_legacy_relationship_containment: {
+        Args: { p_client_action_id: string }
+        Returns: Json
+      }
       admin_override_client_state: {
         Args: {
           p_actor_profile_id?: string
@@ -19534,6 +19887,10 @@ export type Database = {
           p_reason: string
           p_state_dimension: Database["public"]["Enums"]["client_state_dimension_enum"]
         }
+        Returns: Json
+      }
+      admin_preview_legacy_relationship_containment: {
+        Args: never
         Returns: Json
       }
       admin_set_client_care_cadence: {
@@ -19609,6 +19966,14 @@ export type Database = {
         Args: { p_slot_end_utc?: string; p_slot_start_utc: string }
         Returns: Json
       }
+      book_pending_therapist_match_appointment: {
+        Args: {
+          p_idempotency_key?: string
+          p_slot_end_utc?: string
+          p_slot_start_utc: string
+        }
+        Returns: Json
+      }
       cancel_appointment: {
         Args: {
           p_appointment_id: string
@@ -19626,6 +19991,10 @@ export type Database = {
           p_expected_version: number
           p_reason?: string
         }
+        Returns: Json
+      }
+      cancel_current_therapist_match: {
+        Args: { p_idempotency_key: string; p_reason?: string }
         Returns: Json
       }
       cancel_recurring_appointment_series: {
@@ -19682,6 +20051,20 @@ export type Database = {
           tenant_id: string
         }[]
       }
+      claim_google_ads_donations: {
+        Args: { p_limit?: number }
+        Returns: {
+          amount: number
+          attempt_count: number
+          currency: string
+          donated_at: string
+          gbraid: string
+          gclid: string
+          token: string
+          transaction_id: string
+          wbraid: string
+        }[]
+      }
       claim_pending_campaign_steps: {
         Args: { p_limit?: number }
         Returns: {
@@ -19702,6 +20085,22 @@ export type Database = {
           p_worker_id: string
         }
         Returns: Json
+      }
+      claim_therapist_match_outbox: {
+        Args: {
+          p_lease_seconds?: number
+          p_limit?: number
+          p_worker_id: string
+        }
+        Returns: {
+          aggregate_id: string
+          attempt_count: number
+          claim_token: string
+          event_type: string
+          outbox_id: string
+          payload: Json
+          tenant_id: string
+        }[]
       }
       client_closure:
         | {
@@ -19875,6 +20274,15 @@ export type Database = {
           }
       confirm_accepting_status: {
         Args: { p_client_action_id: string }
+        Returns: Json
+      }
+      confirm_legacy_therapist_relationship: {
+        Args: {
+          p_client_action_id: string
+          p_prior_version: number
+          p_reason: string
+          p_relationship_id: string
+        }
         Returns: Json
       }
       convert_local_to_utc: {
@@ -20337,6 +20745,15 @@ export type Database = {
         Returns: Json
       }
       current_client_id: { Args: never; Returns: string }
+      decline_therapist_match: {
+        Args: {
+          p_expected_version: number
+          p_idempotency_key: string
+          p_match_id: string
+          p_reason: string
+        }
+        Returns: Json
+      }
       dismiss_champva_row: {
         Args: { p_reason: string; p_row_id: string }
         Returns: undefined
@@ -20663,6 +21080,7 @@ export type Database = {
       }
       get_crm_operating_context: { Args: never; Returns: Json }
       get_current_client_statement_link: { Args: never; Returns: Json }
+      get_current_client_therapist_authority: { Args: never; Returns: Json }
       get_documented_session_status: {
         Args: { p_appointment_id: string }
         Returns: Json
@@ -21209,6 +21627,17 @@ export type Database = {
         }
         Returns: Json
       }
+      record_therapist_match_outbox_result: {
+        Args: {
+          p_claim_token: string
+          p_error_code?: string
+          p_error_detail?: string
+          p_outbox_id: string
+          p_outcome: string
+          p_retry_at?: string
+        }
+        Returns: Json
+      }
       reevaluate_client_provider_demand: {
         Args: {
           p_client_action_id: string
@@ -21219,6 +21648,15 @@ export type Database = {
         Returns: Json
       }
       refresh_client_ages: { Args: never; Returns: number }
+      reject_legacy_therapist_relationship: {
+        Args: {
+          p_client_action_id: string
+          p_prior_version: number
+          p_reason: string
+          p_relationship_id: string
+        }
+        Returns: Json
+      }
       relationship_stage_transition_allowed: {
         Args: { p_from_stage: string; p_to_stage: string }
         Returns: boolean
@@ -21257,6 +21695,18 @@ export type Database = {
       }
       request_client_reactivation: {
         Args: { p_idempotency_key: string; p_reason: string }
+        Returns: Json
+      }
+      request_client_support: {
+        Args: {
+          p_category: string
+          p_idempotency_key: string
+          p_message: string
+        }
+        Returns: Json
+      }
+      request_therapist_match: {
+        Args: { p_idempotency_key: string; p_staff_id: string }
         Returns: Json
       }
       reschedule_appointment: {
@@ -21627,6 +22077,15 @@ export type Database = {
           p_page_size?: number
           p_sort_by?: string
           p_sort_dir?: string
+        }
+        Returns: Json
+      }
+      staff_list_therapist_match_work: {
+        Args: {
+          p_page?: number
+          p_page_size?: number
+          p_scope?: string
+          p_search?: string
         }
         Returns: Json
       }
@@ -22311,6 +22770,10 @@ export type Database = {
         | "warm"
         | "recruiting"
         | "hold"
+      relationship_confirmation_state_enum:
+        | "confirmed"
+        | "legacy_review"
+        | "rejected"
       risk_level_enum: "none" | "low" | "moderate" | "high" | "imminent"
       sex_enum: "M" | "F"
       specialty_enum:
@@ -22372,6 +22835,16 @@ export type Database = {
         | "PR"
         | "VI"
         | "GU"
+      therapist_match_state_enum:
+        | "legacy_review"
+        | "pending_clinician_acceptance"
+        | "pending_first_appointment"
+        | "activated"
+        | "declined"
+        | "expired"
+        | "cancelled"
+        | "superseded"
+        | "invalidated"
       time_zones:
         | "America/New_York"
         | "America/Chicago"
@@ -22820,6 +23293,11 @@ export const Constants = {
         "recruiting",
         "hold",
       ],
+      relationship_confirmation_state_enum: [
+        "confirmed",
+        "legacy_review",
+        "rejected",
+      ],
       risk_level_enum: ["none", "low", "moderate", "high", "imminent"],
       sex_enum: ["M", "F"],
       specialty_enum: [
@@ -22882,6 +23360,17 @@ export const Constants = {
         "PR",
         "VI",
         "GU",
+      ],
+      therapist_match_state_enum: [
+        "legacy_review",
+        "pending_clinician_acceptance",
+        "pending_first_appointment",
+        "activated",
+        "declined",
+        "expired",
+        "cancelled",
+        "superseded",
+        "invalidated",
       ],
       time_zones: [
         "America/New_York",
