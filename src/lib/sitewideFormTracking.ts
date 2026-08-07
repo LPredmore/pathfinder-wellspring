@@ -180,7 +180,7 @@ export function trackSuccessfulFormSubmission(
   };
 
   try {
-    gtagFn("event", "form_submit", parameters);
+    gtagFn("event", STANDARD_FORM_SUCCESS_EVENT, parameters);
     gtagFn("event", definition.eventName, parameters);
     trackedSubmissions.add(dedupeKey);
     return true;
