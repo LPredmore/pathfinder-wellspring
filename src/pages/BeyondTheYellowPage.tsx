@@ -202,6 +202,15 @@ export default function BeyondTheYellowPage() {
     useState<LaneValue>("share-story");
   const [showSticky, setShowSticky] = useState(false);
 
+  // Direct entry points so Google Ads' guided conversion setup (and ad
+  // landing pages) can load straight onto a live form.
+  useEffect(() => {
+    const requested = new URLSearchParams(window.location.search).get("form");
+    if (requested !== "guest" && requested !== "nomination") return;
+    setSelectedLane(requested === "nomination" ? "nominate" : "share-story");
+    window.setTimeout(() => scrollToId(FORM_ANCHOR), 120);
+  }, []);
+
   useEffect(() => {
     track("bty_page_view");
     const hero = document.getElementById("bty-hero");

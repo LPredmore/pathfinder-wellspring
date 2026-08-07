@@ -5,7 +5,7 @@ contract. See [Sitewide Google form tracking](sitewide-google-form-tracking.md).
 
 A successful clinician-interest registration emits:
 
-- `form_submit`
+- `vw_form_success`
 - `vw_form_submit_clinician`
 
 The form has the stable HTML identity:
@@ -20,5 +20,5 @@ Validation and backend failures do not emit a successful-form event.
 
 Do not add a Google Ads event snippet or hardcoded conversion label to the
 clinician form. Create or import the Google Ads conversion from the existing
-`vw_form_submit_clinician` event. Use `form_submit` only when the intended
+`vw_form_submit_clinician` event. Use `vw_form_success` only when the intended
 conversion is every successful public form on the site.

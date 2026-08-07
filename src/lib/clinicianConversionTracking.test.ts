@@ -38,7 +38,7 @@ describe("trackClinicianInterestRegistered", () => {
     expect(gtag).toHaveBeenNthCalledWith(
       1,
       "event",
-      "form_submit",
+      "vw_form_success",
       expect.objectContaining({
         event_id: "clinician-interest-123",
         form_id: CLINICIAN_INTEREST_FORM_ID,
