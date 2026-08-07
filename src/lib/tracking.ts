@@ -5,6 +5,7 @@ import {
 } from "./sitewideFormTracking";
 
 const DONATION_CHECKOUT_CONVERSION = "AW-16798905432/2XDvCITusvcbENjoq8o-";
+const FALLBACK_FORM_DEDUPE_WINDOW_MS = 30_000;
 
 const SUCCESSFUL_PUBLIC_FORM_EVENTS: Partial<Record<string, PublicFormKey>> = {
   bty_guest_application_submit: "btyGuest",
@@ -12,10 +13,34 @@ const SUCCESSFUL_PUBLIC_FORM_EVENTS: Partial<Record<string, PublicFormKey>> = {
   ocs_form_submit: "ocsRouting",
 };
 
+const recentFallbackSubmissionIds = new Map<
+  PublicFormKey,
+  { id: string; expiresAt: number }
+>();
+
 interface DonationCheckoutMetadata {
   source: string;
   campaign?: string;
   content?: string;
+}
+
+function resolvePublicFormSubmissionId(
+  formKey: PublicFormKey,
+  suppliedSubmissionId?: string,
+): string {
+  const normalizedSuppliedId = suppliedSubmissionId?.trim();
+  if (normalizedSuppliedId) return normalizedSuppliedId;
+
+  const now = Date.now();
+  const recent = recentFallbackSubmissionIds.get(formKey);
+  if (recent && recent.expiresAt > now) return recent.id;
+
+  const id = createFormSubmissionEventId(formKey);
+  recentFallbackSubmissionIds.set(formKey, {
+    id,
+    expiresAt: now + FALLBACK_FORM_DEDUPE_WINDOW_MS,
+  });
+  return id;
 }
 
 /**
@@ -178,9 +203,15 @@ export function trackPageAndRedirect(destinationUrl: string) {
 /**
  * Generic website event tracker. Successful public-form events are mirrored
  * into the shared form_submit pipeline so Google can discover every registered
- * form without a per-conversion event snippet.
+ * form without a per-conversion event snippet. Callers should provide their
+ * backend submission ID when available; the bounded fallback protects older
+ * callers from immediate duplicate success invocations.
  */
-export function trackHomeEvent(name: string, params: Record<string, unknown> = {}) {
+export function trackHomeEvent(
+  name: string,
+  params: Record<string, unknown> = {},
+  submissionId?: string,
+) {
   if (typeof window === "undefined") return;
   const gtagFn = window.gtag;
   if (typeof gtagFn !== "function") return;
@@ -192,10 +223,14 @@ export function trackHomeEvent(name: string, params: Record<string, unknown> = {
     if (publicFormKey) {
       trackSuccessfulFormSubmission(
         publicFormKey,
-        createFormSubmissionEventId(publicFormKey),
+        resolvePublicFormSubmissionId(publicFormKey, submissionId),
       );
     }
   } catch {
     /* no-op */
   }
+}
+
+export function clearRecentFormSubmissionIdsForTests(): void {
+  recentFallbackSubmissionIds.clear();
 }
