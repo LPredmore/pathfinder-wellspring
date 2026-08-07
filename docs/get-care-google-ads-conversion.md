@@ -30,10 +30,15 @@ closed and emits no successful-form event.
 
 ## Google Ads
 
-Do not paste a Google Ads event snippet into the Get Care form. Create or import
-the specific conversion from the existing `client_signup_success` event. Use the
-standard `vw_form_success` event only when the intended conversion is every
-successful public form on the site.
+The "Sign-up (1)" conversion action `AW-16798905432/e1LYCMH0ud0cENjoq8o-` is
+fired in code from the confirmed-success boundary in
+`src/lib/clientSignupConversionTracking.ts`, deduplicated by `submissionId`.
+
+It was created in the Ads UI as a page-load conversion, but the confirmation
+renders in place without a URL change, so the event snippet is fired directly
+at success instead of being pasted into a thank-you page. Do not add the
+snippet to the page markup as well — that would double count.
+
 
 The conversion event contains stable form metadata and the page origin/pathname.
 It does not contain submitted values, query strings, fragments, or `user_data`.
