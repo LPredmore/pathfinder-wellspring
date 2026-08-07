@@ -193,7 +193,7 @@ export function TherapistApplicationForm() {
     }
 
     if (window.gtag) {
-      window.gtag("event", "form_submit", {
+      window.gtag("event", "vw_form_success", {
         event_category: "therapist_application",
         event_label: "application_submitted",
       });
