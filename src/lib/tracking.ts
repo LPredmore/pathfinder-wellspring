@@ -1,9 +1,46 @@
+import {
+  createFormSubmissionEventId,
+  trackSuccessfulFormSubmission,
+  type PublicFormKey,
+} from "./sitewideFormTracking";
+
 const DONATION_CHECKOUT_CONVERSION = "AW-16798905432/2XDvCITusvcbENjoq8o-";
+const FALLBACK_FORM_DEDUPE_WINDOW_MS = 30_000;
+
+const SUCCESSFUL_PUBLIC_FORM_EVENTS: Partial<Record<string, PublicFormKey>> = {
+  bty_guest_application_submit: "btyGuest",
+  bty_nomination_submit: "btyNomination",
+  ocs_form_submit: "ocsRouting",
+};
+
+const recentFallbackSubmissionIds = new Map<
+  PublicFormKey,
+  { id: string; expiresAt: number }
+>();
 
 interface DonationCheckoutMetadata {
   source: string;
   campaign?: string;
   content?: string;
+}
+
+function resolvePublicFormSubmissionId(
+  formKey: PublicFormKey,
+  suppliedSubmissionId?: string,
+): string {
+  const normalizedSuppliedId = suppliedSubmissionId?.trim();
+  if (normalizedSuppliedId) return normalizedSuppliedId;
+
+  const now = Date.now();
+  const recent = recentFallbackSubmissionIds.get(formKey);
+  if (recent && recent.expiresAt > now) return recent.id;
+
+  const id = createFormSubmissionEventId(formKey);
+  recentFallbackSubmissionIds.set(formKey, {
+    id,
+    expiresAt: now + FALLBACK_FORM_DEDUPE_WINDOW_MS,
+  });
+  return id;
 }
 
 /**
@@ -73,21 +110,12 @@ export function trackDonationCheckoutStartAndRedirect(
 }
 
 /**
- * Fires the Google Ads conversion event for creator application submissions.
+ * @deprecated Public form conversions are now emitted by trackHomeEvent through
+ * the centralized sitewide form tracker. Kept temporarily so older callers do
+ * not create a second conversion while the form components are consolidated.
  */
-export function trackCreatorApplicationConversion() {
-  if (typeof window === "undefined") return;
-
-  const gtagFn = window.gtag;
-  if (typeof gtagFn !== "function") return;
-
-  gtagFn("event", "conversion", {
-    send_to: "AW-16798905432/Ps8yCJDJqoQcENjoq8o-",
-    value: 1.0,
-    currency: "USD",
-    transport_type: "beacon",
-    event_callback: () => {},
-  });
+export function trackCreatorApplicationConversion(): false {
+  return false;
 }
 
 /**
@@ -173,16 +201,36 @@ export function trackPageAndRedirect(destinationUrl: string) {
 }
 
 /**
- * Generic homepage event tracker. Safely no-ops when gtag is unavailable.
- * Uses GA4 custom-event shape via gtag.
+ * Generic website event tracker. Successful public-form events are mirrored
+ * into the shared form_submit pipeline so Google can discover every registered
+ * form without a per-conversion event snippet. Callers should provide their
+ * backend submission ID when available; the bounded fallback protects older
+ * callers from immediate duplicate success invocations.
  */
-export function trackHomeEvent(name: string, params: Record<string, unknown> = {}) {
+export function trackHomeEvent(
+  name: string,
+  params: Record<string, unknown> = {},
+  submissionId?: string,
+) {
   if (typeof window === "undefined") return;
   const gtagFn = window.gtag;
   if (typeof gtagFn !== "function") return;
+
   try {
     gtagFn("event", name, { event_category: "homepage", ...params });
+
+    const publicFormKey = SUCCESSFUL_PUBLIC_FORM_EVENTS[name];
+    if (publicFormKey) {
+      trackSuccessfulFormSubmission(
+        publicFormKey,
+        resolvePublicFormSubmissionId(publicFormKey, submissionId),
+      );
+    }
   } catch {
     /* no-op */
   }
+}
+
+export function clearRecentFormSubmissionIdsForTests(): void {
+  recentFallbackSubmissionIds.clear();
 }

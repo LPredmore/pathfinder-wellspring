@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { RouteScrollManager } from "@/components/routing/RouteScrollManager";
 import { DonationAttributionManager } from "@/components/routing/DonationAttributionManager";
 import { ClientIntakeRoutingManager } from "@/components/routing/ClientIntakeRoutingManager";
+import { SitewideFormTrackingManager } from "@/components/routing/SitewideFormTrackingManager";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   BrowserRouter,
@@ -79,6 +80,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <SitewideFormTrackingManager />
           <ClientIntakeRoutingManager />
           <DonationAttributionManager />
           <RouteScrollManager />
@@ -132,7 +134,8 @@ const App = () => (
             />
             <Route
               path="/authority/resources/va-community-care"
-              element={<AuthorityResourcesVACommunityCare />} />
+              element={<AuthorityResourcesVACommunityCare />}
+            />
             <Route
               path="/authority/resources/veteran-mental-health"
               element={<AuthorityResourcesVeteranMentalHealth />}

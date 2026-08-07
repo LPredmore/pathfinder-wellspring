@@ -6,9 +6,7 @@ Billing Hub is the canonical destination for creator, promoter, storyteller, sup
 
 ## Google Ads conversion tracking
 
-Successful clinician-interest registrations use the verified `Therapist Application Submitted` Google Ads conversion action. See [the clinician Google Ads conversion guide](docs/clinician-google-ads-conversion.md) before changing the Ads account, conversion label, or success trigger.
-
-Completed `/get-care` account registrations emit the unique `client_signup_success` event only after Billing Hub confirms success. See [the Get Care Google Ads conversion contract](docs/get-care-google-ads-conversion.md) before creating or changing the `Submit lead form` conversion action.
+All successful public website forms use one shared tracking contract. Each form emits the standard `form_submit` event and one stable per-form event only after the application confirms success. Google Ads conversions can be created from those existing events without adding another website conversion snippet or hardcoded conversion label. See [the sitewide Google form tracking guide](docs/sitewide-google-form-tracking.md).
 
 ## Project info
 
@@ -84,4 +82,4 @@ Yes, you can!
 
 To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#setting-up-a-custom-domain)
