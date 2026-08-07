@@ -29,6 +29,15 @@ describe("sitewide public form metadata", () => {
       PUBLIC_FORMS.btyGuest.eventName,
     );
   });
+
+  it("identifies the same form when the route has a trailing slash", () => {
+    const form = document.createElement("form");
+    form.innerHTML = '<input id="signup-first-name" />';
+
+    expect(identifyPublicForm(form, "/get-care/")).toEqual(
+      PUBLIC_FORMS.clientSignup,
+    );
+  });
 });
 
 describe("trackSuccessfulFormSubmission", () => {
@@ -61,7 +70,6 @@ describe("trackSuccessfulFormSubmission", () => {
       form_submit_text: PUBLIC_FORMS.clinicianInterest.submitText,
       form_context: "clinicianInterest",
       success: true,
-      transport_type: "beacon",
     };
 
     expect(gtag).toHaveBeenNthCalledWith(
