@@ -48,7 +48,9 @@ export function SitewideFormTrackingManager() {
       let unregisteredIndex = 0;
 
       document.querySelectorAll<HTMLFormElement>("form").forEach((form) => {
-        if (form.dataset.googleForm) return;
+        if (form.dataset.googleForm || form.dataset.googleFormUnregistered) {
+          return;
+        }
         const definition = identifyPublicForm(form, location.pathname);
         if (definition) {
           applyPublicFormMetadata(form, definition);
