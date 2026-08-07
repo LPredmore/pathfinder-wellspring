@@ -62,12 +62,22 @@ Google Analytics to measure true completion rate.
 
 ## Required Google account configuration
 
-Use the verified Google Ads customer account:
+`index.html` configures the shared Google tag for one Analytics property and
+two Google Ads accounts:
 
 ```text
-ValorWell Foundation
-691-549-0774
+G-H5X3D2DGKB     Analytics property
+AW-16798905432   ValorWell Foundation, customer 691-549-0774 (donate conversion)
+AW-6832312938    Ads account used for form-conversion setup
 ```
+
+Google Ads' guided form detection only acknowledges a form when the page
+carries a Google tag for the **same** Ads account the wizard is running in.
+Adding an Ads account to the wizard therefore requires adding its
+`gtag("config", "AW-…")` line here first.
+
+No canonical Ads account has been chosen yet. Once one owns all conversions,
+remove the other `gtag("config", "AW-…")` line so reporting is not split.
 
 Keep automatic **Form interactions** collection **enabled** in the Analytics web
 stream / Google tag automatic-event settings. Google Ads' guided form-conversion
@@ -75,7 +85,8 @@ setup depends on it.
 
 ## Creating a Google Ads conversion with guided detection
 
-1. Confirm you are in customer `691-549-0774`.
+1. Confirm the Ads account you are in has a `gtag("config", …)` line in
+   `index.html`, and that the site has been published since it was added.
 2. Google Ads → Goals → Conversions → New conversion action → Website.
 3. Enter the direct URL for the form from the table above.
 4. Choose the form-submission detection option, submit the form in the wizard's
