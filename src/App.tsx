@@ -27,6 +27,7 @@ import GetCareWithSignup from "./pages/GetCareWithSignup";
 import Partner from "./pages/Partner";
 import Contact from "./pages/Contact";
 import Privacy from "./pages/Privacy";
+import Pendulo from "./pages/Pendulo";
 import AuthorityResources from "./pages/authority/Resources";
 import AuthorityFamilySystems from "./pages/authority/FamilySystems";
 import AuthorityMilitaryFamilyTherapy from "./pages/authority/MilitaryFamilyTherapy";
@@ -102,6 +103,7 @@ const App = () => (
             <Route path="/partner" element={<Partner />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/privacy" element={<Privacy />} />
+            <Route path="/pendulo" element={<Pendulo />} />
 
             <Route path="/authority/resources" element={<AuthorityResources />} />
             <Route
@@ -130,7 +132,7 @@ const App = () => (
             />
             <Route
               path="/authority/resources/family-systems"
-              element={<AuthorityResourcesFamilySystems />}
+              element={<AuthorityResourcesFamilySystems />} 
             />
             <Route
               path="/authority/resources/va-community-care"
