@@ -132,7 +132,7 @@ const App = () => (
             />
             <Route
               path="/authority/resources/family-systems"
-              element={<AuthorityResourcesFamilySystems />} 
+              element={<AuthorityResourcesFamilySystems />}
             />
             <Route
               path="/authority/resources/va-community-care"
