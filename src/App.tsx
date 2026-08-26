@@ -120,7 +120,7 @@ const App = () => (
             />
             <Route
               path="/authority/military-family-therapy"
-              element={<AuthorityMilitaryFamilyTherapy />} 
+              element={<AuthorityMilitaryFamilyTherapy />}
             />
             <Route
               path="/authority/veteran-mental-health-care"
