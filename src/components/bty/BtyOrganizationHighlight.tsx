@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet-async";
-import { ArrowUpRight, ExternalLink, PlayCircle } from "lucide-react";
+import { ArrowUpRight, ExternalLink } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 
@@ -67,49 +67,6 @@ export function BtyOrganizationHighlight({
             <p className="mt-7 max-w-3xl text-lg leading-relaxed text-white/85 md:text-xl">
               {summary}
             </p>
-            <div className="mt-9">
-              <a
-                href={videoUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-md bg-[hsl(var(--gold-accent))] px-6 py-3.5 text-sm font-bold text-[hsl(var(--navy))] shadow-lg transition hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
-              >
-                Watch the BTY Conversation
-                <PlayCircle className="h-4 w-4" aria-hidden="true" />
-              </a>
-            </div>
-          </div>
-        </section>
-
-        <section className="border-b border-border bg-background py-16 md:py-20">
-          <div className="mx-auto grid max-w-6xl gap-12 px-4 lg:grid-cols-12 lg:items-start">
-            <div className="lg:col-span-5">
-              <p className="text-xs font-bold uppercase tracking-[0.22em] text-[hsl(var(--gold-accent))]">
-                What they do
-              </p>
-              <h2 className="mt-4 text-3xl font-bold leading-tight text-foreground md:text-4xl">
-                Work that creates something people can actually feel.
-              </h2>
-              <p className="mt-6 text-base leading-7 text-muted-foreground md:text-lg">
-                {description}
-              </p>
-            </div>
-
-            <div className="grid gap-4 sm:grid-cols-2 lg:col-span-7">
-              {highlights.map((highlight) => (
-                <article
-                  key={highlight.title}
-                  className="rounded-2xl border border-border bg-[hsl(var(--section-alt))] p-6 shadow-sm"
-                >
-                  <h3 className="text-lg font-bold text-foreground">
-                    {highlight.title}
-                  </h3>
-                  <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                    {highlight.body}
-                  </p>
-                </article>
-              ))}
-            </div>
           </div>
         </section>
 
@@ -151,6 +108,38 @@ export function BtyOrganizationHighlight({
                 Open this episode on YouTube
                 <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
               </a>
+            </div>
+          </div>
+        </section>
+
+        <section className="border-b border-border bg-background py-16 md:py-20">
+          <div className="mx-auto grid max-w-6xl gap-12 px-4 lg:grid-cols-12 lg:items-start">
+            <div className="lg:col-span-5">
+              <p className="text-xs font-bold uppercase tracking-[0.22em] text-[hsl(var(--gold-accent))]">
+                What they do
+              </p>
+              <h2 className="mt-4 text-3xl font-bold leading-tight text-foreground md:text-4xl">
+                Work that creates something people can actually feel.
+              </h2>
+              <p className="mt-6 text-base leading-7 text-muted-foreground md:text-lg">
+                {description}
+              </p>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2 lg:col-span-7">
+              {highlights.map((highlight) => (
+                <article
+                  key={highlight.title}
+                  className="rounded-2xl border border-border bg-[hsl(var(--section-alt))] p-6 shadow-sm"
+                >
+                  <h3 className="text-lg font-bold text-foreground">
+                    {highlight.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                    {highlight.body}
+                  </p>
+                </article>
+              ))}
             </div>
           </div>
         </section>
