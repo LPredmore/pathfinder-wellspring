@@ -28,6 +28,10 @@ import Partner from "./pages/Partner";
 import Contact from "./pages/Contact";
 import Privacy from "./pages/Privacy";
 import Pendulo from "./pages/Pendulo";
+import GallantFewPage from "./pages/bty/GallantFewPage";
+import VeteransOutreachWisconsinPage from "./pages/bty/VeteransOutreachWisconsinPage";
+import Vets2IndustryPage from "./pages/bty/Vets2IndustryPage";
+import MilitaryMissionsInActionPage from "./pages/bty/MilitaryMissionsInActionPage";
 import AuthorityResources from "./pages/authority/Resources";
 import AuthorityFamilySystems from "./pages/authority/FamilySystems";
 import AuthorityMilitaryFamilyTherapy from "./pages/authority/MilitaryFamilyTherapy";
@@ -94,6 +98,10 @@ const App = () => (
               element={<OcsBillingHubPage />}
             />
             <Route path="/beyondtheyellow" element={<BtyBillingHubPage />} />
+            <Route path="/gallantfew" element={<GallantFewPage />} />
+            <Route path="/VOW" element={<VeteransOutreachWisconsinPage />} />
+            <Route path="/vets2industry" element={<Vets2IndustryPage />} />
+            <Route path="/mmia" element={<MilitaryMissionsInActionPage />} />
             <Route path="/clinicians" element={<Clinicians />} />
             <Route
               path="/therapists"
