@@ -18,12 +18,12 @@ import {
 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import vets2IndustryLogoAsset from "@/assets/vets2industry-logo.png.asset.json";
 
 const videoUrl =
   "https://www.youtube.com/watch?v=iVDPZL_PEWo&list=PLnEJh6R3w5IbykCvTZJtD1IgWY8XRjP0Q&index=4";
 
-const logoImage =
-  "https://vets2industry.org/new/wp-content/uploads/2025/06/logo.png";
+const logoImage = vets2IndustryLogoAsset.url;
 
 const interviewQuote: { text: string; timestamp: string } | null = {
   text: "It’s more than just giving a list.",
