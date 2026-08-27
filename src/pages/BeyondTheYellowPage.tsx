@@ -1,19 +1,20 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Helmet } from "react-helmet-async";
-import btyHeroAsset from "@/assets/bty-hero.png.asset.json";
-import btyCreatorInActionAsset from "@/assets/bty-creator-in-action.png.asset.json";
 import {
   ArrowRight,
+  ArrowUpRight,
   BadgeCheck,
   Building2,
   CheckCircle2,
+  Eye,
   Handshake,
   HeartHandshake,
-  Image as ImageIcon,
   Megaphone,
   Mic2,
+  PlayCircle,
   Share2,
   Sparkles,
+  Target,
   Users,
   Video,
 } from "lucide-react";
@@ -30,14 +31,38 @@ import { UnifiedBtyForm } from "@/components/intake/UnifiedBtyForm";
 import { trackHomeEvent } from "@/lib/tracking";
 
 const FORM_ANCHOR = "bty-guest-interest";
+const LATEST_VIDEO_URL = "https://www.youtube.com/watch?v=zsaTKjNVeew";
 
 type LaneValue = "share-story" | "nominate";
 type EyebrowTone = "yellow" | "navy" | "red";
 
+const featuredOrganizations = [
+  {
+    name: "GallantFew",
+    route: "/gallantfew",
+    statement: "Helping veterans find direction, connection, and purpose after military service.",
+  },
+  {
+    name: "Veterans Outreach of Wisconsin",
+    route: "/VOW",
+    statement: "Tiny homes, food access, peer support, and a path back to permanent stability.",
+  },
+  {
+    name: "Military Missions in Action",
+    route: "/mmia",
+    statement: "Ramps, furnished homes, transportation, and practical help veterans can actually feel.",
+  },
+  {
+    name: "VETS2INDUSTRY",
+    route: "/vets2industry",
+    statement: "Making the enormous ecosystem of military resources easier to find and actually use.",
+  },
+];
+
 const track = (name: string, params: Record<string, unknown> = {}) =>
   trackHomeEvent(name, {
     page: "beyond-the-yellow",
-    phase: "first-guests",
+    phase: "active-series",
     ...params,
   });
 
@@ -68,9 +93,7 @@ function Eyebrow({
         : "text-[hsl(var(--gold-accent))]";
 
   return (
-    <p
-      className={`text-xs font-bold uppercase tracking-[0.22em] ${toneClass}`}
-    >
+    <p className={`text-xs font-bold uppercase tracking-[0.22em] ${toneClass}`}>
       {children}
     </p>
   );
@@ -85,125 +108,68 @@ function SectionHeading({
 }) {
   return (
     <h2
-      className={`mt-4 text-3xl font-bold leading-tight text-foreground md:text-4xl lg:text-5xl ${className}`}
+      className={`mt-4 text-3xl font-black leading-tight tracking-tight text-foreground md:text-4xl lg:text-5xl ${className}`}
     >
       {children}
     </h2>
   );
 }
 
-function VisualPlaceholder({
-  label,
-  guidance,
-  aspectClass = "aspect-[4/3]",
-  dark = false,
-}: {
-  label: string;
-  guidance: string;
-  aspectClass?: string;
-  dark?: boolean;
-}) {
-  return (
-    <div
-      role="img"
-      aria-label={`${label}. ${guidance}`}
-      data-image-placeholder={label}
-      className={`relative overflow-hidden rounded-3xl border border-dashed ${
-        dark
-          ? "border-white/25 bg-gradient-to-br from-white/10 to-white/[0.03] text-white"
-          : "border-[hsl(var(--navy))]/25 bg-gradient-to-br from-[hsl(var(--gold-accent))]/15 via-background to-[hsl(var(--navy))]/5 text-foreground"
-      } ${aspectClass}`}
-    >
-      <div
-        className="absolute inset-0 opacity-[0.08]"
-        style={{
-          backgroundImage:
-            "linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px)",
-          backgroundSize: "48px 48px",
-        }}
-        aria-hidden="true"
-      />
-      <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center">
-        <div
-          className={`flex h-14 w-14 items-center justify-center rounded-full border ${
-            dark
-              ? "border-white/20 bg-black/20"
-              : "border-[hsl(var(--navy))]/15 bg-background/80"
-          }`}
-        >
-          <ImageIcon className="h-6 w-6" aria-hidden="true" />
-        </div>
-        <p className="mt-5 max-w-sm text-base font-bold">{label}</p>
-        <p
-          className={`mt-2 max-w-md text-sm leading-relaxed ${
-            dark ? "text-white/65" : "text-muted-foreground"
-          }`}
-        >
-          {guidance}
-        </p>
-      </div>
-    </div>
-  );
-}
-
 const faqs = [
   {
-    value: "launched",
-    question: "Has Beyond The Yellow launched yet?",
+    value: "cost",
+    question: "Is there a cost to be featured?",
     answer:
-      "Not yet. The first conversations have not been recorded or published. ValorWell is currently inviting and selecting the guests who will help establish the tone and standard of the series.",
-  },
-  {
-    value: "following",
-    question: "Do I need a large following?",
-    answer:
-      "No. There is no public follower minimum. We care more about the work, the story behind it, the people affected, and whether the conversation can be useful. Small and mid-size creators are explicitly welcome.",
-  },
-  {
-    value: "conversation",
-    question: "What will the conversation be like?",
-    answer:
-      "Selected guests will join Luke for a prerecorded remote conversation. The focus is the problem you saw, why you acted, what you are doing now, who benefits, what you have learned, and how other people can help. This is not a gotcha interview or a debate format.",
-  },
-  {
-    value: "benefit",
-    question: "What does a selected guest receive?",
-    answer:
-      "The core feature is a thoughtfully produced long-form conversation. Depending on the final production plan, that conversation may also support short clips, quotes, written spotlights, and other shareable assets. ValorWell does not promise a specific audience size, reach, number of assets, or publication date before production is agreed upon.",
+      "No. There is no fee to submit an organization, be selected, record the conversation, or participate as an editorial guest. Beyond The Yellow is not pay-to-play media, and sponsorship cannot buy a feature or influence selection.",
   },
   {
     value: "promotion",
-    question: "Can I talk about my organization, project, or fundraiser?",
+    question: "Does ValorWell really put paid promotion behind the feature?",
     answer:
-      "Yes, when it is genuinely connected to the work being discussed. Guests should be able to tell people how to follow, participate, volunteer, donate, buy, refer, or otherwise help. The conversation cannot become a disguised infomercial.",
+      "Selected Beyond The Yellow stories may receive paid promotional support from ValorWell to help more people discover the work. The purpose is to reduce the pressure on mission-driven organizations to divert service dollars into advertising. Promotion does not guarantee a particular number of views, donations, volunteers, referrals, or other outcomes.",
   },
   {
-    value: "fee",
-    question: "Is there a fee to apply or participate?",
+    value: "receive",
+    question: "What does my organization receive if selected?",
     answer:
-      "No. There is no fee to submit interest, be nominated, or participate as an editorial guest. Sponsorship cannot buy a guest feature or influence selection.",
+      "The core feature includes a produced long-form Beyond The Yellow conversation and a permanent editorial feature page on ValorWell. The conversation may also support promotional clips, quotes, social posts, and other campaign assets depending on the production plan for that feature.",
   },
   {
     value: "selection",
-    question: "Does an invitation or submission guarantee an episode?",
+    question: "How are organizations selected?",
     answer:
-      "No. Beyond The Yellow is curated. ValorWell reviews the work, story, guest fit, production capacity, and launch schedule before confirming a recording.",
+      "Beyond The Yellow is curated. We look for veteran and military-connected organizations doing tangible work, a clear story behind that work, a useful conversation for viewers, and a mission that would benefit from greater visibility. Not every submission will become a feature.",
   },
   {
-    value: "rights",
-    question: "How will my interview and clips be used?",
+    value: "time",
+    question: "How much time does participation require?",
     answer:
-      "Recording, editing, publishing, promotional use, and guest expectations will be discussed before production. Submitting interest does not itself grant ValorWell content rights or guarantee publication.",
+      "The main commitment is a prerecorded remote conversation plus reasonable coordination before and after production. If an organization is selected, we discuss the exact format, timing, guest expectations, and promotional plan before recording.",
+  },
+  {
+    value: "cta",
+    question: "Can we talk about donating, volunteering, or supporting our organization?",
+    answer:
+      "Yes. If the work is the reason for the feature, viewers should also know how to support it. Guests can explain how people can donate, volunteer, refer veterans, partner, participate, or otherwise help. The conversation still needs to remain a real editorial discussion rather than becoming an infomercial.",
+  },
+  {
+    value: "sharing",
+    question: "Can our organization share the finished video and feature?",
+    answer:
+      "Yes. Beyond The Yellow is designed to give selected organizations something useful to point people toward. Specific recording, editing, publication, promotional use, and content-rights expectations are discussed before production.",
+  },
+  {
+    value: "guarantee",
+    question: "Does paid promotion guarantee a certain result?",
+    answer:
+      "No. Paid promotion can create additional opportunities for discovery, but it cannot guarantee views, donations, volunteer signups, referrals, partnerships, press coverage, or any other specific outcome. We would rather be precise about that than promise numbers we cannot control.",
   },
 ];
 
 export default function BeyondTheYellowPage() {
-  const [selectedLane, setSelectedLane] =
-    useState<LaneValue>("share-story");
+  const [selectedLane, setSelectedLane] = useState<LaneValue>("share-story");
   const [showSticky, setShowSticky] = useState(false);
 
-  // Direct entry points so Google Ads' guided conversion setup (and ad
-  // landing pages) can load straight onto a live form.
   useEffect(() => {
     const requested = new URLSearchParams(window.location.search).get("form");
     if (requested !== "guest" && requested !== "nomination") return;
@@ -239,18 +205,22 @@ export default function BeyondTheYellowPage() {
   return (
     <>
       <Helmet>
-        <title>Be a Guest on Beyond The Yellow | ValorWell</title>
+        <title>Beyond The Yellow | Visibility for Veteran Nonprofits | ValorWell</title>
         <meta
           name="description"
-          content="Beyond The Yellow is inviting its first guests: creators, community builders, founders, and local leaders whose work makes a real difference people can feel."
+          content="Beyond The Yellow features veteran organizations doing work worth seeing, tells the story behind their impact, and puts promotional support behind selected features so more people can discover them."
         />
         <meta
           property="og:title"
-          content="Your Work Deserves More Than a Passing Post"
+          content="You Put the Money Into the Mission. We’ll Help Put Attention Behind the Story."
         />
         <meta
           property="og:description"
-          content="ValorWell is inviting the first guests for Beyond The Yellow, a new conversation series about people turning support into real community action."
+          content="Beyond The Yellow gives mission-first veteran organizations a way to earn visibility without diverting service dollars into advertising."
+        />
+        <meta
+          property="og:image"
+          content="https://i.ytimg.com/vi/zsaTKjNVeew/maxresdefault.jpg"
         />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
@@ -264,222 +234,354 @@ export default function BeyondTheYellowPage() {
           className="relative overflow-hidden border-b border-white/10 bg-[hsl(var(--navy))] text-white"
         >
           <div className="pointer-events-none absolute inset-0" aria-hidden>
-            <div className="absolute -right-24 -top-24 h-96 w-96 rounded-full bg-[hsl(var(--gold-accent))]/25 blur-3xl" />
-            <div className="absolute -bottom-24 -left-24 h-80 w-80 rounded-full bg-white/5 blur-3xl" />
+            <div className="absolute -right-20 -top-24 h-[30rem] w-[30rem] rounded-full bg-[hsl(var(--gold-accent))]/20 blur-3xl" />
+            <div className="absolute -bottom-32 -left-20 h-96 w-96 rounded-full bg-white/5 blur-3xl" />
           </div>
 
           <div className="relative mx-auto grid max-w-7xl gap-14 px-4 py-20 md:py-28 lg:grid-cols-12 lg:items-center">
             <div className="lg:col-span-7">
-              <Eyebrow>The first guest invitations are going out now</Eyebrow>
-              <h1 className="mt-5 text-4xl font-extrabold leading-[1.03] tracking-tight md:text-6xl lg:text-7xl">
-                You are already doing the work. Let&apos;s help more people understand
-                why it matters.
+              <Eyebrow>Beyond The Yellow · For veteran organizations doing the work</Eyebrow>
+              <h1 className="mt-5 text-4xl font-black leading-[0.98] tracking-[-0.035em] md:text-6xl lg:text-7xl">
+                You put the money into the mission.
+                <span className="mt-2 block text-[hsl(var(--gold-accent))]">
+                  We’ll help put attention behind the story.
+                </span>
               </h1>
-              <p className="mt-7 max-w-3xl text-lg leading-relaxed text-white/85 md:text-xl">
-                Beyond The Yellow is a new conversation series for creators,
-                founders, organizers, and community leaders whose support produces
-                something real. We are inviting the first guests now—before the
-                first episode has been recorded.
+              <p className="mt-7 max-w-3xl text-lg leading-relaxed text-white/82 md:text-xl">
+                Some of the best veteran nonprofits receive the least publicity for a simple reason: they spend their money helping veterans instead of advertising themselves. Beyond The Yellow features organizations creating real impact, tells the story behind their work, and puts promotional support behind selected stories so more people can find them.
               </p>
-              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+              <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <button
                   type="button"
                   onClick={() => apply("bty_hero_guest")}
-                  className="inline-flex items-center justify-center gap-2 rounded-md bg-[hsl(var(--gold-accent))] px-6 py-3.5 text-sm font-bold text-[hsl(var(--navy))] shadow-lg transition hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                  className="inline-flex items-center justify-center gap-2 rounded-md bg-[hsl(var(--gold-accent))] px-6 py-3.5 text-sm font-black text-[hsl(var(--navy))] shadow-lg transition hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
                 >
-                  I Want to Be a Guest on BTY
+                  Get Your Organization Featured
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </button>
-                <button
-                  type="button"
-                  onClick={() =>
-                    chooseLane("nominate", "bty_hero_nominate")
-                  }
+                <a
+                  href={LATEST_VIDEO_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => track("bty_hero_latest_video")}
                   className="inline-flex items-center justify-center gap-2 rounded-md border border-white/30 px-6 py-3.5 text-sm font-bold text-white transition hover:border-white/60 hover:bg-white/10"
                 >
-                  Nominate Someone
-                </button>
+                  <PlayCircle className="h-4 w-4" aria-hidden="true" />
+                  Watch the Latest Feature
+                </a>
               </div>
-            </div>
-
-            <div className="lg:col-span-5">
-              <img
-                src={btyHeroAsset.url}
-                alt="Beyond The Yellow: a mission-driven platform where real stories lead to real action"
-                className="h-auto w-full rounded-3xl object-contain"
-              />
-            </div>
-          </div>
-        </section>
-
-        <section className="border-b border-border bg-[hsl(var(--section-alt))] py-8">
-          <div className="mx-auto grid max-w-6xl gap-4 px-4 md:grid-cols-3">
-            {[
-              ["Visibility for growing movements", "Give meaningful work the attention and context it deserves."],
-              ["A larger community", "Reach people who may support, share, volunteer, donate, refer, buy, or participate."],
-              ["Action-oriented connections", "Connect with community changemakers who understand the work and may help move it forward."],
-            ].map(([title, body]) => (
-              <div key={title} className="flex items-start gap-3 py-3">
-                <CheckCircle2
-                  className="mt-0.5 h-5 w-5 shrink-0 text-[hsl(var(--gold-accent))]"
-                  aria-hidden="true"
-                />
-                <div>
-                  <p className="font-bold text-foreground">{title}</p>
-                  <p className="mt-1 text-sm text-muted-foreground">{body}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="border-b border-border py-20 md:py-28">
-          <div className="mx-auto max-w-6xl px-4">
-            <div className="mx-auto max-w-4xl text-center">
-              <Eyebrow tone="navy">A simple gut check</Eyebrow>
-              <SectionHeading>Do I qualify to be on BTY?</SectionHeading>
-              <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
-                Ask yourself:
+              <p className="mt-5 text-sm text-white/55">
+                No fee to apply. No fee to be featured. Selection is editorial.
               </p>
             </div>
 
-            <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-              {[
-                {
-                  icon: HeartHandshake,
-                  question: "Are you making a real, positive impact in your community?",
-                },
-                {
-                  icon: BadgeCheck,
-                  question: "Are there people who would say that you or your organization helped them?",
-                },
-                {
-                  icon: Sparkles,
-                  question: "Did you see a problem and decide to do something about it?",
-                },
-                {
-                  icon: Megaphone,
-                  question: "Do you want more people to know your organization, mission, or work exists?",
-                },
-                {
-                  icon: Users,
-                  question: "Would the right supporters, volunteers, donors, customers, or partners help you do more?",
-                },
-                {
-                  icon: Handshake,
-                  question: "Do you want to connect with other action-oriented people who understand the work?",
-                },
-              ].map((item) => (
-                <article
-                  key={item.question}
-                  className="rounded-2xl border border-border bg-card p-6 shadow-sm"
-                >
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[hsl(var(--gold-accent))]/15 text-[hsl(var(--navy))]">
-                    <item.icon className="h-5 w-5" aria-hidden="true" />
+            <div className="lg:col-span-5">
+              <div className="rounded-[2rem] border border-white/15 bg-white/[0.06] p-6 shadow-2xl shadow-black/20 backdrop-blur-sm md:p-8">
+                <div className="flex items-center justify-between gap-4">
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-[hsl(var(--gold-accent))]">
+                      Already featured
+                    </p>
+                    <p className="mt-2 text-2xl font-black tracking-tight">
+                      The archive is growing.
+                    </p>
                   </div>
-                  <h3 className="mt-5 text-xl font-bold leading-snug text-foreground">
-                    {item.question}
-                  </h3>
+                  <Eye className="h-7 w-7 text-[hsl(var(--gold-accent))]" aria-hidden="true" />
+                </div>
+                <div className="mt-7 divide-y divide-white/10 border-y border-white/10">
+                  {featuredOrganizations.map((org) => (
+                    <a
+                      key={org.name}
+                      href={org.route}
+                      onClick={() => track("bty_featured_org_click", { organization: org.name })}
+                      className="group flex items-center justify-between gap-4 py-4"
+                    >
+                      <span className="font-bold text-white/85 transition group-hover:text-white">
+                        {org.name}
+                      </span>
+                      <ArrowRight className="h-4 w-4 text-white/35 transition group-hover:translate-x-1 group-hover:text-[hsl(var(--gold-accent))]" aria-hidden="true" />
+                    </a>
+                  ))}
+                </div>
+                <p className="mt-6 text-sm leading-6 text-white/60">
+                  Strong organizations are already being documented, promoted, and added to the permanent Beyond The Yellow record. The natural question is whether your work belongs there too.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="border-b border-border bg-background py-20 md:py-28">
+          <div className="mx-auto grid max-w-7xl gap-12 px-4 lg:grid-cols-12 lg:items-center lg:gap-16">
+            <div className="lg:col-span-7">
+              <div className="relative overflow-hidden rounded-[2rem] border border-border bg-black shadow-2xl">
+                <div className="aspect-video w-full">
+                  <iframe
+                    className="h-full w-full"
+                    src="https://www.youtube-nocookie.com/embed/zsaTKjNVeew?rel=0"
+                    title="Latest Beyond The Yellow feature: GallantFew"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="lg:col-span-5">
+              <Eyebrow tone="navy">Latest Beyond The Yellow feature</Eyebrow>
+              <SectionHeading>GallantFew</SectionHeading>
+              <p className="mt-3 text-2xl font-bold leading-tight text-[hsl(var(--navy))]">
+                The mission ends. The need for direction doesn’t.
+              </p>
+              <p className="mt-6 text-base leading-8 text-muted-foreground md:text-lg">
+                Founder Karl Monger talks about what happens when military structure, identity, accountability, and mission disappear—and how GallantFew helps veterans reconnect, find direction, and deliberately build what comes next.
+              </p>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                <a
+                  href={LATEST_VIDEO_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => track("bty_latest_watch")}
+                  className="inline-flex items-center justify-center gap-2 rounded-md bg-[hsl(var(--navy))] px-5 py-3 text-sm font-bold text-white transition hover:opacity-90"
+                >
+                  Watch GallantFew
+                  <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+                </a>
+                <a
+                  href="/videos"
+                  onClick={() => track("bty_view_archive")}
+                  className="inline-flex items-center justify-center gap-2 rounded-md border border-border bg-card px-5 py-3 text-sm font-bold text-foreground transition hover:border-[hsl(var(--navy))]/40"
+                >
+                  View Past Features
+                  <Video className="h-4 w-4" aria-hidden="true" />
+                </a>
+                <a
+                  href="/gallantfew"
+                  onClick={() => track("bty_latest_feature_story")}
+                  className="inline-flex items-center gap-2 px-1 py-3 text-sm font-bold text-[hsl(var(--navy))]"
+                >
+                  Read the feature
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="border-b border-border bg-[hsl(var(--section-alt))] py-20 md:py-28">
+          <div className="mx-auto max-w-6xl px-4">
+            <div className="mx-auto max-w-4xl text-center">
+              <Eyebrow tone="navy">The visibility problem</Eyebrow>
+              <SectionHeading>
+                Some of the organizations most worth discovering are the least advertised.
+              </SectionHeading>
+              <p className="mx-auto mt-7 max-w-3xl text-lg leading-8 text-muted-foreground">
+                Nonprofits face an uncomfortable tradeoff. Advertising can bring attention, donors, volunteers, referrals, and partners—but the same money could also feed another family, build another ramp, fund another counseling session, provide another ride, or keep another veteran housed.
+              </p>
+              <p className="mx-auto mt-5 max-w-3xl text-xl font-bold leading-8 text-foreground">
+                Good organizations often choose the mission. The consequence is that extraordinary work can remain nearly invisible.
+              </p>
+            </div>
+
+            <div className="mt-14 grid gap-5 md:grid-cols-3">
+              {[
+                [HeartHandshake, "Mission first", "Responsible organizations keep pushing dollars toward direct service instead of marketing overhead."],
+                [Eye, "Visibility still matters", "Veterans cannot use a resource they never discover. Donors and volunteers cannot support work they never see."],
+                [Megaphone, "That gap can be closed", "Beyond The Yellow gives selected organizations a way to earn attention without turning their own mission budget into an ad budget."],
+              ].map(([Icon, title, body]) => (
+                <article key={String(title)} className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[hsl(var(--gold-accent))]/15 text-[hsl(var(--navy))]">
+                    <Icon className="h-5 w-5" aria-hidden="true" />
+                  </div>
+                  <h3 className="mt-5 text-xl font-black text-foreground">{String(title)}</h3>
+                  <p className="mt-3 text-sm leading-7 text-muted-foreground">{String(body)}</p>
+                </article>
+              ))}
+            </div>
+
+            <div className="mx-auto mt-12 max-w-4xl rounded-[2rem] bg-[hsl(var(--navy))] p-8 text-center text-white md:p-12">
+              <p className="text-3xl font-black leading-tight tracking-tight md:text-5xl">
+                Beyond The Yellow exists to help make sure doing the right thing doesn’t make great work invisible.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section className="border-b border-border bg-background py-20 md:py-28">
+          <div className="mx-auto max-w-6xl px-4">
+            <div className="max-w-4xl">
+              <Eyebrow tone="navy">What being featured means</Eyebrow>
+              <SectionHeading>This isn’t just an interview.</SectionHeading>
+              <p className="mt-6 max-w-3xl text-lg leading-8 text-muted-foreground">
+                The interview is the raw material. The value comes from turning the work into a story people can understand, find, share, and come back to.
+              </p>
+            </div>
+
+            <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+              {[
+                ["01", Mic2, "Conversation", "A long-form discussion gives your organization enough room to explain the problem, the work, who benefits, and why it matters."],
+                ["02", Building2, "Feature story", "A permanent editorial page presents the organization as work worth understanding—not as a directory listing or sponsor logo."],
+                ["03", Share2, "Promotion", "ValorWell can put paid promotional support behind selected stories rather than expecting the nonprofit to divert mission dollars into advertising."],
+                ["04", Eye, "Evergreen discovery", "The organization remains part of the growing Beyond The Yellow archive for veterans, donors, volunteers, partners, and other organizations to discover later."],
+              ].map(([number, Icon, title, body]) => (
+                <article key={String(number)} className="rounded-2xl border border-border bg-card p-6">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-black tracking-[0.18em] text-[hsl(var(--gold-accent))]">{String(number)}</span>
+                    <Icon className="h-5 w-5 text-[hsl(var(--navy))]" aria-hidden="true" />
+                  </div>
+                  <h3 className="mt-5 text-xl font-black text-foreground">{String(title)}</h3>
+                  <p className="mt-3 text-sm leading-7 text-muted-foreground">{String(body)}</p>
                 </article>
               ))}
             </div>
           </div>
         </section>
 
-        <section className="border-b border-border bg-[hsl(var(--section-alt))] py-20 md:py-28">
-          <div className="mx-auto grid max-w-6xl gap-14 px-4 lg:grid-cols-12 lg:items-center">
-            <div className="lg:col-span-6">
-              <img
-                src={btyCreatorInActionAsset.url}
-                alt="Beyond The Yellow community creators in action at sunset overlooking a town"
-                className="h-auto w-full rounded-2xl"
-              />
-            </div>
-            <div className="lg:col-span-6">
-              <Eyebrow tone="navy">Who belongs here</Eyebrow>
-              <SectionHeading>
-                BTY is for the people building change before anyone hands them a spotlight.
-              </SectionHeading>
-              <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
-                It is for people and organizations doing the work in real communities—solving problems,
-                creating access, opening doors, and making life better in ways the people they serve can describe.
+        <section className="relative overflow-hidden border-b border-white/10 bg-[hsl(var(--navy))] py-20 text-white md:py-28">
+          <div className="pointer-events-none absolute -right-24 top-8 h-80 w-80 rounded-full bg-[hsl(var(--gold-accent))]/12 blur-3xl" aria-hidden="true" />
+          <div className="relative mx-auto grid max-w-6xl gap-12 px-4 lg:grid-cols-12 lg:items-center lg:gap-16">
+            <div className="lg:col-span-7">
+              <Eyebrow>Paid promotional support</Eyebrow>
+              <h2 className="mt-4 text-4xl font-black leading-tight tracking-tight md:text-5xl lg:text-6xl">
+                We don’t ask the nonprofit to buy the spotlight.
+              </h2>
+              <p className="mt-6 max-w-3xl text-lg leading-8 text-white/72">
+                Selected Beyond The Yellow features may receive paid promotional support from ValorWell. The point is simple: a mission-first organization should not have to choose between serving one more veteran and giving its work a chance to be discovered.
               </p>
-              <div className="mt-8 grid gap-4 sm:grid-cols-2">
+            </div>
+            <div className="lg:col-span-5">
+              <div className="space-y-4 rounded-[2rem] border border-white/15 bg-white/[0.06] p-7 md:p-8">
                 {[
-                  [HeartHandshake, "Community organizers turning concern into action"],
-                  [Building2, "Nonprofit leaders delivering direct, measurable help"],
-                  [Sparkles, "Mission-driven founders building practical solutions"],
-                  [BadgeCheck, "Veteran and military-family advocates creating access"],
-                  [Users, "Educators, mentors, and program builders"],
-                  [Handshake, "Businesses investing directly in community outcomes"],
-                ].map(([Icon, label]) => (
-                  <div
-                    key={String(label)}
-                    className="flex items-center gap-3 rounded-xl border border-border bg-card p-4"
-                  >
-                    <Icon
-                      className="h-5 w-5 shrink-0 text-[hsl(var(--gold-accent))]"
-                      aria-hidden="true"
-                    />
-                    <span className="font-semibold text-foreground">
-                      {String(label)}
-                    </span>
+                  "No fee to apply or participate as an editorial guest.",
+                  "Selection stays editorial. Promotion cannot buy a feature.",
+                  "Promotional support is designed to create more opportunities for discovery.",
+                  "No guaranteed number of views, donations, volunteers, referrals, or partnerships.",
+                ].map((item) => (
+                  <div key={item} className="flex gap-3">
+                    <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[hsl(var(--gold-accent))]" aria-hidden="true" />
+                    <p className="text-sm leading-6 text-white/78">{item}</p>
                   </div>
                 ))}
               </div>
-              <p className="mt-6 font-semibold text-[hsl(var(--navy))]">
-                You do not need to be famous. You need to be responsible for work that would be missed if it stopped.
-              </p>
             </div>
           </div>
         </section>
 
+        <section className="border-b border-border bg-[hsl(var(--section-alt))] py-20 md:py-28">
+          <div className="mx-auto max-w-6xl px-4">
+            <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
+              <div className="lg:col-span-8">
+                <Eyebrow tone="navy">The organizations already getting the spotlight</Eyebrow>
+                <SectionHeading>See what we’re choosing to put attention behind.</SectionHeading>
+              </div>
+              <div className="lg:col-span-4">
+                <p className="text-base leading-7 text-muted-foreground">
+                  These are not sponsor placements. They are examples of the kind of tangible veteran-community work Beyond The Yellow is built to surface.
+                </p>
+              </div>
+            </div>
 
-        <section className="border-b border-border py-20 md:py-28">
-          <div className="mx-auto max-w-5xl px-4 text-center">
-            <Eyebrow tone="navy">The honest launch-stage opportunity</Eyebrow>
-            <SectionHeading>
-              Joining now is not about borrowing an established audience. It is about
-              helping establish what the audience will come for.
-            </SectionHeading>
-            <p className="mx-auto mt-6 max-w-3xl text-lg leading-relaxed text-muted-foreground">
-              There are no published episodes to point to yet. The advantage is that
-              the first guests will not be squeezed into a format someone else already
-              defined. Their conversations will help define it.
-            </p>
-            <div className="mt-10 grid gap-5 text-left md:grid-cols-3">
-              {[
-                ["Shape the standard", "Help show what meaningful community action looks like without reducing it to a slogan."],
-                ["Shape the format", "Give honest feedback on the conversation, guest experience, clips, and presentation while the system is still flexible."],
-                ["Be part of the first chapter", "Early guests will remain part of the launch record as Beyond The Yellow develops."],
-              ].map(([title, body]) => (
-                <div
-                  key={title}
-                  className="rounded-2xl border border-[hsl(var(--gold-accent))]/35 bg-[hsl(var(--gold-accent))]/8 p-6"
+            <div className="mt-12 grid gap-5 md:grid-cols-2">
+              {featuredOrganizations.map((org) => (
+                <a
+                  key={org.name}
+                  href={org.route}
+                  onClick={() => track("bty_case_study_click", { organization: org.name })}
+                  className="group rounded-2xl border border-border bg-card p-7 shadow-sm transition hover:-translate-y-1 hover:border-[hsl(var(--navy))]/35 hover:shadow-lg"
                 >
-                  <h3 className="text-xl font-bold text-foreground">{title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                    {body}
+                  <div className="flex items-start justify-between gap-5">
+                    <div>
+                      <p className="text-xs font-bold uppercase tracking-[0.18em] text-[hsl(var(--gold-accent))]">Featured organization</p>
+                      <h3 className="mt-3 text-2xl font-black tracking-tight text-foreground">{org.name}</h3>
+                    </div>
+                    <ArrowUpRight className="h-5 w-5 shrink-0 text-muted-foreground transition group-hover:text-[hsl(var(--navy))]" aria-hidden="true" />
+                  </div>
+                  <p className="mt-5 text-base leading-7 text-muted-foreground">{org.statement}</p>
+                  <p className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-[hsl(var(--navy))]">
+                    See the feature
+                    <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" aria-hidden="true" />
                   </p>
-                </div>
+                </a>
               ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="border-b border-border bg-background py-20 md:py-28">
+          <div className="mx-auto grid max-w-6xl gap-12 px-4 lg:grid-cols-12 lg:items-start lg:gap-16">
+            <div className="lg:col-span-5">
+              <Eyebrow tone="navy">Does your organization belong here?</Eyebrow>
+              <SectionHeading>You do not need a massive marketing budget to be worth finding.</SectionHeading>
+              <p className="mt-6 text-lg leading-8 text-muted-foreground">
+                In many cases, the organizations without a large advertising budget or marketing department are exactly the ones we want people to discover.
+              </p>
+            </div>
+            <div className="lg:col-span-7">
+              <div className="space-y-4">
+                {[
+                  [BadgeCheck, "You serve veterans, military families, or the military-connected community.", "The work is directly relevant to the people Beyond The Yellow is built around."],
+                  [HeartHandshake, "Your work creates something people can actually feel.", "Housing, care, food, transportation, employment, connection, access, support, opportunity, or another tangible outcome—not awareness alone."],
+                  [Target, "More visibility could help you do more.", "The right veterans, donors, volunteers, supporters, referral partners, employers, or collaborators finding you would matter."],
+                ].map(([Icon, title, body]) => (
+                  <div key={String(title)} className="flex gap-5 rounded-2xl border border-border bg-card p-6">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[hsl(var(--gold-accent))]/15 text-[hsl(var(--navy))]">
+                      <Icon className="h-5 w-5" aria-hidden="true" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-black text-foreground">{String(title)}</h3>
+                      <p className="mt-2 text-sm leading-7 text-muted-foreground">{String(body)}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="border-b border-border bg-[hsl(var(--section-alt))] py-20 md:py-28">
+          <div className="mx-auto grid max-w-6xl gap-12 px-4 lg:grid-cols-12 lg:items-center lg:gap-16">
+            <div className="lg:col-span-7">
+              <Eyebrow tone="navy">Curated on purpose</Eyebrow>
+              <SectionHeading>We cannot feature every organization.</SectionHeading>
+              <p className="mt-6 max-w-3xl text-lg leading-8 text-muted-foreground">
+                Every feature takes interviewing, editing, editorial work, promotion, and permanent presentation. That makes selection part of the value. We are looking for organizations with a clear mission, tangible work, a compelling story, and something viewers should know exists.
+              </p>
+              <p className="mt-6 text-xl font-black text-[hsl(var(--navy))]">
+                If your organization is doing work that deserves to be part of this record, submit it.
+              </p>
+            </div>
+            <div className="lg:col-span-5">
+              <div className="rounded-[2rem] bg-[hsl(var(--navy))] p-8 text-white shadow-xl">
+                <Sparkles className="h-8 w-8 text-[hsl(var(--gold-accent))]" aria-hidden="true" />
+                <p className="mt-6 text-3xl font-black leading-tight tracking-tight">
+                  The strongest FOMO should be simple:
+                </p>
+                <p className="mt-5 text-lg leading-8 text-white/70">
+                  good organizations are being featured, their stories are being promoted, and the archive keeps growing.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => apply("bty_curated_guest")}
+                  className="mt-7 inline-flex items-center gap-2 rounded-md bg-[hsl(var(--gold-accent))] px-5 py-3 text-sm font-black text-[hsl(var(--navy))]"
+                >
+                  Submit Your Organization
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </button>
+              </div>
             </div>
           </div>
         </section>
 
         <section
           id={FORM_ANCHOR}
-          className="scroll-mt-24 border-b border-border bg-[hsl(var(--section-alt))] py-20 md:py-28"
+          className="scroll-mt-24 border-b border-border bg-background py-20 md:py-28"
         >
           <div className="mx-auto max-w-6xl px-4">
             <div className="mx-auto max-w-4xl text-center">
-              <Eyebrow tone="navy">Guest interest</Eyebrow>
-              <SectionHeading>
-                Does your work belong in this conversation?
-              </SectionHeading>
-              <p className="mt-5 text-lg text-muted-foreground">
-                Tell us enough to understand you, the work, and what people should
-                know. You do not need a polished media pitch.
+              <Eyebrow tone="navy">Feature consideration</Eyebrow>
+              <SectionHeading>Should your organization be one of the next stories people discover?</SectionHeading>
+              <p className="mt-5 text-lg leading-8 text-muted-foreground">
+                Tell us enough to understand the work, the people it helps, and why more visibility would matter. You do not need a polished media pitch.
               </p>
             </div>
 
@@ -488,14 +590,14 @@ export default function BeyondTheYellowPage() {
                 {
                   lane: "share-story" as const,
                   icon: Mic2,
-                  title: "I want to be a guest on BTY",
-                  body: "I am doing the work or represent the person or organization responsible for it.",
+                  title: "Submit my organization",
+                  body: "I represent the organization or the person responsible for the work and want to be considered for a feature.",
                 },
                 {
                   lane: "nominate" as const,
                   icon: Users,
-                  title: "I want to nominate someone",
-                  body: "I know a creator, leader, or organization whose work deserves consideration.",
+                  title: "Nominate an organization",
+                  body: "I know a veteran organization whose work deserves more visibility and should be considered.",
                 },
               ].map((item) => {
                 const selected = selectedLane === item.lane;
@@ -504,25 +606,16 @@ export default function BeyondTheYellowPage() {
                     key={item.lane}
                     type="button"
                     aria-pressed={selected}
-                    onClick={() =>
-                      chooseLane(item.lane, `bty_lane_${item.lane}`)
-                    }
+                    onClick={() => chooseLane(item.lane, `bty_lane_${item.lane}`)}
                     className={`rounded-2xl border p-5 text-left transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--navy))] ${
                       selected
                         ? "border-[hsl(var(--gold-accent))] bg-[hsl(var(--gold-accent))]/12 shadow-md"
                         : "border-border bg-card hover:-translate-y-0.5 hover:border-[hsl(var(--navy))]/40 hover:shadow-md"
                     }`}
                   >
-                    <item.icon
-                      className="h-6 w-6 text-[hsl(var(--navy))]"
-                      aria-hidden="true"
-                    />
-                    <h3 className="mt-4 text-lg font-bold text-foreground">
-                      {item.title}
-                    </h3>
-                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                      {item.body}
-                    </p>
+                    <item.icon className="h-6 w-6 text-[hsl(var(--navy))]" aria-hidden="true" />
+                    <h3 className="mt-4 text-lg font-black text-foreground">{item.title}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.body}</p>
                   </button>
                 );
               })}
@@ -538,55 +631,18 @@ export default function BeyondTheYellowPage() {
           </div>
         </section>
 
-        <section className="border-b border-border py-20 md:py-28">
-          <div className="mx-auto max-w-6xl px-4">
-            <div className="max-w-4xl">
-              <Eyebrow tone="navy">What happens next</Eyebrow>
-              <SectionHeading>A clear launch-stage process.</SectionHeading>
-            </div>
-            <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-              {[
-                ["01", "We review the work", "We look at what is actually being done, who benefits, and whether the work fits the series."],
-                ["02", "We review the story", "We consider whether the conversation can be clear, useful, honest, and meaningful to viewers."],
-                ["03", "We confirm the guest", "Selected people receive a direct conversation about fit, expectations, recording, and production."],
-              ].map(([number, title, body]) => (
-                <div
-                  key={number}
-                  className="rounded-2xl border border-border bg-card p-6"
-                >
-                  <span className="text-sm font-extrabold tracking-[0.18em] text-[hsl(var(--gold-accent))]">
-                    {number}
-                  </span>
-                  <h3 className="mt-4 text-lg font-bold text-foreground">
-                    {title}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                    {body}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
         <section className="border-b border-border bg-[hsl(var(--section-alt))] py-20 md:py-28">
           <div className="mx-auto max-w-4xl px-4">
-            <Eyebrow tone="navy">Questions before you respond</Eyebrow>
+            <Eyebrow tone="navy">Questions before you submit</Eyebrow>
             <SectionHeading>Straight answers.</SectionHeading>
             <Accordion
               type="single"
               collapsible
               className="mt-10 space-y-3"
-              onValueChange={(value) =>
-                value && track("bty_faq_expand", { item: value })
-              }
+              onValueChange={(value) => value && track("bty_faq_expand", { item: value })}
             >
               {faqs.map((faq) => (
-                <AccordionItem
-                  key={faq.value}
-                  value={faq.value}
-                  className="rounded-2xl border border-border bg-card px-5"
-                >
+                <AccordionItem key={faq.value} value={faq.value} className="rounded-2xl border border-border bg-card px-5">
                   <AccordionTrigger className="py-5 text-left text-base font-semibold hover:no-underline md:text-lg">
                     {faq.question}
                   </AccordionTrigger>
@@ -600,26 +656,21 @@ export default function BeyondTheYellowPage() {
         </section>
 
         <section className="relative overflow-hidden bg-[hsl(var(--navy))] py-24 text-white md:py-32">
-          <div
-            className="pointer-events-none absolute -right-20 -top-20 h-80 w-80 rounded-full bg-[hsl(var(--gold-accent))]/20 blur-3xl"
-            aria-hidden="true"
-          />
+          <div className="pointer-events-none absolute -right-20 -top-20 h-80 w-80 rounded-full bg-[hsl(var(--gold-accent))]/20 blur-3xl" aria-hidden="true" />
           <div className="relative mx-auto max-w-5xl px-4 text-center">
-            <Eyebrow>The first conversations</Eyebrow>
-            <h2 className="mt-5 text-4xl font-extrabold leading-tight md:text-5xl lg:text-6xl">
-              The work is already real. The series is ready to start telling the
-              stories behind it.
+            <Eyebrow>The work is already happening</Eyebrow>
+            <h2 className="mt-5 text-4xl font-black leading-tight tracking-tight md:text-5xl lg:text-6xl">
+              The organizations doing the most good are not always the organizations getting the most attention.
             </h2>
-            <p className="mx-auto mt-6 max-w-3xl text-lg text-white/75 md:text-xl">
-              An enormous following is not required. A real story, real action, and a
-              willingness to have an honest conversation are.
+            <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-white/72 md:text-xl">
+              Sometimes that is because they chose to spend the money on the mission instead of the marketing. Beyond The Yellow exists to help make sure that choice does not leave great work invisible.
             </p>
             <button
               type="button"
               onClick={() => apply("bty_final_guest")}
-              className="mt-9 inline-flex items-center gap-2 rounded-md bg-[hsl(var(--gold-accent))] px-7 py-3.5 text-sm font-bold text-[hsl(var(--navy))] hover:brightness-95"
+              className="mt-9 inline-flex items-center gap-2 rounded-md bg-[hsl(var(--gold-accent))] px-7 py-3.5 text-sm font-black text-[hsl(var(--navy))] hover:brightness-95"
             >
-              Respond to the Invitation
+              Submit Your Organization
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </button>
           </div>
@@ -632,9 +683,9 @@ export default function BeyondTheYellowPage() {
           <button
             type="button"
             onClick={() => apply("bty_sticky_guest")}
-            className="flex w-full items-center justify-center gap-2 rounded-md bg-[hsl(var(--gold-accent))] px-5 py-3 text-sm font-bold text-[hsl(var(--navy))]"
+            className="flex w-full items-center justify-center gap-2 rounded-md bg-[hsl(var(--gold-accent))] px-5 py-3 text-sm font-black text-[hsl(var(--navy))]"
           >
-            I Want to Be a Guest on BTY
+            Get Your Organization Featured
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </button>
         </div>
