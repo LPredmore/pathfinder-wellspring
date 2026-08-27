@@ -13,7 +13,6 @@ import {
   Mic2,
   PlayCircle,
   Share2,
-  Sparkles,
   Target,
   Users,
   Video,
@@ -238,8 +237,8 @@ export default function BeyondTheYellowPage() {
             <div className="absolute -bottom-32 -left-20 h-96 w-96 rounded-full bg-white/5 blur-3xl" />
           </div>
 
-          <div className="relative mx-auto grid max-w-7xl gap-14 px-4 py-20 md:py-28 lg:grid-cols-12 lg:items-center">
-            <div className="lg:col-span-7">
+          <div className="relative mx-auto max-w-7xl px-4 py-20 md:py-28">
+            <div className="max-w-5xl">
               <Eyebrow>Beyond The Yellow · For veteran organizations doing the work</Eyebrow>
               <h1 className="mt-5 text-4xl font-black leading-[0.98] tracking-[-0.035em] md:text-6xl lg:text-7xl">
                 You put the money into the mission.
@@ -273,40 +272,6 @@ export default function BeyondTheYellowPage() {
               <p className="mt-5 text-sm text-white/55">
                 No fee to apply. No fee to be featured. 
               </p>
-            </div>
-
-            <div className="lg:col-span-5">
-              <div className="rounded-[2rem] border border-white/15 bg-white/[0.06] p-6 shadow-2xl shadow-black/20 backdrop-blur-sm md:p-8">
-                <div className="flex items-center justify-between gap-4">
-                  <div>
-                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-[hsl(var(--gold-accent))]">
-                      Already featured
-                    </p>
-                    <p className="mt-2 text-2xl font-black tracking-tight">
-                      The archive is growing.
-                    </p>
-                  </div>
-                  <Eye className="h-7 w-7 text-[hsl(var(--gold-accent))]" aria-hidden="true" />
-                </div>
-                <div className="mt-7 divide-y divide-white/10 border-y border-white/10">
-                  {featuredOrganizations.map((org) => (
-                    <a
-                      key={org.name}
-                      href={org.route}
-                      onClick={() => track("bty_featured_org_click", { organization: org.name })}
-                      className="group flex items-center justify-between gap-4 py-4"
-                    >
-                      <span className="font-bold text-white/85 transition group-hover:text-white">
-                        {org.name}
-                      </span>
-                      <ArrowRight className="h-4 w-4 text-white/35 transition group-hover:translate-x-1 group-hover:text-[hsl(var(--gold-accent))]" aria-hidden="true" />
-                    </a>
-                  ))}
-                </div>
-                <p className="mt-6 text-sm leading-6 text-white/60">
-                  Strong organizations are already being documented, promoted, and added to the permanent Beyond The Yellow record. The natural question is whether your work belongs there too.
-                </p>
-              </div>
             </div>
           </div>
         </section>
@@ -533,40 +498,6 @@ export default function BeyondTheYellowPage() {
                     </div>
                   </div>
                 ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="border-b border-border bg-[hsl(var(--section-alt))] py-20 md:py-28">
-          <div className="mx-auto grid max-w-6xl gap-12 px-4 lg:grid-cols-12 lg:items-center lg:gap-16">
-            <div className="lg:col-span-7">
-              <Eyebrow tone="navy">Curated on purpose</Eyebrow>
-              <SectionHeading>We cannot feature every organization.</SectionHeading>
-              <p className="mt-6 max-w-3xl text-lg leading-8 text-muted-foreground">
-                Every feature takes interviewing, editing, editorial work, promotion, and permanent presentation. That makes selection part of the value. We are looking for organizations with a clear mission, tangible work, a compelling story, and something viewers should know exists.
-              </p>
-              <p className="mt-6 text-xl font-black text-[hsl(var(--navy))]">
-                If your organization is doing work that deserves to be part of this record, submit it.
-              </p>
-            </div>
-            <div className="lg:col-span-5">
-              <div className="rounded-[2rem] bg-[hsl(var(--navy))] p-8 text-white shadow-xl">
-                <Sparkles className="h-8 w-8 text-[hsl(var(--gold-accent))]" aria-hidden="true" />
-                <p className="mt-6 text-3xl font-black leading-tight tracking-tight">
-                  The strongest FOMO should be simple:
-                </p>
-                <p className="mt-5 text-lg leading-8 text-white/70">
-                  good organizations are being featured, their stories are being promoted, and the archive keeps growing.
-                </p>
-                <button
-                  type="button"
-                  onClick={() => apply("bty_curated_guest")}
-                  className="mt-7 inline-flex items-center gap-2 rounded-md bg-[hsl(var(--gold-accent))] px-5 py-3 text-sm font-black text-[hsl(var(--navy))]"
-                >
-                  Submit Your Organization
-                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                </button>
               </div>
             </div>
           </div>
