@@ -19,6 +19,7 @@ import Donate from "./pages/Donate";
 import NotFound from "./pages/NotFound";
 import HomePage from "./pages/HomePage";
 import WatchPage from "./pages/WatchPage";
+import VideosPage from "./pages/VideosPage";
 import MissionPage from "./pages/MissionPage";
 import OcsBillingHubPage from "./pages/OcsBillingHubPage";
 import BtyBillingHubPage from "./pages/BtyBillingHubPage";
@@ -92,6 +93,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/watch" element={<WatchPage />} />
+            <Route path="/videos" element={<VideosPage />} />
             <Route path="/mission" element={<MissionPage />} />
             <Route
               path="/operation-claims-success"
@@ -148,7 +150,7 @@ const App = () => (
             />
             <Route
               path="/authority/resources/veteran-mental-health"
-              element={<AuthorityResourcesVeteranMentalHealth />}
+              element={<AuthorityResourcesVeteranMentalHealth />} 
             />
 
             {legacyRedirects.map((redirect) => (
