@@ -20,7 +20,10 @@ const villageImage = "https://vowvillages.com/sites/default/files/James-A.jpg";
 const marketplaceImage =
   "https://vowvillages.com/sites/default/files/20250825_132043_0.jpg";
 
-const interviewQuote: { text: string; timestamp: string } | null = null;
+const interviewQuote: { text: string; timestamp: string } | null = {
+  text: "We’re really good at equipping, training, and giving you everything you need to go and do America’s bidding. We’re not so good on the back end of taking care of our vets.",
+  timestamp: "15:54",
+};
 
 const impact = [
   { value: "837,898", label: "Pounds of food distributed in 2025" },
