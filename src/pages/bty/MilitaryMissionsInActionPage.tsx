@@ -8,6 +8,7 @@ import {
   Home,
   Package,
   PlayCircle,
+  Quote,
 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -181,17 +182,18 @@ export default function MilitaryMissionsInActionPage() {
           </div>
         </section>
 
-        <section className="border-b border-border bg-[hsl(var(--section-alt))] py-16 md:py-24">
+        <section className="border-b border-border bg-[hsl(var(--section-alt))] py-20 md:py-28">
           <div className="mx-auto max-w-6xl px-4">
             <div className="mx-auto max-w-4xl text-center">
-              <p className="text-xs font-bold uppercase tracking-[0.22em] text-[hsl(var(--gold-accent))]">
-                The gap MMIA closes
+              <Quote className="mx-auto h-9 w-9 text-[hsl(var(--gold-accent))]" aria-hidden="true" />
+              <blockquote className="mt-7 text-4xl font-black leading-[1.04] tracking-[-0.035em] text-foreground sm:text-5xl md:text-6xl">
+                “I would rather our work speak for us.”
+              </blockquote>
+              <p className="mt-6 text-sm font-bold uppercase tracking-[0.18em] text-muted-foreground">
+                Zak Keisler · Beyond The Yellow · 52:00
               </p>
-              <h2 className="mt-6 text-4xl font-black leading-[1.03] tracking-[-0.035em] text-foreground sm:text-5xl md:text-6xl">
-                A house is not independence if you can’t get through the door.
-              </h2>
-              <p className="mx-auto mt-7 max-w-2xl text-lg leading-8 text-muted-foreground md:text-xl">
-                An appointment is not access if you cannot get there. A new apartment is not stability if it is empty. MMIA focuses on the physical details that determine whether help works in real life.
+              <p className="mx-auto mt-8 max-w-2xl text-base leading-8 text-muted-foreground md:text-lg">
+                For MMIA, the work is the proof: the ramp gets built, the empty apartment gets furnished, the ride shows up, and the backpack reaches the person who needs it. The question is not whether support sounds good. It is whether a Veteran is materially better off because somebody acted.
               </p>
             </div>
           </div>
