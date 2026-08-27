@@ -16,9 +16,6 @@ import { Footer } from "@/components/layout/Footer";
 const videoUrl =
   "https://www.youtube.com/watch?v=zsaTKjNVeew&list=PLnEJh6R3w5IbykCvTZJtD1IgWY8XRjP0Q&index=6";
 
-const karlCounselingImage =
-  "https://static.wixstatic.com/media/83a7c4_f059f8ac8c974ac18bcff1e89e4632e0~mv2.jpg/v1/fill/w_1132,h_764,al_c,q_90/GF%20Karl%20counseling.jpg";
-
 const climbingImage =
   "https://static.wixstatic.com/media/3d4249_ea3bf3661efa44e0ac40caa8778f4701~mv2.jpg/v1/fill/w_1200,h_800,al_c,q_90/3d4249_ea3bf3661efa44e0ac40caa8778f4701~mv2.jpg";
 
@@ -160,23 +157,8 @@ export default function GallantFewPage() {
         </section>
 
         <section className="border-y border-border bg-[hsl(var(--section-alt))] py-16 md:py-24">
-          <div className="mx-auto grid max-w-6xl gap-10 px-4 lg:grid-cols-12 lg:items-center lg:gap-16">
-            <div className="lg:col-span-7">
-              <div className="overflow-hidden rounded-[2rem] bg-muted shadow-xl">
-                <img
-                  src={karlCounselingImage}
-                  alt="Karl Monger working with a veteran through GallantFew"
-                  className="aspect-[4/3] h-full w-full object-cover"
-                  loading="lazy"
-                  referrerPolicy="no-referrer"
-                />
-              </div>
-              <p className="mt-3 text-xs text-muted-foreground">
-                Karl Monger, GallantFew founder and clinical director. Image: GallantFew.
-              </p>
-            </div>
-
-            <div className="lg:col-span-5">
+          <div className="mx-auto max-w-5xl px-4">
+            <div className="max-w-4xl">
               <p className="text-xs font-bold uppercase tracking-[0.22em] text-[hsl(var(--gold-accent))]">
                 The story behind the work
               </p>
