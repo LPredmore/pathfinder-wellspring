@@ -270,7 +270,7 @@ export default function BeyondTheYellowPage() {
                 </a>
               </div>
               <p className="mt-5 text-sm text-white/55">
-                No fee to apply. No fee to be featured. 
+                No fee to apply. No fee to be featured.
               </p>
             </div>
           </div>
