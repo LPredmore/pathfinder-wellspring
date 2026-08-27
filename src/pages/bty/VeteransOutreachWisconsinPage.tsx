@@ -28,8 +28,8 @@ const interviewQuote: { text: string; timestamp: string } | null = {
 const impact = [
   { value: "837,898", label: "Pounds of food distributed in 2025" },
   { value: "850+", label: "Veteran families served by the Marketplace" },
-  { value: "32", label: "Veterans housed in the Village in 2025" },
-  { value: "10", label: "Transitions to permanent housing in 2025" },
+  { value: "882,685", label: "Pounds of food and non-food donations received in 2025" },
+  { value: "920", label: "Holiday baskets provided in 2025" },
 ];
 
 const work = [
