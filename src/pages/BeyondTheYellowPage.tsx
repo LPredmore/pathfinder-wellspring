@@ -271,7 +271,7 @@ export default function BeyondTheYellowPage() {
                 </a>
               </div>
               <p className="mt-5 text-sm text-white/55">
-                No fee to apply. No fee to be featured. Selection is editorial.
+                No fee to apply. No fee to be featured. 
               </p>
             </div>
 
@@ -453,9 +453,9 @@ export default function BeyondTheYellowPage() {
               <div className="space-y-4 rounded-[2rem] border border-white/15 bg-white/[0.06] p-7 md:p-8">
                 {[
                   "No fee to apply or participate as an editorial guest.",
-                  "Selection stays editorial. Promotion cannot buy a feature.",
+                  "Selection is based on impact.",
                   "Promotional support is designed to create more opportunities for discovery.",
-                  "No guaranteed number of views, donations, volunteers, referrals, or partnerships.",
+                  "That's it. More views and attention for you = more opportunities for donations, volunteers, referrals, or partnerships.",
                 ].map((item) => (
                   <div key={item} className="flex gap-3">
                     <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[hsl(var(--gold-accent))]" aria-hidden="true" />
