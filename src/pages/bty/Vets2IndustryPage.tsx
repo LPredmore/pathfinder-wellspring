@@ -225,15 +225,13 @@ export default function Vets2IndustryPage() {
                   ))}
 
                   <div className="col-span-2 flex items-center justify-center py-7 sm:col-span-3">
-                    <div className="relative flex h-40 w-40 items-center justify-center rounded-full border border-[hsl(var(--gold-accent))]/30 bg-white p-5 shadow-2xl shadow-black/30">
-                      <img
-                        src={logoImage}
-                        alt="VETS2INDUSTRY"
-                        className="max-h-full max-w-full object-contain"
-                        loading="lazy"
-                        referrerPolicy="no-referrer"
-                      />
-                    </div>
+                    <img
+                      src={logoImage}
+                      alt="VETS2INDUSTRY"
+                      className="h-40 w-40 object-contain"
+                      loading="lazy"
+                      referrerPolicy="no-referrer"
+                    />
                   </div>
 
                   {resourceCategories.slice(3).map((item) => (
