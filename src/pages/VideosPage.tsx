@@ -1,5 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { ArrowUpRight, PlayCircle } from "lucide-react";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 
 const latestVideo = {
   organization: "Veterans Breakfast Club",
@@ -129,6 +131,7 @@ export default function VideosPage() {
         <link rel="canonical" href="https://www.valorwell.org/videos" />
       </Helmet>
 
+      <Header />
       <main className="min-h-screen bg-background">
         <section className="border-b border-white/10 bg-[hsl(var(--navy))] text-white">
           <div className="mx-auto max-w-6xl px-4 py-16 text-center md:py-20">
@@ -210,6 +213,7 @@ export default function VideosPage() {
           </div>
         </section>
       </main>
+      <Footer />
     </>
   );
 }
