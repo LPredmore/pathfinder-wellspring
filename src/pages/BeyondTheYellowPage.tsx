@@ -11,7 +11,6 @@ import {
   HeartHandshake,
   Megaphone,
   Mic2,
-  PlayCircle,
   Share2,
   Target,
   Users,
@@ -264,14 +263,12 @@ export default function BeyondTheYellowPage() {
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </button>
                 <a
-                  href={LATEST_VIDEO_URL}
-                  target="_blank"
-                  rel="noreferrer"
-                  onClick={() => track("bty_hero_latest_video")}
+                  href="/videos"
+                  onClick={() => track("bty_hero_featured_organizations")}
                   className="inline-flex items-center justify-center gap-2 rounded-md border border-white/30 px-6 py-3.5 text-sm font-bold text-white transition hover:border-white/60 hover:bg-white/10"
                 >
-                  <PlayCircle className="h-4 w-4" aria-hidden="true" />
-                  Watch the Latest Feature
+                  <Video className="h-4 w-4" aria-hidden="true" />
+                  See our Featured BTY Organizations
                 </a>
               </div>
               <p className="mt-5 text-sm text-white/55">
