@@ -2,16 +2,25 @@ import { Helmet } from "react-helmet-async";
 import { ArrowUpRight, PlayCircle } from "lucide-react";
 
 const latestVideo = {
-  organization: "GallantFew",
-  title: "The mission ends. The need for direction doesn’t.",
-  videoId: "zsaTKjNVeew",
-  videoUrl: "https://www.youtube.com/watch?v=zsaTKjNVeew",
-  featureUrl: "/gallantfew",
+  organization: "Veterans Breakfast Club",
+  title: "Some veterans carry a story for decades. Sometimes the right room is what finally lets it out.",
+  videoId: "A4CUe3c8rJE",
+  videoUrl: "https://www.youtube.com/watch?v=A4CUe3c8rJE",
+  featureUrl: "/veteransbreakfastclub",
   description:
-    "Karl Monger on what happens when military structure, identity, accountability, and mission disappear—and how veterans can deliberately build what comes next.",
+    "Shaun Hall on active listening, the stories veterans sometimes never tell their own families, and how Veterans Breakfast Club creates low-pressure spaces where those stories can finally be heard.",
 };
 
 const pastVideos = [
+  {
+    organization: "GallantFew",
+    title: "The mission ends. The need for direction doesn’t.",
+    videoId: "zsaTKjNVeew",
+    videoUrl: "https://www.youtube.com/watch?v=zsaTKjNVeew",
+    featureUrl: "/gallantfew",
+    description:
+      "Karl Monger on what happens when military structure, identity, accountability, and mission disappear—and how veterans can deliberately build what comes next.",
+  },
   {
     organization: "VETS2INDUSTRY",
     title: "The resources exist. The problem is knowing where to find them.",

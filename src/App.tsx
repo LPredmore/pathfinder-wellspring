@@ -33,6 +33,7 @@ import GallantFewPage from "./pages/bty/GallantFewPage";
 import VeteransOutreachWisconsinPage from "./pages/bty/VeteransOutreachWisconsinPage";
 import Vets2IndustryPage from "./pages/bty/Vets2IndustryPage";
 import MilitaryMissionsInActionPage from "./pages/bty/MilitaryMissionsInActionPage";
+import VeteransBreakfastClubPage from "./pages/bty/VeteransBreakfastClubPage";
 import AuthorityResources from "./pages/authority/Resources";
 import AuthorityFamilySystems from "./pages/authority/FamilySystems";
 import AuthorityMilitaryFamilyTherapy from "./pages/authority/MilitaryFamilyTherapy";
@@ -104,6 +105,7 @@ const App = () => (
             <Route path="/VOW" element={<VeteransOutreachWisconsinPage />} />
             <Route path="/vets2industry" element={<Vets2IndustryPage />} />
             <Route path="/mmia" element={<MilitaryMissionsInActionPage />} />
+            <Route path="/veteransbreakfastclub" element={<VeteransBreakfastClubPage />} />
             <Route path="/clinicians" element={<Clinicians />} />
             <Route
               path="/therapists"
@@ -150,7 +152,7 @@ const App = () => (
             />
             <Route
               path="/authority/resources/veteran-mental-health"
-              element={<AuthorityResourcesVeteranMentalHealth />} 
+              element={<AuthorityResourcesVeteranMentalHealth />}
             />
 
             {legacyRedirects.map((redirect) => (
