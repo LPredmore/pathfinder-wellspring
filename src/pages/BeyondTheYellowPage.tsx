@@ -30,12 +30,17 @@ import { UnifiedBtyForm } from "@/components/intake/UnifiedBtyForm";
 import { trackHomeEvent } from "@/lib/tracking";
 
 const FORM_ANCHOR = "bty-guest-interest";
-const LATEST_VIDEO_URL = "https://www.youtube.com/watch?v=zsaTKjNVeew";
+const LATEST_VIDEO_URL = "https://www.youtube.com/watch?v=A4CUe3c8rJE";
 
 type LaneValue = "share-story" | "nominate";
 type EyebrowTone = "yellow" | "navy" | "red";
 
 const featuredOrganizations = [
+  {
+    name: "Veterans Breakfast Club",
+    route: "/veteransbreakfastclub",
+    statement: "Creating spaces where veterans can tell the stories they have carried—and where families and civilians can finally hear them.",
+  },
   {
     name: "GallantFew",
     route: "/gallantfew",
@@ -219,7 +224,7 @@ export default function BeyondTheYellowPage() {
         />
         <meta
           property="og:image"
-          content="https://i.ytimg.com/vi/zsaTKjNVeew/maxresdefault.jpg"
+          content="https://i.ytimg.com/vi/A4CUe3c8rJE/maxresdefault.jpg"
         />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
@@ -283,8 +288,8 @@ export default function BeyondTheYellowPage() {
                 <div className="aspect-video w-full">
                   <iframe
                     className="h-full w-full"
-                    src="https://www.youtube-nocookie.com/embed/zsaTKjNVeew?rel=0"
-                    title="Latest Beyond The Yellow feature: GallantFew"
+                    src="https://www.youtube-nocookie.com/embed/A4CUe3c8rJE?rel=0"
+                    title="Latest Beyond The Yellow feature: Veterans Breakfast Club"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     referrerPolicy="strict-origin-when-cross-origin"
                     allowFullScreen
@@ -294,12 +299,12 @@ export default function BeyondTheYellowPage() {
             </div>
             <div className="lg:col-span-5">
               <Eyebrow tone="navy">Latest Beyond The Yellow feature</Eyebrow>
-              <SectionHeading>GallantFew</SectionHeading>
+              <SectionHeading>Veterans Breakfast Club</SectionHeading>
               <p className="mt-3 text-2xl font-bold leading-tight text-[hsl(var(--navy))]">
-                The mission ends. The need for direction doesn’t.
+                Some veterans carry a story for decades. Sometimes the right room is what finally lets it out.
               </p>
               <p className="mt-6 text-base leading-8 text-muted-foreground md:text-lg">
-                Founder Karl Monger talks about what happens when military structure, identity, accountability, and mission disappear—and how GallantFew helps veterans reconnect, find direction, and deliberately build what comes next.
+                Director of Programming Shaun Hall explains how Veterans Breakfast Club creates low-pressure spaces where veterans can tell the ordinary, funny, painful, and historically important stories of service—and why active listening can open conversations veterans have never even had with their own families.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <a
@@ -309,7 +314,7 @@ export default function BeyondTheYellowPage() {
                   onClick={() => track("bty_latest_watch")}
                   className="inline-flex items-center justify-center gap-2 rounded-md bg-[hsl(var(--navy))] px-5 py-3 text-sm font-bold text-white transition hover:opacity-90"
                 >
-                  Watch GallantFew
+                  Watch Veterans Breakfast Club
                   <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
                 </a>
                 <a
@@ -321,7 +326,7 @@ export default function BeyondTheYellowPage() {
                   <Video className="h-4 w-4" aria-hidden="true" />
                 </a>
                 <a
-                  href="/gallantfew"
+                  href="/veteransbreakfastclub"
                   onClick={() => track("bty_latest_feature_story")}
                   className="inline-flex items-center gap-2 px-1 py-3 text-sm font-bold text-[hsl(var(--navy))]"
                 >
