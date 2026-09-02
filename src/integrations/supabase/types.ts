@@ -10,7 +10,7 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.17"
+    PostgrestVersion: "14.5"
   }
   public: {
     Tables: {
@@ -11032,6 +11032,83 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      crm_va_vaccn_referral_contacts: {
+        Row: {
+          active: boolean
+          city: string
+          contact_name: string
+          contact_role: string
+          created_at: string
+          department: string
+          email: string
+          facility_name: string
+          id: string
+          last_verified_date: string
+          notes: string | null
+          phone: string | null
+          source_name: string
+          source_url: string
+          state: string
+          station_number: string
+          tenant_id: string
+          updated_at: string
+          verification_interval_days: number
+          visn: number | null
+        }
+        Insert: {
+          active?: boolean
+          city: string
+          contact_name: string
+          contact_role?: string
+          created_at?: string
+          department?: string
+          email: string
+          facility_name: string
+          id?: string
+          last_verified_date: string
+          notes?: string | null
+          phone?: string | null
+          source_name?: string
+          source_url: string
+          state: string
+          station_number: string
+          tenant_id: string
+          updated_at?: string
+          verification_interval_days?: number
+          visn?: number | null
+        }
+        Update: {
+          active?: boolean
+          city?: string
+          contact_name?: string
+          contact_role?: string
+          created_at?: string
+          department?: string
+          email?: string
+          facility_name?: string
+          id?: string
+          last_verified_date?: string
+          notes?: string | null
+          phone?: string | null
+          source_name?: string
+          source_url?: string
+          state?: string
+          station_number?: string
+          tenant_id?: string
+          updated_at?: string
+          verification_interval_days?: number
+          visn?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_va_vaccn_referral_contacts_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       data_fields: {
         Row: {
@@ -22412,6 +22489,92 @@ export type Database = {
         }
         Relationships: []
       }
+      crm_va_vaccn_referral_contacts_verification: {
+        Row: {
+          active: boolean | null
+          city: string | null
+          contact_name: string | null
+          contact_role: string | null
+          created_at: string | null
+          days_since_verified: number | null
+          department: string | null
+          email: string | null
+          facility_name: string | null
+          id: string | null
+          last_verified_date: string | null
+          next_verification_date: string | null
+          notes: string | null
+          phone: string | null
+          source_name: string | null
+          source_url: string | null
+          state: string | null
+          station_number: string | null
+          tenant_id: string | null
+          updated_at: string | null
+          verification_interval_days: number | null
+          verification_status: string | null
+          visn: number | null
+        }
+        Insert: {
+          active?: boolean | null
+          city?: string | null
+          contact_name?: string | null
+          contact_role?: string | null
+          created_at?: string | null
+          days_since_verified?: never
+          department?: string | null
+          email?: string | null
+          facility_name?: string | null
+          id?: string | null
+          last_verified_date?: string | null
+          next_verification_date?: never
+          notes?: string | null
+          phone?: string | null
+          source_name?: string | null
+          source_url?: string | null
+          state?: string | null
+          station_number?: string | null
+          tenant_id?: string | null
+          updated_at?: string | null
+          verification_interval_days?: number | null
+          verification_status?: never
+          visn?: number | null
+        }
+        Update: {
+          active?: boolean | null
+          city?: string | null
+          contact_name?: string | null
+          contact_role?: string | null
+          created_at?: string | null
+          days_since_verified?: never
+          department?: string | null
+          email?: string | null
+          facility_name?: string | null
+          id?: string | null
+          last_verified_date?: string | null
+          next_verification_date?: never
+          notes?: string | null
+          phone?: string | null
+          source_name?: string | null
+          source_url?: string | null
+          state?: string | null
+          station_number?: string | null
+          tenant_id?: string | null
+          updated_at?: string | null
+          verification_interval_days?: number | null
+          verification_status?: never
+          visn?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_va_vaccn_referral_contacts_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       gad7_assessment_reporting_v: {
         Row: {
           administered_at: string | null
@@ -24372,6 +24535,203 @@ export type Database = {
         }
         Returns: Json
       }
+      credentialing_internal_enrollment_status: {
+        Args: { p_actor: string; p_staff_id: string }
+        Returns: Json
+      }
+      credentialing_internal_finalize_enrollment: {
+        Args: {
+          p_action_id: string
+          p_actor: string
+          p_error?: string
+          p_http_status?: number
+          p_request_token: string
+          p_success: boolean
+        }
+        Returns: Json
+      }
+      credentialing_internal_get_export_data: {
+        Args: { p_actor: string; p_tenant_id: string }
+        Returns: Json
+      }
+      credentialing_internal_prepare_enrollment: {
+        Args: { p_actor: string; p_enroll_type: string; p_staff_id: string }
+        Returns: Json
+      }
+      credentialing_v2_admin_list_states: {
+        Args: { p_actor: string; p_tenant_id: string }
+        Returns: Json
+      }
+      credentialing_v2_approve_case: {
+        Args: { p_actor: string; p_staff_id: string; p_tenant_id: string }
+        Returns: Json
+      }
+      credentialing_v2_claim_outbox: {
+        Args: { p_limit?: number }
+        Returns: Json
+      }
+      credentialing_v2_complete_outbox: {
+        Args: { p_job_id: string; p_metadata?: Json }
+        Returns: Json
+      }
+      credentialing_v2_deny_case: {
+        Args: {
+          p_actor: string
+          p_note: string
+          p_staff_id: string
+          p_tenant_id: string
+        }
+        Returns: Json
+      }
+      credentialing_v2_fail_outbox: {
+        Args: { p_error: string; p_job_id: string; p_retry_minutes?: number }
+        Returns: Json
+      }
+      credentialing_v2_get_export_data: {
+        Args: { p_actor: string; p_tenant_id: string }
+        Returns: Json
+      }
+      credentialing_v2_get_state: {
+        Args: { p_actor: string; p_staff_id: string; p_tenant_id: string }
+        Returns: Json
+      }
+      credentialing_v2_record_export: {
+        Args: {
+          p_actor: string
+          p_request_type: string
+          p_spec_version: string
+          p_submission_ids: string[]
+          p_tenant_id: string
+        }
+        Returns: Json
+      }
+      credentialing_v2_request_information: {
+        Args: {
+          p_actor: string
+          p_note: string
+          p_staff_id: string
+          p_tenant_id: string
+        }
+        Returns: Json
+      }
+      credentialing_v2_save_section: {
+        Args: {
+          p_actor: string
+          p_payload: Json
+          p_section: string
+          p_staff_id: string
+          p_tenant_id: string
+        }
+        Returns: Json
+      }
+      credentialing_v2_set_export_preferences: {
+        Args: {
+          p_actor: string
+          p_export_language?: string
+          p_export_license_id?: string
+          p_patch_effective_date?: boolean
+          p_patch_language?: boolean
+          p_patch_license?: boolean
+          p_provider_effective_date?: string
+          p_staff_id: string
+          p_tenant_id: string
+        }
+        Returns: Json
+      }
+      credentialing_v2_submit_case: {
+        Args: {
+          p_actor: string
+          p_attestation_ip: string
+          p_attestation_name: string
+          p_staff_id: string
+          p_tenant_id: string
+        }
+        Returns: Json
+      }
+      credentialing_v3_approve_submission: {
+        Args: {
+          p_actor: string
+          p_case_id: string
+          p_submission_id: string
+          p_tenant_id: string
+        }
+        Returns: Json
+      }
+      credentialing_v3_claim_outbox: {
+        Args: { p_lease_owner?: string; p_limit?: number }
+        Returns: unknown[]
+        SetofOptions: {
+          from: "*"
+          to: "outbox"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
+      credentialing_v3_complete_outbox: {
+        Args: { p_job_id: string; p_lease_owner: string }
+        Returns: boolean
+      }
+      credentialing_v3_deny_submission: {
+        Args: {
+          p_actor: string
+          p_case_id: string
+          p_note: string
+          p_submission_id: string
+          p_tenant_id: string
+        }
+        Returns: Json
+      }
+      credentialing_v3_ensure_initial_case: {
+        Args: { p_actor: string; p_staff_id: string; p_tenant_id: string }
+        Returns: Json
+      }
+      credentialing_v3_fail_outbox: {
+        Args: { p_error: string; p_job_id: string; p_lease_owner: string }
+        Returns: boolean
+      }
+      credentialing_v3_get_state: {
+        Args: { p_actor: string; p_staff_id: string; p_tenant_id: string }
+        Returns: Json
+      }
+      credentialing_v3_open_case: {
+        Args: {
+          p_actor: string
+          p_case_type: string
+          p_staff_id: string
+          p_tenant_id: string
+        }
+        Returns: Json
+      }
+      credentialing_v3_request_information: {
+        Args: {
+          p_actor: string
+          p_case_id: string
+          p_note: string
+          p_submission_id: string
+          p_tenant_id: string
+        }
+        Returns: Json
+      }
+      credentialing_v3_save_section: {
+        Args: {
+          p_actor: string
+          p_payload: Json
+          p_section: string
+          p_staff_id: string
+          p_tenant_id: string
+        }
+        Returns: Json
+      }
+      credentialing_v3_submit_case: {
+        Args: {
+          p_actor: string
+          p_attestation_ip: string
+          p_attestation_name: string
+          p_staff_id: string
+          p_tenant_id: string
+        }
+        Returns: Json
+      }
       crm_allowed_lifecycle_transitions: {
         Args: { p_client_id: string }
         Returns: Json
@@ -25977,6 +26337,7 @@ export type Database = {
         }
         Returns: Json
       }
+      payroll_refresh_historical_gap_findings_v1: { Args: never; Returns: Json }
       payroll_staff_approve_line: {
         Args: {
           p_client_action_id?: string
@@ -27706,12 +28067,12 @@ export type Tables<
   DefaultSchemaTableNameOrOptions extends
     | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
         DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -27735,11 +28096,11 @@ export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -27760,11 +28121,11 @@ export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -27785,11 +28146,11 @@ export type Enums<
   DefaultSchemaEnumNameOrOptions extends
     | keyof DefaultSchema["Enums"]
     | { schema: keyof DatabaseWithoutInternals },
-  EnumName extends DefaultSchemaEnumNameOrOptions extends {
+  EnumName extends (DefaultSchemaEnumNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaEnumNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -27802,11 +28163,11 @@ export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
     | keyof DefaultSchema["CompositeTypes"]
     | { schema: keyof DatabaseWithoutInternals },
-  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+  CompositeTypeName extends (PublicCompositeTypeNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
-    : never = never,
+    : never) = never,
 > = PublicCompositeTypeNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
