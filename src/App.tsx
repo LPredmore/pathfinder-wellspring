@@ -34,6 +34,7 @@ import VeteransOutreachWisconsinPage from "./pages/bty/VeteransOutreachWisconsin
 import Vets2IndustryPage from "./pages/bty/Vets2IndustryPage";
 import MilitaryMissionsInActionPage from "./pages/bty/MilitaryMissionsInActionPage";
 import VeteransBreakfastClubPage from "./pages/bty/VeteransBreakfastClubPage";
+import AmericanCorporatePartnersPage from "./pages/bty/AmericanCorporatePartnersPage";
 import AuthorityResources from "./pages/authority/Resources";
 import AuthorityFamilySystems from "./pages/authority/FamilySystems";
 import AuthorityMilitaryFamilyTherapy from "./pages/authority/MilitaryFamilyTherapy";
@@ -106,6 +107,7 @@ const App = () => (
             <Route path="/vets2industry" element={<Vets2IndustryPage />} />
             <Route path="/mmia" element={<MilitaryMissionsInActionPage />} />
             <Route path="/veteransbreakfastclub" element={<VeteransBreakfastClubPage />} />
+            <Route path="/americancorporatepartners" element={<AmericanCorporatePartnersPage />} />
             <Route path="/clinicians" element={<Clinicians />} />
             <Route
               path="/therapists"
@@ -124,8 +126,7 @@ const App = () => (
             />
             <Route
               path="/authority/military-family-therapy"
-              element={<AuthorityMilitaryFamilyTherapy />}
-            />
+              element={<AuthorityMilitaryFamilyTherapy />} />
             <Route
               path="/authority/veteran-mental-health-care"
               element={<AuthorityVeteranMentalHealthCare />}
