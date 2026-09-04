@@ -65,8 +65,25 @@ const legacyRedirects: { from: string; to: string }[] = [
   { from: "/mission-one-pager", to: "/partner" },
   { from: "/faq", to: "/contact" },
   { from: "/urgent-help", to: "/get-care" },
-  { from: "/resources", to: "/authority/resources" },
-  { from: "/influencer", to: "/beyondtheyellow" },
+  { from: "/influencer", to: "/beyond-the-yellow" },
+  { from: "/authority/resources", to: "/resources" },
+  { from: "/authority/resources/champva", to: "/resources/champva" },
+  {
+    from: "/authority/resources/documentation",
+    to: "/resources/documentation",
+  },
+  {
+    from: "/authority/resources/family-systems",
+    to: "/resources/family-systems",
+  },
+  {
+    from: "/authority/resources/va-community-care",
+    to: "/resources/va-community-care",
+  },
+  {
+    from: "/authority/resources/veteran-mental-health",
+    to: "/resources/veteran-mental-health",
+  },
   {
     from: "/veteran-mental-health-care",
     to: "/authority/veteran-mental-health-care",
@@ -131,7 +148,25 @@ const App = () => (
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/pendulo" element={<Pendulo />} />
 
-            <Route path="/authority/resources" element={<AuthorityResources />} />
+            <Route path="/resources" element={<AuthorityResources />} />
+            <Route path="/resources/champva" element={<AuthorityResourcesChampva />} />
+            <Route
+              path="/resources/documentation"
+              element={<AuthorityResourcesDocumentation />}
+            />
+            <Route
+              path="/resources/family-systems"
+              element={<AuthorityResourcesFamilySystems />}
+            />
+            <Route
+              path="/resources/va-community-care"
+              element={<AuthorityResourcesVACommunityCare />}
+            />
+            <Route
+              path="/resources/veteran-mental-health"
+              element={<AuthorityResourcesVeteranMentalHealth />}
+            />
+
             <Route
               path="/authority/family-systems"
               element={<AuthorityFamilySystems />}
@@ -147,26 +182,6 @@ const App = () => (
             <Route
               path="/authority/va-community-care-mental-health"
               element={<AuthorityVACommunityCareMentalHealth />}
-            />
-            <Route
-              path="/authority/resources/champva"
-              element={<AuthorityResourcesChampva />}
-            />
-            <Route
-              path="/authority/resources/documentation"
-              element={<AuthorityResourcesDocumentation />}
-            />
-            <Route
-              path="/authority/resources/family-systems"
-              element={<AuthorityResourcesFamilySystems />}
-            />
-            <Route
-              path="/authority/resources/va-community-care"
-              element={<AuthorityResourcesVACommunityCare />}
-            />
-            <Route
-              path="/authority/resources/veteran-mental-health"
-              element={<AuthorityResourcesVeteranMentalHealth />}
             />
 
             {legacyRedirects.map((redirect) => (
