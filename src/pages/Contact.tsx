@@ -47,7 +47,7 @@ const routes: RouteCard[] = [
   {
     title: "I want to share or nominate a Beyond The Yellow story",
     copy: "Tell ValorWell about a person or organization taking real action for a community.",
-    to: "/beyondtheyellow",
+    to: "/beyond-the-yellow",
     event: "contact_route_bty",
     Icon: HeartHandshake,
   },
@@ -60,9 +60,9 @@ const routes: RouteCard[] = [
   },
   {
     title: "I want to support ValorWell financially",
-    copy: "Use the donation path directly. Financial support is separate from partnership, editorial selection, and clinical decisions.",
-    to: "/donate",
-    event: "contact_route_donate",
+    copy: "Start with the Support page to review the evidence and boundaries before continuing to the donation handoff.",
+    to: "/support",
+    event: "contact_route_support",
     Icon: HeartHandshake,
   },
 ];
