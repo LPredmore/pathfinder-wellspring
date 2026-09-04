@@ -19,7 +19,7 @@ import Donate from "./pages/Donate";
 import NotFound from "./pages/NotFound";
 import HomePage from "./pages/HomePage";
 import WatchPage from "./pages/WatchPage";
-import VideosPage from "./pages/VideosPage";
+import NetworkPage from "./pages/NetworkPage";
 import MissionPage from "./pages/MissionPage";
 import OcsBillingHubPage from "./pages/OcsBillingHubPage";
 import BtyBillingHubPage from "./pages/BtyBillingHubPage";
@@ -48,7 +48,7 @@ import AuthorityResourcesVeteranMentalHealth from "./pages/authority/ResourcesVe
 
 const queryClient = new QueryClient();
 
-// Legacy path aliases → new approved paths.
+// Legacy path aliases → current approved destinations.
 const legacyRedirects: { from: string; to: string }[] = [
   { from: "/therapy", to: "/get-care" },
   { from: "/get-started", to: "/get-care" },
@@ -95,13 +95,15 @@ const App = () => (
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/watch" element={<WatchPage />} />
-            <Route path="/videos" element={<VideosPage />} />
+            <Route path="/network" element={<NetworkPage />} />
+            <Route path="/videos" element={<Navigate to="/watch" replace />} />
             <Route path="/mission" element={<MissionPage />} />
             <Route
               path="/operation-claims-success"
               element={<OcsBillingHubPage />}
             />
             <Route path="/beyondtheyellow" element={<BtyBillingHubPage />} />
+            <Route path="/beyond-the-yellow" element={<BtyBillingHubPage />} />
             <Route path="/gallantfew" element={<GallantFewPage />} />
             <Route path="/VOW" element={<VeteransOutreachWisconsinPage />} />
             <Route path="/vets2industry" element={<Vets2IndustryPage />} />

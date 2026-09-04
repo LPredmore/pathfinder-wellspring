@@ -2,17 +2,17 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { DonateButton } from "@/components/DonateButton";
 
 const primary = [
   { name: "Mission", href: "/mission" },
-  { name: "Operation Claims Success", href: "/operation-claims-success" },
   { name: "Beyond The Yellow", href: "/beyondtheyellow" },
+  { name: "Watch", href: "/watch" },
 ];
 
 const getInvolved = [
   { name: "Clinicians", href: "/clinicians" },
-  { name: "Support the Mission", href: "/partner" },
+  { name: "Partner With ValorWell", href: "/partner" },
+  { name: "Donate", href: "/donate" },
   { name: "Share a Beyond The Yellow Story", href: "/beyondtheyellow" },
   { name: "Contact", href: "/contact" },
 ];
@@ -131,10 +131,8 @@ export function Header() {
             to="/get-care"
             className="ml-2 inline-flex items-center rounded-md border border-primary/30 bg-transparent px-4 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
           >
-            Get Care
+            Find Care
           </Link>
-
-          <DonateButton source="header" size="md" />
 
           <div className="relative" ref={loginRef}>
             <button
@@ -142,7 +140,7 @@ export function Header() {
               onClick={() => setLoginOpen((value) => !value)}
               aria-haspopup="menu"
               aria-expanded={loginOpen}
-              className="inline-flex items-center gap-1 rounded-md border border-primary/30 bg-transparent px-4 py-2 text-sm font-semibold text-primary hover:bg-primary hover:text-primary-foreground"
+              className="inline-flex items-center gap-1 px-2 py-2 text-sm font-medium text-muted-foreground hover:text-foreground"
             >
               Login <ChevronDown className="h-4 w-4" aria-hidden />
             </button>
@@ -225,20 +223,14 @@ export function Header() {
               to="/get-care"
               className="mt-3 block rounded-md border border-primary/30 px-3 py-3 text-center text-base font-semibold text-primary hover:bg-primary hover:text-primary-foreground"
             >
-              Get Care
+              Find Care
             </Link>
-
-            <DonateButton
-              source="header-mobile"
-              size="lg"
-              className="mt-2 w-full justify-center"
-            />
 
             <button
               type="button"
               onClick={() => setMobileLogin((value) => !value)}
               aria-expanded={mobileLogin}
-              className="mt-1 flex w-full items-center justify-between rounded-md border border-primary/30 px-3 py-3 text-base font-semibold text-primary hover:bg-primary hover:text-primary-foreground"
+              className="mt-1 flex w-full items-center justify-between rounded-md px-3 py-3 text-base font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
             >
               Login
               <ChevronDown

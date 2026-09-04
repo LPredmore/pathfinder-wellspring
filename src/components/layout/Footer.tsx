@@ -2,30 +2,34 @@ import { Link } from "react-router-dom";
 
 const groups: { title: string; links: { name: string; href: string }[] }[] = [
   {
-    title: "Mission",
+    title: "ValorWell",
     links: [
       { name: "Mission", href: "/mission" },
-      { name: "Operation Claims Success", href: "/operation-claims-success" },
       { name: "Beyond The Yellow", href: "/beyondtheyellow" },
+      { name: "Watch", href: "/watch" },
     ],
   },
   {
-    title: "Find Your Path",
+    title: "Care",
     links: [
-      { name: "Get Care", href: "/get-care" },
+      { name: "Find Care", href: "/get-care" },
       { name: "Clinicians", href: "/clinicians" },
-      { name: "Support the Mission", href: "/partner" },
-      { name: "Contact", href: "/contact" },
+      { name: "Resources", href: "/authority/resources" },
+    ],
+  },
+  {
+    title: "Community",
+    links: [
+      { name: "Beyond The Yellow", href: "/beyondtheyellow" },
+      { name: "Network", href: "/network" },
+      { name: "Watch", href: "/watch" },
     ],
   },
   {
     title: "Get Involved",
     links: [
-      {
-        name: "Donate",
-        href: "/partner?utm_source=footer&utm_medium=site&utm_campaign=ocs",
-      },
-      { name: "Support the Mission", href: "/partner" },
+      { name: "Partner With ValorWell", href: "/partner" },
+      { name: "Donate", href: "/donate" },
       { name: "Share a Beyond The Yellow Story", href: "/beyondtheyellow" },
       { name: "Contact", href: "/contact" },
     ],
@@ -40,8 +44,8 @@ export function Footer() {
   return (
     <footer className="border-t border-border/60 bg-[hsl(var(--section-alt))]">
       <div className="container-wide py-14">
-        <div className="grid gap-10 md:grid-cols-4">
-          <div className="md:col-span-4 lg:col-span-1">
+        <div className="grid gap-10 md:grid-cols-3 lg:grid-cols-6">
+          <div className="md:col-span-3 lg:col-span-1">
             <Link
               to="/"
               className="flex items-center gap-2 text-lg font-bold tracking-tight text-foreground"
@@ -66,7 +70,7 @@ export function Footer() {
               </h3>
               <ul className="mt-4 space-y-2">
                 {group.links.map((link) => (
-                  <li key={link.name}>
+                  <li key={`${group.title}-${link.name}`}>
                     <Link
                       to={link.href}
                       className="text-sm text-muted-foreground hover:text-foreground"

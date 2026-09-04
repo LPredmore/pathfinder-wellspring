@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import OperationClaimsSuccessPage from "./OperationClaimsSuccessPage";
 import { LegacyFormPortal } from "@/components/intake/LegacyFormPortal";
 import { UnifiedOcsRoutingForm } from "@/components/intake/UnifiedOcsRoutingForm";
@@ -7,8 +8,8 @@ import { OcsVisualEnhancements } from "@/components/ocs/OcsVisualEnhancements";
 import "@/components/ocs/ocs-visual-enhancements.css";
 
 export default function OcsBillingHubPage() {
-  // Direct entry point (/operation-claims-success?form=routing) so Google Ads'
-  // guided conversion setup can land straight on the routing form.
+  // Direct entry point (/operation-claims-success?form=routing) remains intact
+  // so historical/reference access and the existing routing form continue to work.
   useEffect(() => {
     if (new URLSearchParams(window.location.search).get("form") !== "routing") {
       return;
@@ -25,6 +26,9 @@ export default function OcsBillingHubPage() {
 
   return (
     <>
+      <Helmet>
+        <meta name="robots" content="noindex,follow" />
+      </Helmet>
       <OperationClaimsSuccessPage />
       <OcsVisualEnhancements />
       <OcsIndustryCopyEnhancements />
