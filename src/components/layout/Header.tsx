@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 
 const primary = [
   { name: "Mission", href: "/mission" },
+  { name: "Impact", href: "/impact" },
   { name: "Beyond The Yellow", href: "/beyondtheyellow" },
   { name: "Watch", href: "/watch" },
 ];
