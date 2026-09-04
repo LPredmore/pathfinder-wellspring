@@ -76,9 +76,9 @@ const routeCards: RouteCard[] = [
   {
     title: "I want to support the work",
     copy: "Help strengthen the work without buying influence, recognition, or outcomes.",
-    cta: "Donate",
-    to: "/donate",
-    event: "homepage_route_donate",
+    cta: "Support ValorWell",
+    to: "/support",
+    event: "homepage_route_support",
     Icon: HeartHandshake,
   },
 ];
@@ -360,9 +360,14 @@ export default function HomePage() {
                   Results should be defined, dated, and supportable before they
                   become marketing. Impact is evidence, not decoration.
                 </p>
-                <p className="mt-6 text-sm font-bold text-white/80">
-                  Dedicated impact reporting is being built around verified evidence.
-                </p>
+                <TrackedLink
+                  to="/impact"
+                  event="homepage_model_impact"
+                  className="mt-6 inline-flex min-h-11 items-center gap-2 text-sm font-bold text-white"
+                >
+                  See Verified Impact
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </TrackedLink>
               </article>
 
               <article className="rounded-3xl border border-[#D7A92E]/35 bg-[#F8F3E4] p-7 shadow-sm">
