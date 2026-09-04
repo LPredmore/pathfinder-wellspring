@@ -1,4 +1,5 @@
 import { Helmet } from "react-helmet-async";
+import { Link } from "react-router-dom";
 import { ArrowUpRight, Building2, PlayCircle } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -61,8 +62,8 @@ function OrganizationCard({
 }: (typeof organizations)[number]) {
   return (
     <article className="overflow-hidden rounded-3xl border border-border bg-card shadow-sm">
-      <a
-        href={featureUrl}
+      <Link
+        to={featureUrl}
         className="group block overflow-hidden bg-black"
         aria-label={`Explore ${organization}`}
       >
@@ -78,7 +79,7 @@ function OrganizationCard({
           />
           <div className="absolute inset-0 bg-black/10 transition group-hover:bg-black/20" />
         </div>
-      </a>
+      </Link>
       <div className="p-6">
         <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[hsl(var(--gold-accent))]">
           <Building2 className="h-4 w-4" aria-hidden="true" />
@@ -92,13 +93,13 @@ function OrganizationCard({
         </p>
         <p className="mt-4 text-sm leading-7 text-muted-foreground">{description}</p>
         <div className="mt-6 flex flex-wrap gap-4">
-          <a
-            href={featureUrl}
+          <Link
+            to={featureUrl}
             className="inline-flex items-center gap-2 text-sm font-bold text-[hsl(var(--navy))]"
           >
             View feature
             <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-          </a>
+          </Link>
           <a
             href={videoUrl}
             target="_blank"
@@ -143,7 +144,7 @@ export default function NetworkPage() {
           </div>
         </section>
 
-        <section className="border-b border-border py-14 md:py-18">
+        <section className="border-b border-border py-14 md:py-20">
           <div className="mx-auto max-w-6xl px-4">
             <div className="max-w-3xl">
               <p className="text-xs font-bold uppercase tracking-[0.18em] text-[hsl(var(--gold-accent))]">
@@ -176,13 +177,13 @@ export default function NetworkPage() {
             <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-muted-foreground">
               Beyond The Yellow exists to make real action visible. Share your story or nominate an organization whose work would actually be missed if it stopped.
             </p>
-            <a
-              href="/beyondtheyellow"
+            <Link
+              to="/beyondtheyellow"
               className="mt-8 inline-flex items-center gap-2 rounded-md bg-[hsl(var(--navy))] px-5 py-3 text-sm font-bold text-white"
             >
               Explore Beyond The Yellow
               <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-            </a>
+            </Link>
           </div>
         </section>
       </main>
