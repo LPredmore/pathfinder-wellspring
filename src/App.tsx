@@ -22,6 +22,7 @@ import WatchPage from "./pages/WatchPage";
 import NetworkPage from "./pages/NetworkPage";
 import MissionPage from "./pages/MissionPage";
 import ImpactPage from "./pages/ImpactPage";
+import Support from "./pages/Support";
 import OcsBillingHubPage from "./pages/OcsBillingHubPage";
 import BtyBillingHubPage from "./pages/BtyBillingHubPage";
 import Clinicians from "./pages/Clinicians";
@@ -54,13 +55,12 @@ const legacyRedirects: { from: string; to: string }[] = [
   { from: "/therapy", to: "/get-care" },
   { from: "/get-started", to: "/get-care" },
   { from: "/how-it-works", to: "/get-care" },
-  { from: "/support", to: "/partner" },
   { from: "/partners", to: "/partner" },
-  { from: "/fund-access-to-care", to: "/partner" },
-  { from: "/sponsors", to: "/partner" },
-  { from: "/sponsor-care", to: "/partner" },
-  { from: "/monthly-supporters", to: "/partner" },
-  { from: "/funders", to: "/partner" },
+  { from: "/fund-access-to-care", to: "/support" },
+  { from: "/sponsors", to: "/support" },
+  { from: "/sponsor-care", to: "/support" },
+  { from: "/monthly-supporters", to: "/support" },
+  { from: "/funders", to: "/support" },
   { from: "/referral-partners", to: "/partner" },
   { from: "/mission-one-pager", to: "/partner" },
   { from: "/faq", to: "/contact" },
@@ -100,6 +100,7 @@ const App = () => (
             <Route path="/videos" element={<Navigate to="/watch" replace />} />
             <Route path="/mission" element={<MissionPage />} />
             <Route path="/impact" element={<ImpactPage />} />
+            <Route path="/support" element={<Support />} />
             <Route
               path="/operation-claims-success"
               element={<OcsBillingHubPage />}
