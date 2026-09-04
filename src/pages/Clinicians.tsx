@@ -105,7 +105,6 @@ export default function Clinicians() {
           ]}
         />
 
-        {/* HERO — practical terms first */}
         <section className="relative overflow-hidden border-b border-[color:var(--cl-evergreen)]/20">
           <div
             className="pointer-events-none absolute inset-0"
@@ -138,10 +137,10 @@ export default function Clinicians() {
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </a>
                 <Link
-                  to="/operation-claims-success"
+                  to="/mission"
                   className="inline-flex items-center justify-center border border-[color:var(--cl-evergreen)] px-7 py-4 text-sm font-bold uppercase tracking-wide text-[color:var(--cl-evergreen)] transition-colors hover:bg-[color:var(--cl-evergreen)] hover:text-[color:var(--cl-canvas)]"
                 >
-                  See the Veteran Mission
+                  See the ValorWell Mission
                 </Link>
               </div>
 
@@ -187,7 +186,6 @@ export default function Clinicians() {
           </div>
         </section>
 
-        {/* Three immediate operating agreements */}
         <section className="border-b border-[color:var(--cl-evergreen)]/20 bg-[color:var(--cl-evergreen)] text-[color:var(--cl-canvas)]">
           <div className="container-wide grid md:grid-cols-3">
             {principles.map((principle, index) => {
@@ -217,7 +215,6 @@ export default function Clinicians() {
           </div>
         </section>
 
-        {/* Self-recognition questions */}
         <section className="border-b border-[color:var(--cl-evergreen)]/20">
           <div className="container-wide py-20 md:py-28">
             <Eyebrow>A Simple Gut Check</Eyebrow>
@@ -250,7 +247,6 @@ export default function Clinicians() {
           </div>
         </section>
 
-        {/* Identity and belonging */}
         <section className="border-b border-[color:var(--cl-evergreen)]/20 bg-[color:var(--cl-ink)] text-[color:var(--cl-canvas)]">
           <div className="container-wide py-20 md:py-28">
             <div className="grid gap-12 lg:grid-cols-12 lg:items-start">
@@ -296,7 +292,6 @@ export default function Clinicians() {
           </div>
         </section>
 
-        {/* Minimal interest registration */}
         <section
           id="raise-your-hand"
           className="scroll-mt-24 bg-[color:var(--cl-evergreen)] text-[color:var(--cl-canvas)]"
@@ -336,7 +331,6 @@ export default function Clinicians() {
           </div>
         </section>
 
-        {/* Independent overflow referral network */}
         <section className="border-t border-[color:var(--cl-evergreen)]/20 bg-[color:var(--cl-canvas)]">
           <div className="container-wide py-16 md:py-20">
             <OverflowReferralSourceForm />
