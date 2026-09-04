@@ -1,84 +1,175 @@
+import { useEffect, type ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { Layout } from "@/components/layout";
+import {
+  ArrowRight,
+  Building2,
+  HeartHandshake,
+  Mail,
+  Network,
+  Stethoscope,
+  Users,
+  type LucideIcon,
+} from "lucide-react";
+import { Layout } from "@/components/layout/Layout";
 import { SEO, BreadcrumbSchema } from "@/components/SEO";
-import { ArrowRight, Mail } from "lucide-react";
+import { trackHomeEvent } from "@/lib/tracking";
 
-const routes = [
+type RouteCard = {
+  title: string;
+  copy: string;
+  to: string;
+  event: string;
+  Icon: LucideIcon;
+};
+
+const routes: RouteCard[] = [
   {
-    label: "I am a veteran or veteran family member looking for mental health care",
+    title: "I need mental health care",
+    copy: "See the care pathways ValorWell can responsibly support right now.",
     to: "/get-care",
+    event: "contact_route_care",
+    Icon: Stethoscope,
   },
   {
-    label: "I'm a clinician",
+    title: "I'm a clinician",
+    copy: "Learn how clinicians fit into the care infrastructure and broader mission.",
     to: "/clinicians",
+    event: "contact_route_clinician",
+    Icon: Users,
   },
   {
-    label: "I'm a veteran trying to understand the mission/pathway",
-    to: "/operation-claims-success",
-  },
-  {
-    label: "I want to share or nominate a real-action story",
-    to: "/beyondtheyellow",
-  },
-  {
-    label: "I'm an organization, sponsor, creator, or potential partner",
+    title: "I represent an organization or want to collaborate",
+    copy: "Start with the organizational partnership path for introductions, shared resources, storytelling, reach, or infrastructure collaboration.",
     to: "/partner",
+    event: "contact_route_partner",
+    Icon: Building2,
+  },
+  {
+    title: "I want to share or nominate a Beyond The Yellow story",
+    copy: "Tell ValorWell about a person or organization taking real action for a community.",
+    to: "/beyondtheyellow",
+    event: "contact_route_bty",
+    Icon: HeartHandshake,
+  },
+  {
+    title: "I'm looking for organizations or resources",
+    copy: "Browse organizations already featured by Beyond The Yellow in the growing Network.",
+    to: "/network",
+    event: "contact_route_network",
+    Icon: Network,
+  },
+  {
+    title: "I want to support ValorWell financially",
+    copy: "Use the donation path directly. Financial support is separate from partnership, editorial selection, and clinical decisions.",
+    to: "/donate",
+    event: "contact_route_donate",
+    Icon: HeartHandshake,
   },
 ];
 
+function Eyebrow({ children }: { children: ReactNode }) {
+  return (
+    <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#3B5147]">
+      {children}
+    </p>
+  );
+}
+
 export default function Contact() {
+  useEffect(() => {
+    trackHomeEvent("contact_page_view", { page: "contact" });
+  }, []);
+
   return (
     <Layout>
       <SEO
-        title="Contact ValorWell | Not Sure Where to Start?"
-        description="Not sure where you fit at ValorWell? Pick the closest path—mental health care for veterans and veteran families, clinicians, veteran pathways, partners, or stories."
+        title="Contact ValorWell | Find the Right Place to Start"
+        description="Find the right ValorWell path for mental health care, clinicians, organizational partnerships, Beyond The Yellow stories, community resources, financial support, or general questions."
         canonical="/contact"
       />
       <BreadcrumbSchema
-        items={[{ name: "Home", url: "/" }, { name: "Contact", url: "/contact" }]}
+        items={[
+          { name: "Home", url: "/" },
+          { name: "Contact", url: "/contact" },
+        ]}
       />
 
-      <section className="section-padding">
-        <div className="container-narrow text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-patriot-red">
-            Contact
-          </p>
-          <h1 className="mb-2 text-3xl font-bold text-navy md:text-4xl">
-            Not sure where to start?
-          </h1>
-          <p className="mb-10 text-lg text-muted-foreground">
-            Pick the closest one.
-          </p>
+      <div className="contact-theme bg-[#F4F1E8] text-[#111814]">
+        <style>{`
+          .contact-theme {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+          }
+          .contact-theme h1,
+          .contact-theme h2,
+          .contact-theme h3 {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            letter-spacing: -0.025em;
+          }
+        `}</style>
 
-          <div className="mx-auto max-w-xl space-y-3 text-left">
-            {routes.map((route) => (
-              <Link
-                key={route.to}
-                to={route.to}
-                className="group flex items-center justify-between rounded-lg border border-border bg-card px-5 py-4 transition-colors hover:border-primary/20 hover:bg-secondary"
-              >
-                <span className="text-base font-medium text-foreground">
-                  {route.label}
-                </span>
-                <ArrowRight className="h-4 w-4 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-foreground" />
-              </Link>
-            ))}
+        <section className="relative overflow-hidden border-b border-[#3B5147]/15">
+          <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+            <div className="absolute -right-28 -top-32 h-80 w-80 rounded-full bg-[#D7A92E]/[0.08] blur-3xl" />
+            <div className="absolute -bottom-36 -left-28 h-80 w-80 rounded-full bg-[#3B5147]/[0.07] blur-3xl" />
+          </div>
 
+          <div className="container-wide relative py-16 text-center md:py-24 lg:py-28">
+            <Eyebrow>Contact ValorWell</Eyebrow>
+            <h1 className="mx-auto mt-6 max-w-4xl text-4xl font-bold leading-[1.04] sm:text-5xl md:text-6xl">
+              Start with why you are here.
+            </h1>
+            <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-[#111814]/68 md:text-xl">
+              Most questions have a better destination than a generic inbox. Pick the closest path and we will get you to the part of ValorWell built for it.
+            </p>
+          </div>
+        </section>
+
+        <section className="border-b border-[#3B5147]/15 bg-white">
+          <div className="container-wide py-16 md:py-24">
+            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+              {routes.map(({ title, copy, to, event, Icon }) => (
+                <Link
+                  key={title}
+                  to={to}
+                  onClick={() => trackHomeEvent(event, { page: "contact" })}
+                  className="group rounded-2xl border border-[#3B5147]/15 bg-[#F4F1E8] p-6 shadow-sm transition hover:-translate-y-0.5 hover:border-[#3B5147]/35 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3B5147] focus-visible:ring-offset-2 motion-reduce:transform-none motion-reduce:transition-none"
+                >
+                  <Icon className="h-6 w-6 text-[#3B5147]" aria-hidden="true" />
+                  <h2 className="mt-5 text-xl font-bold leading-snug">{title}</h2>
+                  <p className="mt-3 leading-7 text-[#111814]/62">{copy}</p>
+                  <span className="mt-6 inline-flex min-h-11 items-center gap-2 text-sm font-bold text-[#3B5147]">
+                    Go to the right place
+                    <ArrowRight
+                      className="h-4 w-4 transition-transform group-hover:translate-x-0.5 motion-reduce:transform-none motion-reduce:transition-none"
+                      aria-hidden="true"
+                    />
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-[#111814] text-white">
+          <div className="container-wide py-16 text-center md:py-20">
+            <Mail className="mx-auto h-8 w-8 text-[#D7A92E]" aria-hidden="true" />
+            <h2 className="mx-auto mt-5 max-w-3xl text-3xl font-bold leading-tight md:text-4xl">
+              None of those fit?
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl leading-7 text-white/65">
+              For a general question, media inquiry, introduction, or something that does not clearly belong in one of the routes above, email ValorWell directly.
+            </p>
             <a
               href="mailto:info@valorwell.org"
-              className="group flex items-center justify-between rounded-lg border border-border bg-card px-5 py-4 transition-colors hover:border-primary/20 hover:bg-secondary"
+              onClick={() => trackHomeEvent("contact_general_email", { page: "contact" })}
+              className="mt-7 inline-flex min-h-12 items-center gap-2 rounded-md bg-white px-6 py-3 text-sm font-bold text-[#111814]"
             >
-              <span className="text-base font-medium text-foreground">
-                None of these fit
-              </span>
-              <span className="inline-flex items-center gap-2 text-sm text-muted-foreground group-hover:text-foreground">
-                <Mail className="h-4 w-4" />
-                info@valorwell.org
-              </span>
+              <Mail className="h-4 w-4" aria-hidden="true" />
+              info@valorwell.org
             </a>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </Layout>
   );
 }
