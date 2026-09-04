@@ -1,213 +1,258 @@
-import { useEffect } from "react";
+import { useEffect, type ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { Layout } from "@/components/layout";
-import { SEO, DonateActionSchema, BreadcrumbSchema } from "@/components/SEO";
-import { ContentSection } from "@/components/sections";
-import { Button } from "@/components/ui/button";
-import { CheckCircle, BarChart3, TrendingUp, Trophy } from "lucide-react";
-import flagSkyBackground from "@/assets/flag-sky-background-vertical.png";
+import {
+  ArrowRight,
+  Eye,
+  HeartHandshake,
+  Network,
+  ShieldCheck,
+  Stethoscope,
+} from "lucide-react";
+import { Layout } from "@/components/layout/Layout";
+import { SEO, BreadcrumbSchema } from "@/components/SEO";
+import { trackHomeEvent } from "@/lib/tracking";
 
-const Support = () => {
+function Eyebrow({
+  children,
+  light = false,
+}: {
+  children: ReactNode;
+  light?: boolean;
+}) {
+  return (
+    <p
+      className={`text-xs font-bold uppercase tracking-[0.2em] ${
+        light ? "text-[#D7A92E]" : "text-[#3B5147]"
+      }`}
+    >
+      {children}
+    </p>
+  );
+}
+
+function TrackedLink({
+  to,
+  event,
+  children,
+  className = "",
+}: {
+  to: string;
+  event: string;
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <Link
+      to={to}
+      onClick={() => trackHomeEvent(event, { page: "support" })}
+      className={className}
+    >
+      {children}
+    </Link>
+  );
+}
+
+export default function Support() {
   useEffect(() => {
-    window.scrollTo(0, 0);
+    trackHomeEvent("support_page_view", { page: "support" });
   }, []);
 
   return (
     <Layout>
       <SEO
-        title="Support the Bridge Program"
-        description="Help fund real mental health therapy sessions for veterans through ValorWell's Bridge Program. $75 sponsors 1 session. Become a monthly sponsor or give once."
+        title="Support ValorWell | Fund the Work Without Buying the Outcome"
+        description="Support ValorWell's care, evidence, and community work. See what can be verified, understand the boundaries, and continue to the donation page when you are ready."
         canonical="/support"
       />
-      <DonateActionSchema />
       <BreadcrumbSchema
         items={[
           { name: "Home", url: "/" },
-          { name: "Support the Bridge Program", url: "/support" },
+          { name: "Support ValorWell", url: "/support" },
         ]}
       />
 
-      <div
-        className="relative bg-cover bg-top bg-no-repeat"
-        style={{ backgroundImage: `url(${flagSkyBackground})` }}
-      >
-        <div className="absolute inset-0 bg-white/70" />
+      <div className="support-theme bg-[#F4F1E8] text-[#111814]">
+        <style>{`
+          .support-theme {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+          }
+          .support-theme h1,
+          .support-theme h2,
+          .support-theme h3,
+          .support-theme h4 {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            letter-spacing: -0.025em;
+          }
+        `}</style>
 
-      {/* Hero */}
-      <section className="relative z-10 section-padding">
-        <div className="container-wide text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Support the Bridge Program
-          </h1>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-6">
-            Fund real therapy sessions for veterans—when support can't wait.
-          </p>
-          <p className="text-muted-foreground max-w-xl mx-auto mb-6 text-sm">
-            ValorWell's Bridge Program helps fund mental health therapy sessions
-            for veterans during gaps in access and delays in care. This is direct
-            support—measured in sessions funded.
-          </p>
-          <div className="inline-block rounded-lg bg-primary text-primary-foreground px-6 py-3 text-lg font-semibold mb-8">
-            $75 sponsors 1 therapy session
+        <section className="relative overflow-hidden border-b border-white/10 bg-[#111814] text-white">
+          <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+            <div className="absolute -right-32 -top-40 h-96 w-96 rounded-full bg-[#D7A92E]/10 blur-3xl" />
+            <div className="absolute -bottom-44 -left-36 h-96 w-96 rounded-full bg-[#3B5147]/35 blur-3xl" />
           </div>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button asChild size="lg">
-              <Link to="/partner?vw_entry_source=support-hero-session&vw_entry_medium=site&vw_entry_campaign=bridge-the-wait">
-                Sponsor a Session
-              </Link>
-            </Button>
-            <Button asChild size="lg" variant="outline">
-              <Link to="/partner?vw_entry_source=support-hero-monthly&vw_entry_medium=site&vw_entry_campaign=monthly-support">
-                Become a Monthly Sponsor
-              </Link>
-            </Button>
+
+          <div className="container-wide relative grid gap-12 py-16 md:py-24 lg:grid-cols-12 lg:items-center lg:py-28">
+            <div className="lg:col-span-7">
+              <Eyebrow light>Support ValorWell</Eyebrow>
+              <h1 className="mt-6 max-w-5xl text-4xl font-bold leading-[1.03] sm:text-5xl md:text-6xl lg:text-7xl">
+                Support the work.
+                <span className="mt-2 block text-[#D7A92E]">Do not buy the story.</span>
+              </h1>
+              <p className="mt-7 max-w-3xl text-lg leading-8 text-white/72 md:text-xl">
+                Financial support helps ValorWell build and sustain the work across care, evidence, and community. It does not purchase editorial selection, preferred treatment, referrals, outcomes, or a more flattering version of the numbers.
+              </p>
+
+              <div className="mt-9 flex flex-wrap gap-3">
+                <TrackedLink
+                  to="/donate?vw_entry_source=support-hero&vw_entry_medium=site&vw_entry_campaign=support-valorwell&vw_entry_content=hero"
+                  event="support_hero_donate"
+                  className="inline-flex min-h-12 items-center gap-2 rounded-md bg-[#D7A92E] px-6 py-3 text-sm font-bold text-[#111814] transition hover:brightness-95"
+                >
+                  Continue to Donate
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </TrackedLink>
+                <TrackedLink
+                  to="/impact"
+                  event="support_hero_impact"
+                  className="inline-flex min-h-12 items-center gap-2 rounded-md border border-white/30 px-6 py-3 text-sm font-bold text-white transition hover:bg-white/10"
+                >
+                  See Verified Impact
+                </TrackedLink>
+              </div>
+            </div>
+
+            <div className="lg:col-span-5">
+              <div className="rounded-3xl border border-white/12 bg-white/[0.06] p-8 shadow-2xl backdrop-blur-sm">
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#D7A92E]">
+                  The support standard
+                </p>
+                <blockquote className="mt-5 text-2xl font-bold leading-snug md:text-3xl">
+                  A gift can strengthen the mission without becoming permission to exaggerate the impact.
+                </blockquote>
+                <p className="mt-5 leading-7 text-white/65">
+                  ValorWell will only publish attribution or outcome claims when the underlying records support them.
+                </p>
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* What the Bridge Program Does */}
-      <ContentSection title="What the Bridge Program Does" className="relative z-10">
-        <p>
-          The Bridge Program exists for one reason: to get veterans support
-          now—not only after months of waiting, paperwork, or scheduling
-          barriers.
-        </p>
-        <p className="mt-4">
-          Your donation helps fund therapy sessions that veterans can use while
-          longer timelines play out.
-        </p>
-      </ContentSection>
+        <section className="border-b border-[#3B5147]/15 bg-white">
+          <div className="container-wide py-20 md:py-28">
+            <div className="max-w-3xl">
+              <Eyebrow>What Support Strengthens</Eyebrow>
+              <h2 className="mt-4 text-3xl font-bold leading-tight md:text-5xl">
+                The mission has three jobs. Financial support can strengthen all three.
+              </h2>
+              <p className="mt-5 text-lg leading-8 text-[#111814]/65">
+                We do not reduce every contribution to a one-line equivalency. The public model is broader and more accurate: Care, Impact, and Community each require infrastructure to work well.
+              </p>
+            </div>
 
-      {/* Why Continued Support Matters */}
-      <ContentSection title="Why Continued Support Matters" variant="alt" className="relative z-10">
-        <p>
-          One-time donations help. Continued support changes what we can reliably
-          do.
-        </p>
-        <p className="mt-4 font-medium text-foreground">
-          Monthly sponsorship:
-        </p>
-        <ul className="mt-3 space-y-3">
-          {[
-            "Creates predictable funding for sessions",
-            "Helps prevent interruptions in care",
-            "Allows planning for veterans who need ongoing support",
-            "Builds a stable bridge that doesn't depend on one-time spikes",
-          ].map((item) => (
-            <li key={item} className="flex items-start gap-3">
-              <CheckCircle className="h-5 w-5 text-primary mt-0.5 shrink-0" />
-              <span>{item}</span>
-            </li>
-          ))}
-        </ul>
-        <p className="mt-6 font-medium text-foreground">
-          If you've ever wanted to help veterans in a way that is measurable and
-          immediate, this is it.
-        </p>
-      </ContentSection>
+            <div className="mt-12 grid gap-5 lg:grid-cols-3">
+              <article className="rounded-3xl border border-[#3B5147]/15 bg-[#F4F1E8] p-8">
+                <Stethoscope className="h-8 w-8 text-[#3B5147]" aria-hidden="true" />
+                <p className="mt-7 text-xs font-bold uppercase tracking-[0.18em] text-[#3B5147]">
+                  Care
+                </p>
+                <h3 className="mt-3 text-2xl font-bold">Real care and the infrastructure underneath it.</h3>
+                <p className="mt-4 leading-7 text-[#111814]/64">
+                  Clinical operations, access pathways, technology, coordination, and the systems required to make care usable and responsible.
+                </p>
+              </article>
 
-      {/* What Your Gift Funds */}
-      <section className="relative z-10 section-padding">
-        <div className="container-wide">
-          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-8">
-            What Your Gift Funds
-          </h2>
+              <article className="rounded-3xl border border-[#3B5147]/15 bg-[#111814] p-8 text-white">
+                <Eye className="h-8 w-8 text-[#D7A92E]" aria-hidden="true" />
+                <p className="mt-7 text-xs font-bold uppercase tracking-[0.18em] text-[#D7A92E]">
+                  Impact
+                </p>
+                <h3 className="mt-3 text-2xl font-bold">Measurement before marketing.</h3>
+                <p className="mt-4 leading-7 text-white/64">
+                  Better records, cleaner definitions, reconciliation, and reporting so public impact claims are tied to evidence rather than aspiration.
+                </p>
+              </article>
 
-          <div className="grid grid-cols-2 gap-3 max-w-md mb-8">
-            {[
-              { amount: "$75", sessions: "1 session" },
-              { amount: "$150", sessions: "2 sessions" },
-              { amount: "$375", sessions: "5 sessions" },
-              { amount: "$750", sessions: "10 sessions" },
-            ].map((tier) => (
-              <span
-                key={tier.amount}
-                className="rounded bg-muted px-4 py-2.5 text-center font-medium text-foreground"
+              <article className="rounded-3xl border border-[#D7A92E]/35 bg-[#F8F3E4] p-8">
+                <Network className="h-8 w-8 text-[#8A6814]" aria-hidden="true" />
+                <p className="mt-7 text-xs font-bold uppercase tracking-[0.18em] text-[#8A6814]">
+                  Community
+                </p>
+                <h3 className="mt-3 text-2xl font-bold">Useful stories, connections, and discovery.</h3>
+                <p className="mt-4 leading-7 text-[#111814]/64">
+                  Beyond The Yellow, the growing Network, public education, and community relationships that help useful work become easier to find.
+                </p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section className="border-b border-white/10 bg-[#3B5147] text-white">
+          <div className="container-wide grid gap-12 py-20 md:py-28 lg:grid-cols-12 lg:items-start">
+            <div className="lg:col-span-5">
+              <Eyebrow light>What Support Does Not Buy</Eyebrow>
+              <h2 className="mt-4 text-3xl font-bold leading-tight md:text-5xl">
+                Some boundaries are more important than fundraising convenience.
+              </h2>
+            </div>
+
+            <div className="lg:col-span-7">
+              <div className="space-y-5">
+                {[
+                  "A donation does not purchase a Beyond The Yellow feature, endorsement, or editorial preference.",
+                  "A donor does not receive preferred treatment, clinical decisions, referrals, documentation, or care access.",
+                  "A contribution does not guarantee a specific number of sessions, people served, outcomes, views, or other results unless ValorWell explicitly publishes a supportable attribution model.",
+                  "Financial support does not turn a partnership announcement, campaign, or activity into proof of impact.",
+                ].map((item) => (
+                  <div key={item} className="flex gap-4 border-b border-white/10 pb-5 last:border-b-0">
+                    <ShieldCheck className="mt-1 h-5 w-5 shrink-0 text-[#D7A92E]" aria-hidden="true" />
+                    <p className="leading-7 text-white/72">{item}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="border-b border-[#3B5147]/15 bg-[#F4F1E8]">
+          <div className="container-wide grid gap-12 py-20 md:py-28 lg:grid-cols-12 lg:items-start">
+            <div className="lg:col-span-6">
+              <Eyebrow>Transparency Before the Ask</Eyebrow>
+              <h2 className="mt-4 text-3xl font-bold leading-tight md:text-5xl">
+                See what ValorWell can verify before deciding to support it.
+              </h2>
+              <p className="mt-6 max-w-3xl text-lg leading-8 text-[#111814]/66">
+                The Impact page is where ValorWell separates documented production records from newer reconciled ledgers and explains what the organization is not yet prepared to call an all-time total.
+              </p>
+              <TrackedLink
+                to="/impact"
+                event="support_transparency_impact"
+                className="mt-7 inline-flex min-h-11 items-center gap-2 text-sm font-bold text-[#3B5147] underline decoration-[#3B5147]/30 underline-offset-4"
               >
-                {tier.amount} = {tier.sessions}
-              </span>
-            ))}
+                Review the Current Impact Snapshot
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </TrackedLink>
+            </div>
+
+            <div className="lg:col-span-6">
+              <div className="rounded-3xl border border-[#3B5147]/15 bg-white p-8 shadow-sm">
+                <HeartHandshake className="h-8 w-8 text-[#3B5147]" aria-hidden="true" />
+                <h3 className="mt-6 text-2xl font-bold">Ready to contribute?</h3>
+                <p className="mt-4 leading-7 text-[#111814]/64">
+                  Continue to the donation handoff when you are comfortable with the work, the current evidence, and the boundaries above.
+                </p>
+                <TrackedLink
+                  to="/donate?vw_entry_source=support-final&vw_entry_medium=site&vw_entry_campaign=support-valorwell&vw_entry_content=final"
+                  event="support_final_donate"
+                  className="mt-7 inline-flex min-h-12 items-center gap-2 rounded-md bg-[#3B5147] px-6 py-3 text-sm font-bold text-white"
+                >
+                  Continue to Donate
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </TrackedLink>
+              </div>
+            </div>
           </div>
-
-          <h3 className="text-lg font-semibold text-foreground mb-4">
-            Suggested monthly sponsorships
-          </h3>
-          <ul className="space-y-2 text-muted-foreground mb-8">
-             <li className="flex items-center gap-2">
-              <span className="font-medium text-foreground">$75/month</span> —
-               Sponsor 1 session each month
-             </li>
-             <li className="flex items-center gap-2">
-              <span className="font-medium text-foreground">$150/month</span> —
-               Sponsor 2 sessions each month
-             </li>
-             <li className="flex items-center gap-2">
-              <span className="font-medium text-foreground">$375/month</span> —
-               Sponsor 5 sessions each month
-             </li>
-          </ul>
-
-          <Button asChild size="lg">
-            <Link to="/partner?vw_entry_source=support-session-tiers&vw_entry_medium=site&vw_entry_campaign=bridge-the-wait">
-              Sponsor Sessions Now
-            </Link>
-          </Button>
-        </div>
-      </section>
-
-      {/* Other Ways to Help */}
-      <ContentSection title="Other Ways to Help" variant="alt" className="relative z-10">
-        <p className="mb-4">
-          Not everyone can give financially. These actions still help fund
-          sessions:
-        </p>
-        <ul className="space-y-2 list-disc list-inside">
-          <li>Share the campaign with someone who supports veterans</li>
-          <li>
-            Encourage a creator to join the competition and fundraise
-          </li>
-          <li>
-            Invite your workplace or community group to sponsor a set number of
-            sessions
-          </li>
-        </ul>
-        <div className="mt-6">
-          <Button asChild variant="outline">
-            <Link to="/beyondtheyellow">Beyond the Yellow</Link>
-          </Button>
-        </div>
-      </ContentSection>
-
-      {/* Transparency and Accountability */}
-      <section className="relative z-10 section-padding">
-        <div className="container-wide">
-          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
-            Transparency and Accountability
-          </h2>
-          <p className="text-muted-foreground mb-6">
-            We believe support should be clear and measurable. Our reporting
-            focuses on:
-          </p>
-          <ul className="space-y-3 mb-6">
-            {[
-              { icon: BarChart3, label: "Sessions funded" },
-              { icon: TrendingUp, label: "Monthly sponsor growth" },
-              { icon: Trophy, label: "Creator challenge outcomes and totals" },
-            ].map((item) => (
-              <li key={item.label} className="flex items-center gap-3 text-muted-foreground">
-                <item.icon className="h-5 w-5 text-primary shrink-0" />
-                <span>{item.label}</span>
-              </li>
-            ))}
-          </ul>
-          <p className="text-sm text-muted-foreground italic">
-            (We'll publish updates as the program grows.)
-          </p>
-        </div>
-      </section>
+        </section>
       </div>
     </Layout>
   );
-};
-
-export default Support;
+}
