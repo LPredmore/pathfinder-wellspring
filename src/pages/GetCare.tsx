@@ -1,6 +1,18 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { Layout } from "@/components/layout";
+import {
+  ArrowRight,
+  CheckCircle2,
+  CircleAlert,
+  HelpCircle,
+  Phone,
+  ShieldCheck,
+  Stethoscope,
+  UserRound,
+  Users,
+  type LucideIcon,
+} from "lucide-react";
+import { Layout } from "@/components/layout/Layout";
 import { SEO, BreadcrumbSchema } from "@/components/SEO";
 import {
   Accordion,
@@ -8,37 +20,23 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import {
-  ArrowRight,
-  CheckCircle2,
-  CircleAlert,
-  HeartHandshake,
-  HelpCircle,
-  Phone,
-  ShieldCheck,
-  UserRound,
-  Users,
-  type LucideIcon,
-} from "lucide-react";
 
 const PORTAL_URL = "https://client.valorwell.org";
 const TRICARE_INTEREST_URL =
   "mailto:info@valorwell.org?subject=TRICARE%20mental%20health%20care%20interest";
-const UNSURE_URL =
-  "mailto:info@valorwell.org?subject=Help%20identifying%20my%20ValorWell%20care%20path";
 
 type Audience = "veteran" | "family";
 type Coverage = "champva" | "tricare" | "vaccn" | "unsure";
 type PathTone = "active" | "limited" | "pending" | "help";
 
-interface CoverageOption {
+type CoverageOption = {
   value: Coverage;
   label: string;
   description: string;
-  icon: LucideIcon;
-}
+  Icon: LucideIcon;
+};
 
-interface PathDetail {
+type PathDetail = {
   eyebrow: string;
   title: string;
   body: string;
@@ -46,21 +44,23 @@ interface PathDetail {
   cta: string;
   href: string;
   external?: boolean;
+  secondaryCta?: string;
+  secondaryHref?: string;
   tone: PathTone;
-}
+};
 
 const familyCoverage: CoverageOption[] = [
   {
     value: "champva",
     label: "CHAMPVA",
-    description: "ValorWell's active general care pathway.",
-    icon: CheckCircle2,
+    description: "ValorWell's active general care pathway for eligible veteran family members.",
+    Icon: CheckCircle2,
   },
   {
     value: "tricare",
     label: "TRICARE",
-    description: "Tell us where the need exists while contracting continues.",
-    icon: CircleAlert,
+    description: "Not active yet. Tell us where the need exists while contracting continues.",
+    Icon: CircleAlert,
   },
 ];
 
@@ -68,20 +68,20 @@ const veteranCoverage: CoverageOption[] = [
   {
     value: "vaccn",
     label: "VA Community Care",
-    description: "Requires VA authorization and an eligible clinician pathway.",
-    icon: ShieldCheck,
+    description: "Limited and authorization-dependent. Start with the current pathway information.",
+    Icon: ShieldCheck,
   },
   {
     value: "tricare",
     label: "TRICARE",
-    description: "Tell us where the need exists while contracting continues.",
-    icon: CircleAlert,
+    description: "Not active yet. Tell us where the need exists while contracting continues.",
+    Icon: CircleAlert,
   },
   {
     value: "unsure",
-    label: "I'm Not Sure",
-    description: "Start here and we will help identify the likely next step.",
-    icon: HelpCircle,
+    label: "I'm not sure",
+    description: "You do not need to know the program name before asking for help finding the next step.",
+    Icon: HelpCircle,
   },
 ];
 
@@ -90,11 +90,24 @@ const pathDetails: Record<Coverage, PathDetail> = {
     eyebrow: "Active care pathway",
     title: "You can begin the CHAMPVA intake process now.",
     body: "ValorWell provides telehealth mental health care through CHAMPVA where state licensure, clinician availability, capacity, pathway verification, and clinical fit align.",
-    note: "ValorWell bills CHAMPVA directly. CHAMPVA cost share or other patient responsibility may still apply.",
+    note: "ValorWell bills CHAMPVA directly. Applicable CHAMPVA cost share or other patient responsibility may still apply.",
     cta: "Start CHAMPVA Intake",
     href: PORTAL_URL,
     external: true,
+    secondaryCta: "Review CHAMPVA Resources",
+    secondaryHref: "/resources/champva",
     tone: "active",
+  },
+  vaccn: {
+    eyebrow: "Limited and authorization-dependent",
+    title: "VA Community Care starts with a real authorization and an eligible provider path.",
+    body: "ValorWell's VA Community Care availability is limited. Whether a path is possible depends on your VA referral or authorization, state, region, clinician eligibility, current capacity, and clinical fit. We will not describe Community Care as available when those pieces are not in place.",
+    note: "ValorWell does not guarantee VA authorization, referral, placement, disability outcomes, claim approval, or any other VA outcome.",
+    cta: "Review Community Care Resources",
+    href: "/resources/va-community-care",
+    secondaryCta: "Ask About Current Availability",
+    secondaryHref: "/contact",
+    tone: "limited",
   },
   tricare: {
     eyebrow: "Pathway not active yet",
@@ -104,25 +117,19 @@ const pathDetails: Record<Coverage, PathDetail> = {
     cta: "Tell Us You Need TRICARE",
     href: TRICARE_INTEREST_URL,
     external: true,
+    secondaryCta: "See Current Care Options",
+    secondaryHref: "/resources",
     tone: "pending",
-  },
-  vaccn: {
-    eyebrow: "Limited and region-specific",
-    title: "VA Community Care begins with a legitimate authorization and provider path.",
-    body: "Availability depends on your VA referral or authorization, state, region, an eligible registered clinician, capacity, and clinical fit. Operation Claims Success explains the current pathway and provides the appropriate place to raise your hand.",
-    note: "ValorWell does not guarantee VA authorization, referral, placement, disability outcomes, claim approval, or any VA outcome.",
-    cta: "Check the VA Community Care Path",
-    href: "/operation-claims-success#ocs-routing-form",
-    tone: "limited",
   },
   unsure: {
     eyebrow: "You do not need to know the answer yet",
-    title: "We can help you identify which care path may apply.",
-    body: "Tell us what you know about your veteran status, current coverage, and whether the VA has discussed Community Care with you. We will point you toward the most appropriate current next step.",
-    note: "ValorWell's current care pathways are limited to veterans and veteran family members and remain subject to coverage, authorization, licensure, availability, capacity, and clinical fit.",
+    title: "Start with what you know. We can help route the question.",
+    body: "Tell us what you know about your veteran status, current coverage, and whether the VA has discussed Community Care with you. We can point you toward the most appropriate current ValorWell or resource path without pretending every option is available everywhere.",
+    note: "ValorWell's current care pathways remain subject to coverage or authorization, licensure, availability, capacity, and clinical fit.",
     cta: "Ask for Pathway Help",
-    href: UNSURE_URL,
-    external: true,
+    href: "/contact",
+    secondaryCta: "Browse Resources",
+    secondaryHref: "/resources",
     tone: "help",
   },
 };
@@ -130,11 +137,11 @@ const pathDetails: Record<Coverage, PathDetail> = {
 const serviceGroups = [
   {
     title: "Anxiety, depression, grief, and stress",
-    body: "Care for the mental health concerns that can make work, relationships, sleep, and ordinary life feel heavier than they should.",
+    body: "Outpatient therapy for concerns affecting work, relationships, sleep, concentration, mood, and day-to-day functioning.",
   },
   {
     title: "Trauma and PTSD-related concerns",
-    body: "Therapy that respects the pace, context, and complexity of experiences that do not simply disappear when service ends.",
+    body: "Therapy that respects the pace, context, and complexity of military and non-military traumatic experiences.",
   },
   {
     title: "Military-family and caregiver strain",
@@ -142,38 +149,38 @@ const serviceGroups = [
   },
   {
     title: "Children and teens",
-    body: "Care for young people navigating anxiety, mood, school, family change, deployment-related stress, or military-connected life.",
+    body: "Care when clinician licensure, age range, availability, coverage, and clinical fit align with the young person's needs.",
   },
   {
     title: "Identity, transition, and daily overwhelm",
-    body: "A place to work through burnout, life transitions, relationship strain, purpose, and the emotional weight of holding everything together.",
+    body: "A place to work through burnout, life transitions, relationship strain, purpose, and the weight of holding too much for too long.",
   },
 ];
 
 const faqs = [
   {
     q: "Who does ValorWell currently serve?",
-    a: "ValorWell's current care pathways are designed for veterans and veteran family members. Care remains subject to coverage or authorization, state licensure, clinician availability, capacity, clinical fit, and the services ValorWell provides.",
+    a: "ValorWell's current public care pathways are designed for veterans and veteran family members. Actual care remains subject to coverage or authorization, state licensure, clinician availability, capacity, clinical fit, and the services ValorWell provides.",
   },
   {
     q: "Does selecting a coverage option guarantee care?",
-    a: "No. The selector identifies the appropriate next pathway. Actual care depends on coverage or authorization, state, clinician licensure, availability, capacity, and clinical fit.",
+    a: "No. The selector identifies the most appropriate current next path. Actual care depends on coverage or authorization, state, clinician licensure, availability, capacity, and clinical fit.",
   },
   {
-    q: "How does CHAMPVA payment work?",
-    a: "ValorWell bills CHAMPVA directly for eligible telehealth mental health services. CHAMPVA cost share or other patient responsibility may apply depending on the person's coverage and situation.",
+    q: "How does CHAMPVA payment work at ValorWell?",
+    a: "ValorWell bills CHAMPVA directly for eligible telehealth mental health services. Applicable CHAMPVA cost share or other patient responsibility may still apply depending on the person's coverage and circumstances.",
   },
   {
     q: "Can veterans use ValorWell through VA Community Care?",
-    a: "VA Community Care is limited and region-specific. It requires an actual VA referral or authorization and an eligible clinician pathway. Availability is not guaranteed and varies by state, region, clinician registration, capacity, and fit.",
+    a: "Sometimes, but the pathway is limited and authorization-dependent. It requires a legitimate VA referral or authorization plus an eligible clinician path. Availability varies and is not guaranteed.",
   },
   {
     q: "Can I use TRICARE at ValorWell?",
-    a: "Not currently. ValorWell is still working through the required TRICARE contracting pathway and will not describe it as active before activation is complete.",
+    a: "Not currently. ValorWell is still working through the required contracting pathway and will not describe TRICARE as active before activation is complete.",
   },
   {
     q: "Is care provided through telehealth?",
-    a: "Yes. ValorWell is telehealth-first. Care is provided by licensed clinicians and remains subject to the clinician being licensed in the state where the client is physically located.",
+    a: "Yes. ValorWell is telehealth-first. Care remains subject to the treating clinician being appropriately licensed where the client is physically located and to the other requirements of the care pathway.",
   },
   {
     q: "What services are not provided?",
@@ -186,37 +193,51 @@ const faqs = [
 ];
 
 const toneClasses: Record<PathTone, string> = {
-  active:
-    "border-[color:var(--cl-evergreen)]/35 bg-[color:var(--cl-evergreen)]/8",
-  limited: "border-[color:var(--cl-ember)]/35 bg-[color:var(--cl-ember)]/7",
-  pending: "border-[color:var(--cl-ink)]/20 bg-[color:var(--cl-ink)]/5",
-  help: "border-[color:var(--cl-evergreen)]/25 bg-white/60",
+  active: "border-[#3B5147]/30 bg-[#3B5147]/[0.06]",
+  limited: "border-[#B24A3A]/30 bg-[#B24A3A]/[0.05]",
+  pending: "border-[#111814]/15 bg-[#111814]/[0.04]",
+  help: "border-[#D7A92E]/35 bg-[#F8F3E4]",
 };
 
-function PathAction({ detail }: { detail: PathDetail }) {
-  const className =
-    "group inline-flex min-h-12 items-center justify-center gap-2 bg-[color:var(--cl-ember)] px-6 py-3 text-sm font-bold uppercase tracking-wide text-[color:var(--cl-canvas)] transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--cl-ember)] focus-visible:ring-offset-2";
+function Eyebrow({ children, light = false }: { children: ReactNode; light?: boolean }) {
+  return (
+    <p
+      className={`text-xs font-bold uppercase tracking-[0.2em] ${
+        light ? "text-[#D7A92E]" : "text-[#3B5147]"
+      }`}
+    >
+      {children}
+    </p>
+  );
+}
 
-  if (detail.external) {
-    return (
-      <a href={detail.href} className={className}>
-        {detail.cta}
-        <ArrowRight
-          className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
-          aria-hidden="true"
-        />
-      </a>
-    );
-  }
+function PathAction({ detail }: { detail: PathDetail }) {
+  const primaryClass =
+    "inline-flex min-h-12 items-center gap-2 rounded-md bg-[#3B5147] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#31443B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3B5147] focus-visible:ring-offset-2";
 
   return (
-    <Link to={detail.href} className={className}>
-      {detail.cta}
-      <ArrowRight
-        className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
-        aria-hidden="true"
-      />
-    </Link>
+    <div className="flex flex-wrap gap-3">
+      {detail.external ? (
+        <a href={detail.href} className={primaryClass}>
+          {detail.cta}
+          <ArrowRight className="h-4 w-4" aria-hidden="true" />
+        </a>
+      ) : (
+        <Link to={detail.href} className={primaryClass}>
+          {detail.cta}
+          <ArrowRight className="h-4 w-4" aria-hidden="true" />
+        </Link>
+      )}
+
+      {detail.secondaryHref && detail.secondaryCta ? (
+        <Link
+          to={detail.secondaryHref}
+          className="inline-flex min-h-12 items-center rounded-md border border-[#3B5147]/25 px-6 py-3 text-sm font-bold text-[#3B5147] transition hover:bg-white/60"
+        >
+          {detail.secondaryCta}
+        </Link>
+      ) : null}
+    </div>
   );
 }
 
@@ -235,77 +256,57 @@ export default function GetCare() {
   return (
     <Layout>
       <SEO
-        title="Mental Health Care for Veterans and Veteran Families"
-        description="Find the appropriate ValorWell mental health care pathway for veterans and veteran family members using CHAMPVA, TRICARE, or VA Community Care."
+        title="Mental Health Care for Veterans & Veteran Families | ValorWell"
+        description="Find the appropriate current ValorWell mental health care pathway for veterans and veteran family members using CHAMPVA, VA Community Care, or future TRICARE access."
         canonical="/get-care"
       />
       <BreadcrumbSchema
         items={[
           { name: "Home", url: "/" },
-          { name: "Get Care", url: "/get-care" },
+          { name: "Find Care", url: "/get-care" },
         ]}
       />
 
-      <div className="clinicians-theme bg-[color:var(--cl-canvas)] text-[color:var(--cl-ink)]">
-        <div className="bg-[color:var(--cl-ink)] text-[color:var(--cl-canvas)]">
+      <div className="clinicians-theme bg-[#F4F1E8] text-[#111814]">
+        <div className="bg-[#111814] text-white">
           <div className="container-wide flex flex-col gap-3 py-3 text-sm md:flex-row md:items-center md:justify-between">
-            <p className="leading-snug">
-              <span className="font-semibold">
-                Need immediate support right now?
-              </span>{" "}
-              ValorWell is not a crisis service. Call or text 988. Veterans and
-              their loved ones can call 988 and press 1 or text 838255.
+            <p className="leading-snug text-white/80">
+              <span className="font-bold text-white">Need immediate support right now?</span>{" "}
+              ValorWell is not a crisis service. Call or text 988. Veterans and their loved ones can call 988 and press 1 or text 838255.
             </p>
             <a
               href="tel:988"
-              className="inline-flex shrink-0 items-center gap-2 border border-[color:var(--cl-canvas)]/40 px-3 py-1.5 hover:bg-[color:var(--cl-canvas)]/10"
+              className="inline-flex shrink-0 items-center gap-2 rounded-md border border-white/30 px-3 py-2 font-bold text-white hover:bg-white/10"
             >
-              <Phone className="h-3.5 w-3.5" aria-hidden="true" /> Call or Text
-              988
+              <Phone className="h-4 w-4" aria-hidden="true" />
+              Call 988
             </a>
           </div>
         </div>
 
-        <section className="relative overflow-hidden border-b border-[color:var(--cl-ink)]/10">
-          <div
-            className="pointer-events-none absolute inset-0"
-            aria-hidden="true"
-          >
-            <div className="absolute -left-24 -top-24 h-80 w-80 rounded-full bg-[color:var(--cl-evergreen)]/10 blur-3xl" />
-            <div className="absolute -right-24 top-20 h-72 w-72 rounded-full bg-[color:var(--cl-ember)]/8 blur-3xl" />
+        <section className="relative overflow-hidden border-b border-[#3B5147]/15">
+          <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+            <div className="absolute -left-32 -top-40 h-96 w-96 rounded-full bg-[#3B5147]/[0.08] blur-3xl" />
+            <div className="absolute -right-32 bottom-0 h-80 w-80 rounded-full bg-[#D7A92E]/[0.08] blur-3xl" />
           </div>
 
-          <div className="container-wide relative py-14 md:py-20">
+          <div className="container-wide relative py-16 md:py-24 lg:py-28">
             <div className="max-w-4xl">
-              <p className="text-xs font-bold uppercase tracking-[0.25em] text-[color:var(--cl-ember)]">
-                Mental health care for veterans and veteran families
-              </p>
-              <h1 className="mt-5 text-4xl font-bold leading-[1.04] md:text-6xl">
-                Start with who needs care. We will help with the rest.
+              <Eyebrow>Find Care</Eyebrow>
+              <h1 className="mt-6 text-4xl font-bold leading-[1.03] sm:text-5xl md:text-6xl lg:text-7xl">
+                Start with who needs care. We will help with the path.
               </h1>
-              <p className="mt-6 max-w-3xl text-lg leading-relaxed text-[color:var(--cl-ink)]/78 md:text-xl">
-                You should not need to decode every program before you can take a
-                first step. Answer two questions and we will show you the most
-                appropriate current ValorWell pathway.
+              <p className="mt-7 max-w-3xl text-lg leading-8 text-[#111814]/68 md:text-xl">
+                You should not need to decode every program before you can take a first step. Answer two questions and ValorWell will show you the most appropriate current path without promising care that is not actually available.
               </p>
             </div>
 
-            <div
-              id="find-your-path"
-              className="mt-10 border border-[color:var(--cl-ink)]/15 bg-white/70 p-5 shadow-xl backdrop-blur-sm md:p-8"
-            >
-              <div className="flex flex-col gap-2 border-b border-[color:var(--cl-ink)]/10 pb-6 md:flex-row md:items-end md:justify-between">
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.22em] text-[color:var(--cl-ember)]">
-                    Find your care path
-                  </p>
-                  <h2 className="mt-3 text-2xl font-bold md:text-3xl">
-                    Who needs care?
-                  </h2>
-                </div>
-                <p className="text-sm text-[color:var(--cl-ink)]/60">
-                  ValorWell currently serves veterans and veteran family members.
+            <div id="find-your-path" className="mt-12 rounded-3xl border border-[#3B5147]/15 bg-white p-6 shadow-xl md:p-8">
+              <div className="border-b border-[#3B5147]/12 pb-6">
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#3B5147]">
+                  Step 1
                 </p>
+                <h2 className="mt-3 text-2xl font-bold md:text-3xl">Who needs care?</h2>
               </div>
 
               <div className="mt-6 grid gap-4 md:grid-cols-2">
@@ -313,48 +314,37 @@ export default function GetCare() {
                   {
                     value: "veteran" as const,
                     label: "I am a veteran",
-                    description:
-                      "Continue to VA Community Care, TRICARE, or help identifying the right path.",
-                    icon: UserRound,
+                    description: "Continue to VA Community Care, TRICARE, or pathway help.",
+                    Icon: UserRound,
                   },
                   {
                     value: "family" as const,
                     label: "I am a veteran's family member",
                     description: "Continue to CHAMPVA or TRICARE.",
-                    icon: Users,
+                    Icon: Users,
                   },
-                ].map((option) => (
+                ].map(({ value, label, description, Icon }) => (
                   <button
-                    key={option.value}
+                    key={value}
                     type="button"
-                    onClick={() => chooseAudience(option.value)}
-                    aria-pressed={audience === option.value}
-                    className={`flex min-h-36 items-start gap-4 border p-5 text-left transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--cl-evergreen)] focus-visible:ring-offset-2 md:p-6 ${
-                      audience === option.value
-                        ? "border-[color:var(--cl-evergreen)] bg-[color:var(--cl-evergreen)] text-[color:var(--cl-canvas)] shadow-md"
-                        : "border-[color:var(--cl-ink)]/15 bg-[color:var(--cl-canvas)] hover:-translate-y-0.5 hover:border-[color:var(--cl-evergreen)]/50 hover:shadow-md"
+                    onClick={() => chooseAudience(value)}
+                    aria-pressed={audience === value}
+                    className={`flex min-h-32 items-start gap-4 rounded-2xl border p-5 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3B5147] focus-visible:ring-offset-2 ${
+                      audience === value
+                        ? "border-[#3B5147] bg-[#3B5147] text-white"
+                        : "border-[#3B5147]/15 bg-[#F4F1E8] hover:border-[#3B5147]/35"
                     }`}
                   >
-                    <option.icon
+                    <Icon
                       className={`mt-1 h-6 w-6 shrink-0 ${
-                        audience === option.value
-                          ? "text-[color:var(--cl-ember)]"
-                          : "text-[color:var(--cl-evergreen)]"
+                        audience === value ? "text-[#D7A92E]" : "text-[#3B5147]"
                       }`}
                       aria-hidden="true"
                     />
                     <span>
-                      <span className="block text-lg font-bold md:text-xl">
-                        {option.label}
-                      </span>
-                      <span
-                        className={`mt-2 block text-sm leading-relaxed ${
-                          audience === option.value
-                            ? "text-[color:var(--cl-canvas)]/75"
-                            : "text-[color:var(--cl-ink)]/65"
-                        }`}
-                      >
-                        {option.description}
+                      <span className="block text-lg font-bold">{label}</span>
+                      <span className={`mt-2 block text-sm leading-6 ${audience === value ? "text-white/68" : "text-[#111814]/60"}`}>
+                        {description}
                       </span>
                     </span>
                   </button>
@@ -362,54 +352,25 @@ export default function GetCare() {
               </div>
 
               {audience ? (
-                <div className="mt-8 border-t border-[color:var(--cl-ink)]/10 pt-7">
-                  <p className="text-xs font-bold uppercase tracking-[0.22em] text-[color:var(--cl-ember)]">
-                    Step 2
-                  </p>
-                  <h3 className="mt-3 text-2xl font-bold">
-                    Which coverage or pathway are you using?
-                  </h3>
-                  <div
-                    className={`mt-5 grid gap-4 ${
-                      coverageOptions.length === 2
-                        ? "md:grid-cols-2"
-                        : "md:grid-cols-3"
-                    }`}
-                  >
-                    {coverageOptions.map((option) => (
+                <div className="mt-8 border-t border-[#3B5147]/12 pt-8">
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#3B5147]">Step 2</p>
+                  <h2 className="mt-3 text-2xl font-bold">Which coverage or pathway sounds closest?</h2>
+                  <div className="mt-5 grid gap-3 md:grid-cols-3">
+                    {coverageOptions.map(({ value, label, description, Icon }) => (
                       <button
-                        key={option.value}
+                        key={value}
                         type="button"
-                        onClick={() => setCoverage(option.value)}
-                        aria-pressed={coverage === option.value}
-                        className={`flex min-h-32 flex-col justify-between border p-5 text-left transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--cl-ember)] focus-visible:ring-offset-2 ${
-                          coverage === option.value
-                            ? "border-[color:var(--cl-ember)] bg-[color:var(--cl-ember)] text-[color:var(--cl-canvas)] shadow-md"
-                            : "border-[color:var(--cl-ink)]/15 bg-white hover:-translate-y-0.5 hover:border-[color:var(--cl-ember)]/45 hover:shadow-md"
+                        onClick={() => setCoverage(value)}
+                        aria-pressed={coverage === value}
+                        className={`rounded-2xl border p-5 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3B5147] focus-visible:ring-offset-2 ${
+                          coverage === value
+                            ? "border-[#D7A92E] bg-[#F8F3E4]"
+                            : "border-[#3B5147]/15 hover:border-[#3B5147]/35"
                         }`}
                       >
-                        <option.icon
-                          className={`h-5 w-5 ${
-                            coverage === option.value
-                              ? "text-[color:var(--cl-canvas)]"
-                              : "text-[color:var(--cl-evergreen)]"
-                          }`}
-                          aria-hidden="true"
-                        />
-                        <span className="mt-5">
-                          <span className="block text-lg font-bold">
-                            {option.label}
-                          </span>
-                          <span
-                            className={`mt-1 block text-sm leading-relaxed ${
-                              coverage === option.value
-                                ? "text-[color:var(--cl-canvas)]/78"
-                                : "text-[color:var(--cl-ink)]/62"
-                            }`}
-                          >
-                            {option.description}
-                          </span>
-                        </span>
+                        <Icon className="h-5 w-5 text-[#3B5147]" aria-hidden="true" />
+                        <span className="mt-4 block font-bold">{label}</span>
+                        <span className="mt-2 block text-sm leading-6 text-[#111814]/58">{description}</span>
                       </button>
                     ))}
                   </div>
@@ -417,22 +378,11 @@ export default function GetCare() {
               ) : null}
 
               {selectedDetail ? (
-                <div
-                  aria-live="polite"
-                  className={`mt-8 border p-6 md:p-8 ${toneClasses[selectedDetail.tone]}`}
-                >
-                  <p className="text-xs font-bold uppercase tracking-[0.22em] text-[color:var(--cl-ember)]">
-                    {selectedDetail.eyebrow}
-                  </p>
-                  <h3 className="mt-3 max-w-3xl text-2xl font-bold leading-tight md:text-3xl">
-                    {selectedDetail.title}
-                  </h3>
-                  <p className="mt-4 max-w-3xl text-base leading-relaxed text-[color:var(--cl-ink)]/78 md:text-lg">
-                    {selectedDetail.body}
-                  </p>
-                  <p className="mt-4 max-w-3xl text-sm leading-relaxed text-[color:var(--cl-ink)]/62">
-                    {selectedDetail.note}
-                  </p>
+                <div className={`mt-8 rounded-2xl border p-6 md:p-8 ${toneClasses[selectedDetail.tone]}`}>
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#3B5147]">{selectedDetail.eyebrow}</p>
+                  <h3 className="mt-3 text-2xl font-bold md:text-3xl">{selectedDetail.title}</h3>
+                  <p className="mt-4 max-w-3xl leading-7 text-[#111814]/66">{selectedDetail.body}</p>
+                  <p className="mt-4 max-w-3xl text-sm leading-6 text-[#111814]/55">{selectedDetail.note}</p>
                   <div className="mt-7">
                     <PathAction detail={selectedDetail} />
                   </div>
@@ -442,160 +392,99 @@ export default function GetCare() {
           </div>
         </section>
 
-        <section className="bg-[color:var(--cl-evergreen)] text-[color:var(--cl-canvas)]">
-          <div className="container-wide grid gap-10 py-20 md:py-28 lg:grid-cols-12 lg:items-center">
-            <div className="lg:col-span-8">
-              <p className="text-xs font-bold uppercase tracking-[0.24em] text-[color:var(--cl-ember)]">
-                The part nobody should have to carry alone
-              </p>
-              <h2 className="mt-5 max-w-4xl text-3xl font-bold leading-tight md:text-5xl">
-                Getting mental health care should not become another system you
-                have to fight.
-              </h2>
-              <p className="mt-6 max-w-3xl text-lg leading-relaxed text-[color:var(--cl-canvas)]/78">
-                Veterans and military families already navigate enough acronyms,
-                authorizations, directories, transitions, and unanswered calls.
-                The path to care should reduce that weight—not add another project
-                to the pile.
-              </p>
-            </div>
-            <div className="lg:col-span-4">
-              <div className="border border-[color:var(--cl-canvas)]/20 bg-[color:var(--cl-canvas)]/5 p-7">
-                <HeartHandshake
-                  className="h-8 w-8 text-[color:var(--cl-ember)]"
-                  aria-hidden="true"
-                />
-                <p className="mt-5 text-xl font-bold leading-snug">
-                  Real support means helping someone reach the next real step.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="border-b border-[color:var(--cl-ink)]/10">
+        <section className="border-b border-[#3B5147]/15 bg-white">
           <div className="container-wide py-20 md:py-28">
-            <p className="text-xs font-bold uppercase tracking-[0.24em] text-[color:var(--cl-ember)]">
-              Real therapy for real life
-            </p>
-            <h2 className="mt-5 max-w-4xl text-3xl font-bold leading-tight md:text-5xl">
-              Care for the person—not just the coverage pathway.
-            </h2>
-            <p className="mt-6 max-w-3xl text-lg leading-relaxed text-[color:var(--cl-ink)]/75">
-              ValorWell provides telehealth therapy for children, teens, adults,
-              couples, and families across a broad range of mental health needs,
-              subject to clinician scope, licensure, availability, capacity,
-              coverage or authorization, and clinical fit.
-            </p>
+            <div className="max-w-3xl">
+              <Eyebrow>What ValorWell Treats</Eyebrow>
+              <h2 className="mt-4 text-3xl font-bold leading-tight md:text-5xl">
+                Outpatient mental health care for real life, not just one diagnosis.
+              </h2>
+              <p className="mt-5 text-lg leading-8 text-[#111814]/64">
+                The exact clinician match depends on licensure, availability, age range, coverage, and clinical fit. These are examples of concerns that can fall within ValorWell's outpatient therapy work when the right path is available.
+              </p>
+            </div>
 
-            <div className="mt-14 grid gap-px bg-[color:var(--cl-ink)]/15 md:grid-cols-2 lg:grid-cols-3">
-              {serviceGroups.map((group) => (
-                <article
-                  key={group.title}
-                  className="bg-[color:var(--cl-canvas)] p-7 md:p-8"
-                >
-                  <h3 className="text-xl font-bold leading-tight md:text-2xl">
-                    {group.title}
-                  </h3>
-                  <p className="mt-3 leading-relaxed text-[color:var(--cl-ink)]/72">
-                    {group.body}
-                  </p>
+            <div className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+              {serviceGroups.map((service) => (
+                <article key={service.title} className="rounded-3xl border border-[#3B5147]/15 bg-[#F4F1E8] p-7">
+                  <Stethoscope className="h-6 w-6 text-[#3B5147]" aria-hidden="true" />
+                  <h3 className="mt-5 text-xl font-bold">{service.title}</h3>
+                  <p className="mt-3 leading-7 text-[#111814]/62">{service.body}</p>
                 </article>
               ))}
-              <div className="bg-[color:var(--cl-canvas)] p-7 text-sm leading-relaxed text-[color:var(--cl-ink)]/58 md:p-8">
-                ValorWell does not currently provide psychiatry, medication
-                management, psychological testing, inpatient care, or crisis
-                services.
+            </div>
+          </div>
+        </section>
+
+        <section className="border-b border-white/10 bg-[#3B5147] text-white">
+          <div className="container-wide grid gap-10 py-20 md:py-28 lg:grid-cols-12 lg:items-start">
+            <div className="lg:col-span-5">
+              <Eyebrow light>Care Boundaries</Eyebrow>
+              <h2 className="mt-4 text-3xl font-bold leading-tight md:text-5xl">
+                Clear limits are part of responsible access.
+              </h2>
+            </div>
+            <div className="lg:col-span-7">
+              <div className="space-y-5">
+                {[
+                  "ValorWell is telehealth-first and is not an emergency or crisis service.",
+                  "Care is not guaranteed by insurance coverage alone; licensure, availability, capacity, and clinical fit still matter.",
+                  "VA Community Care requires the appropriate VA authorization and provider pathway. ValorWell cannot create or guarantee that authorization.",
+                  "TRICARE is not currently an active ValorWell care pathway.",
+                  "ValorWell does not currently provide psychiatry, medication management, psychological testing, or inpatient care.",
+                ].map((item) => (
+                  <div key={item} className="flex gap-4 border-b border-white/10 pb-5 last:border-b-0">
+                    <ShieldCheck className="mt-1 h-5 w-5 shrink-0 text-[#D7A92E]" aria-hidden="true" />
+                    <p className="leading-7 text-white/72">{item}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
         </section>
 
-        <section className="bg-[color:var(--cl-ink)] text-[color:var(--cl-canvas)]">
-          <div className="container-wide py-20 md:py-28">
-            <p className="text-xs font-bold uppercase tracking-[0.24em] text-[color:var(--cl-ember)]">
-              One clear place to start
-            </p>
-            <h2 className="mt-5 max-w-4xl text-3xl font-bold leading-tight md:text-5xl">
-              Identify the path. Verify what is real. Move toward care.
-            </h2>
-            <ol className="mt-12 grid gap-8 md:grid-cols-3">
-              {[
-                {
-                  title: "Tell us who needs care",
-                  body: "Veteran or veteran family member. That determines which coverage choices are relevant.",
-                },
-                {
-                  title: "Choose the current pathway",
-                  body: "CHAMPVA, TRICARE, VA Community Care, or help identifying which one may apply.",
-                },
-                {
-                  title: "Take the honest next step",
-                  body: "Begin intake where care is active or enter the appropriate interest, authorization, or pathway process where it is not.",
-                },
-              ].map((step, index) => (
-                <li
-                  key={step.title}
-                  className="border-t border-[color:var(--cl-canvas)]/22 pt-5"
-                >
-                  <p className="font-mono text-sm text-[color:var(--cl-ember)]">
-                    STEP {index + 1}
-                  </p>
-                  <h3 className="mt-3 text-xl font-bold md:text-2xl">
-                    {step.title}
-                  </h3>
-                  <p className="mt-3 leading-relaxed text-[color:var(--cl-canvas)]/72">
-                    {step.body}
-                  </p>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </section>
-
-        <section className="bg-[color:var(--cl-canvas)]">
-          <div className="container-narrow py-20 md:py-28">
-            <p className="text-xs font-bold uppercase tracking-[0.24em] text-[color:var(--cl-ember)]">
-              Questions
-            </p>
-            <h2 className="mt-5 text-3xl font-bold leading-tight md:text-5xl">
-              Clear answers before the next step.
-            </h2>
-            <Accordion type="single" collapsible className="mt-10">
-              {faqs.map((faq, index) => (
-                <AccordionItem
-                  key={faq.q}
-                  value={`faq-${index}`}
-                  className="border-b border-[color:var(--cl-ink)]/18"
-                >
-                  <AccordionTrigger className="py-5 text-left text-lg font-semibold hover:no-underline md:text-xl">
-                    {faq.q}
-                  </AccordionTrigger>
-                  <AccordionContent className="pb-6 text-base leading-relaxed text-[color:var(--cl-ink)]/76">
-                    {faq.a}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
-          </div>
-        </section>
-
-        <section className="bg-[color:var(--cl-evergreen)] text-[color:var(--cl-canvas)]">
-          <div className="container-wide py-20 text-center md:py-28">
-            <p className="text-xs font-bold uppercase tracking-[0.24em] text-[color:var(--cl-ember)]">
-              Start where you are
-            </p>
-            <h2 className="mx-auto mt-5 max-w-4xl text-4xl font-bold leading-tight md:text-6xl">
-              You do not need every answer before taking the first step.
-            </h2>
-            <div className="mt-9">
-              <a
-                href="#find-your-path"
-                className="inline-flex min-h-12 items-center gap-2 bg-[color:var(--cl-ember)] px-7 py-4 text-sm font-bold uppercase tracking-wide text-[color:var(--cl-canvas)] hover:bg-[color:var(--cl-canvas)] hover:text-[color:var(--cl-ink)]"
+        <section className="border-b border-[#3B5147]/15 bg-[#F4F1E8]">
+          <div className="container-wide grid gap-8 py-16 md:py-20 lg:grid-cols-12 lg:items-center">
+            <div className="lg:col-span-8">
+              <Eyebrow>Need Information Before Care?</Eyebrow>
+              <h2 className="mt-4 text-3xl font-bold leading-tight md:text-4xl">
+                The Resource Hub separates system questions from the care intake itself.
+              </h2>
+              <p className="mt-4 max-w-3xl leading-7 text-[#111814]/64">
+                Use Resources for CHAMPVA, VA Community Care, documentation, veteran mental health, and family-system guidance. Use Find Care when you are ready to identify a current care path.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-3 lg:col-span-4 lg:justify-end">
+              <Link
+                to="/resources"
+                className="inline-flex min-h-12 items-center gap-2 rounded-md bg-[#3B5147] px-6 py-3 text-sm font-bold text-white"
               >
-                Find Your Care Path
+                Browse Resources
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
-              </a>
+              </Link>
+              <Link
+                to="/contact"
+                className="inline-flex min-h-12 items-center rounded-md border border-[#3B5147]/25 px-6 py-3 text-sm font-bold text-[#3B5147]"
+              >
+                Contact ValorWell
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-white">
+          <div className="container-wide py-20 md:py-24">
+            <div className="mx-auto max-w-3xl">
+              <Eyebrow>Frequently Asked Questions</Eyebrow>
+              <h2 className="mt-4 text-3xl font-bold leading-tight md:text-4xl">Before you start.</h2>
+              <Accordion type="single" collapsible className="mt-10">
+                {faqs.map((faq) => (
+                  <AccordionItem key={faq.q} value={faq.q}>
+                    <AccordionTrigger className="text-left text-base font-bold">{faq.q}</AccordionTrigger>
+                    <AccordionContent className="text-base leading-7 text-[#111814]/65">{faq.a}</AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
             </div>
           </div>
         </section>
