@@ -107,7 +107,14 @@ const App = () => (
             <Route path="/vets2industry" element={<Vets2IndustryPage />} />
             <Route path="/mmia" element={<MilitaryMissionsInActionPage />} />
             <Route path="/veteransbreakfastclub" element={<VeteransBreakfastClubPage />} />
-            <Route path="/americancorporatepartners" element={<AmericanCorporatePartnersPage />} />
+            <Route
+              path="/americancorporatepartners"
+              element={
+                <div className="acp-page">
+                  <AmericanCorporatePartnersPage />
+                </div>
+              }
+            />
             <Route path="/clinicians" element={<Clinicians />} />
             <Route
               path="/therapists"
@@ -126,7 +133,8 @@ const App = () => (
             />
             <Route
               path="/authority/military-family-therapy"
-              element={<AuthorityMilitaryFamilyTherapy />} />
+              element={<AuthorityMilitaryFamilyTherapy />}
+            />
             <Route
               path="/authority/veteran-mental-health-care"
               element={<AuthorityVeteranMentalHealthCare />}
