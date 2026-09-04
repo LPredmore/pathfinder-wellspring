@@ -14,8 +14,8 @@ export default function VeteranMentalHealthCare() {
       h1="Mental health care for veterans who need more than another waiting list."
       subhead="ValorWell helps veterans access practical mental health support through a system built around care, documentation, family strain, and real-world barriers."
       heroCTAs={[
-        { label: "Get Care", to: "/get-care" },
-        { label: "Support the Mission", to: "/beyondtheyellow", variant: "secondary" },
+        { label: "Find Care", to: "/get-care" },
+        { label: "Support ValorWell", to: "/support", variant: "secondary" },
       ]}
       sections={[
         {
@@ -81,13 +81,13 @@ export default function VeteranMentalHealthCare() {
       ]}
       related={[
         { name: "Military Family Therapy", href: "/military-family-therapy", body: "Support for spouses, kids, and the household." },
-        { name: "Documentation Support", href: "/documentation-support", body: "Ethical documentation built on real care." },
-        { name: "CHAMPVA Mental Health", href: "/champva-mental-health" },
-        { name: "VA Community Care Mental Health", href: "/va-community-care-mental-health" },
+        { name: "Clinical Documentation Resources", href: "/resources/documentation", body: "Ethical documentation built on real care." },
+        { name: "CHAMPVA Resources", href: "/resources/champva", body: "Provider access, questions to ask, and current CHAMPVA care-path information." },
+        { name: "VA Community Care Resources", href: "/resources/va-community-care", body: "Understand referrals, authorization, provider paths, and records to keep." },
       ]}
       finalCTAs={[
         { label: "Start Care with ValorWell", to: "/get-care" },
-        { label: "Go Beyond the Yellow", to: "/beyondtheyellow", variant: "secondary" },
+        { label: "Explore Veteran Mental Health Resources", to: "/resources/veteran-mental-health", variant: "secondary" },
       ]}
       finalNote={CRISIS_NOTE}
     />
