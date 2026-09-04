@@ -21,6 +21,7 @@ import HomePage from "./pages/HomePage";
 import WatchPage from "./pages/WatchPage";
 import NetworkPage from "./pages/NetworkPage";
 import MissionPage from "./pages/MissionPage";
+import ImpactPage from "./pages/ImpactPage";
 import OcsBillingHubPage from "./pages/OcsBillingHubPage";
 import BtyBillingHubPage from "./pages/BtyBillingHubPage";
 import Clinicians from "./pages/Clinicians";
@@ -98,6 +99,7 @@ const App = () => (
             <Route path="/network" element={<NetworkPage />} />
             <Route path="/videos" element={<Navigate to="/watch" replace />} />
             <Route path="/mission" element={<MissionPage />} />
+            <Route path="/impact" element={<ImpactPage />} />
             <Route
               path="/operation-claims-success"
               element={<OcsBillingHubPage />}
