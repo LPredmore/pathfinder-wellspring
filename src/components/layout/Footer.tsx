@@ -6,7 +6,7 @@ const groups: { title: string; links: { name: string; href: string }[] }[] = [
     links: [
       { name: "Mission", href: "/mission" },
       { name: "Impact", href: "/impact" },
-      { name: "Beyond The Yellow", href: "/beyondtheyellow" },
+      { name: "Beyond The Yellow", href: "/beyond-the-yellow" },
       { name: "Watch", href: "/watch" },
     ],
   },
@@ -15,13 +15,13 @@ const groups: { title: string; links: { name: string; href: string }[] }[] = [
     links: [
       { name: "Find Care", href: "/get-care" },
       { name: "Clinicians", href: "/clinicians" },
-      { name: "Resources", href: "/authority/resources" },
+      { name: "Resources", href: "/resources" },
     ],
   },
   {
     title: "Community",
     links: [
-      { name: "Beyond The Yellow", href: "/beyondtheyellow" },
+      { name: "Beyond The Yellow", href: "/beyond-the-yellow" },
       { name: "Network", href: "/network" },
       { name: "Watch", href: "/watch" },
     ],
@@ -31,7 +31,7 @@ const groups: { title: string; links: { name: string; href: string }[] }[] = [
     links: [
       { name: "Partner With ValorWell", href: "/partner" },
       { name: "Support ValorWell", href: "/support" },
-      { name: "Share a Beyond The Yellow Story", href: "/beyondtheyellow" },
+      { name: "Share a Beyond The Yellow Story", href: "/beyond-the-yellow" },
       { name: "Contact", href: "/contact" },
     ],
   },
