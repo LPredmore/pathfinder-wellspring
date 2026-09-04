@@ -13,7 +13,7 @@ const primary = [
 const getInvolved = [
   { name: "Clinicians", href: "/clinicians" },
   { name: "Partner With ValorWell", href: "/partner" },
-  { name: "Donate", href: "/donate" },
+  { name: "Support ValorWell", href: "/support" },
   { name: "Share a Beyond The Yellow Story", href: "/beyondtheyellow" },
   { name: "Contact", href: "/contact" },
 ];
