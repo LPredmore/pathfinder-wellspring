@@ -209,3 +209,48 @@
   --cl-ink: #111814;
   --cl-ember: #B24A3A;
 }
+
+/* American Corporate Partners BTY feature: keep Signal Yellow as an accent while
+   meeting normal-text contrast targets against Evergreen and Warm Canvas. */
+.acp-page [class~="bg-[hsl(var(--gold-accent))]"][class~="text-[hsl(var(--navy))]"] {
+  color: #111814;
+}
+
+.acp-page .bg-background .text-xs[class~="text-[hsl(var(--gold-accent))]"],
+.acp-page [class~="bg-[hsl(var(--section-alt))]"] .text-xs[class~="text-[hsl(var(--gold-accent))]"] {
+  color: hsl(var(--navy));
+}
+
+.acp-page [class~="bg-[hsl(var(--navy))]"] .text-xs[class~="text-[hsl(var(--gold-accent))]"],
+.acp-page [class~="bg-[hsl(var(--navy))]"] .text-sm[class~="text-[hsl(var(--gold-accent))]"],
+.acp-page [class~="bg-[hsl(var(--navy))]"] [class~="text-[11px]"][class~="text-[hsl(var(--gold-accent))]"] {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.acp-page [class~="bg-[hsl(var(--navy))]"] [class~="text-white/45"],
+.acp-page [class~="bg-[hsl(var(--navy))]"] [class~="text-white/50"],
+.acp-page [class~="bg-[hsl(var(--navy))]"] [class~="text-white/55"],
+.acp-page [class~="bg-[hsl(var(--navy))]"] [class~="text-white/60"] {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.acp-page [class~="bg-[hsl(var(--gold-accent))]"] [class~="opacity-65"] {
+  opacity: 0.8;
+}
+
+@media (hover: none) {
+  .acp-page .group:hover {
+    transform: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .acp-page *,
+  .acp-page *::before,
+  .acp-page *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
