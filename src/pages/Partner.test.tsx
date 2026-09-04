@@ -3,13 +3,17 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { MemoryRouter } from "react-router-dom";
 import Partner from "./Partner";
 
-vi.mock("@/components/layout", () => ({
+vi.mock("@/components/layout/Layout", () => ({
   Layout: ({ children }: { children: React.ReactNode }) => <>{children}</>,
 }));
 
 vi.mock("@/components/SEO", () => ({
   SEO: () => null,
   BreadcrumbSchema: () => null,
+}));
+
+vi.mock("@/lib/tracking", () => ({
+  trackHomeEvent: vi.fn(),
 }));
 
 function renderPartner() {
@@ -20,72 +24,81 @@ function renderPartner() {
   );
 }
 
-function checkoutUrl(name: string) {
-  const href = screen.getByRole("link", { name }).getAttribute("href");
-  expect(href).toBeTruthy();
-  const url = new URL(href!, "https://valorwell.org");
-  expect(url.pathname).toBe("/donate");
-  expect(url.searchParams.get("vw_handoff_id")).toMatch(
-    /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
-  );
-  return url;
-}
-
-describe("Partner support mission page", () => {
+describe("Partner organizational collaboration page", () => {
   afterEach(cleanup);
 
-  it("leads with the donor case for support", () => {
+  it("leads with organizational collaboration rather than a donor campaign", () => {
     renderPartner();
 
     expect(
       screen.getByRole("heading", {
         level: 1,
-        name: /When a veteran finally says, “I’m ready for help,”/i,
+        name: /We do not need more logos around the mission/i,
       }),
     ).toBeInTheDocument();
-    expect(screen.getByText("Asking for help should lead to help.")).toBeInTheDocument();
-    expect(screen.getByText("Bridge the Wait")).toBeInTheDocument();
+    expect(screen.getByText("What Partnership Means Here")).toBeInTheDocument();
+    expect(screen.getByText("Where Collaboration Can Fit")).toBeInTheDocument();
+    expect(screen.queryByText("Bridge the Wait")).not.toBeInTheDocument();
   });
 
-  it("routes donor CTAs through the tracked donate passthrough", () => {
-    renderPartner();
-
-    const heroCta = checkoutUrl("Help Keep the Bridge Open");
-    expect(heroCta.searchParams.get("vw_checkout_source")).toBe("partner-hero");
-    expect(heroCta.searchParams.get("vw_checkout_medium")).toBe("site");
-    expect(heroCta.searchParams.get("vw_checkout_campaign")).toBe("bridge-the-wait");
-    expect(heroCta.searchParams.get("vw_checkout_content")).toBe("hero");
-
-    const monthlyCta = checkoutUrl("Become a Monthly Supporter");
-    expect(monthlyCta.searchParams.get("vw_checkout_source")).toBe("partner-campaign-monthly");
-    expect(monthlyCta.searchParams.get("vw_checkout_campaign")).toBe("monthly-support");
-    expect(monthlyCta.searchParams.get("vw_checkout_content")).toBe("campaign-card");
-  });
-
-  it("keeps organizational collaboration secondary", () => {
+  it("routes the primary partnership actions to Contact and Impact", () => {
     renderPartner();
 
     expect(
-      screen.getByText("Represent an organization that wants to work with ValorWell?"),
-    ).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /Explore BTY/i })).toHaveAttribute(
+      screen.getAllByRole("link", { name: /Start a Partnership Conversation/i })[0],
+    ).toHaveAttribute("href", "/contact");
+    expect(
+      screen.getByRole("link", { name: /See What ValorWell Can Verify/i }),
+    ).toHaveAttribute("href", "/impact");
+  });
+
+  it("keeps financial support separate from partnership", () => {
+    renderPartner();
+
+    expect(screen.getByText("Partnership vs. Financial Support")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /^Donate$/i })).toHaveAttribute(
       "href",
-      "/beyondtheyellow",
+      "/donate",
     );
-    expect(screen.queryByText(/Tell Us What You're Building/i)).not.toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /Review Impact/i })).toHaveAttribute(
+      "href",
+      "/impact",
+    );
   });
 
-  it("renders the three approved campaign visuals", () => {
+  it("routes into the current community architecture", () => {
     renderPartner();
 
     expect(
-      screen.getByAltText(/crane lowers the final section of a bridge/i),
+      screen.getByRole("link", { name: /Explore Beyond The Yellow/i }),
+    ).toHaveAttribute("href", "/beyondtheyellow");
+    expect(screen.getByRole("link", { name: /Explore the Network/i })).toHaveAttribute(
+      "href",
+      "/network",
+    );
+    expect(screen.getByRole("link", { name: /Watch ValorWell/i })).toHaveAttribute(
+      "href",
+      "/watch",
+    );
+  });
+
+  it("does not expose Operation Claims Success as a partnership route", () => {
+    renderPartner();
+
+    const links = screen.getAllByRole("link");
+    expect(
+      links.some((link) => link.getAttribute("href") === "/operation-claims-success"),
+    ).toBe(false);
+  });
+
+  it("states the non-pay-to-play partnership boundaries", () => {
+    renderPartner();
+
+    expect(
+      screen.getByText(/Financial support does not purchase a Beyond The Yellow feature/i),
     ).toBeInTheDocument();
     expect(
-      screen.getByAltText(/person stands before a wall of fragmented panels/i),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByAltText(/person walks a warmly lit stone pathway/i),
+      screen.getByText(/A partner does not control clinician judgment/i),
     ).toBeInTheDocument();
   });
 });

@@ -1,32 +1,82 @@
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import {
-  ArrowDown,
   ArrowRight,
-  CalendarHeart,
-  Check,
-  CircleDollarSign,
+  Building2,
+  ExternalLink,
+  Handshake,
   HeartHandshake,
+  Lightbulb,
   Network,
-  Route,
   ShieldCheck,
-  Sparkles,
-  Stethoscope,
+  Users,
+  Waypoints,
+  Wrench,
+  type LucideIcon,
 } from "lucide-react";
-import { Layout } from "@/components/layout";
+import { Layout } from "@/components/layout/Layout";
 import { SEO, BreadcrumbSchema } from "@/components/SEO";
-import { DonateButton } from "@/components/DonateButton";
-import partnerBridgeAsset from "@/assets/partner-bridge.png.asset.json";
-import partnerReadinessAsset from "@/assets/partner-readiness.png.asset.json";
+import { trackHomeEvent } from "@/lib/tracking";
 import partnerCareAccessCommunityAsset from "@/assets/partner-care-access-community.png.asset.json";
 
-function Eyebrow({ children, light = false }: { children: ReactNode; light?: boolean }) {
+type CollaborationPath = {
+  title: string;
+  copy: string;
+  examples: string;
+  Icon: LucideIcon;
+};
+
+const collaborationPaths: CollaborationPath[] = [
+  {
+    title: "Veteran & military-family organizations",
+    copy: "Work together where clearer care access, useful education, resource discovery, introductions, or community visibility can create a better next step.",
+    examples: "Education · resource connections · introductions · shared outreach",
+    Icon: Users,
+  },
+  {
+    title: "Community organizations & employers",
+    copy: "Create practical connections around mental well-being, veteran-family support, community action, or a specific problem both organizations are equipped to address.",
+    examples: "Community resources · employee/veteran support · local collaboration",
+    Icon: Building2,
+  },
+  {
+    title: "Creators, media & storytellers",
+    copy: "Help useful stories travel farther through interviews, guest introductions, distribution, education, and conversations worth putting in front of more people.",
+    examples: "Beyond The Yellow · interviews · distribution · guest introductions",
+    Icon: Lightbulb,
+  },
+  {
+    title: "Connectors & infrastructure partners",
+    copy: "Introduce ValorWell to people, systems, organizations, clinicians, tools, or relationships that can make care, impact, or community work more effective.",
+    examples: "Introductions · technology · operational resources · strategic relationships",
+    Icon: Waypoints,
+  },
+];
+
+const fitChecks = [
+  {
+    title: "There is a useful outcome",
+    copy: "The relationship should create something more concrete than two logos appearing next to each other.",
+  },
+  {
+    title: "The roles are clear",
+    copy: "We should be able to explain what ValorWell contributes, what the other organization contributes, and what happens next.",
+  },
+  {
+    title: "The claims are supportable",
+    copy: "A partnership cannot become permission to exaggerate reach, access, outcomes, funding, or impact.",
+  },
+  {
+    title: "The relationship protects trust",
+    copy: "Clinical judgment, editorial selection, and care access cannot be bought or traded for visibility, referrals, or financial support.",
+  },
+];
+
+function Eyebrow({ children, yellow = false }: { children: ReactNode; yellow?: boolean }) {
   return (
     <p
-      className={`text-[11px] font-bold uppercase tracking-[0.22em] md:text-xs ${
-        light
-          ? "text-[color:var(--cl-ember)]"
-          : "text-[color:var(--cl-ember)]"
+      className={`text-xs font-bold uppercase tracking-[0.2em] ${
+        yellow ? "text-[#D7A92E]" : "text-[#3B5147]"
       }`}
     >
       {children}
@@ -34,591 +84,326 @@ function Eyebrow({ children, light = false }: { children: ReactNode; light?: boo
   );
 }
 
-function ImagePlaceholder({
-  title,
-  direction,
-  dark = false,
+function TrackedLink({
+  to,
+  event,
+  children,
+  className = "",
 }: {
-  title: string;
-  direction: string;
-  dark?: boolean;
+  to: string;
+  event: string;
+  children: ReactNode;
+  className?: string;
 }) {
   return (
-    <figure
-      className={`relative flex min-h-[22rem] items-end overflow-hidden border p-7 md:min-h-[29rem] md:p-9 ${
-        dark
-          ? "border-[color:var(--cl-canvas)]/20 bg-[color:var(--cl-canvas)]/5"
-          : "border-[color:var(--cl-evergreen)]/25 bg-[color:var(--cl-evergreen)]/5"
-      }`}
-      aria-label={`${title}. Planned image: ${direction}`}
+    <Link
+      to={to}
+      onClick={() => trackHomeEvent(event, { page: "partner" })}
+      className={className}
     >
-      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-        <div
-          className={`absolute -right-16 -top-16 h-64 w-64 rounded-full blur-3xl ${
-            dark
-              ? "bg-[color:var(--cl-ember)]/20"
-              : "bg-[color:var(--cl-ember)]/12"
-          }`}
-        />
-        <div
-          className={`absolute -bottom-20 -left-20 h-72 w-72 rounded-full blur-3xl ${
-            dark
-              ? "bg-[color:var(--cl-canvas)]/10"
-              : "bg-[color:var(--cl-evergreen)]/12"
-          }`}
-        />
-        <div
-          className={`absolute inset-x-8 top-10 h-px ${
-            dark
-              ? "bg-[color:var(--cl-canvas)]/20"
-              : "bg-[color:var(--cl-evergreen)]/20"
-          }`}
-        />
-        <div
-          className={`absolute bottom-28 left-8 top-10 w-px ${
-            dark
-              ? "bg-[color:var(--cl-canvas)]/20"
-              : "bg-[color:var(--cl-evergreen)]/20"
-          }`}
-        />
-      </div>
-
-      <figcaption
-        className={`relative max-w-xl border-l-4 border-[color:var(--cl-ember)] pl-5 ${
-          dark
-            ? "text-[color:var(--cl-canvas)]"
-            : "text-[color:var(--cl-ink)]"
-        }`}
-      >
-        <p className="text-xs font-bold uppercase tracking-[0.2em] opacity-60">
-          Planned visual space
-        </p>
-        <p className="mt-3 text-xl font-bold md:text-2xl">{title}</p>
-        <p className="mt-3 text-sm leading-relaxed opacity-70">{direction}</p>
-      </figcaption>
-    </figure>
+      {children}
+    </Link>
   );
 }
 
-const agreements = [
-  "Asking for help should lead to help.",
-  "Real care should be easier to reach than a paid shortcut.",
-  "Concern matters most when it becomes capacity.",
-] as const;
-
-const questions = [
-  "Do you believe asking for help should lead somewhere?",
-  "Do you believe veterans and families deserve real care before a difficult situation becomes a crisis?",
-  "Do you believe legitimate providers and ethical pathways should be easier to reach than people selling shortcuts?",
-  "Do you believe support becomes more meaningful when it creates something people can actually use?",
-] as const;
-
-const supportBuilds = [
-  {
-    title: "Real Care",
-    body: "Expand the capacity to connect veterans and families with legitimate mental-health treatment.",
-    icon: Stethoscope,
-  },
-  {
-    title: "Legitimate Pathways",
-    body: "Strengthen education, provider connections, and Operation Claims Success so people can navigate the system without relying on predatory shortcuts.",
-    icon: Route,
-  },
-  {
-    title: "A Larger Movement",
-    body: "Help meaningful work travel farther through Beyond The Yellow, community storytelling, and connections between people taking real action.",
-    icon: Network,
-  },
-] as const;
-
-const trustCommitments = [
-  "Donations do not control clinical judgment.",
-  "Support does not purchase referrals or clinical outcomes.",
-  "Sponsorship does not guarantee a Beyond The Yellow feature.",
-  "ValorWell will distinguish honestly between what exists now and what is still being built.",
-] as const;
-
 export default function Partner() {
+  useEffect(() => {
+    trackHomeEvent("partner_page_view", { page: "partner" });
+  }, []);
+
   return (
-    <div className="clinicians-theme bg-[color:var(--cl-canvas)] text-[color:var(--cl-ink)]">
-      <Layout>
-        <SEO
-          title="Support the ValorWell Mission | Help Keep the Path Open"
-          description="Help ValorWell build real mental-health care, legitimate veteran pathways, provider capacity, and community infrastructure that leads people toward meaningful support."
-          canonical="/partner"
-        />
-        <BreadcrumbSchema
-          items={[
-            { name: "Home", url: "/" },
-            { name: "Support the Mission", url: "/partner" },
-          ]}
-        />
+    <Layout>
+      <SEO
+        title="Partner With ValorWell | Build Something Useful Together"
+        description="Partner with ValorWell on care access, veteran and family resources, community action, storytelling, introductions, and practical collaboration."
+        canonical="/partner"
+      />
+      <BreadcrumbSchema
+        items={[
+          { name: "Home", url: "/" },
+          { name: "Partner With ValorWell", url: "/partner" },
+        ]}
+      />
 
-        {/* 1. HERO */}
-        <section className="relative overflow-hidden border-b border-[color:var(--cl-evergreen)]/20">
-          <div className="container-wide grid gap-12 py-16 md:py-24 lg:grid-cols-12 lg:items-center">
+      <div className="partner-theme bg-[#F4F1E8] text-[#111814]">
+        <style>{`
+          .partner-theme {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+          }
+          .partner-theme h1,
+          .partner-theme h2,
+          .partner-theme h3,
+          .partner-theme h4 {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            letter-spacing: -0.025em;
+          }
+        `}</style>
+
+        <section className="relative overflow-hidden border-b border-[#3B5147]/15 bg-[#F4F1E8]">
+          <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+            <div className="absolute -right-32 -top-40 h-96 w-96 rounded-full bg-[#D7A92E]/[0.08] blur-3xl" />
+            <div className="absolute -bottom-44 -left-32 h-96 w-96 rounded-full bg-[#3B5147]/[0.08] blur-3xl" />
+          </div>
+
+          <div className="container-wide relative grid gap-12 py-16 md:py-24 lg:grid-cols-12 lg:items-center lg:py-28">
             <div className="lg:col-span-7">
-              <Eyebrow>Support That Leads Somewhere</Eyebrow>
-              <h1 className="mt-6 max-w-5xl text-4xl font-bold leading-[1.03] tracking-tight text-[color:var(--cl-evergreen)] md:text-6xl lg:text-7xl">
-                When a veteran finally says, “I’m ready for help,” the next word
-                should not be “wait.”
+              <Eyebrow>Partner With ValorWell</Eyebrow>
+              <h1 className="mt-6 max-w-5xl text-4xl font-bold leading-[1.03] sm:text-5xl md:text-6xl lg:text-7xl">
+                We do not need more logos around the mission. We need relationships that move something.
               </h1>
-              <div className="mt-7 max-w-3xl space-y-5 text-lg leading-relaxed text-[color:var(--cl-ink)]/82 md:text-xl">
-                <p>
-                  ValorWell is building the care, provider capacity, education,
-                  and legitimate pathways that help veterans and families move
-                  from confusion to real support.
-                </p>
-                <p className="font-semibold text-[color:var(--cl-evergreen)]">
-                  You do not have to build the entire system yourself. You can
-                  help keep the next step open.
-                </p>
-              </div>
-
-              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-                <DonateButton
-                  source="partner-hero"
-                  size="lg"
-                  utmCampaign="bridge-the-wait"
-                  utmContent="hero"
-                  className="justify-center rounded-none bg-[color:var(--cl-evergreen)] px-7 py-4 text-sm font-bold uppercase tracking-wide text-[color:var(--cl-canvas)] shadow-none hover:bg-[color:var(--cl-ink)]"
+              <p className="mt-7 max-w-3xl text-lg leading-8 text-[#111814]/70 md:text-xl">
+                ValorWell works with organizations, creators, employers, community groups, connectors, and aligned infrastructure partners when the relationship can create a clearer path, a useful resource, stronger reach, or real action.
+              </p>
+              <div className="mt-9 flex flex-wrap gap-3">
+                <TrackedLink
+                  to="/contact"
+                  event="partner_hero_contact"
+                  className="inline-flex min-h-12 items-center gap-2 rounded-md bg-[#3B5147] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#31443B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3B5147] focus-visible:ring-offset-2"
                 >
-                  Help Keep the Bridge Open
-                </DonateButton>
-                <a
-                  href="#what-support-builds"
-                  className="inline-flex items-center justify-center gap-2 border border-[color:var(--cl-evergreen)] px-7 py-4 text-sm font-bold uppercase tracking-wide text-[color:var(--cl-evergreen)] transition-colors hover:bg-[color:var(--cl-evergreen)] hover:text-[color:var(--cl-canvas)]"
+                  Start a Partnership Conversation
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </TrackedLink>
+                <TrackedLink
+                  to="/impact"
+                  event="partner_hero_impact"
+                  className="inline-flex min-h-12 items-center gap-2 rounded-md border border-[#3B5147]/30 px-6 py-3 text-sm font-bold text-[#3B5147] transition hover:bg-white/60"
                 >
-                  See What Support Builds
-                  <ArrowDown className="h-4 w-4" aria-hidden="true" />
-                </a>
+                  See What ValorWell Can Verify
+                </TrackedLink>
               </div>
             </div>
 
             <div className="lg:col-span-5">
-              <img
-                src={partnerBridgeAsset.url}
-                alt="A crane lowers the final section of a bridge into place, connecting a dark interrupted pathway to a warm, lit doorway on the other side."
-                className="h-auto w-full rounded-lg border border-[color:var(--cl-evergreen)]/20 object-contain"
-                loading="eager"
-              />
+              <div className="overflow-hidden rounded-3xl border border-[#3B5147]/15 bg-white shadow-xl">
+                <img
+                  src={partnerCareAccessCommunityAsset.url}
+                  alt="Care, access, and community connections"
+                  className="h-auto w-full object-cover"
+                  loading="eager"
+                />
+              </div>
             </div>
           </div>
         </section>
 
-        {/* 2. THREE AGREEMENTS */}
-        <section className="bg-[color:var(--cl-evergreen)] text-[color:var(--cl-canvas)]">
-          <div className="container-wide grid md:grid-cols-3">
-            {agreements.map((agreement, index) => (
-              <div
-                key={agreement}
-                className={`py-9 md:px-8 md:py-11 ${
-                  index > 0
-                    ? "border-t border-[color:var(--cl-canvas)]/15 md:border-l md:border-t-0"
-                    : ""
-                }`}
-              >
-                <Check
-                  className="h-6 w-6 text-[color:var(--cl-ember)]"
-                  aria-hidden="true"
-                />
-                <p className="mt-5 text-xl font-bold leading-tight md:text-2xl">
-                  {agreement}
-                </p>
-              </div>
-            ))}
+        <section className="border-b border-white/10 bg-[#111814] text-white">
+          <div className="container-wide grid gap-12 py-20 md:py-28 lg:grid-cols-12 lg:items-start">
+            <div className="lg:col-span-5">
+              <Eyebrow yellow>What Partnership Means Here</Eyebrow>
+              <h2 className="mt-4 text-3xl font-bold leading-tight md:text-5xl">
+                Find the overlap. Define the work. Make it useful.
+              </h2>
+            </div>
+            <div className="lg:col-span-7">
+              <p className="text-lg leading-8 text-white/72">
+                ValorWell is not looking for partnership announcements as an end in themselves. A useful partnership has a specific reason to exist: improve a pathway, connect people to a resource, introduce the right organizations, share credible information, amplify real work, or build infrastructure neither side should build alone.
+              </p>
+              <p className="mt-5 text-lg leading-8 text-white/72">
+                The relationship can be small. It just needs to produce something more meaningful than mutual branding.
+              </p>
+            </div>
           </div>
         </section>
 
-        {/* 3. MICRO-AGREEMENTS */}
-        <section className="border-b border-[color:var(--cl-evergreen)]/20">
+        <section className="border-b border-[#3B5147]/15 bg-white">
           <div className="container-wide py-20 md:py-28">
-            <Eyebrow>A Few Things Should Not Be Controversial</Eyebrow>
-            <h2 className="mt-6 max-w-4xl text-3xl font-bold leading-tight text-[color:var(--cl-evergreen)] md:text-5xl">
-              Before you decide whether to support ValorWell, ask yourself what
-              should happen when someone is finally ready.
-            </h2>
+            <div className="max-w-3xl">
+              <Eyebrow>Where Collaboration Can Fit</Eyebrow>
+              <h2 className="mt-4 text-3xl font-bold leading-tight md:text-5xl">
+                Bring the thing your organization is actually good at.
+              </h2>
+              <p className="mt-5 text-lg leading-8 text-[#111814]/65">
+                ValorWell does not expect every partner to fit the same template. Start with the useful capability, relationship, audience, resource, or problem you can move.
+              </p>
+            </div>
 
-            <div className="mt-12 grid gap-px border border-[color:var(--cl-evergreen)]/20 bg-[color:var(--cl-evergreen)]/20 md:grid-cols-2">
-              {questions.map((question, index) => (
-                <article
-                  key={question}
-                  className="bg-[color:var(--cl-canvas)] p-7 md:min-h-64 md:p-10"
-                >
-                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-[color:var(--cl-ember)]">
-                    Agreement {String(index + 1).padStart(2, "0")}
+            <div className="mt-12 grid gap-5 md:grid-cols-2">
+              {collaborationPaths.map(({ title, copy, examples, Icon }) => (
+                <article key={title} className="rounded-3xl border border-[#3B5147]/15 bg-[#F4F1E8] p-8">
+                  <Icon className="h-8 w-8 text-[#3B5147]" aria-hidden="true" />
+                  <h3 className="mt-6 text-2xl font-bold">{title}</h3>
+                  <p className="mt-4 leading-7 text-[#111814]/64">{copy}</p>
+                  <p className="mt-5 text-xs font-bold uppercase tracking-[0.12em] text-[#3B5147]/65">
+                    {examples}
                   </p>
-                  <h3 className="mt-8 text-2xl font-bold leading-snug text-[color:var(--cl-evergreen)] md:text-3xl">
-                    {question}
-                  </h3>
                 </article>
               ))}
             </div>
           </div>
         </section>
 
-        {/* 4. HUMAN MOMENT */}
-        <section className="bg-[color:var(--cl-ink)] text-[color:var(--cl-canvas)]">
-          <div className="container-wide grid gap-12 py-20 md:py-28 lg:grid-cols-12 lg:items-center">
-            <div className="lg:col-span-6">
-              <img
-                src={partnerReadinessAsset.url}
-                alt="A person stands before a wall of fragmented panels, forms, and disconnected lines, facing a warmly lit open doorway that represents a reachable next step."
-                className="h-auto w-full rounded-lg border border-[color:var(--cl-canvas)]/20 object-contain"
-                loading="lazy"
-              />
-            </div>
-
-            <div className="lg:col-span-6">
-              <Eyebrow light>The Human Moment</Eyebrow>
-              <h2 className="mt-6 text-3xl font-bold leading-tight md:text-5xl">
-                The moment someone says, “I’m ready,” matters.
-              </h2>
-              <div className="mt-7 space-y-5 text-lg leading-relaxed text-[color:var(--cl-canvas)]/76 md:text-xl">
-                <p>
-                  It may have taken months—or years—for someone to finally admit
-                  that they need help.
-                </p>
-                <p>
-                  That decision should open a path. Too often, it opens another
-                  project: determine eligibility, find the right provider,
-                  understand the authorization, wait for capacity, and hope the
-                  person still has enough energy to keep trying.
-                </p>
-                <p className="font-semibold text-[color:var(--cl-canvas)]">
-                  ValorWell exists to make that next step more reachable.
-                </p>
-              </div>
-
-              <p className="mt-8 border-l-4 border-[color:var(--cl-ember)] pl-6 text-xl font-bold leading-snug md:text-2xl">
-                You may never meet the person whose path you helped keep open.
-                But the path still matters because you helped make it real.
-              </p>
-
-              <DonateButton
-                source="partner-human-moment"
-                size="lg"
-                utmCampaign="bridge-the-wait"
-                utmContent="human-moment"
-                className="mt-9 justify-center rounded-none bg-[color:var(--cl-ember)] px-7 py-4 text-sm font-bold uppercase tracking-wide text-white shadow-none hover:bg-[color:var(--cl-canvas)] hover:text-[color:var(--cl-ink)]"
-              >
-                Fund the Next Step
-              </DonateButton>
-            </div>
-          </div>
-        </section>
-
-        {/* 5. CAMPAIGNS */}
-        <section className="border-b border-[color:var(--cl-evergreen)]/20">
+        <section className="border-b border-[#3B5147]/15 bg-[#F4F1E8]">
           <div className="container-wide py-20 md:py-28">
-            <Eyebrow>Choose What You Want to Move Forward</Eyebrow>
-            <h2 className="mt-6 max-w-4xl text-3xl font-bold leading-tight text-[color:var(--cl-evergreen)] md:text-5xl">
-              Your contribution becomes more powerful when you can see what it is
-              helping build.
-            </h2>
-
-            <div className="mt-12 grid gap-6 lg:grid-cols-2">
-              <article className="flex flex-col border border-[color:var(--cl-evergreen)]/25 bg-[color:var(--cl-evergreen)] p-7 text-[color:var(--cl-canvas)] md:p-10">
-                <CircleDollarSign
-                  className="h-8 w-8 text-[color:var(--cl-ember)]"
-                  aria-hidden="true"
-                />
-                <p className="mt-7 text-xs font-bold uppercase tracking-[0.2em] text-[color:var(--cl-ember)]">
-                  Primary Campaign
-                </p>
-                <h3 className="mt-3 text-3xl font-bold md:text-4xl">
-                  Bridge the Wait
-                </h3>
-                <p className="mt-5 text-lg leading-relaxed text-[color:var(--cl-canvas)]/78">
-                  When a veteran says, “I’m ready for help,” do not make the next
-                  word “wait.” Bridge the Wait helps create access to real
-                  mental-health treatment while veterans and families navigate
-                  delayed or fragmented systems.
-                </p>
-
-                <div className="mt-8 grid gap-3 sm:grid-cols-2">
-                  {[
-                    ["$75", "Fund one session"],
-                    ["$150", "Fund two sessions"],
-                    ["$300", "Fund four sessions"],
-                    ["$900", "Fund twelve sessions"],
-                  ].map(([amount, impact]) => (
-                    <div
-                      key={amount}
-                      className="border border-[color:var(--cl-canvas)]/20 p-4"
-                    >
-                      <p className="text-2xl font-bold">{amount}</p>
-                      <p className="mt-1 text-sm text-[color:var(--cl-canvas)]/68">
-                        {impact}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-
-                <p className="mt-7 text-lg font-bold">
-                  $7,500 helps fund 100 real therapy sessions.
-                </p>
-
-                <DonateButton
-                  source="partner-campaign-bridge"
-                  size="lg"
-                  utmCampaign="bridge-the-wait"
-                  utmContent="campaign-card"
-                  className="mt-8 justify-center rounded-none bg-[color:var(--cl-ember)] px-7 py-4 text-sm font-bold uppercase tracking-wide text-white shadow-none hover:bg-[color:var(--cl-canvas)] hover:text-[color:var(--cl-ink)]"
-                >
-                  Fund a Session
-                </DonateButton>
-              </article>
-
-              <article className="flex flex-col border border-[color:var(--cl-evergreen)]/25 bg-[color:var(--cl-canvas)] p-7 md:p-10">
-                <CalendarHeart
-                  className="h-8 w-8 text-[color:var(--cl-ember)]"
-                  aria-hidden="true"
-                />
-                <p className="mt-7 text-xs font-bold uppercase tracking-[0.2em] text-[color:var(--cl-ember)]">
-                  Recurring Support
-                </p>
-                <h3 className="mt-3 text-3xl font-bold text-[color:var(--cl-evergreen)] md:text-4xl">
-                  Keep the Bridge Open
-                </h3>
-                <p className="mt-5 text-lg leading-relaxed text-[color:var(--cl-ink)]/75">
-                  Recurring support helps ValorWell maintain the capacity,
-                  systems, and pathways required to respond when someone is
-                  ready—not only when a campaign is receiving attention.
-                </p>
-
-                <div className="mt-8 space-y-3">
-                  {[
-                    ["$25 monthly", "Help keep the bridge open"],
-                    ["$75 monthly", "Keep one session ready"],
-                    ["$150 monthly", "Keep two sessions ready"],
-                    ["$300 monthly", "Keep four sessions ready"],
-                  ].map(([amount, impact]) => (
-                    <div
-                      key={amount}
-                      className="flex items-center justify-between gap-5 border-b border-[color:var(--cl-evergreen)]/15 pb-3"
-                    >
-                      <p className="font-bold text-[color:var(--cl-evergreen)]">
-                        {amount}
-                      </p>
-                      <p className="text-right text-sm text-[color:var(--cl-ink)]/65">
-                        {impact}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-
-                <DonateButton
-                  source="partner-campaign-monthly"
-                  variant="outline"
-                  size="lg"
-                  utmCampaign="monthly-support"
-                  utmContent="campaign-card"
-                  className="mt-8 justify-center rounded-none border-[color:var(--cl-evergreen)] px-7 py-4 text-sm font-bold uppercase tracking-wide text-[color:var(--cl-evergreen)] hover:bg-[color:var(--cl-evergreen)] hover:text-[color:var(--cl-canvas)]"
-                >
-                  Become a Monthly Supporter
-                </DonateButton>
-              </article>
+            <div className="max-w-3xl">
+              <Eyebrow>Existing Ways Into the Ecosystem</Eyebrow>
+              <h2 className="mt-4 text-3xl font-bold leading-tight md:text-5xl">
+                Not every useful relationship needs a custom program.
+              </h2>
             </div>
 
-            <p className="mt-8 max-w-3xl text-sm leading-relaxed text-[color:var(--cl-ink)]/62">
-              Contribution examples describe intended mission impact and do not
-              reserve a specific clinician, appointment, patient, or clinical
-              outcome. ValorWell allocates support where it can responsibly move
-              the stated campaign purpose forward.
-            </p>
+            <div className="mt-12 grid gap-5 lg:grid-cols-3">
+              <TrackedLink
+                to="/beyondtheyellow"
+                event="partner_path_bty"
+                className="group rounded-3xl border border-[#D7A92E]/35 bg-[#F8F3E4] p-8 transition hover:-translate-y-0.5 hover:shadow-md motion-reduce:transform-none motion-reduce:transition-none"
+              >
+                <HeartHandshake className="h-8 w-8 text-[#8A6814]" aria-hidden="true" />
+                <p className="mt-7 text-xs font-bold uppercase tracking-[0.18em] text-[#8A6814]">Beyond The Yellow</p>
+                <h3 className="mt-3 text-2xl font-bold">Have a real-action story worth amplifying?</h3>
+                <p className="mt-4 leading-7 text-[#111814]/64">
+                  Share or nominate the work. Editorial selection remains independent from sponsorship or financial support.
+                </p>
+                <span className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-[#3B5147]">
+                  Explore Beyond The Yellow <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </span>
+              </TrackedLink>
+
+              <TrackedLink
+                to="/network"
+                event="partner_path_network"
+                className="group rounded-3xl border border-[#3B5147]/15 bg-white p-8 transition hover:-translate-y-0.5 hover:shadow-md motion-reduce:transform-none motion-reduce:transition-none"
+              >
+                <Network className="h-8 w-8 text-[#3B5147]" aria-hidden="true" />
+                <p className="mt-7 text-xs font-bold uppercase tracking-[0.18em] text-[#3B5147]">Network</p>
+                <h3 className="mt-3 text-2xl font-bold">Looking for organizations already in the orbit?</h3>
+                <p className="mt-4 leading-7 text-[#111814]/64">
+                  Discover organizations featured by Beyond The Yellow and the work they are doing.
+                </p>
+                <span className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-[#3B5147]">
+                  Explore the Network <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </span>
+              </TrackedLink>
+
+              <TrackedLink
+                to="/watch"
+                event="partner_path_watch"
+                className="group rounded-3xl border border-[#3B5147]/15 bg-[#111814] p-8 text-white transition hover:-translate-y-0.5 hover:shadow-md motion-reduce:transform-none motion-reduce:transition-none"
+              >
+                <Wrench className="h-8 w-8 text-[#D7A92E]" aria-hidden="true" />
+                <p className="mt-7 text-xs font-bold uppercase tracking-[0.18em] text-[#D7A92E]">Watch</p>
+                <h3 className="mt-3 text-2xl font-bold">Want to understand the work before reaching out?</h3>
+                <p className="mt-4 leading-7 text-white/64">
+                  Watch current ValorWell content, Beyond The Yellow conversations, and founder-led explanations of the work.
+                </p>
+                <span className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-white">
+                  Watch ValorWell <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </span>
+              </TrackedLink>
+            </div>
           </div>
         </section>
 
-        {/* 6. WHAT SUPPORT BUILDS */}
-        <section
-          id="what-support-builds"
-          className="scroll-mt-24 bg-[color:var(--cl-evergreen)] text-[color:var(--cl-canvas)]"
-        >
+        <section className="border-b border-white/10 bg-[#3B5147] text-white">
           <div className="container-wide py-20 md:py-28">
             <div className="grid gap-12 lg:grid-cols-12 lg:items-start">
               <div className="lg:col-span-5">
-                <Eyebrow light>What Support Builds</Eyebrow>
-                <h2 className="mt-6 text-3xl font-bold leading-tight md:text-5xl">
-                  A donation does more than pay for a moment. It helps build the
-                  path around that moment.
+                <Eyebrow yellow>Partnership Boundaries</Eyebrow>
+                <h2 className="mt-4 text-3xl font-bold leading-tight md:text-5xl">
+                  Some things should never be part of the deal.
                 </h2>
-                <p className="mt-7 text-lg leading-relaxed text-[color:var(--cl-canvas)]/76">
-                  The clinic delivers care. The pathways help people reach it. The
-                  movement helps more people know that legitimate support exists.
-                </p>
               </div>
-
-              <div className="grid gap-px bg-[color:var(--cl-canvas)]/15 lg:col-span-7">
-                {supportBuilds.map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <article
-                      key={item.title}
-                      className="bg-[color:var(--cl-evergreen)] p-7 md:p-9"
-                    >
-                      <Icon
-                        className="h-7 w-7 text-[color:var(--cl-ember)]"
-                        aria-hidden="true"
-                      />
-                      <h3 className="mt-5 text-2xl font-bold">{item.title}</h3>
-                      <p className="mt-3 leading-relaxed text-[color:var(--cl-canvas)]/72">
-                        {item.body}
-                      </p>
-                    </article>
-                  );
-                })}
-              </div>
-            </div>
-
-            <div className="mt-14">
-              <img
-                src={partnerCareAccessCommunityAsset.url}
-                alt="A person walks a warmly lit stone pathway through a hillside community at dusk, where care, access, and gathering spaces connect around one reachable next step."
-                className="h-auto w-full rounded-lg border border-[color:var(--cl-canvas)]/20 object-contain"
-                loading="lazy"
-              />
-            </div>
-          </div>
-        </section>
-
-        {/* 7. TRUST + FINAL CTA */}
-        <section className="bg-[color:var(--cl-ink)] text-[color:var(--cl-canvas)]">
-          <div className="container-wide py-20 md:py-28">
-            <div className="grid gap-12 lg:grid-cols-12 lg:items-start">
               <div className="lg:col-span-7">
-                <Eyebrow light>Support Without Buying Control</Eyebrow>
-                <h2 className="mt-6 text-3xl font-bold leading-tight md:text-5xl">
-                  Your contribution helps move the mission. It does not purchase
-                  the mission.
-                </h2>
-
-                <div className="mt-9 grid gap-4 sm:grid-cols-2">
-                  {trustCommitments.map((commitment) => (
-                    <div
-                      key={commitment}
-                      className="flex gap-3 border border-[color:var(--cl-canvas)]/15 p-5"
-                    >
-                      <ShieldCheck
-                        className="mt-0.5 h-5 w-5 shrink-0 text-[color:var(--cl-ember)]"
-                        aria-hidden="true"
-                      />
-                      <p className="font-semibold leading-relaxed">{commitment}</p>
+                <div className="space-y-5">
+                  {[
+                    "Financial support does not purchase a Beyond The Yellow feature, endorsement, referral, or preferred treatment.",
+                    "A partner does not control clinician judgment, documentation, care decisions, or patient access.",
+                    "ValorWell will not promise reach, donations, referrals, clinical outcomes, VA outcomes, or other results it cannot control.",
+                    "A relationship does not become evidence of impact simply because both organizations announce it.",
+                  ].map((item) => (
+                    <div key={item} className="flex gap-4 border-b border-white/10 pb-5 last:border-b-0">
+                      <ShieldCheck className="mt-1 h-5 w-5 shrink-0 text-[#D7A92E]" aria-hidden="true" />
+                      <p className="leading-7 text-white/72">{item}</p>
                     </div>
                   ))}
                 </div>
               </div>
+            </div>
+          </div>
+        </section>
 
-              <div className="border-l-4 border-[color:var(--cl-ember)] pl-6 lg:col-span-5 lg:mt-16">
-                <Sparkles
-                  className="h-7 w-7 text-[color:var(--cl-ember)]"
-                  aria-hidden="true"
-                />
-                <p className="mt-6 text-2xl font-bold leading-snug md:text-3xl">
-                  Better systems do not appear because everyone agrees they
-                  should exist.
-                </p>
-                <p className="mt-5 text-lg leading-relaxed text-[color:var(--cl-canvas)]/72">
-                  They appear because enough people decide that waiting for
-                  someone else to build them is no longer acceptable.
-                </p>
+        <section className="border-b border-[#3B5147]/15 bg-white">
+          <div className="container-wide py-20 md:py-28">
+            <div className="max-w-3xl">
+              <Eyebrow>How We Evaluate a Fit</Eyebrow>
+              <h2 className="mt-4 text-3xl font-bold leading-tight md:text-5xl">
+                A good relationship should be understandable before it is impressive.
+              </h2>
+            </div>
 
-                <div className="mt-8 flex flex-col gap-3">
-                  <DonateButton
-                    source="partner-final"
-                    size="lg"
-                    utmCampaign="valorwell-mission"
-                    utmContent="final-cta"
-                    className="justify-center rounded-none bg-[color:var(--cl-ember)] px-7 py-4 text-sm font-bold uppercase tracking-wide text-white shadow-none hover:bg-[color:var(--cl-canvas)] hover:text-[color:var(--cl-ink)]"
+            <div className="mt-12 grid gap-px overflow-hidden rounded-3xl border border-[#3B5147]/15 bg-[#3B5147]/15 md:grid-cols-2">
+              {fitChecks.map(({ title, copy }, index) => (
+                <article key={title} className="bg-[#F4F1E8] p-8 md:p-10">
+                  <p className="text-sm font-bold text-[#3B5147]/60">0{index + 1}</p>
+                  <h3 className="mt-5 text-2xl font-bold">{title}</h3>
+                  <p className="mt-4 leading-7 text-[#111814]/64">{copy}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="border-b border-[#3B5147]/15 bg-[#F4F1E8]">
+          <div className="container-wide grid gap-12 py-20 md:py-28 lg:grid-cols-12 lg:items-center">
+            <div className="lg:col-span-7">
+              <Eyebrow>Partnership vs. Financial Support</Eyebrow>
+              <h2 className="mt-4 text-3xl font-bold leading-tight md:text-5xl">
+                Those are different reasons to be here.
+              </h2>
+              <p className="mt-6 max-w-3xl text-lg leading-8 text-[#111814]/66">
+                This page is for organizations and people who want to build a useful relationship with ValorWell. If your goal is simply to contribute financially, you do not need to invent a partnership around the gift.
+              </p>
+              <p className="mt-4 max-w-3xl leading-7 text-[#111814]/60">
+                ValorWell keeps financial support separate from editorial selection, clinical decisions, referrals, and partnership status.
+              </p>
+            </div>
+            <div className="lg:col-span-5">
+              <div className="rounded-3xl border border-[#3B5147]/15 bg-white p-8">
+                <HeartHandshake className="h-8 w-8 text-[#3B5147]" aria-hidden="true" />
+                <h3 className="mt-5 text-2xl font-bold">Want to support the work financially?</h3>
+                <p className="mt-4 leading-7 text-[#111814]/62">
+                  Use the donation path directly. Impact reporting explains what ValorWell can currently verify without turning a contribution into an unsupported care-outcome claim.
+                </p>
+                <div className="mt-6 flex flex-wrap gap-4">
+                  <TrackedLink
+                    to="/donate"
+                    event="partner_donate"
+                    className="inline-flex min-h-11 items-center gap-2 text-sm font-bold text-[#3B5147]"
                   >
-                    Support the ValorWell Mission
-                  </DonateButton>
-                  <DonateButton
-                    source="partner-final-monthly"
-                    variant="outline"
-                    size="lg"
-                    utmCampaign="monthly-support"
-                    utmContent="final-cta"
-                    className="justify-center rounded-none border-[color:var(--cl-canvas)]/40 px-7 py-4 text-sm font-bold uppercase tracking-wide text-[color:var(--cl-canvas)] hover:bg-[color:var(--cl-canvas)] hover:text-[color:var(--cl-ink)]"
+                    Donate <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                  </TrackedLink>
+                  <TrackedLink
+                    to="/impact"
+                    event="partner_impact"
+                    className="inline-flex min-h-11 items-center gap-2 text-sm font-bold text-[#3B5147]"
                   >
-                    Keep the Bridge Open Monthly
-                  </DonateButton>
+                    Review Impact
+                  </TrackedLink>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* SMALL ORGANIZATIONAL HANDOFF */}
-        <section className="border-b border-[color:var(--cl-evergreen)]/20 bg-[color:var(--cl-canvas)]">
-          <div className="container-wide py-12 md:py-16">
-            <details className="group border border-[color:var(--cl-evergreen)]/25">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-5 px-6 py-6 marker:hidden md:px-8">
-                <span>
-                  <span className="block text-xs font-bold uppercase tracking-[0.2em] text-[color:var(--cl-ember)]">
-                    Organizational Pathway
-                  </span>
-                  <span className="mt-2 block text-xl font-bold text-[color:var(--cl-evergreen)] md:text-2xl">
-                    Represent an organization that wants to work with ValorWell?
-                  </span>
-                </span>
-                <span
-                  className="text-2xl font-bold text-[color:var(--cl-evergreen)] transition-transform group-open:rotate-45"
-                  aria-hidden="true"
-                >
-                  +
-                </span>
-              </summary>
-
-              <div className="grid gap-px border-t border-[color:var(--cl-evergreen)]/20 bg-[color:var(--cl-evergreen)]/15 md:grid-cols-3">
-                {[
-                  {
-                    title: "Share meaningful work",
-                    body: "Bring a community mission or action story to Beyond The Yellow.",
-                    to: "/beyondtheyellow",
-                    cta: "Explore BTY",
-                  },
-                  {
-                    title: "Build a veteran pathway",
-                    body: "Discuss useful alignment with Operation Claims Success.",
-                    to: "/operation-claims-success",
-                    cta: "Explore OCS",
-                  },
-                  {
-                    title: "Discuss strategic support",
-                    body: "Start a conversation about funding, sponsorship, or another concrete relationship.",
-                    to: "/contact",
-                    cta: "Contact ValorWell",
-                  },
-                ].map((path) => (
-                  <article
-                    key={path.title}
-                    className="bg-[color:var(--cl-canvas)] p-6 md:p-8"
-                  >
-                    <HeartHandshake
-                      className="h-6 w-6 text-[color:var(--cl-ember)]"
-                      aria-hidden="true"
-                    />
-                    <h3 className="mt-5 text-xl font-bold text-[color:var(--cl-evergreen)]">
-                      {path.title}
-                    </h3>
-                    <p className="mt-3 text-sm leading-relaxed text-[color:var(--cl-ink)]/70">
-                      {path.body}
-                    </p>
-                    <Link
-                      to={path.to}
-                      className="mt-5 inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-[color:var(--cl-ember)] hover:text-[color:var(--cl-ink)]"
-                    >
-                      {path.cta}
-                      <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                    </Link>
-                  </article>
-                ))}
-              </div>
-            </details>
+        <section className="bg-[#111814] text-white">
+          <div className="container-wide py-20 text-center md:py-24">
+            <Handshake className="mx-auto h-10 w-10 text-[#D7A92E]" aria-hidden="true" />
+            <h2 className="mx-auto mt-5 max-w-4xl text-3xl font-bold leading-tight md:text-5xl">
+              If you can help move something useful, that is enough reason to talk.
+            </h2>
+            <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-white/68">
+              Tell us what your organization does well, what you are trying to solve, and where you think the overlap might be.
+            </p>
+            <TrackedLink
+              to="/contact"
+              event="partner_final_contact"
+              className="mt-8 inline-flex min-h-12 items-center gap-2 rounded-md bg-white px-6 py-3 text-sm font-bold text-[#111814]"
+            >
+              Start the Conversation
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </TrackedLink>
           </div>
         </section>
-      </Layout>
-    </div>
+      </div>
+    </Layout>
   );
 }
