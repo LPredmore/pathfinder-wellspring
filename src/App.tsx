@@ -85,18 +85,18 @@ const legacyRedirects: { from: string; to: string }[] = [
     to: "/resources/veteran-mental-health",
   },
   {
-    from: "/veteran-mental-health-care",
-    to: "/authority/veteran-mental-health-care",
+    from: "/authority/veteran-mental-health-care",
+    to: "/veteran-mental-health-care",
   },
   {
-    from: "/va-community-care-mental-health",
-    to: "/authority/va-community-care-mental-health",
+    from: "/authority/va-community-care-mental-health",
+    to: "/va-community-care-mental-health",
   },
   {
-    from: "/military-family-therapy",
-    to: "/authority/military-family-therapy",
+    from: "/authority/military-family-therapy",
+    to: "/military-family-therapy",
   },
-  { from: "/family-systems", to: "/authority/family-systems" },
+  { from: "/authority/family-systems", to: "/family-systems" },
 ];
 
 const App = () => (
@@ -167,20 +167,17 @@ const App = () => (
               element={<AuthorityResourcesVeteranMentalHealth />}
             />
 
+            <Route path="/family-systems" element={<AuthorityFamilySystems />} />
             <Route
-              path="/authority/family-systems"
-              element={<AuthorityFamilySystems />}
-            />
-            <Route
-              path="/authority/military-family-therapy"
+              path="/military-family-therapy"
               element={<AuthorityMilitaryFamilyTherapy />}
             />
             <Route
-              path="/authority/veteran-mental-health-care"
+              path="/veteran-mental-health-care"
               element={<AuthorityVeteranMentalHealthCare />}
             />
             <Route
-              path="/authority/va-community-care-mental-health"
+              path="/va-community-care-mental-health"
               element={<AuthorityVACommunityCareMentalHealth />}
             />
 

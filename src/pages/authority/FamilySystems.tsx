@@ -12,16 +12,19 @@ export default function FamilySystems() {
       ]}
       eyebrow="Family Systems"
       h1="Families do better with systems, not constant reactions."
-      subhead="ValorWell teaches families how to move from reacting to each situation individually toward building shared systems for thinking, communicating, and solving problems."
-      heroCTAs={[{ label: "Explore Family Support", to: "/military-family-therapy" }]}
+      subhead="ValorWell helps families move from reacting to each situation individually toward building repeatable ways to think, communicate, and solve problems."
+      heroCTAs={[
+        { label: "Find Family Care", to: "/get-care" },
+        { label: "Explore Family Systems Resources", to: "/resources/family-systems", variant: "secondary" },
+      ]}
       sections={[
         {
           heading: "The problem with reactive parenting and family conflict",
-          body: "Families often try to solve each situation separately. That leads to inconsistency, emotional reasoning, power struggles, and unclear expectations. Everyone ends up exhausted, and nothing actually gets settled.",
+          body: "Families often try to solve each situation separately. That can lead to inconsistency, emotional reasoning, power struggles, and unclear expectations. Everyone ends up exhausted, and the same problems keep returning in slightly different forms.",
         },
         {
           heading: "The systems approach",
-          body: "Instead of only telling people what to think, families can teach how to think. A shared framework lowers the temperature on day-to-day decisions.",
+          body: "Instead of only telling people what to do in one moment, families can build shared frameworks that help everyone reason through the next similar situation with less confusion.",
           bullets: [
             "What principle applies here?",
             "How would this feel from the other side?",
@@ -45,53 +48,48 @@ export default function FamilySystems() {
         },
         {
           heading: "Consistency at home",
-          body: "Families build trust when expectations are fair, repeatable, and not rewritten in the heat of the moment. If a rule only applies when it benefits one person, it is not really a rule.",
+          body: "Families build trust when expectations are understandable, repeatable, and not rewritten in the heat of the moment. A useful system should make the next decision clearer without pretending every family or every situation is identical.",
         },
         {
-          heading: "BestSelfs supports family growth",
-          body: "BestSelfs tools support emotional skills and habit-building across ages. They aren't a replacement for therapy, but they give families shared language and shared practice between sessions.",
+          heading: "Education and therapy are different tools",
+          body: "Family frameworks can help people practice communication, regulation, and problem-solving between difficult moments. They are not a substitute for individual clinical assessment or therapy when a family member needs clinical care.",
         },
       ]}
       faqs={[
         {
           question: "What is a family systems approach?",
           answer:
-            "Instead of treating each situation in isolation, a systems approach builds shared rules, frameworks, and habits that the whole family can use again and again.",
+            "Instead of treating each situation in isolation, a systems approach builds shared rules, frameworks, and habits that the family can use again and again.",
         },
         {
           question: "How is this different from just giving kids rules?",
           answer:
-            "Rules tell kids what to do. Systems teach them how to think about new situations. Both matter, but systems travel.",
+            "Rules tell people what to do in a defined situation. Systems also help people reason through new situations by applying shared principles and expectations.",
         },
         {
           question: "Can this help with teen conflict?",
           answer:
-            "Yes. Teens often respond better to fair, consistent systems than to one-off decisions that feel arbitrary.",
+            "Clear, repeatable expectations can reduce some avoidable conflict, but educational frameworks are not a diagnosis or a substitute for therapy when clinical support is needed.",
         },
         {
           question: "How does emotional reasoning affect families?",
           answer:
-            "When decisions are made entirely from how someone feels in the moment, consistency disappears. That breeds resentment and confusion.",
+            "When every decision is made only from how someone feels in the moment, expectations can become inconsistent. A shared framework can help the family consider feelings without making them the only decision rule.",
         },
         {
           question: "Is this therapy?",
           answer:
-            "No. This is an educational framework. For clinical needs, see Military Family Therapy or Get Care.",
-        },
-        {
-          question: "How can BestSelfs support family systems?",
-          answer:
-            "BestSelfs tools give families shared exercises and habits to practice the systems they're trying to build.",
+            "No. This page describes an educational framework. For clinical needs, use Find Care or the Military Family Therapy page.",
         },
       ]}
       related={[
-        { name: "Military Family Therapy", href: "/military-family-therapy" },
-        { name: "BestSelfs", href: "/bestselfs" },
-        { name: "Resources", href: "/resources" },
+        { name: "Military Family Therapy", href: "/military-family-therapy", body: "Clinical support for military-connected families when an appropriate care path is available." },
+        { name: "Family Systems Resources", href: "/resources/family-systems", body: "Practical communication, regulation, conflict-repair, and household frameworks." },
+        { name: "Find Care", href: "/get-care", body: "See the current ValorWell care pathways for veterans and veteran family members." },
       ]}
       finalCTAs={[
-        { label: "Get Family Support", to: "/get-care" },
-        { label: "Explore BestSelfs", to: "/bestselfs", variant: "secondary" },
+        { label: "Find Family Support", to: "/get-care" },
+        { label: "Explore Family Systems Resources", to: "/resources/family-systems", variant: "secondary" },
       ]}
     />
   );
