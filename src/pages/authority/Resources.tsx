@@ -1,48 +1,81 @@
-import { Layout } from "@/components/layout";
-import { SEO, BreadcrumbSchema } from "@/components/SEO";
+import { useEffect, type ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
+import {
+  ArrowRight,
+  ClipboardCheck,
+  HeartPulse,
+  Home,
+  ShieldCheck,
+  Stethoscope,
+  Users,
+  type LucideIcon,
+} from "lucide-react";
+import { Layout } from "@/components/layout/Layout";
+import { SEO, BreadcrumbSchema } from "@/components/SEO";
+import { trackHomeEvent } from "@/lib/tracking";
 
-const categories = [
+type ResourceCategory = {
+  name: string;
+  href: string;
+  body: string;
+  Icon: LucideIcon;
+};
+
+const categories: ResourceCategory[] = [
   {
-    name: "CHAMPVA Resources",
+    name: "CHAMPVA",
     href: "/resources/champva",
-    body: "Find providers, ask the right questions, and understand why CHAMPVA access is hard.",
+    body: "Provider access, questions to ask, telehealth, participation barriers, and what information to verify before relying on a care pathway.",
+    Icon: HeartPulse,
   },
   {
-    name: "VA Community Care Resources",
+    name: "VA Community Care",
     href: "/resources/va-community-care",
-    body: "Referrals, authorization, wait times, and what to keep track of.",
+    body: "Referrals, authorization, provider pathways, records to keep, and the moving parts veterans often have to track themselves.",
+    Icon: ShieldCheck,
   },
   {
-    name: "Documentation Support Resources",
+    name: "Clinical Documentation",
     href: "/resources/documentation",
-    body: "Ethical clinical documentation, records, and what clinicians can and cannot do.",
+    body: "Ethical treatment records, functional impact, documentation boundaries, and why responsible records grow out of real care.",
+    Icon: ClipboardCheck,
   },
   {
-    name: "Veteran Mental Health Resources",
+    name: "Veteran Mental Health",
     href: "/resources/veteran-mental-health",
-    body: "Therapy access, PTSD support, family strain, and telehealth.",
+    body: "Therapy access, PTSD-related concerns, family strain, transition stress, telehealth, and deciding what kind of help to look for next.",
+    Icon: Stethoscope,
   },
   {
-    name: "Family Systems Resources",
+    name: "Family Systems",
     href: "/resources/family-systems",
-    body: "Communication, parenting systems, emotional regulation, and conflict repair.",
+    body: "Communication, parenting systems, emotional regulation, conflict repair, family meetings, and repeatable household frameworks.",
+    Icon: Users,
   },
 ];
 
-const featured = [
-  { title: "How to think about CHAMPVA mental health access", note: "Coming soon." },
-  { title: "What ethical clinical documentation means", note: "Coming soon." },
-  { title: "Why families need systems, not just reactions", note: "Coming soon." },
-];
+function Eyebrow({ children, light = false }: { children: ReactNode; light?: boolean }) {
+  return (
+    <p
+      className={`text-xs font-bold uppercase tracking-[0.2em] ${
+        light ? "text-[#D7A92E]" : "text-[#3B5147]"
+      }`}
+    >
+      {children}
+    </p>
+  );
+}
 
 export default function Resources() {
+  useEffect(() => {
+    trackHomeEvent("resources_page_view", { page: "resources" });
+  }, []);
+
   return (
     <Layout>
       <SEO
-        title="Veteran and Family Mental Health Resources"
-        description="Explore ValorWell resources on veteran mental health care, CHAMPVA, VA Community Care, clinical documentation, family systems, and practical support."
+        title="Veteran & Family Resources | ValorWell"
+        description="Explore practical ValorWell resources on CHAMPVA, VA Community Care, veteran mental health, clinical documentation, and family systems."
         canonical="/resources"
       />
       <BreadcrumbSchema
@@ -52,72 +85,146 @@ export default function Resources() {
         ]}
       />
 
-      <section className="py-12 md:py-16 bg-background">
-        <div className="container-narrow">
-          <p className="text-sm font-semibold uppercase tracking-widest text-patriot-red mb-3">
-            Resource Hub
-          </p>
-          <h1 className="text-4xl md:text-5xl font-bold text-navy leading-tight mb-5">
-            Resources for veterans and families navigating care, documentation, and VA-related systems.
-          </h1>
-          <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-3xl">
-            Explore guides and educational resources on VA access, CHAMPVA, Community
-            Care, documentation, family systems, and practical support.
-          </p>
-        </div>
-      </section>
+      <div className="resources-theme bg-[#F4F1E8] text-[#111814]">
+        <style>{`
+          .resources-theme {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+          }
+          .resources-theme h1,
+          .resources-theme h2,
+          .resources-theme h3 {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            letter-spacing: -0.025em;
+          }
+        `}</style>
 
-      <section className="py-10 md:py-14 bg-muted/40">
-        <div className="container-narrow">
-          <h2 className="text-2xl md:text-3xl font-bold text-navy mb-6">Categories</h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {categories.map((c) => (
+        <section className="relative overflow-hidden border-b border-[#3B5147]/15">
+          <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+            <div className="absolute -right-32 -top-40 h-96 w-96 rounded-full bg-[#D7A92E]/[0.08] blur-3xl" />
+            <div className="absolute -bottom-44 -left-36 h-96 w-96 rounded-full bg-[#3B5147]/[0.08] blur-3xl" />
+          </div>
+
+          <div className="container-wide relative grid gap-10 py-16 md:py-24 lg:grid-cols-12 lg:items-end lg:py-28">
+            <div className="lg:col-span-8">
+              <Eyebrow>ValorWell Resources</Eyebrow>
+              <h1 className="mt-6 max-w-5xl text-4xl font-bold leading-[1.03] sm:text-5xl md:text-6xl lg:text-7xl">
+                Start with the question you are actually trying to answer.
+              </h1>
+              <p className="mt-7 max-w-3xl text-lg leading-8 text-[#111814]/68 md:text-xl">
+                These resources are built to make complicated care, documentation, and family-system questions easier to navigate. The library is intentionally small while the material is developed and verified.
+              </p>
+            </div>
+
+            <div className="lg:col-span-4 lg:text-right">
               <Link
-                key={c.href}
-                to={c.href}
-                className="block rounded-lg border border-border/60 bg-background p-5 hover:border-navy transition-colors"
+                to="/get-care"
+                onClick={() => trackHomeEvent("resources_hero_care", { page: "resources" })}
+                className="inline-flex min-h-12 items-center gap-2 rounded-md bg-[#3B5147] px-6 py-3 text-sm font-bold text-white"
               >
-                <div className="font-semibold text-navy mb-1">{c.name}</div>
-                <p className="text-sm text-muted-foreground">{c.body}</p>
+                Need Care Instead?
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </Link>
-            ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="py-10 md:py-14 bg-background">
-        <div className="container-narrow">
-          <h2 className="text-2xl md:text-3xl font-bold text-navy mb-6">Featured (coming soon)</h2>
-          <div className="grid sm:grid-cols-2 gap-4">
-            {featured.map((f) => (
-              <div
-                key={f.title}
-                className="rounded-lg border border-dashed border-border bg-muted/30 p-5"
-              >
-                <div className="font-semibold text-navy mb-1">{f.title}</div>
-                <p className="text-sm text-muted-foreground">{f.note}</p>
+        <section className="border-b border-[#3B5147]/15 bg-white">
+          <div className="container-wide py-20 md:py-28">
+            <div className="max-w-3xl">
+              <Eyebrow>Choose a Resource Path</Eyebrow>
+              <h2 className="mt-4 text-3xl font-bold leading-tight md:text-5xl">
+                Five categories. No empty article archive.
+              </h2>
+              <p className="mt-5 text-lg leading-8 text-[#111814]/64">
+                Each category explains what it is useful for, what information can change, and where to go next. New articles should appear only when there is something substantive enough to publish.
+              </p>
+            </div>
+
+            <div className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+              {categories.map(({ name, href, body, Icon }) => (
+                <Link
+                  key={href}
+                  to={href}
+                  onClick={() =>
+                    trackHomeEvent("resources_category", {
+                      page: "resources",
+                      destination: href,
+                    })
+                  }
+                  className="group rounded-3xl border border-[#3B5147]/15 bg-[#F4F1E8] p-7 shadow-sm transition hover:-translate-y-0.5 hover:border-[#3B5147]/30 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3B5147] focus-visible:ring-offset-2 motion-reduce:transform-none motion-reduce:transition-none"
+                >
+                  <Icon className="h-7 w-7 text-[#3B5147]" aria-hidden="true" />
+                  <h3 className="mt-6 text-2xl font-bold">{name}</h3>
+                  <p className="mt-4 leading-7 text-[#111814]/64">{body}</p>
+                  <span className="mt-6 inline-flex min-h-11 items-center gap-2 text-sm font-bold text-[#3B5147]">
+                    Explore this category
+                    <ArrowRight
+                      className="h-4 w-4 transition-transform group-hover:translate-x-0.5 motion-reduce:transform-none motion-reduce:transition-none"
+                      aria-hidden="true"
+                    />
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="border-b border-white/10 bg-[#111814] text-white">
+          <div className="container-wide grid gap-12 py-20 md:py-28 lg:grid-cols-12 lg:items-start">
+            <div className="lg:col-span-5">
+              <Eyebrow light>What This Hub Is For</Eyebrow>
+              <h2 className="mt-4 text-3xl font-bold leading-tight md:text-5xl">
+                Better questions. Clearer next steps. Fewer invented answers.
+              </h2>
+            </div>
+
+            <div className="lg:col-span-7">
+              <div className="space-y-5">
+                {[
+                  "Use the resources to understand terminology, common friction points, and the questions worth asking next.",
+                  "Verify current benefits, authorization, provider participation, and administrative requirements when those details can change.",
+                  "Treat mental-health information as education, not an individual diagnosis or treatment plan.",
+                  "Use Find Care when the problem is not understanding the system but actually locating a current ValorWell care pathway.",
+                ].map((item) => (
+                  <div key={item} className="flex gap-4 border-b border-white/10 pb-5 last:border-b-0">
+                    <ShieldCheck className="mt-1 h-5 w-5 shrink-0 text-[#D7A92E]" aria-hidden="true" />
+                    <p className="leading-7 text-white/70">{item}</p>
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="py-12 md:py-16 bg-muted/40">
-        <div className="container-narrow flex flex-col md:flex-row gap-4 md:items-center md:justify-between">
-          <div>
-            <h2 className="text-2xl font-bold text-navy mb-1">Need support?</h2>
-            <p className="text-muted-foreground">Reach out and we'll talk through care, navigation, and support options.</p>
+        <section className="bg-[#F4F1E8]">
+          <div className="container-wide grid gap-8 py-16 md:py-20 lg:grid-cols-12 lg:items-center">
+            <div className="lg:col-span-8">
+              <Home className="h-7 w-7 text-[#3B5147]" aria-hidden="true" />
+              <h2 className="mt-5 text-3xl font-bold leading-tight md:text-4xl">
+                Resources should help you move—not keep you reading forever.
+              </h2>
+              <p className="mt-4 max-w-3xl leading-7 text-[#111814]/64">
+                If you already know you are looking for mental health care, go directly to the care pathway. If you are trying to understand a system first, choose the category closest to the question in front of you.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-3 lg:col-span-4 lg:justify-end">
+              <Link
+                to="/get-care"
+                className="inline-flex min-h-12 items-center gap-2 rounded-md bg-[#3B5147] px-6 py-3 text-sm font-bold text-white"
+              >
+                Find Care
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+              <Link
+                to="/contact"
+                className="inline-flex min-h-12 items-center rounded-md border border-[#3B5147]/25 px-6 py-3 text-sm font-bold text-[#3B5147]"
+              >
+                Contact ValorWell
+              </Link>
+            </div>
           </div>
-          <div className="flex flex-wrap gap-3">
-            <Button asChild size="lg" className="bg-patriot-red hover:bg-patriot-red-dark text-white">
-              <Link to="/get-care">Get Care</Link>
-            </Button>
-            <Button asChild size="lg" variant="outline" className="border-navy text-navy hover:bg-navy hover:text-white">
-              <Link to="/beyondtheyellow">Go Beyond the Yellow</Link>
-            </Button>
-          </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </Layout>
   );
 }
