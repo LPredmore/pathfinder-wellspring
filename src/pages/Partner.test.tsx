@@ -56,10 +56,9 @@ describe("Partner organizational collaboration page", () => {
     renderPartner();
 
     expect(screen.getByText("Partnership vs. Financial Support")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /^Donate$/i })).toHaveAttribute(
-      "href",
-      "/donate",
-    );
+    expect(
+      screen.getByRole("link", { name: /Support ValorWell/i }),
+    ).toHaveAttribute("href", "/support");
     expect(screen.getByRole("link", { name: /Review Impact/i })).toHaveAttribute(
       "href",
       "/impact",
@@ -71,7 +70,7 @@ describe("Partner organizational collaboration page", () => {
 
     expect(
       screen.getByRole("link", { name: /Explore Beyond The Yellow/i }),
-    ).toHaveAttribute("href", "/beyondtheyellow");
+    ).toHaveAttribute("href", "/beyond-the-yellow");
     expect(screen.getByRole("link", { name: /Explore the Network/i })).toHaveAttribute(
       "href",
       "/network",
