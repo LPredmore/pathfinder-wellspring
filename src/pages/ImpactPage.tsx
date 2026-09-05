@@ -311,6 +311,9 @@ export default function ImpactPage() {
               <p className="mt-5 text-lg leading-8 text-white/72">
                 Some veterans make it through several steps of that process and still end up without anyone to see them. ValorWell cannot fix every part of that system, but when donated funds are available, we can help make sure a broken pathway does not automatically mean going without therapy.
               </p>
+              <p className="mt-5 text-lg font-semibold leading-8 text-white">
+                When a veteran has already asked for mental-health help, leaving them without care is not a harmless delay. Donor-funded therapy gives us another opportunity to intervene—potentially preventing another veteran from becoming another statistic.
+              </p>
             </div>
           </div>
         </section>
