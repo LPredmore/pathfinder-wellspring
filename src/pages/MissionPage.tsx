@@ -72,7 +72,7 @@ const pathCards: PathCard[] = [
   },
   {
     title: "I want to support the work",
-    copy: "Understand how financial support fits the mission and the boundaries ValorWell keeps around funding, evidence, and influence.",
+    copy: "Help fund direct therapy for veterans who need another path to treatment.",
     cta: "Support ValorWell",
     to: "/support",
     event: "mission_path_support",
@@ -366,8 +366,22 @@ export default function MissionPage() {
                 <Eye className="h-8 w-8 text-[#D7A92E]" aria-hidden="true" />
                 <p className="mt-7 text-xs font-bold uppercase tracking-[0.18em] text-[#D7A92E]">Impact</p>
                 <h3 className="mt-3 text-2xl font-bold">Make the proof visible.</h3>
-                <p className="mt-4 leading-7 text-white/64">
-                  Impact is the evidence layer: what happened, who benefited, what can be supported, and what still needs to be built.
+                <div className="mt-5 grid grid-cols-3 gap-3 border-y border-white/12 py-5">
+                  <div>
+                    <p className="text-2xl font-bold text-[#D7A92E]">540+</p>
+                    <p className="mt-1 text-xs leading-5 text-white/55">therapy hours</p>
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-[#D7A92E]">45+</p>
+                    <p className="mt-1 text-xs leading-5 text-white/55">veterans</p>
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-[#D7A92E]">11</p>
+                    <p className="mt-1 text-xs leading-5 text-white/55">states</p>
+                  </div>
+                </div>
+                <p className="mt-5 leading-7 text-white/64">
+                  In 2026, ValorWell Foundation supporters have funded direct therapy for veterans who needed another path to treatment.
                 </p>
                 <TrackedLink
                   to="/impact"
