@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { getDonationAcquisition } from "@/lib/donationAttribution";
 
 const DONATE_GO_URL = "https://ahqauomkgflopxgnlndd.functions.supabase.co/donate-go";
@@ -91,25 +92,32 @@ export default function Donate() {
   }, []);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background px-6">
-      <div className="max-w-md text-center">
-        <p className="text-xs uppercase tracking-[0.2em] text-primary/70">ValorWell</p>
-        <h1 className="mt-3 text-2xl font-semibold text-foreground">
-          Taking you to our secure donation page
-        </h1>
-        <p className="mt-3 text-sm text-muted-foreground">
-          Your gift supports ValorWell's work across care, evidence, and community. We only publish impact or gift-attribution claims when the underlying records support them.
-        </p>
-        <div className="mx-auto mt-6 h-1 w-40 overflow-hidden rounded-full bg-primary/15">
-          <div className="h-full w-1/3 animate-[pulse_1.2s_ease-in-out_infinite] rounded-full bg-primary" />
+    <>
+      <Helmet>
+        <title>Donate | ValorWell</title>
+        <meta name="robots" content="noindex,follow" />
+      </Helmet>
+
+      <div className="min-h-screen flex items-center justify-center bg-background px-6">
+        <div className="max-w-md text-center">
+          <p className="text-xs uppercase tracking-[0.2em] text-primary/70">ValorWell</p>
+          <h1 className="mt-3 text-2xl font-semibold text-foreground">
+            Taking you to our secure donation page
+          </h1>
+          <p className="mt-3 text-sm text-muted-foreground">
+            Your gift supports ValorWell's work across care, evidence, and community. We only publish impact or gift-attribution claims when the underlying records support them.
+          </p>
+          <div className="mx-auto mt-6 h-1 w-40 overflow-hidden rounded-full bg-primary/15">
+            <div className="h-full w-1/3 animate-[pulse_1.2s_ease-in-out_infinite] rounded-full bg-primary" />
+          </div>
+          <p className="mt-6 text-xs text-muted-foreground">
+            Not redirected?{" "}
+            <a href={destinationUrl} className="underline text-primary">
+              Continue to Givebutter
+            </a>
+          </p>
         </div>
-        <p className="mt-6 text-xs text-muted-foreground">
-          Not redirected?{" "}
-          <a href={destinationUrl} className="underline text-primary">
-            Continue to Givebutter
-          </a>
-        </p>
       </div>
-    </div>
+    </>
   );
 }
