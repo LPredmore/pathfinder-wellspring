@@ -178,7 +178,7 @@ export default function NetworkPage() {
               Beyond The Yellow exists to make real action visible. Share your story or nominate an organization whose work would actually be missed if it stopped.
             </p>
             <Link
-              to="/beyondtheyellow"
+              to="/beyond-the-yellow"
               className="mt-8 inline-flex items-center gap-2 rounded-md bg-[hsl(var(--navy))] px-5 py-3 text-sm font-bold text-white"
             >
               Explore Beyond The Yellow
