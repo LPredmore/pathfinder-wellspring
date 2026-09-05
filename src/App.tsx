@@ -22,6 +22,7 @@ import HomePage from "./pages/HomePage";
 import WatchPage from "./pages/WatchPage";
 import NetworkPage from "./pages/NetworkPage";
 import MissionPage from "./pages/MissionPage";
+import AboutPage from "./pages/AboutPage";
 import ImpactPage from "./pages/ImpactPage";
 import Support from "./pages/Support";
 import OcsBillingHubPage from "./pages/OcsBillingHubPage";
@@ -132,6 +133,7 @@ const App = () => (
             <Route path="/network" element={<NetworkPage />} />
             <Route path="/videos" element={<Navigate to="/watch" replace />} />
             <Route path="/mission" element={<MissionPage />} />
+            <Route path="/about" element={<AboutPage />} />
             <Route path="/impact" element={<ImpactPage />} />
             <Route path="/support" element={<Support />} />
             <Route
