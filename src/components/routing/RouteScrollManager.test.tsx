@@ -66,19 +66,22 @@ describe("RouteScrollManager", () => {
     expect(scrollTo).not.toHaveBeenCalled();
   });
 
-  it("moves BTY calls to action to the selected form", () => {
-    renderRouter(
-      "/beyondtheyellow",
-      <section id="bty-guest-interest">
-        <button type="button">Nominate Someone</button>
-        <form aria-label="BTY form" />
-      </section>,
-    );
-    scrollTo.mockClear();
+  it.each(["/beyond-the-yellow", "/beyondtheyellow"])(
+    "moves BTY calls to action to the selected form on %s",
+    (path) => {
+      renderRouter(
+        path,
+        <section id="bty-guest-interest">
+          <button type="button">Nominate Someone</button>
+          <form aria-label="BTY form" />
+        </section>,
+      );
+      scrollTo.mockClear();
 
-    fireEvent.click(screen.getByRole("button", { name: "Nominate Someone" }));
-    vi.advanceTimersByTime(60);
+      fireEvent.click(screen.getByRole("button", { name: "Nominate Someone" }));
+      vi.advanceTimersByTime(60);
 
-    expect(scrollTo).toHaveBeenCalledTimes(1);
-  });
+      expect(scrollTo).toHaveBeenCalledTimes(1);
+    },
+  );
 });
