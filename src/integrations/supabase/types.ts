@@ -3458,6 +3458,75 @@ export type Database = {
           },
         ]
       }
+      client_charge_payment_allocations: {
+        Row: {
+          allocated_amount: number
+          allocation_sequence: number | null
+          client_charge_id: string
+          created_at: string
+          id: string
+          payment_id: string
+          tenant_id: string
+          updated_at: string
+        }
+        Insert: {
+          allocated_amount: number
+          allocation_sequence?: number | null
+          client_charge_id: string
+          created_at?: string
+          id?: string
+          payment_id: string
+          tenant_id: string
+          updated_at?: string
+        }
+        Update: {
+          allocated_amount?: number
+          allocation_sequence?: number | null
+          client_charge_id?: string
+          created_at?: string
+          id?: string
+          payment_id?: string
+          tenant_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "client_charge_payment_allocations_client_charge_id_fkey"
+            columns: ["client_charge_id"]
+            isOneToOne: false
+            referencedRelation: "client_charge_balances"
+            referencedColumns: ["charge_id"]
+          },
+          {
+            foreignKeyName: "client_charge_payment_allocations_client_charge_id_fkey"
+            columns: ["client_charge_id"]
+            isOneToOne: false
+            referencedRelation: "client_charges"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "client_charge_payment_allocations_payment_id_fkey"
+            columns: ["payment_id"]
+            isOneToOne: false
+            referencedRelation: "client_payments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "client_charge_payment_allocations_payment_id_fkey"
+            columns: ["payment_id"]
+            isOneToOne: false
+            referencedRelation: "stripe_payment_integrity_v"
+            referencedColumns: ["payment_id"]
+          },
+          {
+            foreignKeyName: "client_charge_payment_allocations_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       client_charges: {
         Row: {
           amount: number
@@ -5102,8 +5171,90 @@ export type Database = {
         }
         Relationships: []
       }
+      client_payment_disputes: {
+        Row: {
+          amount_cents: number
+          client_id: string
+          created_at: string
+          financial_reversed: boolean
+          id: string
+          payment_id: string
+          processed_at: string | null
+          status: string
+          stripe_account_id: string
+          stripe_dispute_id: string
+          tenant_id: string
+          updated_at: string
+        }
+        Insert: {
+          amount_cents: number
+          client_id: string
+          created_at?: string
+          financial_reversed?: boolean
+          id?: string
+          payment_id: string
+          processed_at?: string | null
+          status: string
+          stripe_account_id: string
+          stripe_dispute_id: string
+          tenant_id: string
+          updated_at?: string
+        }
+        Update: {
+          amount_cents?: number
+          client_id?: string
+          created_at?: string
+          financial_reversed?: boolean
+          id?: string
+          payment_id?: string
+          processed_at?: string | null
+          status?: string
+          stripe_account_id?: string
+          stripe_dispute_id?: string
+          tenant_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "client_payment_disputes_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "client_payment_disputes_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "v_client_canonical_state"
+            referencedColumns: ["client_id"]
+          },
+          {
+            foreignKeyName: "client_payment_disputes_payment_id_fkey"
+            columns: ["payment_id"]
+            isOneToOne: false
+            referencedRelation: "client_payments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "client_payment_disputes_payment_id_fkey"
+            columns: ["payment_id"]
+            isOneToOne: false
+            referencedRelation: "stripe_payment_integrity_v"
+            referencedColumns: ["payment_id"]
+          },
+          {
+            foreignKeyName: "client_payment_disputes_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       client_payment_links: {
         Row: {
+          allocation_plan: Json
           amount_cents: number
           claim_line_ids: string[] | null
           client_charge_ids: string[] | null
@@ -5114,6 +5265,7 @@ export type Database = {
           expires_at: string | null
           id: string
           paid_at: string | null
+          request_fingerprint: string | null
           status: string
           stripe_account_id: string | null
           stripe_checkout_session_id: string | null
@@ -5124,6 +5276,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          allocation_plan?: Json
           amount_cents: number
           claim_line_ids?: string[] | null
           client_charge_ids?: string[] | null
@@ -5134,6 +5287,7 @@ export type Database = {
           expires_at?: string | null
           id?: string
           paid_at?: string | null
+          request_fingerprint?: string | null
           status?: string
           stripe_account_id?: string | null
           stripe_checkout_session_id?: string | null
@@ -5144,6 +5298,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          allocation_plan?: Json
           amount_cents?: number
           claim_line_ids?: string[] | null
           client_charge_ids?: string[] | null
@@ -5154,6 +5309,7 @@ export type Database = {
           expires_at?: string | null
           id?: string
           paid_at?: string | null
+          request_fingerprint?: string | null
           status?: string
           stripe_account_id?: string | null
           stripe_checkout_session_id?: string | null
@@ -5260,16 +5416,163 @@ export type Database = {
           },
         ]
       }
+      client_payment_refunds: {
+        Row: {
+          amount_cents: number
+          client_id: string
+          created_at: string
+          financial_processed: boolean
+          id: string
+          payment_id: string
+          processed_at: string | null
+          reason: string | null
+          status: string
+          stripe_account_id: string
+          stripe_refund_id: string
+          tenant_id: string
+          updated_at: string
+        }
+        Insert: {
+          amount_cents: number
+          client_id: string
+          created_at?: string
+          financial_processed?: boolean
+          id?: string
+          payment_id: string
+          processed_at?: string | null
+          reason?: string | null
+          status: string
+          stripe_account_id: string
+          stripe_refund_id: string
+          tenant_id: string
+          updated_at?: string
+        }
+        Update: {
+          amount_cents?: number
+          client_id?: string
+          created_at?: string
+          financial_processed?: boolean
+          id?: string
+          payment_id?: string
+          processed_at?: string | null
+          reason?: string | null
+          status?: string
+          stripe_account_id?: string
+          stripe_refund_id?: string
+          tenant_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "client_payment_refunds_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "client_payment_refunds_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "v_client_canonical_state"
+            referencedColumns: ["client_id"]
+          },
+          {
+            foreignKeyName: "client_payment_refunds_payment_id_fkey"
+            columns: ["payment_id"]
+            isOneToOne: false
+            referencedRelation: "client_payments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "client_payment_refunds_payment_id_fkey"
+            columns: ["payment_id"]
+            isOneToOne: false
+            referencedRelation: "stripe_payment_integrity_v"
+            referencedColumns: ["payment_id"]
+          },
+          {
+            foreignKeyName: "client_payment_refunds_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      client_payment_reversal_allocations: {
+        Row: {
+          amount_cents: number
+          created_at: string
+          id: string
+          payment_id: string
+          reversal_external_id: string
+          reversal_type: string
+          sequence: number
+          target_id: string
+          target_type: string
+          tenant_id: string
+        }
+        Insert: {
+          amount_cents: number
+          created_at?: string
+          id?: string
+          payment_id: string
+          reversal_external_id: string
+          reversal_type: string
+          sequence: number
+          target_id: string
+          target_type: string
+          tenant_id: string
+        }
+        Update: {
+          amount_cents?: number
+          created_at?: string
+          id?: string
+          payment_id?: string
+          reversal_external_id?: string
+          reversal_type?: string
+          sequence?: number
+          target_id?: string
+          target_type?: string
+          tenant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "client_payment_reversal_allocations_payment_id_fkey"
+            columns: ["payment_id"]
+            isOneToOne: false
+            referencedRelation: "client_payments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "client_payment_reversal_allocations_payment_id_fkey"
+            columns: ["payment_id"]
+            isOneToOne: false
+            referencedRelation: "stripe_payment_integrity_v"
+            referencedColumns: ["payment_id"]
+          },
+          {
+            foreignKeyName: "client_payment_reversal_allocations_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       client_payments: {
         Row: {
           amount: number
           claim_id: string | null
           client_id: string
           created_at: string
+          dispute_loss_amount: number
           external_txn_id: string | null
           id: string
           payment_date: string
           payment_method: string
+          refunded_amount: number
           stripe_account_id: string | null
           tenant_id: string
           updated_at: string
@@ -5279,10 +5582,12 @@ export type Database = {
           claim_id?: string | null
           client_id: string
           created_at?: string
+          dispute_loss_amount?: number
           external_txn_id?: string | null
           id?: string
           payment_date?: string
           payment_method?: string
+          refunded_amount?: number
           stripe_account_id?: string | null
           tenant_id: string
           updated_at?: string
@@ -5292,10 +5597,12 @@ export type Database = {
           claim_id?: string | null
           client_id?: string
           created_at?: string
+          dispute_loss_amount?: number
           external_txn_id?: string | null
           id?: string
           payment_date?: string
           payment_method?: string
+          refunded_amount?: number
           stripe_account_id?: string | null
           tenant_id?: string
           updated_at?: string
@@ -6380,6 +6687,64 @@ export type Database = {
           },
         ]
       }
+      client_stripe_customers: {
+        Row: {
+          binding_source: string
+          client_id: string
+          created_at: string
+          id: string
+          stripe_account_id: string
+          stripe_customer_id: string
+          tenant_id: string
+          updated_at: string
+          verified_at: string
+        }
+        Insert: {
+          binding_source?: string
+          client_id: string
+          created_at?: string
+          id?: string
+          stripe_account_id: string
+          stripe_customer_id: string
+          tenant_id: string
+          updated_at?: string
+          verified_at?: string
+        }
+        Update: {
+          binding_source?: string
+          client_id?: string
+          created_at?: string
+          id?: string
+          stripe_account_id?: string
+          stripe_customer_id?: string
+          tenant_id?: string
+          updated_at?: string
+          verified_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "client_stripe_customers_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "client_stripe_customers_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "v_client_canonical_state"
+            referencedColumns: ["client_id"]
+          },
+          {
+            foreignKeyName: "client_stripe_customers_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       client_support_requests: {
         Row: {
           authority_snapshot: Json
@@ -6892,6 +7257,84 @@ export type Database = {
           },
           {
             foreignKeyName: "client_treatment_plans_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      client_unapplied_credits: {
+        Row: {
+          client_id: string
+          created_at: string
+          id: string
+          original_amount_cents: number
+          payment_id: string
+          reason: string
+          remaining_amount_cents: number
+          status: string
+          stripe_account_id: string
+          tenant_id: string
+          updated_at: string
+        }
+        Insert: {
+          client_id: string
+          created_at?: string
+          id?: string
+          original_amount_cents: number
+          payment_id: string
+          reason: string
+          remaining_amount_cents: number
+          status?: string
+          stripe_account_id: string
+          tenant_id: string
+          updated_at?: string
+        }
+        Update: {
+          client_id?: string
+          created_at?: string
+          id?: string
+          original_amount_cents?: number
+          payment_id?: string
+          reason?: string
+          remaining_amount_cents?: number
+          status?: string
+          stripe_account_id?: string
+          tenant_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "client_unapplied_credits_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "client_unapplied_credits_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "v_client_canonical_state"
+            referencedColumns: ["client_id"]
+          },
+          {
+            foreignKeyName: "client_unapplied_credits_payment_id_fkey"
+            columns: ["payment_id"]
+            isOneToOne: true
+            referencedRelation: "client_payments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "client_unapplied_credits_payment_id_fkey"
+            columns: ["payment_id"]
+            isOneToOne: true
+            referencedRelation: "stripe_payment_integrity_v"
+            referencedColumns: ["payment_id"]
+          },
+          {
+            foreignKeyName: "client_unapplied_credits_tenant_id_fkey"
             columns: ["tenant_id"]
             isOneToOne: false
             referencedRelation: "tenants"
@@ -12937,6 +13380,7 @@ export type Database = {
       payment_allocations: {
         Row: {
           allocated_amount: number
+          allocation_sequence: number | null
           claim_line_id: string
           created_at: string
           id: string
@@ -12946,6 +13390,7 @@ export type Database = {
         }
         Insert: {
           allocated_amount: number
+          allocation_sequence?: number | null
           claim_line_id: string
           created_at?: string
           id?: string
@@ -12955,6 +13400,7 @@ export type Database = {
         }
         Update: {
           allocated_amount?: number
+          allocation_sequence?: number | null
           claim_line_id?: string
           created_at?: string
           id?: string
@@ -12983,6 +13429,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "client_payments"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payment_allocations_payment_id_fkey"
+            columns: ["payment_id"]
+            isOneToOne: false
+            referencedRelation: "stripe_payment_integrity_v"
+            referencedColumns: ["payment_id"]
           },
           {
             foreignKeyName: "payment_allocations_tenant_id_fkey"
@@ -23099,6 +23552,48 @@ export type Database = {
         }
         Relationships: []
       }
+      stripe_payment_integrity_v: {
+        Row: {
+          accounted_cents: number | null
+          charge_allocated_cents: number | null
+          claim_allocated_cents: number | null
+          client_id: string | null
+          dispute_loss_cents: number | null
+          external_txn_id: string | null
+          gross_cents: number | null
+          is_balanced: boolean | null
+          net_collected_cents: number | null
+          payment_date: string | null
+          payment_id: string | null
+          refunded_cents: number | null
+          remaining_credit_cents: number | null
+          stripe_account_id: string | null
+          tenant_id: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "client_payments_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "client_payments_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "v_client_canonical_state"
+            referencedColumns: ["client_id"]
+          },
+          {
+            foreignKeyName: "client_payments_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       v_client_canonical_state: {
         Row: {
           assigned_therapist_id: string | null
@@ -23926,6 +24421,15 @@ export type Database = {
       ai_ops_worker_flag: {
         Args: { p_flag_name: string; p_tenant_id: string }
         Returns: boolean
+      }
+      apply_client_payment_reversal: {
+        Args: {
+          p_amount_cents: number
+          p_payment_id: string
+          p_reversal_external_id: string
+          p_reversal_type: string
+        }
+        Returns: Json
       }
       apply_relationship_activity: {
         Args: {
@@ -26127,6 +26631,7 @@ export type Database = {
           }
       get_staff_id_for_user: { Args: { p_user_id: string }; Returns: string }
       get_staff_operating_context: { Args: never; Returns: Json }
+      get_stripe_billing_integrity_report: { Args: never; Returns: Json }
       has_billing_role: {
         Args: { _tenant_id: string; _user_id: string }
         Returns: boolean
@@ -26421,6 +26926,25 @@ export type Database = {
           p_client_charge_ids?: string[]
           p_payment_intent_id: string
           p_session_id: string
+        }
+        Returns: Json
+      }
+      process_stripe_dispute: {
+        Args: {
+          p_amount_cents: number
+          p_dispute_id: string
+          p_payment_intent_id: string
+          p_status: string
+        }
+        Returns: Json
+      }
+      process_stripe_refund: {
+        Args: {
+          p_amount_cents: number
+          p_payment_intent_id: string
+          p_reason?: string
+          p_refund_id: string
+          p_status: string
         }
         Returns: Json
       }
