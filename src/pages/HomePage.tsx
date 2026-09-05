@@ -75,7 +75,7 @@ const routeCards: RouteCard[] = [
   },
   {
     title: "I want to support the work",
-    copy: "Help strengthen the work without buying influence, recognition, or outcomes.",
+    copy: "Help fund direct therapy for veterans who need another path to treatment.",
     cta: "Support ValorWell",
     to: "/support",
     event: "homepage_route_support",
@@ -355,10 +355,9 @@ export default function HomePage() {
                 <p className="mt-7 text-xs font-bold uppercase tracking-[0.18em] text-[#D7A92E]">
                   Impact
                 </p>
-                <h3 className="mt-3 text-2xl font-bold">Proof before promotion.</h3>
+                <h3 className="mt-3 text-2xl font-bold">Proof you can point to.</h3>
                 <p className="mt-4 leading-7 text-white/65">
-                  Results should be defined, dated, and supportable before they
-                  become marketing. Impact is evidence, not decoration.
+                  In 2026, Foundation supporters have funded 540+ hours of direct therapy for 45+ veterans across 11 states.
                 </p>
                 <TrackedLink
                   to="/impact"
@@ -397,49 +396,44 @@ export default function HomePage() {
         </section>
 
         <section className="border-b border-white/10 bg-[#111814] text-white">
-          <div className="container-wide grid gap-12 py-20 md:py-28 lg:grid-cols-12 lg:items-start">
-            <div className="lg:col-span-5">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#D7A92E]">
-                Proof Before Promotion
-              </p>
-              <h2 className="mt-4 text-3xl font-bold leading-tight md:text-5xl">
-                Impact should be visible, not assumed.
-              </h2>
-              <p className="mt-6 text-lg leading-8 text-white/68">
-                ValorWell will not fill the site with persuasive-looking numbers
-                simply because numbers look credible. When we publish a result,
-                we want to be able to explain what it means and what supports it.
-              </p>
+          <div className="container-wide py-20 md:py-28">
+            <div className="grid gap-12 lg:grid-cols-12 lg:items-end">
+              <div className="lg:col-span-6">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#D7A92E]">
+                  Proof Before Promotion
+                </p>
+                <h2 className="mt-4 text-3xl font-bold leading-tight md:text-5xl">
+                  We waited until we could show the work. Now we can.
+                </h2>
+                <p className="mt-6 max-w-3xl text-lg leading-8 text-white/68">
+                  These are 2026 results from therapy paid for through ValorWell Foundation funding. They represent direct care that has already happened—not projections or an all-time estimate.
+                </p>
+              </div>
+              <div className="lg:col-span-6 lg:text-right">
+                <TrackedLink
+                  to="/impact"
+                  event="homepage_proof_impact"
+                  className="inline-flex min-h-12 items-center gap-2 rounded-md border border-white/30 px-6 py-3 text-sm font-bold text-white transition hover:bg-white/10"
+                >
+                  See the Full Impact
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </TrackedLink>
+              </div>
             </div>
 
-            <div className="lg:col-span-7">
-              <div className="divide-y divide-white/10 border-y border-white/10">
-                {[
-                  [
-                    "01",
-                    "Real work first",
-                    "Care, services, infrastructure, and community action have to exist before claims are made about them.",
-                  ],
-                  [
-                    "02",
-                    "Evidence before numbers",
-                    "When a metric is published, its definition and time period should be clear enough to understand.",
-                  ],
-                  [
-                    "03",
-                    "Show what is unfinished",
-                    "Being honest about blockers, limits, and incomplete work is part of building trust.",
-                  ],
-                ].map(([number, title, copy]) => (
-                  <div key={number} className="grid gap-4 py-7 sm:grid-cols-[70px_1fr]">
-                    <p className="text-sm font-bold text-[#D7A92E]">{number}</p>
-                    <div>
-                      <h3 className="text-xl font-bold">{title}</h3>
-                      <p className="mt-2 max-w-2xl leading-7 text-white/62">{copy}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+            <div className="mt-12 grid gap-4 md:grid-cols-3">
+              <article className="rounded-3xl border border-white/12 bg-white/[0.05] p-7">
+                <p className="text-5xl font-bold text-[#D7A92E]">540+</p>
+                <h3 className="mt-4 text-xl font-bold">hours of direct therapy</h3>
+              </article>
+              <article className="rounded-3xl border border-white/12 bg-white/[0.05] p-7">
+                <p className="text-5xl font-bold text-[#D7A92E]">45+</p>
+                <h3 className="mt-4 text-xl font-bold">unique veterans reached</h3>
+              </article>
+              <article className="rounded-3xl border border-white/12 bg-white/[0.05] p-7">
+                <p className="text-5xl font-bold text-[#D7A92E]">11</p>
+                <h3 className="mt-4 text-xl font-bold">states served</h3>
+              </article>
             </div>
           </div>
         </section>
