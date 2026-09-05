@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 const primary = [
   { name: "Mission", href: "/mission" },
   { name: "Impact", href: "/impact" },
-  { name: "Beyond The Yellow", href: "/beyondtheyellow" },
+  { name: "Beyond The Yellow", href: "/beyond-the-yellow" },
   { name: "Watch", href: "/watch" },
 ];
 
@@ -14,7 +14,7 @@ const getInvolved = [
   { name: "Clinicians", href: "/clinicians" },
   { name: "Partner With ValorWell", href: "/partner" },
   { name: "Support ValorWell", href: "/support" },
-  { name: "Share a Beyond The Yellow Story", href: "/beyondtheyellow" },
+  { name: "Share a Beyond The Yellow Story", href: "/beyond-the-yellow" },
   { name: "Contact", href: "/contact" },
 ];
 

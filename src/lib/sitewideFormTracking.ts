@@ -50,7 +50,7 @@ export const PUBLIC_FORMS: Record<PublicFormKey, PublicFormDefinition> = {
     name: "valorwell_bty_guest_application",
     eventName: "vw_form_submit_bty_guest",
     submitText: "Apply to be a guest",
-    pathname: "/beyondtheyellow",
+    pathname: "/beyond-the-yellow",
     selectors: ["#guest-first-name"],
   },
   btyNomination: {
@@ -59,7 +59,7 @@ export const PUBLIC_FORMS: Record<PublicFormKey, PublicFormDefinition> = {
     name: "valorwell_bty_nomination",
     eventName: "vw_form_submit_bty_nomination",
     submitText: "Submit nomination",
-    pathname: "/beyondtheyellow",
+    pathname: "/beyond-the-yellow",
     selectors: ["#nominee-first"],
   },
   ocsRouting: {
@@ -99,11 +99,16 @@ export interface SuccessfulFormEventParameters {
 }
 
 function normalizePathname(pathname: string): string {
-  if (pathname.length > 1 && pathname.endsWith("/")) {
-    return pathname.replace(/\/+$/, "");
+  const normalized =
+    pathname.length > 1 && pathname.endsWith("/")
+      ? pathname.replace(/\/+$/, "")
+      : pathname;
+
+  if (normalized === "/beyondtheyellow") {
+    return "/beyond-the-yellow";
   }
 
-  return pathname;
+  return normalized;
 }
 
 export function identifyPublicForm(

@@ -13,8 +13,8 @@ describe("sitewide public form metadata", () => {
     window.history.replaceState({}, "", "/");
   });
 
-  it("identifies and normalizes a dynamically mounted public form", () => {
-    window.history.replaceState({}, "", "/beyondtheyellow");
+  it("identifies and normalizes a dynamically mounted public form on the canonical BTY route", () => {
+    window.history.replaceState({}, "", "/beyond-the-yellow");
     const form = document.createElement("form");
     form.innerHTML = '<input id="guest-first-name" />';
 
@@ -28,6 +28,16 @@ describe("sitewide public form metadata", () => {
     expect(form.dataset.googleFormEvent).toBe(
       PUBLIC_FORMS.btyGuest.eventName,
     );
+  });
+
+  it("keeps the legacy BTY route compatible with the canonical form definition", () => {
+    const form = document.createElement("form");
+    form.innerHTML = '<input id="nominee-first" />';
+
+    expect(identifyPublicForm(form, "/beyondtheyellow")).toEqual(
+      PUBLIC_FORMS.btyNomination,
+    );
+    expect(PUBLIC_FORMS.btyNomination.pathname).toBe("/beyond-the-yellow");
   });
 
   it("identifies the same form when the route has a trailing slash", () => {
@@ -83,6 +93,19 @@ describe("trackSuccessfulFormSubmission", () => {
       "event",
       PUBLIC_FORMS.clinicianInterest.eventName,
       expectedParameters,
+    );
+  });
+
+  it("canonicalizes the legacy BTY route in successful-form analytics", () => {
+    const gtag = vi.fn();
+    window.gtag = gtag;
+    window.history.replaceState({}, "", "/beyondtheyellow");
+
+    expect(trackSuccessfulFormSubmission("btyGuest", "bty-guest-1")).toBe(true);
+
+    const parameters = gtag.mock.calls[0]?.[2];
+    expect(parameters?.form_destination).toBe(
+      `${window.location.origin}/beyond-the-yellow`,
     );
   });
 
