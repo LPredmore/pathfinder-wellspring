@@ -100,12 +100,15 @@ export default function Donate() {
 
       <div className="min-h-screen flex items-center justify-center bg-background px-6">
         <div className="max-w-md text-center">
-          <p className="text-xs uppercase tracking-[0.2em] text-primary/70">ValorWell</p>
+          <p className="text-xs uppercase tracking-[0.2em] text-primary/70">ValorWell Foundation</p>
           <h1 className="mt-3 text-2xl font-semibold text-foreground">
             Taking you to our secure donation page
           </h1>
           <p className="mt-3 text-sm text-muted-foreground">
-            Your gift supports ValorWell's work across care, evidence, and community. We only publish impact or gift-attribution claims when the underlying records support them.
+            Your donation helps pay therapists to provide mental-health care to veterans who need another path to treatment. ValorWell and the ValorWell Foundation do not use donated funds for administrative or operating costs.*
+          </p>
+          <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+            *Excludes unavoidable third-party payment-processing fees deducted before funds are received by the Foundation.
           </p>
           <div className="mx-auto mt-6 h-1 w-40 overflow-hidden rounded-full bg-primary/15">
             <div className="h-full w-1/3 animate-[pulse_1.2s_ease-in-out_infinite] rounded-full bg-primary" />
