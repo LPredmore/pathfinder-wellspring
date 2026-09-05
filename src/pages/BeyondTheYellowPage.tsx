@@ -439,32 +439,6 @@ export default function BeyondTheYellowPage() {
             </div>
           </section>
 
-          <section className="border-b border-[#3B5147]/15 bg-white">
-            <div className="container-wide grid gap-12 py-20 md:py-28 lg:grid-cols-12 lg:items-start">
-              <div className="lg:col-span-5">
-                <Eyebrow>Editorial Independence</Eyebrow>
-                <h2 className="mt-4 text-3xl font-bold leading-tight md:text-5xl">
-                  Attention should follow the work—not the check.
-                </h2>
-              </div>
-              <div className="lg:col-span-7">
-                <div className="space-y-5">
-                  {[
-                    "There is no fee to submit, be selected, record, or participate as an editorial guest.",
-                    "Donations, sponsorships, or partnerships cannot purchase a feature or editorial preference.",
-                    "A feature does not guarantee views, donations, referrals, volunteers, press, or other outcomes.",
-                    "ValorWell may decline a story when the work, claims, fit, or available evidence do not support a responsible feature.",
-                  ].map((item) => (
-                    <div key={item} className="flex gap-4 border-b border-[#3B5147]/12 pb-5 last:border-b-0">
-                      <ShieldCheck className="mt-1 h-5 w-5 shrink-0 text-[#3B5147]" aria-hidden="true" />
-                      <p className="leading-7 text-[#111814]/68">{item}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </section>
-
           <section id={FORM_ANCHOR} className="scroll-mt-24 border-b border-[#3B5147]/15 bg-[#F4F1E8]">
             <div className="container-wide py-20 md:py-28">
               <div className="mx-auto max-w-3xl text-center">
