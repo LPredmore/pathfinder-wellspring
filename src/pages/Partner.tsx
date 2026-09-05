@@ -243,7 +243,7 @@ export default function Partner() {
 
             <div className="mt-12 grid gap-5 lg:grid-cols-3">
               <TrackedLink
-                to="/beyondtheyellow"
+                to="/beyond-the-yellow"
                 event="partner_path_bty"
                 className="group rounded-3xl border border-[#D7A92E]/35 bg-[#F8F3E4] p-8 transition hover:-translate-y-0.5 hover:shadow-md motion-reduce:transform-none motion-reduce:transition-none"
               >
@@ -361,15 +361,15 @@ export default function Partner() {
                 <HeartHandshake className="h-8 w-8 text-[#3B5147]" aria-hidden="true" />
                 <h3 className="mt-5 text-2xl font-bold">Want to support the work financially?</h3>
                 <p className="mt-4 leading-7 text-[#111814]/62">
-                  Use the donation path directly. Impact reporting explains what ValorWell can currently verify without turning a contribution into an unsupported care-outcome claim.
+                  Start with the Support page to review how financial support fits the mission, what ValorWell can currently verify, and the boundaries kept between funding, editorial selection, and clinical decisions.
                 </p>
                 <div className="mt-6 flex flex-wrap gap-4">
                   <TrackedLink
-                    to="/donate"
-                    event="partner_donate"
+                    to="/support"
+                    event="partner_support"
                     className="inline-flex min-h-11 items-center gap-2 text-sm font-bold text-[#3B5147]"
                   >
-                    Donate <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                    Support ValorWell <ArrowRight className="h-4 w-4" aria-hidden="true" />
                   </TrackedLink>
                   <TrackedLink
                     to="/impact"

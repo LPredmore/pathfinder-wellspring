@@ -61,7 +61,7 @@ const routeCards: RouteCard[] = [
     title: "I want to share a story",
     copy: "Nominate a person or organization taking real action through Beyond The Yellow.",
     cta: "Share a Story",
-    to: "/beyondtheyellow",
+    to: "/beyond-the-yellow",
     event: "homepage_route_bty",
     Icon: HeartHandshake,
   },
@@ -384,7 +384,7 @@ export default function HomePage() {
                   to participate.
                 </p>
                 <TrackedLink
-                  to="/beyondtheyellow"
+                  to="/beyond-the-yellow"
                   event="homepage_bty_explore"
                   className="mt-6 inline-flex min-h-11 items-center gap-2 text-sm font-bold text-[#3B5147]"
                 >
@@ -478,7 +478,7 @@ export default function HomePage() {
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <TrackedLink
-                  to="/beyondtheyellow"
+                  to="/beyond-the-yellow"
                   event="homepage_bty_explore"
                   className="inline-flex min-h-11 items-center gap-2 rounded-md bg-[#3B5147] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#31443B]"
                 >

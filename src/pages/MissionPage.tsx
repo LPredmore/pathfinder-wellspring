@@ -58,7 +58,7 @@ const pathCards: PathCard[] = [
     title: "I want to see real action",
     copy: "Watch the people and organizations going Beyond The Yellow.",
     cta: "Explore Beyond The Yellow",
-    to: "/beyondtheyellow",
+    to: "/beyond-the-yellow",
     event: "mission_path_bty",
     Icon: HeartHandshake,
   },
@@ -72,10 +72,10 @@ const pathCards: PathCard[] = [
   },
   {
     title: "I want to support the work",
-    copy: "Help strengthen the work without buying influence, recognition, or outcomes.",
-    cta: "Donate",
-    to: "/donate",
-    event: "mission_path_donate",
+    copy: "Understand how financial support fits the mission and the boundaries ValorWell keeps around funding, evidence, and influence.",
+    cta: "Support ValorWell",
+    to: "/support",
+    event: "mission_path_support",
     Icon: HeartHandshake,
   },
 ];
@@ -320,7 +320,7 @@ export default function MissionPage() {
                   If support disappeared tomorrow, would anyone be worse off? Would they even know?
                 </p>
                 <TrackedLink
-                  to="/beyondtheyellow"
+                  to="/beyond-the-yellow"
                   event="mission_focus_bty"
                   className="mt-7 inline-flex min-h-11 items-center gap-2 text-sm font-bold text-[#3B5147]"
                 >
@@ -369,9 +369,14 @@ export default function MissionPage() {
                 <p className="mt-4 leading-7 text-white/64">
                   Impact is the evidence layer: what happened, who benefited, what can be supported, and what still needs to be built.
                 </p>
-                <p className="mt-6 text-sm font-bold text-white/78">
-                  Dedicated impact reporting will be published only when the evidence and page are ready.
-                </p>
+                <TrackedLink
+                  to="/impact"
+                  event="mission_model_impact"
+                  className="mt-6 inline-flex min-h-11 items-center gap-2 text-sm font-bold text-white"
+                >
+                  See Verified Impact
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </TrackedLink>
               </article>
 
               <article className="rounded-3xl border border-[#D7A92E]/35 bg-[#F8F3E4] p-8">

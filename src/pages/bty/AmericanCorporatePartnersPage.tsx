@@ -643,7 +643,7 @@ export default function AmericanCorporatePartnersPage() {
               </div>
               <div className="lg:col-span-4 lg:text-right">
                 <a
-                  href="/beyondtheyellow"
+                  href="/beyond-the-yellow"
                   className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-[hsl(var(--navy))] px-6 py-3 text-sm font-black text-white transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--navy))] focus-visible:ring-offset-2"
                 >
                   Go Beyond The Yellow
