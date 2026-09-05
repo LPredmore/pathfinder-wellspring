@@ -378,7 +378,7 @@ export default function VeteransBreakfastClubPage() {
               </p>
             </div>
             <a
-              href="/beyondtheyellow"
+              href="/beyond-the-yellow"
               className="inline-flex items-center gap-2 text-sm font-bold text-[hsl(var(--gold-accent))] transition hover:text-white"
             >
               See what Beyond The Yellow is about
