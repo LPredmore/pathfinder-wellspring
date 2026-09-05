@@ -11,6 +11,7 @@ import {
   Routes,
   Route,
   Navigate,
+  useLocation,
 } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 
@@ -49,6 +50,21 @@ import AuthorityResourcesVACommunityCare from "./pages/authority/ResourcesVAComm
 import AuthorityResourcesVeteranMentalHealth from "./pages/authority/ResourcesVeteranMentalHealth";
 
 const queryClient = new QueryClient();
+
+function LegacyBtyRedirect() {
+  const location = useLocation();
+
+  return (
+    <Navigate
+      to={{
+        pathname: "/beyond-the-yellow",
+        search: location.search,
+        hash: location.hash,
+      }}
+      replace
+    />
+  );
+}
 
 // Legacy path aliases → current approved destinations.
 const legacyRedirects: { from: string; to: string }[] = [
@@ -122,7 +138,7 @@ const App = () => (
               path="/operation-claims-success"
               element={<OcsBillingHubPage />}
             />
-            <Route path="/beyondtheyellow" element={<BtyBillingHubPage />} />
+            <Route path="/beyondtheyellow" element={<LegacyBtyRedirect />} />
             <Route path="/beyond-the-yellow" element={<BtyBillingHubPage />} />
             <Route path="/gallantfew" element={<GallantFewPage />} />
             <Route path="/VOW" element={<VeteransOutreachWisconsinPage />} />
@@ -170,7 +186,7 @@ const App = () => (
             <Route path="/family-systems" element={<AuthorityFamilySystems />} />
             <Route
               path="/military-family-therapy"
-              element={<AuthorityMilitaryFamilyTherapy />}
+              element={<AuthorityMilitaryFamilyTherapy />} 
             />
             <Route
               path="/veteran-mental-health-care"
