@@ -121,7 +121,7 @@ const contentPaths: {
     title: "Beyond The Yellow",
     copy: "Long-form conversations with people and organizations doing real work instead of stopping at symbolic support.",
     Icon: HeartHandshake,
-    destination: "/beyondtheyellow",
+    destination: "/beyond-the-yellow",
     event: "watch_path_bty",
   },
   {
@@ -243,7 +243,7 @@ export default function WatchPage() {
                   Open ValorWell on YouTube
                 </a>
                 <Link
-                  to="/beyondtheyellow"
+                  to="/beyond-the-yellow"
                   onClick={() => trackHomeEvent("watch_hero_bty", { page: "watch" })}
                   className="inline-flex min-h-12 items-center gap-2 rounded-md border border-white/30 px-5 py-3 text-sm font-bold text-white transition hover:bg-white/10"
                 >
@@ -427,7 +427,7 @@ export default function WatchPage() {
 
             <div className="mt-9 flex flex-wrap gap-3">
               <Link
-                to="/beyondtheyellow"
+                to="/beyond-the-yellow"
                 onClick={() => trackHomeEvent("watch_bty_explore", { page: "watch" })}
                 className="inline-flex min-h-11 items-center gap-2 rounded-md bg-[#D7A92E] px-5 py-3 text-sm font-bold text-[#111814]"
               >
