@@ -13,6 +13,8 @@ const BTY_SCROLL_TRIGGERS = [
   "respond to the invitation",
 ];
 
+const BTY_PATHS = new Set(["/beyond-the-yellow", "/beyondtheyellow"]);
+
 function isBtyFormTrigger(button: HTMLButtonElement): boolean {
   const label = button.textContent?.replace(/\s+/g, " ").trim().toLowerCase() ?? "";
   return BTY_SCROLL_TRIGGERS.some((trigger) => label.includes(trigger));
@@ -63,7 +65,7 @@ export function RouteScrollManager() {
 
   useEffect(() => {
     const handleClick = (event: MouseEvent) => {
-      if (location.pathname !== "/beyondtheyellow") return;
+      if (!BTY_PATHS.has(location.pathname)) return;
       const button = (event.target as Element | null)?.closest<HTMLButtonElement>("button");
       if (!button || !isBtyFormTrigger(button)) return;
 
