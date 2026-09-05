@@ -35,7 +35,7 @@ const workCards: WorkCard[] = [
   },
   {
     title: "Impact",
-    copy: "A proof layer for showing what happened, what can be supported by evidence, and what still needs to be built.",
+    copy: "In 2026, ValorWell Foundation supporters have funded 540+ hours of direct therapy for 45+ veterans across 11 states.",
     cta: "See Impact",
     to: "/impact",
     event: "about_impact",
@@ -168,7 +168,7 @@ export default function AboutPage() {
                 ValorWell is easier to understand when the work is separated by what it is supposed to accomplish. Care makes support usable. Impact makes proof visible. Community makes useful action easier to find and join.
               </p>
               <p className="mt-5 text-lg leading-8 text-white/72">
-                Those layers are connected, but they are not interchangeable. A media feature is not clinical care. A donation is not proof of impact. A partnership is not an outcome. Keeping those distinctions clear is part of how ValorWell protects trust.
+                Those layers are connected, but they are not interchangeable. A media feature is not clinical care. A donation by itself is not proof of impact. A partnership is not an outcome. Keeping those distinctions clear is part of how ValorWell protects trust.
               </p>
             </div>
           </div>
