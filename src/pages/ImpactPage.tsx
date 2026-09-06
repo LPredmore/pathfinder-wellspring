@@ -6,9 +6,7 @@ import {
   CheckCircle2,
   Clock,
   HeartHandshake,
-  MapPinned,
   Quote,
-  ShieldCheck,
   Stethoscope,
   Users,
 } from "lucide-react";
@@ -85,7 +83,7 @@ export default function ImpactPage() {
     <Layout>
       <SEO
         title="ValorWell Impact | Donations Put Veterans in Therapy"
-        description="See how donations to ValorWell paid for 540+ hours of direct therapy for 45+ veterans across 11 states in 2026."
+        description="See how donations to ValorWell paid for 540+ hours of direct therapy for 45+ veterans in 2026."
         canonical="/impact"
       />
 
@@ -145,15 +143,9 @@ export default function ImpactPage() {
                     <p className="text-5xl font-bold text-[#D7A92E]">540+</p>
                     <p className="mt-1 text-sm text-white/65">hours of direct therapy</p>
                   </div>
-                  <div className="grid grid-cols-2 gap-4 border-t border-white/12 pt-5">
-                    <div>
-                      <p className="text-3xl font-bold">45+</p>
-                      <p className="mt-1 text-sm text-white/55">veterans</p>
-                    </div>
-                    <div>
-                      <p className="text-3xl font-bold">11</p>
-                      <p className="mt-1 text-sm text-white/55">states</p>
-                    </div>
+                  <div className="border-t border-white/12 pt-5">
+                    <p className="text-3xl font-bold">45+</p>
+                    <p className="mt-1 text-sm text-white/55">veterans</p>
                   </div>
                 </div>
               </div>
@@ -264,7 +256,7 @@ export default function ImpactPage() {
               </p>
             </div>
 
-            <div className="mt-12 grid gap-5 md:grid-cols-3">
+            <div className="mt-12 grid gap-5 md:grid-cols-2">
               <article className="rounded-3xl border border-[#3B5147]/15 bg-white p-8">
                 <Clock className="h-8 w-8 text-[#3B5147]" aria-hidden="true" />
                 <p className="mt-6 text-5xl font-bold text-[#3B5147]">540+</p>
@@ -280,15 +272,6 @@ export default function ImpactPage() {
                 <h3 className="mt-4 text-xl font-bold">Veterans who received care</h3>
                 <p className="mt-3 leading-7 text-white/65">
                   Unique veterans who had already sought VA mental-health care but were still unable to get seen.
-                </p>
-              </article>
-
-              <article className="rounded-3xl border border-[#D7A92E]/35 bg-[#F8F3E4] p-8">
-                <MapPinned className="h-8 w-8 text-[#8A6814]" aria-hidden="true" />
-                <p className="mt-6 text-5xl font-bold text-[#8A6814]">11</p>
-                <h3 className="mt-4 text-xl font-bold">States served</h3>
-                <p className="mt-3 leading-7 text-[#111814]/62">
-                  Veterans across 11 states received this donor-funded therapy in 2026.
                 </p>
               </article>
             </div>
@@ -366,25 +349,14 @@ export default function ImpactPage() {
 
         <section className="border-b border-white/10 bg-[#3B5147] text-white">
           <div className="container-wide py-20 md:py-28">
-            <div className="grid gap-12 lg:grid-cols-12 lg:items-center">
-              <div className="lg:col-span-7">
-                <Eyebrow light>Where Your Donation Goes</Eyebrow>
-                <h2 className="mt-4 text-4xl font-bold leading-tight md:text-6xl">
-                  100%* of donated funds go toward paying therapists for therapy sessions.
-                </h2>
-                <p className="mt-6 max-w-3xl text-lg leading-8 text-white/72">
-                  ValorWell&apos;s administrative, technology, marketing, staffing, and other operating expenses are funded separately. Donated funds are reserved for paying therapists.
-                </p>
-              </div>
-
-              <div className="lg:col-span-5">
-                <div className="rounded-3xl border border-white/15 bg-white/[0.06] p-8">
-                  <ShieldCheck className="h-9 w-9 text-[#D7A92E]" aria-hidden="true" />
-                  <p className="mt-6 text-2xl font-bold leading-snug">
-                    You are not paying for our website. You are not paying for advertising. You are helping pay a therapist to sit down with a veteran who needs care.
-                  </p>
-                </div>
-              </div>
+            <div className="max-w-4xl">
+              <Eyebrow light>Where Your Donation Goes</Eyebrow>
+              <h2 className="mt-4 text-4xl font-bold leading-tight md:text-6xl">
+                100%* of donated funds go toward paying therapists for therapy sessions.
+              </h2>
+              <p className="mt-6 text-lg leading-8 text-white/72">
+                ValorWell&apos;s administrative, technology, marketing, staffing, and other operating expenses are funded separately. Donated funds are reserved for paying therapists.
+              </p>
             </div>
 
             <p className="mt-10 max-w-5xl border-t border-white/10 pt-6 text-sm leading-6 text-white/55">
