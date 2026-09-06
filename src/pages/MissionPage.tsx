@@ -10,7 +10,6 @@ import {
   ShieldCheck,
   Stethoscope,
   Users,
-  Waypoints,
   type LucideIcon,
 } from "lucide-react";
 import { Layout } from "@/components/layout/Layout";
@@ -255,7 +254,7 @@ export default function MissionPage() {
             <div className="lg:col-span-5">
               <Eyebrow>Our Operating Standard</Eyebrow>
               <h2 className="mt-4 text-3xl font-bold leading-tight md:text-5xl">
-                Build something useful before asking people to believe in it.
+                Lead by example. Build something useful before asking others to do the same.
               </h2>
             </div>
 
@@ -271,12 +270,12 @@ export default function MissionPage() {
                     "ValorWell operates actual mental-health care and builds the clinical, technical, and relationship infrastructure needed to support the wider mission.",
                   ],
                   [
-                    "Tell the truth about what is ready",
-                    "We would rather describe a limitation clearly than make a pathway, outcome, or capability sound more available than it is.",
+                    "Lead with the behavior we want to see",
+                    "If we want others to turn support into action, ValorWell has to do it first. We should show what useful support looks like through our own choices, work, and follow-through.",
                   ],
                   [
-                    "Show evidence before celebrating impact",
-                    "Results should be defined, dated, and supportable before they become persuasive numbers on a page.",
+                    "Make our presence useful",
+                    "Every program, partnership, and interaction should leave something better than we found it—clearer, more connected, more supported, or easier to act on.",
                   ],
                 ].map(([title, copy]) => (
                   <div key={title} className="grid gap-3 py-7 sm:grid-cols-[42px_1fr]">
@@ -408,32 +407,6 @@ export default function MissionPage() {
                   </TrackedLink>
                 </div>
               </article>
-            </div>
-          </div>
-        </section>
-
-        <section className="border-b border-white/10 bg-[#3B5147] text-white">
-          <div className="container-wide grid gap-12 py-20 md:py-28 lg:grid-cols-12 lg:items-start">
-            <div className="lg:col-span-5">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#D7A92E]">What We Refuse to Fake</p>
-              <h2 className="mt-4 text-3xl font-bold leading-tight md:text-5xl">
-                Credibility comes from boundaries too.
-              </h2>
-            </div>
-            <div className="lg:col-span-7">
-              <div className="space-y-5">
-                {[
-                  "We do not promise outcomes controlled by the VA, payers, clinicians, or other outside systems.",
-                  "We do not publish impact numbers simply because a bigger number would make the mission sound stronger.",
-                  "We do not treat a symbol, a post, a logo, or a partnership announcement as proof that someone was helped.",
-                  "We do not make the clinic the whole identity of ValorWell simply because care is one of the most concrete parts of the work.",
-                ].map((item) => (
-                  <div key={item} className="flex gap-4 border-b border-white/10 pb-5 last:border-b-0">
-                    <Waypoints className="mt-1 h-5 w-5 shrink-0 text-[#D7A92E]" aria-hidden="true" />
-                    <p className="leading-7 text-white/72">{item}</p>
-                  </div>
-                ))}
-              </div>
             </div>
           </div>
         </section>
