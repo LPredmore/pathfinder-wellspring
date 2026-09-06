@@ -136,7 +136,7 @@ export default function MissionPage() {
     <Layout>
       <SEO
         title="ValorWell Mission | Build Better Paths, Not Better Promises"
-        description="ValorWell exists to build better systems around mental well-being, starting with veterans and families through real care, transparent impact, and community action."
+        description="ValorWell builds better systems around mental well-being for veterans and their families through real care, transparent impact, and community action."
         canonical="/mission"
       />
 
@@ -167,8 +167,8 @@ export default function MissionPage() {
                 People should not have to become experts in broken systems just to get help.
               </h1>
               <p className="mt-7 max-w-2xl text-lg leading-8 text-[#111814]/70 md:text-xl">
-                ValorWell exists to make support more usable. We build real care, clearer pathways,
-                stronger infrastructure, and a community that treats action as more important than appearance.
+                ValorWell exists to make support more usable. We build real care and clearer pathways for veterans
+                and family members, stronger infrastructure, and a community that treats action as more important than appearance.
               </p>
               <p className="mt-5 max-w-2xl text-sm font-bold uppercase tracking-[0.14em] text-[#3B5147]">
                 Build the path people should have had.
@@ -295,18 +295,19 @@ export default function MissionPage() {
         <section className="border-b border-[#3B5147]/15 bg-[#F4F1E8]">
           <div className="container-wide grid gap-10 py-20 md:py-28 lg:grid-cols-12 lg:items-center">
             <div className="lg:col-span-7">
-              <Eyebrow>Where We Are Starting</Eyebrow>
+              <Eyebrow>Who We Serve</Eyebrow>
               <h2 className="mt-4 text-3xl font-bold leading-tight md:text-5xl">
-                Veterans and families are the current public priority. The mission is bigger than one population.
+                Veterans and family members are equal parts of the mission.
               </h2>
               <p className="mt-6 max-w-3xl text-lg leading-8 text-[#111814]/68">
-                ValorWell is currently focused on building better mental-health and support pathways for veterans
-                and their families. That focus is deliberate. It gives the broader mission a real place to build,
-                test, operate, and improve instead of remaining abstract.
+                ValorWell takes a multi-focused approach to mental health and support. Veterans have needs shaped by
+                military service, VA access, transition, trauma, and the systems around them. Family members have their
+                own mental-health needs, pressures, and barriers to care, and they deserve pathways built around those needs too.
               </p>
               <p className="mt-4 max-w-3xl leading-7 text-[#111814]/62">
-                Beyond The Yellow extends the same action-first standard beyond veteran causes by spotlighting
-                people and organizations doing useful work in their own communities.
+                We do not treat family care as an extension of veteran care, or veterans as the only reason the family matters.
+                Both are core populations we are building better care and support pathways for. Beyond The Yellow carries the
+                same action-first standard into the wider community by spotlighting people and organizations doing useful work.
               </p>
             </div>
 
@@ -350,7 +351,8 @@ export default function MissionPage() {
                 <p className="mt-7 text-xs font-bold uppercase tracking-[0.18em] text-[#3B5147]">Care</p>
                 <h3 className="mt-3 text-2xl font-bold">Make help real.</h3>
                 <p className="mt-4 leading-7 text-[#111814]/64">
-                  Mental-health care, clinician infrastructure, access pathways, and operational systems turn a mission into something people can actually use.
+                  Mental-health care for veterans and family members, clinician infrastructure, access pathways,
+                  and operational systems turn a mission into something people can actually use.
                 </p>
                 <TrackedLink
                   to="/get-care"
@@ -366,7 +368,7 @@ export default function MissionPage() {
                 <Eye className="h-8 w-8 text-[#D7A92E]" aria-hidden="true" />
                 <p className="mt-7 text-xs font-bold uppercase tracking-[0.18em] text-[#D7A92E]">Impact</p>
                 <h3 className="mt-3 text-2xl font-bold">Make the proof visible.</h3>
-                <div className="mt-5 grid grid-cols-3 gap-3 border-y border-white/12 py-5">
+                <div className="mt-5 grid grid-cols-2 gap-3 border-y border-white/12 py-5">
                   <div>
                     <p className="text-2xl font-bold text-[#D7A92E]">540+</p>
                     <p className="mt-1 text-xs leading-5 text-white/55">therapy hours</p>
@@ -375,13 +377,10 @@ export default function MissionPage() {
                     <p className="text-2xl font-bold text-[#D7A92E]">45+</p>
                     <p className="mt-1 text-xs leading-5 text-white/55">veterans</p>
                   </div>
-                  <div>
-                    <p className="text-2xl font-bold text-[#D7A92E]">11</p>
-                    <p className="mt-1 text-xs leading-5 text-white/55">states</p>
-                  </div>
                 </div>
                 <p className="mt-5 leading-7 text-white/64">
-                  In 2026, ValorWell Foundation supporters have funded direct therapy for veterans who needed another path to treatment.
+                  In 2026, donations to ValorWell have funded direct therapy for veterans who needed another path to treatment.
+                  These figures describe one donor-funded veteran care program, not the full scope of ValorWell&apos;s work with veterans and families.
                 </p>
                 <TrackedLink
                   to="/impact"
