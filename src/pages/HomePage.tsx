@@ -4,7 +4,6 @@ import {
   ArrowRight,
   Building2,
   CheckCircle2,
-  CircleAlert,
   Eye,
   HeartHandshake,
   Network,
@@ -247,15 +246,14 @@ export default function HomePage() {
                   Looking for care?
                 </p>
                 <h2 className="mt-3 text-2xl font-bold md:text-3xl">
-                  Start with what is actually available.
+                  Start with the care pathways available now.
                 </h2>
                 <p className="mt-3 text-sm leading-6 text-white/70">
-                  ValorWell will tell you what is active, what is limited, and
-                  what is not currently available.
+                  ValorWell will help you understand the current care pathways and the availability that applies to your situation.
                 </p>
               </div>
 
-              <div className="grid gap-3 sm:grid-cols-3 lg:col-span-6">
+              <div className="grid gap-3 sm:grid-cols-2 lg:col-span-6">
                 <div className="rounded-xl border border-white/15 bg-white/[0.07] p-4">
                   <CheckCircle2 className="h-5 w-5 text-[#D7A92E]" aria-hidden="true" />
                   <p className="mt-3 text-sm font-bold">CHAMPVA</p>
@@ -267,14 +265,7 @@ export default function HomePage() {
                   <ShieldCheck className="h-5 w-5 text-[#D7A92E]" aria-hidden="true" />
                   <p className="mt-3 text-sm font-bold">VA Community Care</p>
                   <p className="mt-1 text-xs leading-5 text-white/65">
-                    Limited and clinician- and region-specific.
-                  </p>
-                </div>
-                <div className="rounded-xl border border-white/15 bg-white/[0.07] p-4">
-                  <CircleAlert className="h-5 w-5 text-[#D7A92E]" aria-hidden="true" />
-                  <p className="mt-3 text-sm font-bold">TRICARE</p>
-                  <p className="mt-1 text-xs leading-5 text-white/65">
-                    Not currently active. No promised launch timeline.
+                    Availability varies by clinician and region.
                   </p>
                 </div>
               </div>
@@ -288,9 +279,6 @@ export default function HomePage() {
                   See Care Options
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </TrackedLink>
-                <p className="mt-3 text-xs leading-5 text-white/55">
-                  ValorWell does not currently offer private-pay therapy.
-                </p>
               </div>
             </div>
           </div>
@@ -357,7 +345,7 @@ export default function HomePage() {
                 </p>
                 <h3 className="mt-3 text-2xl font-bold">Proof you can point to.</h3>
                 <p className="mt-4 leading-7 text-white/65">
-                  In 2026, Foundation supporters have funded 540+ hours of direct therapy for 45+ veterans across 11 states.
+                  In 2026, donations to ValorWell have funded 540+ hours of direct therapy for 45+ veterans.
                 </p>
                 <TrackedLink
                   to="/impact"
@@ -400,13 +388,13 @@ export default function HomePage() {
             <div className="grid gap-12 lg:grid-cols-12 lg:items-end">
               <div className="lg:col-span-6">
                 <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#D7A92E]">
-                  Proof Before Promotion
+                  2026 Impact
                 </p>
                 <h2 className="mt-4 text-3xl font-bold leading-tight md:text-5xl">
-                  We waited until we could show the work. Now we can.
+                  Donations are already paying for real therapy.
                 </h2>
                 <p className="mt-6 max-w-3xl text-lg leading-8 text-white/68">
-                  These are 2026 results from therapy paid for through ValorWell Foundation funding. They represent direct care that has already happened—not projections or an all-time estimate.
+                  In 2026, donations to ValorWell have paid for direct therapy for veterans who had already sought VA mental-health care but still could not get seen.
                 </p>
               </div>
               <div className="lg:col-span-6 lg:text-right">
@@ -421,7 +409,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            <div className="mt-12 grid gap-4 md:grid-cols-3">
+            <div className="mt-12 grid gap-4 md:grid-cols-2">
               <article className="rounded-3xl border border-white/12 bg-white/[0.05] p-7">
                 <p className="text-5xl font-bold text-[#D7A92E]">540+</p>
                 <h3 className="mt-4 text-xl font-bold">hours of direct therapy</h3>
@@ -429,10 +417,6 @@ export default function HomePage() {
               <article className="rounded-3xl border border-white/12 bg-white/[0.05] p-7">
                 <p className="text-5xl font-bold text-[#D7A92E]">45+</p>
                 <h3 className="mt-4 text-xl font-bold">unique veterans reached</h3>
-              </article>
-              <article className="rounded-3xl border border-white/12 bg-white/[0.05] p-7">
-                <p className="text-5xl font-bold text-[#D7A92E]">11</p>
-                <h3 className="mt-4 text-xl font-bold">states served</h3>
               </article>
             </div>
           </div>
@@ -499,8 +483,7 @@ export default function HomePage() {
                 Watch the work. Find the people doing it.
               </h2>
               <p className="mt-5 text-lg leading-8 text-[#111814]/65">
-                Watch and Network serve different jobs. One is for media. The
-                other is for discovering organizations.
+                Watch stories, interviews, and practical content from people taking action, or explore organizations featured through Beyond The Yellow.
               </p>
             </div>
 
@@ -510,10 +493,9 @@ export default function HomePage() {
                 <p className="mt-7 text-xs font-bold uppercase tracking-[0.18em] text-[#D7A92E]">
                   Watch
                 </p>
-                <h3 className="mt-3 text-3xl font-bold">Stories, interviews, practical help, and the build.</h3>
+                <h3 className="mt-3 text-3xl font-bold">Stories, interviews, practical help, and real action.</h3>
                 <p className="mt-5 max-w-xl leading-7 text-white/65">
-                  Watch is ValorWell&apos;s media destination for Beyond The Yellow
-                  conversations, practical content, and the work being shown in public.
+                  Watch brings together Beyond The Yellow conversations, practical content, and stories from people doing meaningful work.
                 </p>
                 <TrackedLink
                   to="/watch"
@@ -530,11 +512,9 @@ export default function HomePage() {
                 <p className="mt-7 text-xs font-bold uppercase tracking-[0.18em] text-[#3B5147]">
                   Network
                 </p>
-                <h3 className="mt-3 text-3xl font-bold">Organizations first. Media second.</h3>
+                <h3 className="mt-3 text-3xl font-bold">Find organizations doing the work.</h3>
                 <p className="mt-5 max-w-xl leading-7 text-[#111814]/65">
-                  Network starts with real organizations already featured by
-                  Beyond The Yellow and is structured to grow into a useful
-                  veteran-resource discovery destination.
+                  Explore organizations featured by Beyond The Yellow and discover groups taking meaningful action for veterans, families, and communities.
                 </p>
                 <TrackedLink
                   to="/network"
@@ -601,8 +581,7 @@ export default function HomePage() {
               <p className="mt-4 leading-7 text-[#111814]/62">
                 CHAMPVA is the active general care pathway where licensed
                 clinician availability, capacity, pathway verification, and
-                clinical fit align. VA Community Care remains clinician- and
-                region-specific. TRICARE is not currently active.
+                clinical fit align. VA Community Care availability varies by clinician and region.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <TrackedLink
